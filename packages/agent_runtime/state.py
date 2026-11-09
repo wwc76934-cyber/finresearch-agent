@@ -21,6 +21,7 @@ class ArchConfig(BaseModel):
     rag_anchors_prefilter: bool = True
     hybrid_rerank: bool = True
     self_rag: bool = True
+    llm_debate: bool = False  # LLM-written bull/bear arguments; off by default (no gain in online eval, 2x cost)
     max_replan_depth: int = 2
     max_debate_rounds: int = 2
     max_claim_retries: int = 2
@@ -30,6 +31,7 @@ ARCHITECTURES: dict[str, ArchConfig] = {
     "B3": ArchConfig(name="B3", replanning=False, debate=False, risk_agent=False, tier1_verifier=False,
                      tier2_verifier=False),
     "B4": ArchConfig(name="B4"),
+    "B4-llm_debate": ArchConfig(name="B4-llm_debate", llm_debate=True),
     "B4-no_anchor_prefilter": ArchConfig(name="B4-no_anchor_prefilter", rag_anchors_prefilter=False),
     "B4-no_hybrid_rerank": ArchConfig(name="B4-no_hybrid_rerank", hybrid_rerank=False),
     "B4-no_context_isolation": ArchConfig(name="B4-no_context_isolation", context_isolation=False),

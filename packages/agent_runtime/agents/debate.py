@@ -233,10 +233,10 @@ def _falsification(ctx: RunContext, log: dict) -> None:
 
 def run_debate(ctx: RunContext) -> dict:
     log = {"rounds": [], "disagreements": [], "falsification": [], "filtered": [], "manager_summary": "",
-           "mode": "llm" if ctx.llm.online else "template"}
+           "mode": "llm" if (ctx.llm.online and ctx.config.llm_debate) else "template"}
     bull_ids = [c.claim_id for c in ctx.claims.values() if c.section == "bull" and c.evidence_ids]
     bear_ids = [c.claim_id for c in ctx.claims.values() if c.section == "bear" and c.evidence_ids]
-    if ctx.llm.online:
+    if log["mode"] == "llm":
         bull_ids, bear_ids = _llm_rounds(ctx, log, bull_ids, bear_ids)
     else:
         bull_ids, bear_ids = _template_rounds(ctx, log, bull_ids, bear_ids)
