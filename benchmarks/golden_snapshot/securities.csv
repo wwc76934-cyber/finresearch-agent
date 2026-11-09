@@ -1,0 +1,7 @@
+ticker,name,list_date,industry_sw_l1,industry_sw_l2,template,is_demo
+990001.SZ,演示动力电池,2015-06-10,电力设备,电池,manufacturing,true
+990002.SZ,演示新能源整车,2015-06-10,汽车,乘用车,manufacturing,true
+990003.SH,演示锂电材料,2015-06-10,基础化工,锂电化学品,manufacturing,true
+990004.SH,演示白酒,2015-06-10,食品饮料,白酒,consumer,true
+990005.SZ,演示光伏组件,2015-06-10,电力设备,光伏设备,manufacturing,true
+990006.SZ,演示储能系统,2015-06-10,电力设备,电池,manufacturing,true

@@ -1,0 +1,50 @@
+# Declarative Metric Registry (Data Catalog). Formulas are documentation of
+# what packages/data_platform/calculators.py computes; formula_version is
+# written into every MetricRecord and lineage edge.
+base_items:
+  operating_revenue: {cn: 营业收入, kind: flow}
+  operating_cost: {cn: 营业成本, kind: flow}
+  rd_expense: {cn: 研发费用, kind: flow}
+  asset_impairment_loss: {cn: 资产减值损失, kind: flow}
+  net_profit: {cn: 归属于母公司股东的净利润, kind: flow}
+  operating_cash_flow: {cn: 经营活动产生的现金流量净额, kind: flow}
+  accounts_receivable: {cn: 应收账款, kind: instant}
+  inventory: {cn: 存货, kind: instant}
+  total_assets: {cn: 资产总计, kind: instant}
+  total_liabilities: {cn: 负债合计, kind: instant}
+  total_equity: {cn: 所有者权益合计, kind: instant}
+  interest_bearing_debt: {cn: 有息负债, kind: instant}
+  goodwill: {cn: 商誉, kind: instant}
+  cash: {cn: 货币资金, kind: instant}
+  shares_outstanding: {cn: 总股本, kind: instant}
+
+derived:
+  gross_margin: {cn: 毛利率, formula: "(operating_revenue - operating_cost) / operating_revenue", unit: ratio, version: v1}
+  net_margin: {cn: 净利率, formula: "net_profit / operating_revenue", unit: ratio, version: v1}
+  rd_ratio: {cn: 研发费用率, formula: "rd_expense / operating_revenue", unit: ratio, version: v1}
+  roe_annualized: {cn: ROE(年化), formula: "net_profit * 4/n_quarters / avg(total_equity_begin, total_equity_end)", unit: ratio, version: v1}
+  ocf_to_net_profit: {cn: 经营现金流/净利润, formula: "operating_cash_flow / net_profit", unit: ratio, version: v1}
+  debt_to_assets: {cn: 资产负债率, formula: "total_liabilities / total_assets", unit: ratio, version: v1}
+  interest_debt_ratio: {cn: 有息负债率, formula: "interest_bearing_debt / total_assets", unit: ratio, version: v1}
+  receivable_days: {cn: 应收账款周转天数, formula: "accounts_receivable / revenue_ttm * 365", unit: days, version: v1}
+  inventory_days: {cn: 存货周转天数, formula: "inventory / cost_ttm * 365", unit: days, version: v1}
+  revenue_yoy: {cn: 营收同比, formula: "cum_t / cum_{t-1y} - 1", unit: ratio, version: v1}
+  net_profit_yoy: {cn: 净利润同比, formula: "cum_t / cum_{t-1y} - 1 (NA if base <= 0)", unit: ratio, version: v1}
+  ocf_yoy: {cn: 经营现金流同比, formula: "cum_t / cum_{t-1y} - 1 (NA if base <= 0)", unit: ratio, version: v1}
+  receivable_yoy: {cn: 应收账款同比, formula: "ar_t / ar_{t-1y} - 1", unit: ratio, version: v1}
+  single_quarter: {cn: 单季值, formula: "cum_q - cum_{q-1}; flagged if earlier cum restated after later cum was published", unit: CNY, version: v1}
+  ttm: {cn: TTM, formula: "annual_{y-1} - cum_{q,y-1} + cum_{q,y}", unit: CNY, version: v1}
+  pe_ttm: {cn: 市盈率TTM, formula: "total_mv / net_profit_ttm (NA if <= 0)", unit: x, version: v1}
+  pb_lf: {cn: 市净率LF, formula: "total_mv / total_equity_latest (NA if <= 0)", unit: x, version: v1}
+  ps_ttm: {cn: 市销率TTM, formula: "total_mv / revenue_ttm", unit: x, version: v1}
+  pe_percentile_3y: {cn: PE 3年分位, formula: "rank of today's PE among month-end PE over 3y", unit: ratio, version: v1}
+  volatility_1y: {cn: 年化波动率, formula: "std(log returns 250d) * sqrt(252)", unit: ratio, version: v1}
+  max_drawdown_1y: {cn: 最大回撤(1年), formula: "min(close / cummax(close) - 1)", unit: ratio, version: v1}
+
+templates:
+  manufacturing: [gross_margin, net_margin, rd_ratio, roe_annualized, ocf_to_net_profit, debt_to_assets,
+                  interest_debt_ratio, receivable_days, inventory_days]
+  consumer: [gross_margin, net_margin, roe_annualized, ocf_to_net_profit, debt_to_assets, receivable_days, inventory_days]
+  bank: [net_interest_margin, npl_ratio, provision_coverage, capital_adequacy, roe_annualized]
+  insurance: [combined_ratio, solvency_ratio, roe_annualized]
+  broker: [roe_annualized, leverage, fee_income_share]

@@ -1,0 +1,2985 @@
+{
+ "run_id": "run_20261109172744_8a2c3d",
+ "architecture": "B4",
+ "ticker": "990003.SH",
+ "name": "演示锂电材料",
+ "as_of": "2025-12-31T15:00:00",
+ "snapshot_id": "snap_202512311500_b0e3880d",
+ "question": "全面研究公司基本面、估值与风险，形成包含多空审议与证伪条件的研究报告",
+ "overview": "演示锂电材料（990003.SH），申万行业 基础化工/锂电化学品，研究时点 2025-12-31 15:00:00。【演示公司：数据为虚构的离线 Golden Snapshot】",
+ "executive_summary": "多方论据0条、空方论据8条；核心分歧在于盈利增长的质量与可持续性。",
+ "sections": [
+  {
+   "key": "overview",
+   "title": "公司与行业概况",
+   "claim_ids": []
+  },
+  {
+   "key": "financials",
+   "title": "财务与经营质量",
+   "claim_ids": [
+    "C001",
+    "C002",
+    "C003",
+    "C004",
+    "C005",
+    "C010",
+    "C012",
+    "C013"
+   ]
+  },
+  {
+   "key": "valuation",
+   "title": "估值与市场表现",
+   "claim_ids": [
+    "C006",
+    "C008"
+   ]
+  },
+  {
+   "key": "bear",
+   "title": "核心看空论点",
+   "claim_ids": [
+    "C007",
+    "C009",
+    "C011",
+    "C014",
+    "C015",
+    "C016",
+    "C017",
+    "C018"
+   ]
+  },
+  {
+   "key": "falsification",
+   "title": "关键争议与证伪条件",
+   "claim_ids": [
+    "C019",
+    "C020",
+    "C021"
+   ]
+  },
+  {
+   "key": "risk",
+   "title": "六维风险矩阵",
+   "claim_ids": [
+    "C022",
+    "C023",
+    "C024",
+    "C025",
+    "C026",
+    "C027"
+   ]
+  }
+ ],
+ "claims": {
+  "C001": {
+   "claim_id": "C001",
+   "section": "financials",
+   "claim_type": "disclosed_fact",
+   "text": "2025Q3累计营业收入320.61亿元，同比-9.24%；归母净利润-8.06亿元，同比-125.09%。",
+   "evidence_ids": [
+    "E001",
+    "E002",
+    "E003",
+    "E004"
+   ],
+   "metric_ids": [
+    "m_990003_operating_revenue_2025Q3",
+    "m_990003_revenue_yoy_2025Q3",
+    "m_990003_net_profit_2025Q3",
+    "m_990003_net_profit_yoy_2025Q3"
+   ],
+   "produced_by": "fundamental",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C002": {
+   "claim_id": "C002",
+   "section": "financials",
+   "claim_type": "derived_metric",
+   "text": "2025Q3毛利率18.00%，净利率-2.51%，年化ROE-1.45%。",
+   "evidence_ids": [
+    "E005",
+    "E006",
+    "E007"
+   ],
+   "metric_ids": [
+    "m_990003_gross_margin_2025Q3",
+    "m_990003_net_margin_2025Q3",
+    "m_990003_roe_annualized_2025Q3"
+   ],
+   "produced_by": "fundamental",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C003": {
+   "claim_id": "C003",
+   "section": "financials",
+   "claim_type": "derived_metric",
+   "text": "2025Q3经营现金流/净利润为不适用(亏损/基数为负)，经营现金流同比-61.95%。",
+   "evidence_ids": [
+    "E008",
+    "E009"
+   ],
+   "metric_ids": [
+    "m_990003_ocf_to_net_profit_2025Q3",
+    "m_990003_ocf_yoy_2025Q3"
+   ],
+   "produced_by": "fundamental",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C004": {
+   "claim_id": "C004",
+   "section": "financials",
+   "claim_type": "derived_metric",
+   "text": "2025Q3应收账款周转天数50.0天，存货周转天数160.0天。",
+   "evidence_ids": [
+    "E010",
+    "E011"
+   ],
+   "metric_ids": [
+    "m_990003_receivable_days_2025Q3",
+    "m_990003_inventory_days_2025Q3"
+   ],
+   "produced_by": "fundamental",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C005": {
+   "claim_id": "C005",
+   "section": "financials",
+   "claim_type": "derived_metric",
+   "text": "2025Q3资产负债率45.00%，有息负债率27.00%。",
+   "evidence_ids": [
+    "E012",
+    "E013"
+   ],
+   "metric_ids": [
+    "m_990003_debt_to_assets_2025Q3",
+    "m_990003_interest_debt_ratio_2025Q3"
+   ],
+   "produced_by": "fundamental",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C006": {
+   "claim_id": "C006",
+   "section": "valuation",
+   "claim_type": "derived_metric",
+   "text": "截至2025-12-31，PE-TTM为139.48倍，近3年历史分位96.97%，PB-LF为0.54倍；同行PE中位数数据不足。",
+   "evidence_ids": [
+    "E014",
+    "E015",
+    "E016",
+    "E017"
+   ],
+   "metric_ids": [
+    "m_990003_pe_ttm_2025-12-31",
+    "m_990003_pe_percentile_3y_2025-12-31",
+    "m_990003_pb_lf_2025-12-31",
+    "m_990003_peer_pe_median_2025-12-31"
+   ],
+   "produced_by": "market",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C007": {
+   "claim_id": "C007",
+   "section": "bear",
+   "claim_type": "model_inference",
+   "text": "推断：估值处于近3年96.97%分位的偏高区间，对业绩不及预期的容忍度低。",
+   "evidence_ids": [
+    "E015"
+   ],
+   "metric_ids": [
+    "m_990003_pe_percentile_3y_2025-12-31"
+   ],
+   "produced_by": "market",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C008": {
+   "claim_id": "C008",
+   "section": "valuation",
+   "claim_type": "derived_metric",
+   "text": "近一年年化波动率53.40%，最大回撤-59.95%。",
+   "evidence_ids": [
+    "E018",
+    "E019"
+   ],
+   "metric_ids": [
+    "m_990003_volatility_1y_2025-12-31",
+    "m_990003_max_drawdown_1y_2025-12-31"
+   ],
+   "produced_by": "market",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C009": {
+   "claim_id": "C009",
+   "section": "bear",
+   "claim_type": "disclosed_fact",
+   "text": "2025-11-20公告《关于前期会计差错更正的公告》：经自查，公司2025年第三季度报告中存货跌价准备计提不足，现予以更正。更正后2025年1-9月归属于母公司股东的净利润调减9.00亿元，资产减值损失调增9.00亿元。",
+   "evidence_ids": [
+    "E020"
+   ],
+   "metric_ids": [],
+   "produced_by": "news",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C010": {
+   "claim_id": "C010",
+   "section": "financials",
+   "claim_type": "derived_metric",
+   "text": "异常信号[INVENTORY_DAYS_DETERIORATION]：存货周转天数由90天升至160天。",
+   "evidence_ids": [
+    "E011",
+    "E021"
+   ],
+   "metric_ids": [
+    "m_990003_inventory_days_2025Q3",
+    "m_990003_inventory_days_2024Q3"
+   ],
+   "produced_by": "fundamental",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C011": {
+   "claim_id": "C011",
+   "section": "bear",
+   "claim_type": "derived_metric",
+   "text": "异常信号[LARGE_IMPAIRMENT]：资产减值损失占净利润比例495.8%。",
+   "evidence_ids": [
+    "E022"
+   ],
+   "metric_ids": [
+    "m_990003_impairment_to_profit_2025Q3"
+   ],
+   "produced_by": "fundamental",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C012": {
+   "claim_id": "C012",
+   "section": "financials",
+   "claim_type": "derived_metric",
+   "text": "异常信号[RELATED_PARTY_OR_POLICY_CHANGE]：公告《关于前期会计差错更正的公告》涉及关联交易或会计变更。",
+   "evidence_ids": [
+    "E020"
+   ],
+   "metric_ids": [],
+   "produced_by": "fundamental",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C013": {
+   "claim_id": "C013",
+   "section": "financials",
+   "claim_type": "disclosed_fact",
+   "text": "管理层讨论与分析披露：报告期内公司计提大额存货跌价准备和资产减值损失，主要系锂盐价格持续下跌导致存货可变现净值低于成本；存货周转天数显著上升。",
+   "evidence_ids": [
+    "E023"
+   ],
+   "metric_ids": [],
+   "produced_by": "fundamental",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C014": {
+   "claim_id": "C014",
+   "section": "bear",
+   "claim_type": "disclosed_fact",
+   "text": "追查[LARGE_IMPAIRMENT]：存货跌价准备（单位：万元）显示，原材料 634,300.63 1,672.38；库存商品 951,450.94 1,672.38（单位见原表）。",
+   "evidence_ids": [
+    "E024",
+    "E022"
+   ],
+   "metric_ids": [
+    "m_990003_impairment_to_profit_2025Q3"
+   ],
+   "produced_by": "investigate",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C015": {
+   "claim_id": "C015",
+   "section": "bear",
+   "claim_type": "derived_metric",
+   "text": "收入端承压：营收同比-9.24%。",
+   "evidence_ids": [
+    "E002"
+   ],
+   "metric_ids": [
+    "m_990003_revenue_yoy_2025Q3"
+   ],
+   "produced_by": "bear",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C016": {
+   "claim_id": "C016",
+   "section": "bear",
+   "claim_type": "derived_metric",
+   "text": "公司处于亏损状态：年化ROE为-1.45%。",
+   "evidence_ids": [
+    "E007"
+   ],
+   "metric_ids": [
+    "m_990003_roe_annualized_2025Q3"
+   ],
+   "produced_by": "bear",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C017": {
+   "claim_id": "C017",
+   "section": "bear",
+   "claim_type": "disclosed_fact",
+   "text": "反证：前五名合计占应收账款期末余额的56.00%。",
+   "evidence_ids": [
+    "E025"
+   ],
+   "metric_ids": [],
+   "produced_by": "bear",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C018": {
+   "claim_id": "C018",
+   "section": "bear",
+   "claim_type": "disclosed_fact",
+   "text": "反证：公司面临行业竞争加剧、原材料价格波动、下游需求不及预期以及汇率波动等风险。",
+   "evidence_ids": [
+    "E026"
+   ],
+   "metric_ids": [],
+   "produced_by": "bear",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C019": {
+   "claim_id": "C019",
+   "section": "falsification",
+   "claim_type": "model_inference",
+   "text": "若后续报告期毛利率跌破16.00%（当前18.00%），则“盈利能力稳定”的看多假设证伪。",
+   "evidence_ids": [
+    "E005",
+    "E027"
+   ],
+   "metric_ids": [
+    "m_990003_gross_margin_2025Q3",
+    "m_990003_threshold_gross_margin_2025Q3"
+   ],
+   "produced_by": "manager",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C020": {
+   "claim_id": "C020",
+   "section": "falsification",
+   "claim_type": "model_inference",
+   "text": "若应收账款周转天数升至55.0天以上（当前50.0天），说明回款恶化，看多逻辑需下修。",
+   "evidence_ids": [
+    "E010",
+    "E028"
+   ],
+   "metric_ids": [
+    "m_990003_receivable_days_2025Q3",
+    "m_990003_threshold_receivable_days_2025Q3"
+   ],
+   "produced_by": "manager",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C021": {
+   "claim_id": "C021",
+   "section": "falsification",
+   "claim_type": "model_inference",
+   "text": "若有息负债率升至32.00%以上（当前27.00%），偿债风险假设需上调。",
+   "evidence_ids": [
+    "E013",
+    "E029"
+   ],
+   "metric_ids": [
+    "m_990003_interest_debt_ratio_2025Q3",
+    "m_990003_threshold_interest_debt_ratio_2025Q3"
+   ],
+   "produced_by": "manager",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C022": {
+   "claim_id": "C022",
+   "section": "risk",
+   "claim_type": "derived_metric",
+   "text": "财务质量风险5/5：经营现金流/净利润不适用(亏损/基数为负)，高危异常1项",
+   "evidence_ids": [
+    "E008"
+   ],
+   "metric_ids": [
+    "m_990003_ocf_to_net_profit_2025Q3"
+   ],
+   "produced_by": "risk",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C023": {
+   "claim_id": "C023",
+   "section": "risk",
+   "claim_type": "derived_metric",
+   "text": "估值风险5/5：PE-TTM处于近3年96.97%分位",
+   "evidence_ids": [
+    "E015"
+   ],
+   "metric_ids": [
+    "m_990003_pe_percentile_3y_2025-12-31"
+   ],
+   "produced_by": "risk",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C024": {
+   "claim_id": "C024",
+   "section": "risk",
+   "claim_type": "derived_metric",
+   "text": "偿债与流动性风险3/5：资产负债率45.00%，有息负债率27.00%",
+   "evidence_ids": [
+    "E012",
+    "E013"
+   ],
+   "metric_ids": [
+    "m_990003_debt_to_assets_2025Q3",
+    "m_990003_interest_debt_ratio_2025Q3"
+   ],
+   "produced_by": "risk",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C025": {
+   "claim_id": "C025",
+   "section": "risk",
+   "claim_type": "derived_metric",
+   "text": "经营与行业风险4/5：营收同比-9.24%，毛利率18.00%",
+   "evidence_ids": [
+    "E002",
+    "E005"
+   ],
+   "metric_ids": [
+    "m_990003_revenue_yoy_2025Q3",
+    "m_990003_gross_margin_2025Q3"
+   ],
+   "produced_by": "risk",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C026": {
+   "claim_id": "C026",
+   "section": "risk",
+   "claim_type": "disclosed_fact",
+   "text": "治理与合规风险3/5：涉及公告1项（关于前期会计差错更正的公告）",
+   "evidence_ids": [
+    "E020"
+   ],
+   "metric_ids": [],
+   "produced_by": "risk",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C027": {
+   "claim_id": "C027",
+   "section": "risk",
+   "claim_type": "derived_metric",
+   "text": "市场波动风险4/5：年化波动率53.40%，最大回撤-59.95%",
+   "evidence_ids": [
+    "E018",
+    "E019"
+   ],
+   "metric_ids": [
+    "m_990003_volatility_1y_2025-12-31",
+    "m_990003_max_drawdown_1y_2025-12-31"
+   ],
+   "produced_by": "risk",
+   "status": "VERIFIED",
+   "attempts": 0
+  }
+ },
+ "evidence": {
+  "E001": {
+   "evidence_id": "E001",
+   "kind": "fact",
+   "source_ref": "m_990003_operating_revenue_2025Q3",
+   "summary": "2025Q3 营业收入 = 320.61亿元",
+   "excerpt": "formula: raw fact; inputs: fact_990003_20250930_operating_revenue_con_filing_v1",
+   "available_at": "2025-10-29T09:30:00",
+   "metric_ids": [
+    "m_990003_operating_revenue_2025Q3"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E002": {
+   "evidence_id": "E002",
+   "kind": "metric",
+   "source_ref": "m_990003_revenue_yoy_2025Q3",
+   "summary": "2025Q3 营收同比 = -9.24%",
+   "excerpt": "formula: cum_t / cum_{t-1y} - 1; inputs: fact_990003_20250930_operating_revenue_con_filing_v1, fact_990003_20240930_operating_revenue_con_filing_v1",
+   "available_at": "2025-10-29T09:30:00",
+   "metric_ids": [
+    "m_990003_revenue_yoy_2025Q3"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E003": {
+   "evidence_id": "E003",
+   "kind": "fact",
+   "source_ref": "m_990003_net_profit_2025Q3",
+   "summary": "2025Q3 归属于母公司股东的净利润 = -8.06亿元",
+   "excerpt": "formula: raw fact; inputs: fact_990003_20250930_net_profit_con_filing_v2",
+   "available_at": "2025-11-21T09:30:00",
+   "metric_ids": [
+    "m_990003_net_profit_2025Q3"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E004": {
+   "evidence_id": "E004",
+   "kind": "metric",
+   "source_ref": "m_990003_net_profit_yoy_2025Q3",
+   "summary": "2025Q3 净利润同比 = -125.09%",
+   "excerpt": "formula: cum_t / cum_{t-1y} - 1 (NA if base <= 0); inputs: fact_990003_20250930_net_profit_con_filing_v2, fact_990003_20240930_net_profit_con_filing_v1",
+   "available_at": "2025-11-21T09:30:00",
+   "metric_ids": [
+    "m_990003_net_profit_yoy_2025Q3"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E005": {
+   "evidence_id": "E005",
+   "kind": "metric",
+   "source_ref": "m_990003_gross_margin_2025Q3",
+   "summary": "2025Q3 毛利率 = 18.00%",
+   "excerpt": "formula: (operating_revenue - operating_cost) / operating_revenue; inputs: fact_990003_20250930_operating_revenue_con_filing_v1, fact_990003_20250930_operating_cost_con_filing_v1",
+   "available_at": "2025-10-29T09:30:00",
+   "metric_ids": [
+    "m_990003_gross_margin_2025Q3"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E006": {
+   "evidence_id": "E006",
+   "kind": "metric",
+   "source_ref": "m_990003_net_margin_2025Q3",
+   "summary": "2025Q3 净利率 = -2.51%",
+   "excerpt": "formula: net_profit / operating_revenue; inputs: fact_990003_20250930_net_profit_con_filing_v2, fact_990003_20250930_operating_revenue_con_filing_v1",
+   "available_at": "2025-11-21T09:30:00",
+   "metric_ids": [
+    "m_990003_net_margin_2025Q3"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E007": {
+   "evidence_id": "E007",
+   "kind": "metric",
+   "source_ref": "m_990003_roe_annualized_2025Q3",
+   "summary": "2025Q3 ROE(年化) = -1.45%",
+   "excerpt": "formula: net_profit * 4/n_quarters / avg(total_equity_begin, total_equity_end); inputs: fact_990003_20250930_net_profit_con_filing_v2, fact_990003_20250930_total_equity_con_filing_v1, fact_990003_20241231_total_equity_con_filing_v1",
+   "available_at": "2025-11-21T09:30:00",
+   "metric_ids": [
+    "m_990003_roe_annualized_2025Q3"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E008": {
+   "evidence_id": "E008",
+   "kind": "metric",
+   "source_ref": "m_990003_ocf_to_net_profit_2025Q3",
+   "summary": "2025Q3 经营现金流/净利润 = 不适用(亏损/基数为负)",
+   "excerpt": "formula: operating_cash_flow / net_profit; inputs: fact_990003_20250930_operating_cash_flow_con_filing_v1, fact_990003_20250930_net_profit_con_filing_v2",
+   "available_at": "2025-11-21T09:30:00",
+   "metric_ids": [
+    "m_990003_ocf_to_net_profit_2025Q3"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E009": {
+   "evidence_id": "E009",
+   "kind": "metric",
+   "source_ref": "m_990003_ocf_yoy_2025Q3",
+   "summary": "2025Q3 经营现金流同比 = -61.95%",
+   "excerpt": "formula: cum_t / cum_{t-1y} - 1 (NA if base <= 0); inputs: fact_990003_20250930_operating_cash_flow_con_filing_v1, fact_990003_20240930_operating_cash_flow_con_filing_v1",
+   "available_at": "2025-10-29T09:30:00",
+   "metric_ids": [
+    "m_990003_ocf_yoy_2025Q3"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E010": {
+   "evidence_id": "E010",
+   "kind": "metric",
+   "source_ref": "m_990003_receivable_days_2025Q3",
+   "summary": "2025Q3 应收账款周转天数 = 50.0天",
+   "excerpt": "formula: accounts_receivable / revenue_ttm * 365; inputs: fact_990003_20250930_accounts_receivable_con_filing_v1, fact_990003_20250930_operating_revenue_con_filing_v1, fact_990003_20241231_operating_revenue_con_filing_v1, fact_990003_20240930_operating_revenue_con_filing_v1",
+   "available_at": "2025-10-29T09:30:00",
+   "metric_ids": [
+    "m_990003_receivable_days_2025Q3"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E011": {
+   "evidence_id": "E011",
+   "kind": "metric",
+   "source_ref": "m_990003_inventory_days_2025Q3",
+   "summary": "2025Q3 存货周转天数 = 160.0天",
+   "excerpt": "formula: inventory / cost_ttm * 365; inputs: fact_990003_20250930_inventory_con_filing_v1, fact_990003_20250930_operating_cost_con_filing_v1, fact_990003_20241231_operating_cost_con_filing_v1, fact_990003_20240930_operating_cost_con_filing_v1",
+   "available_at": "2025-10-29T09:30:00",
+   "metric_ids": [
+    "m_990003_inventory_days_2025Q3"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E012": {
+   "evidence_id": "E012",
+   "kind": "metric",
+   "source_ref": "m_990003_debt_to_assets_2025Q3",
+   "summary": "2025Q3 资产负债率 = 45.00%",
+   "excerpt": "formula: total_liabilities / total_assets; inputs: fact_990003_20250930_total_liabilities_con_filing_v1, fact_990003_20250930_total_assets_con_filing_v1",
+   "available_at": "2025-10-29T09:30:00",
+   "metric_ids": [
+    "m_990003_debt_to_assets_2025Q3"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E013": {
+   "evidence_id": "E013",
+   "kind": "metric",
+   "source_ref": "m_990003_interest_debt_ratio_2025Q3",
+   "summary": "2025Q3 有息负债率 = 27.00%",
+   "excerpt": "formula: interest_bearing_debt / total_assets; inputs: fact_990003_20250930_interest_bearing_debt_con_filing_v1, fact_990003_20250930_total_assets_con_filing_v1",
+   "available_at": "2025-10-29T09:30:00",
+   "metric_ids": [
+    "m_990003_interest_debt_ratio_2025Q3"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E014": {
+   "evidence_id": "E014",
+   "kind": "metric",
+   "source_ref": "m_990003_pe_ttm_2025-12-31",
+   "summary": "2025-12-31 市盈率TTM = 139.48倍",
+   "excerpt": "formula: total_mv / net_profit_ttm (NA if <= 0); inputs: px_990003_2025-12-31, fact_990003_20250930_net_profit_con_filing_v2, fact_990003_20241231_net_profit_con_filing_v1, fact_990003_20240930_net_profit_con_filing_v1",
+   "available_at": "2025-12-31T15:00:00",
+   "metric_ids": [
+    "m_990003_pe_ttm_2025-12-31"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "market"
+  },
+  "E015": {
+   "evidence_id": "E015",
+   "kind": "metric",
+   "source_ref": "m_990003_pe_percentile_3y_2025-12-31",
+   "summary": "2025-12-31 PE 3年分位 = 96.97%",
+   "excerpt": "formula: rank of today's PE among month-end PE over 3y; inputs: m_990003_pe_ttm_2025-12-31",
+   "available_at": "2025-12-31T15:00:00",
+   "metric_ids": [
+    "m_990003_pe_percentile_3y_2025-12-31"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "market"
+  },
+  "E016": {
+   "evidence_id": "E016",
+   "kind": "metric",
+   "source_ref": "m_990003_pb_lf_2025-12-31",
+   "summary": "2025-12-31 市净率LF = 0.54倍",
+   "excerpt": "formula: total_mv / total_equity_latest (NA if <= 0); inputs: px_990003_2025-12-31, fact_990003_20250930_total_equity_con_filing_v1",
+   "available_at": "2025-12-31T15:00:00",
+   "metric_ids": [
+    "m_990003_pb_lf_2025-12-31"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "market"
+  },
+  "E017": {
+   "evidence_id": "E017",
+   "kind": "metric",
+   "source_ref": "m_990003_peer_pe_median_2025-12-31",
+   "summary": "2025-12-31 peer_pe_median = 数据不足",
+   "excerpt": "formula: raw fact; inputs: ",
+   "available_at": "2025-12-31T15:00:00",
+   "metric_ids": [
+    "m_990003_peer_pe_median_2025-12-31"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "market"
+  },
+  "E018": {
+   "evidence_id": "E018",
+   "kind": "metric",
+   "source_ref": "m_990003_volatility_1y_2025-12-31",
+   "summary": "2025-12-31 年化波动率 = 53.40%",
+   "excerpt": "formula: std(log returns 250d) * sqrt(252); inputs: px_990003_2025-01-16_2025-12-31",
+   "available_at": "2025-12-31T15:00:00",
+   "metric_ids": [
+    "m_990003_volatility_1y_2025-12-31"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "market"
+  },
+  "E019": {
+   "evidence_id": "E019",
+   "kind": "metric",
+   "source_ref": "m_990003_max_drawdown_1y_2025-12-31",
+   "summary": "2025-12-31 最大回撤(1年) = -59.95%",
+   "excerpt": "formula: min(close / cummax(close) - 1); inputs: px_990003_2025-01-16_2025-12-31",
+   "available_at": "2025-12-31T15:00:00",
+   "metric_ids": [
+    "m_990003_max_drawdown_1y_2025-12-31"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "market"
+  },
+  "E020": {
+   "evidence_id": "E020",
+   "kind": "document",
+   "source_ref": "ann_990003_20251120::s1",
+   "summary": "公告正文",
+   "excerpt": "[990003.SH | 2025-11-20 | 关于前期会计差错更正的公告 > 公告正文 | - | - | - | p1-1]\n经自查，公司2025年第三季度报告中存货跌价准备计提不足，现予以更正。更正后2025年1-9月归属于母公司股东的净利润调减9.00亿元，资产减值损失调增9.00亿元。",
+   "available_at": "2025-11-21T09:30:00",
+   "metric_ids": [],
+   "document_id": "ann_990003_20251120",
+   "page": "p1-1",
+   "produced_by": "news"
+  },
+  "E021": {
+   "evidence_id": "E021",
+   "kind": "metric",
+   "source_ref": "m_990003_inventory_days_2024Q3",
+   "summary": "2024Q3 存货周转天数 = 90.0天",
+   "excerpt": "formula: inventory / cost_ttm * 365; inputs: fact_990003_20240930_inventory_con_filing_v1, fact_990003_20240930_operating_cost_con_filing_v1, fact_990003_20231231_operating_cost_con_filing_v1, fact_990003_20230930_operating_cost_con_filing_v1",
+   "available_at": "2024-10-29T09:30:00",
+   "metric_ids": [
+    "m_990003_inventory_days_2024Q3"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E022": {
+   "evidence_id": "E022",
+   "kind": "metric",
+   "source_ref": "m_990003_impairment_to_profit_2025Q3",
+   "summary": "2025Q3 impairment_to_profit = 495.79%",
+   "excerpt": "formula: raw fact; inputs: fact_990003_20250930_asset_impairment_loss_con_filing_v2, fact_990003_20250930_net_profit_con_filing_v2",
+   "available_at": "2025-11-21T09:30:00",
+   "metric_ids": [
+    "m_990003_impairment_to_profit_2025Q3"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E023": {
+   "evidence_id": "E023",
+   "kind": "document",
+   "source_ref": "doc_990003_2025Q3::s2",
+   "summary": "第三节 管理层讨论与分析",
+   "excerpt": "[990003.SH | 2025Q3 | 演示锂电材料（990003.SH）2025年第三季度报告 > 第三节 管理层讨论与分析 | - | - | - | p2-2]\n报告期内，公司实现营业收入同比下降9.24%。\n归属于母公司股东的净利润同比下降97.08%。\n经营活动产生的现金流量净额同比下降61.95%。\n报告期内公司计提大额存货跌价准备和资产减值损失，主要系锂盐价格持续下跌导致存货可变现净值低于成本；存货周转天数显著上升。",
+   "available_at": "2025-10-29T09:30:00",
+   "metric_ids": [],
+   "document_id": "doc_990003_2025Q3",
+   "page": "p2-2",
+   "produced_by": "fundamental"
+  },
+  "E024": {
+   "evidence_id": "E024",
+   "kind": "document",
+   "source_ref": "doc_990003_2025Q3::s10",
+   "summary": "存货跌价准备（单位：万元）",
+   "excerpt": "[990003.SH | 2025Q3 | 演示锂电材料（990003.SH）2025年第三季度报告 > 第五节 财务报表附注 > 存货跌价准备（单位：万元） | 存货跌价准备（单位：万元） | 合并 | 万元 | p6-6]\n| 项目 | 期末账面余额 | 跌价准备 |\n| --- | --- | --- |\n| 原材料 | 634,300.63 | 1,672.38 |\n| 库存商品 | 951,450.94 | 1,672.38 |",
+   "available_at": "2025-10-29T09:30:00",
+   "metric_ids": [],
+   "document_id": "doc_990003_2025Q3",
+   "page": "p6-6",
+   "produced_by": "investigate"
+  },
+  "E025": {
+   "evidence_id": "E025",
+   "kind": "document",
+   "source_ref": "doc_990003_2025Q3::s9",
+   "summary": "应收账款：按欠款方归集的期末余额前五名（单位：万元）",
+   "excerpt": "[990003.SH | 2025Q3 | 演示锂电材料（990003.SH）2025年第三季度报告 > 第五节 财务报表附注 > 应收账款：按欠款方归集的期末余额前五名（单位：万元） | 应收账款：按欠款方归集的期末余额前五名（单位：万元） | 合并 | 万元 | p6-6]\n| 欠款方 | 期末余额 | 占应收账款比例 |\n| --- | --- | --- |\n| 客户A | 132,951.73 | 22.00% |\n| 客户B | 90,648.91 | 15.00% |\n| 客户C | 54,389.35 | 9.00% |\n| 客户D | 36,259.56 | 6.00% |\n| 客户E | 24,173.04 | 4.00% |\n前五名合计占应收账款期末余额的56.00%。",
+   "available_at": "2025-10-29T09:30:00",
+   "metric_ids": [],
+   "document_id": "doc_990003_2025Q3",
+   "page": "p6-6",
+   "produced_by": "bear"
+  },
+  "E026": {
+   "evidence_id": "E026",
+   "kind": "document",
+   "source_ref": "doc_990003_2025Q3::s11",
+   "summary": "第六节 风险因素",
+   "excerpt": "[990003.SH | 2025Q3 | 演示锂电材料（990003.SH）2025年第三季度报告 > 第六节 风险因素 | - | - | - | p7-7]\n公司面临行业竞争加剧、原材料价格波动、下游需求不及预期以及汇率波动等风险。",
+   "available_at": "2025-10-29T09:30:00",
+   "metric_ids": [],
+   "document_id": "doc_990003_2025Q3",
+   "page": "p7-7",
+   "produced_by": "bear"
+  },
+  "E027": {
+   "evidence_id": "E027",
+   "kind": "metric",
+   "source_ref": "m_990003_threshold_gross_margin_2025Q3",
+   "summary": "2025Q3 threshold_gross_margin = 16.00%",
+   "excerpt": "formula: raw fact; inputs: m_990003_gross_margin_2025Q3",
+   "available_at": "2025-10-29T09:30:00",
+   "metric_ids": [
+    "m_990003_threshold_gross_margin_2025Q3"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "manager"
+  },
+  "E028": {
+   "evidence_id": "E028",
+   "kind": "metric",
+   "source_ref": "m_990003_threshold_receivable_days_2025Q3",
+   "summary": "2025Q3 threshold_receivable_days = 55.0天",
+   "excerpt": "formula: raw fact; inputs: m_990003_receivable_days_2025Q3",
+   "available_at": "2025-10-29T09:30:00",
+   "metric_ids": [
+    "m_990003_threshold_receivable_days_2025Q3"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "manager"
+  },
+  "E029": {
+   "evidence_id": "E029",
+   "kind": "metric",
+   "source_ref": "m_990003_threshold_interest_debt_ratio_2025Q3",
+   "summary": "2025Q3 threshold_interest_debt_ratio = 32.00%",
+   "excerpt": "formula: raw fact; inputs: m_990003_interest_debt_ratio_2025Q3",
+   "available_at": "2025-10-29T09:30:00",
+   "metric_ids": [
+    "m_990003_threshold_interest_debt_ratio_2025Q3"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "manager"
+  }
+ },
+ "metrics": {
+  "m_990003_debt_to_assets_2025Q3": {
+   "metric_id": "m_990003_debt_to_assets_2025Q3",
+   "ticker": "990003.SH",
+   "metric": "debt_to_assets",
+   "value": 0.4500000000000333,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2025Q3",
+   "statement_scope": "consolidated",
+   "formula": "total_liabilities / total_assets",
+   "formula_version": "v1",
+   "input_ids": [
+    "fact_990003_20250930_total_liabilities_con_filing_v1",
+    "fact_990003_20250930_total_assets_con_filing_v1"
+   ],
+   "available_at": "2025-10-29T09:30:00",
+   "as_of": "2025-12-31T15:00:00",
+   "extra": {}
+  },
+  "m_990003_gross_margin_2025Q3": {
+   "metric_id": "m_990003_gross_margin_2025Q3",
+   "ticker": "990003.SH",
+   "metric": "gross_margin",
+   "value": 0.1799999999998877,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2025Q3",
+   "statement_scope": "consolidated",
+   "formula": "(operating_revenue - operating_cost) / operating_revenue",
+   "formula_version": "v1",
+   "input_ids": [
+    "fact_990003_20250930_operating_revenue_con_filing_v1",
+    "fact_990003_20250930_operating_cost_con_filing_v1"
+   ],
+   "available_at": "2025-10-29T09:30:00",
+   "as_of": "2025-12-31T15:00:00",
+   "extra": {}
+  },
+  "m_990003_impairment_to_profit_2025Q3": {
+   "metric_id": "m_990003_impairment_to_profit_2025Q3",
+   "ticker": "990003.SH",
+   "metric": "impairment_to_profit",
+   "value": 4.95790111859206,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2025Q3",
+   "statement_scope": "consolidated",
+   "formula": "raw fact",
+   "formula_version": "v1",
+   "input_ids": [
+    "fact_990003_20250930_asset_impairment_loss_con_filing_v2",
+    "fact_990003_20250930_net_profit_con_filing_v2"
+   ],
+   "available_at": "2025-11-21T09:30:00",
+   "as_of": "2025-12-31T15:00:00",
+   "extra": {}
+  },
+  "m_990003_interest_debt_ratio_2025Q3": {
+   "metric_id": "m_990003_interest_debt_ratio_2025Q3",
+   "ticker": "990003.SH",
+   "metric": "interest_debt_ratio",
+   "value": 0.26999999999999036,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2025Q3",
+   "statement_scope": "consolidated",
+   "formula": "interest_bearing_debt / total_assets",
+   "formula_version": "v1",
+   "input_ids": [
+    "fact_990003_20250930_interest_bearing_debt_con_filing_v1",
+    "fact_990003_20250930_total_assets_con_filing_v1"
+   ],
+   "available_at": "2025-10-29T09:30:00",
+   "as_of": "2025-12-31T15:00:00",
+   "extra": {}
+  },
+  "m_990003_inventory_days_2024Q3": {
+   "metric_id": "m_990003_inventory_days_2024Q3",
+   "ticker": "990003.SH",
+   "metric": "inventory_days",
+   "value": 90.0000000000125,
+   "unit": "days",
+   "status": "OK",
+   "period": "2024Q3",
+   "statement_scope": "consolidated",
+   "formula": "inventory / cost_ttm * 365",
+   "formula_version": "v1",
+   "input_ids": [
+    "fact_990003_20240930_inventory_con_filing_v1",
+    "fact_990003_20240930_operating_cost_con_filing_v1",
+    "fact_990003_20231231_operating_cost_con_filing_v1",
+    "fact_990003_20230930_operating_cost_con_filing_v1"
+   ],
+   "available_at": "2024-10-29T09:30:00",
+   "as_of": "2025-12-31T15:00:00",
+   "extra": {}
+  },
+  "m_990003_inventory_days_2025Q3": {
+   "metric_id": "m_990003_inventory_days_2025Q3",
+   "ticker": "990003.SH",
+   "metric": "inventory_days",
+   "value": 159.99999999998477,
+   "unit": "days",
+   "status": "OK",
+   "period": "2025Q3",
+   "statement_scope": "consolidated",
+   "formula": "inventory / cost_ttm * 365",
+   "formula_version": "v1",
+   "input_ids": [
+    "fact_990003_20250930_inventory_con_filing_v1",
+    "fact_990003_20250930_operating_cost_con_filing_v1",
+    "fact_990003_20241231_operating_cost_con_filing_v1",
+    "fact_990003_20240930_operating_cost_con_filing_v1"
+   ],
+   "available_at": "2025-10-29T09:30:00",
+   "as_of": "2025-12-31T15:00:00",
+   "extra": {}
+  },
+  "m_990003_max_drawdown_1y_2025-12-31": {
+   "metric_id": "m_990003_max_drawdown_1y_2025-12-31",
+   "ticker": "990003.SH",
+   "metric": "max_drawdown_1y",
+   "value": -0.5994729907773386,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2025-12-31",
+   "statement_scope": "consolidated",
+   "formula": "min(close / cummax(close) - 1)",
+   "formula_version": "v1",
+   "input_ids": [
+    "px_990003_2025-01-16_2025-12-31"
+   ],
+   "available_at": "2025-12-31T15:00:00",
+   "as_of": "2025-12-31T15:00:00",
+   "extra": {}
+  },
+  "m_990003_net_margin_2025Q3": {
+   "metric_id": "m_990003_net_margin_2025Q3",
+   "ticker": "990003.SH",
+   "metric": "net_margin",
+   "value": -0.025140256900800295,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2025Q3",
+   "statement_scope": "consolidated",
+   "formula": "net_profit / operating_revenue",
+   "formula_version": "v1",
+   "input_ids": [
+    "fact_990003_20250930_net_profit_con_filing_v2",
+    "fact_990003_20250930_operating_revenue_con_filing_v1"
+   ],
+   "available_at": "2025-11-21T09:30:00",
+   "as_of": "2025-12-31T15:00:00",
+   "extra": {}
+  },
+  "m_990003_net_profit_2025Q3": {
+   "metric_id": "m_990003_net_profit_2025Q3",
+   "ticker": "990003.SH",
+   "metric": "net_profit",
+   "value": -806023167.96,
+   "unit": "CNY",
+   "status": "OK",
+   "period": "2025Q3",
+   "statement_scope": "consolidated",
+   "formula": "raw fact",
+   "formula_version": "v1",
+   "input_ids": [
+    "fact_990003_20250930_net_profit_con_filing_v2"
+   ],
+   "available_at": "2025-11-21T09:30:00",
+   "as_of": "2025-12-31T15:00:00",
+   "extra": {
+    "cn": "归属于母公司股东的净利润",
+    "kind": "fact",
+    "revision_id": 2,
+    "source": "demo_filing"
+   }
+  },
+  "m_990003_net_profit_yoy_2025Q3": {
+   "metric_id": "m_990003_net_profit_yoy_2025Q3",
+   "ticker": "990003.SH",
+   "metric": "net_profit_yoy",
+   "value": -1.2508666159622077,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2025Q3",
+   "statement_scope": "consolidated",
+   "formula": "cum_t / cum_{t-1y} - 1 (NA if base <= 0)",
+   "formula_version": "v1",
+   "input_ids": [
+    "fact_990003_20250930_net_profit_con_filing_v2",
+    "fact_990003_20240930_net_profit_con_filing_v1"
+   ],
+   "available_at": "2025-11-21T09:30:00",
+   "as_of": "2025-12-31T15:00:00",
+   "extra": {}
+  },
+  "m_990003_ocf_to_net_profit_2025Q3": {
+   "metric_id": "m_990003_ocf_to_net_profit_2025Q3",
+   "ticker": "990003.SH",
+   "metric": "ocf_to_net_profit",
+   "value": null,
+   "unit": "ratio",
+   "status": "NEGATIVE_EARNINGS_NA",
+   "period": "2025Q3",
+   "statement_scope": "consolidated",
+   "formula": "operating_cash_flow / net_profit",
+   "formula_version": "v1",
+   "input_ids": [
+    "fact_990003_20250930_operating_cash_flow_con_filing_v1",
+    "fact_990003_20250930_net_profit_con_filing_v2"
+   ],
+   "available_at": "2025-11-21T09:30:00",
+   "as_of": "2025-12-31T15:00:00",
+   "extra": {}
+  },
+  "m_990003_ocf_yoy_2025Q3": {
+   "metric_id": "m_990003_ocf_yoy_2025Q3",
+   "ticker": "990003.SH",
+   "metric": "ocf_yoy",
+   "value": -0.6195400976161287,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2025Q3",
+   "statement_scope": "consolidated",
+   "formula": "cum_t / cum_{t-1y} - 1 (NA if base <= 0)",
+   "formula_version": "v1",
+   "input_ids": [
+    "fact_990003_20250930_operating_cash_flow_con_filing_v1",
+    "fact_990003_20240930_operating_cash_flow_con_filing_v1"
+   ],
+   "available_at": "2025-10-29T09:30:00",
+   "as_of": "2025-12-31T15:00:00",
+   "extra": {}
+  },
+  "m_990003_operating_revenue_2025Q3": {
+   "metric_id": "m_990003_operating_revenue_2025Q3",
+   "ticker": "990003.SH",
+   "metric": "operating_revenue",
+   "value": 32061055348.02,
+   "unit": "CNY",
+   "status": "OK",
+   "period": "2025Q3",
+   "statement_scope": "consolidated",
+   "formula": "raw fact",
+   "formula_version": "v1",
+   "input_ids": [
+    "fact_990003_20250930_operating_revenue_con_filing_v1"
+   ],
+   "available_at": "2025-10-29T09:30:00",
+   "as_of": "2025-12-31T15:00:00",
+   "extra": {
+    "cn": "营业收入",
+    "kind": "fact",
+    "revision_id": 1,
+    "source": "demo_filing"
+   }
+  },
+  "m_990003_pb_lf_2025-12-31": {
+   "metric_id": "m_990003_pb_lf_2025-12-31",
+   "ticker": "990003.SH",
+   "metric": "pb_lf",
+   "value": 0.5448983895360321,
+   "unit": "x",
+   "status": "OK",
+   "period": "2025-12-31",
+   "statement_scope": "consolidated",
+   "formula": "total_mv / total_equity_latest (NA if <= 0)",
+   "formula_version": "v1",
+   "input_ids": [
+    "px_990003_2025-12-31",
+    "fact_990003_20250930_total_equity_con_filing_v1"
+   ],
+   "available_at": "2025-12-31T15:00:00",
+   "as_of": "2025-12-31T15:00:00",
+   "extra": {}
+  },
+  "m_990003_pe_percentile_3y_2025-12-31": {
+   "metric_id": "m_990003_pe_percentile_3y_2025-12-31",
+   "ticker": "990003.SH",
+   "metric": "pe_percentile_3y",
+   "value": 0.9696969696969697,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2025-12-31",
+   "statement_scope": "consolidated",
+   "formula": "rank of today's PE among month-end PE over 3y",
+   "formula_version": "v1",
+   "input_ids": [
+    "m_990003_pe_ttm_2025-12-31"
+   ],
+   "available_at": "2025-12-31T15:00:00",
+   "as_of": "2025-12-31T15:00:00",
+   "extra": {
+    "n_months": 33,
+    "min": 13.86291712200105,
+    "max": 154.23104394966813,
+    "median": 17.94843050400913
+   }
+  },
+  "m_990003_pe_ttm_2025-12-31": {
+   "metric_id": "m_990003_pe_ttm_2025-12-31",
+   "ticker": "990003.SH",
+   "metric": "pe_ttm",
+   "value": 139.47620785393565,
+   "unit": "x",
+   "status": "OK",
+   "period": "2025-12-31",
+   "statement_scope": "consolidated",
+   "formula": "total_mv / net_profit_ttm (NA if <= 0)",
+   "formula_version": "v1",
+   "input_ids": [
+    "px_990003_2025-12-31",
+    "fact_990003_20250930_net_profit_con_filing_v2",
+    "fact_990003_20241231_net_profit_con_filing_v1",
+    "fact_990003_20240930_net_profit_con_filing_v1"
+   ],
+   "available_at": "2025-12-31T15:00:00",
+   "as_of": "2025-12-31T15:00:00",
+   "extra": {
+    "total_mv": 40497760152.41,
+    "price_date": "2025-12-31"
+   }
+  },
+  "m_990003_peer_pe_median_2025-12-31": {
+   "metric_id": "m_990003_peer_pe_median_2025-12-31",
+   "ticker": "990003.SH",
+   "metric": "peer_pe_median",
+   "value": null,
+   "unit": "x",
+   "status": "INSUFFICIENT_DATA",
+   "period": "2025-12-31",
+   "statement_scope": "consolidated",
+   "formula": "raw fact",
+   "formula_version": "v1",
+   "input_ids": [],
+   "available_at": "2025-12-31T15:00:00",
+   "as_of": "2025-12-31T15:00:00",
+   "extra": {
+    "peers": [],
+    "peer_values": {}
+   }
+  },
+  "m_990003_receivable_days_2025Q3": {
+   "metric_id": "m_990003_receivable_days_2025Q3",
+   "ticker": "990003.SH",
+   "metric": "receivable_days",
+   "value": 50.000000000028336,
+   "unit": "days",
+   "status": "OK",
+   "period": "2025Q3",
+   "statement_scope": "consolidated",
+   "formula": "accounts_receivable / revenue_ttm * 365",
+   "formula_version": "v1",
+   "input_ids": [
+    "fact_990003_20250930_accounts_receivable_con_filing_v1",
+    "fact_990003_20250930_operating_revenue_con_filing_v1",
+    "fact_990003_20241231_operating_revenue_con_filing_v1",
+    "fact_990003_20240930_operating_revenue_con_filing_v1"
+   ],
+   "available_at": "2025-10-29T09:30:00",
+   "as_of": "2025-12-31T15:00:00",
+   "extra": {}
+  },
+  "m_990003_revenue_yoy_2025Q3": {
+   "metric_id": "m_990003_revenue_yoy_2025Q3",
+   "ticker": "990003.SH",
+   "metric": "revenue_yoy",
+   "value": -0.09243891930946246,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2025Q3",
+   "statement_scope": "consolidated",
+   "formula": "cum_t / cum_{t-1y} - 1",
+   "formula_version": "v1",
+   "input_ids": [
+    "fact_990003_20250930_operating_revenue_con_filing_v1",
+    "fact_990003_20240930_operating_revenue_con_filing_v1"
+   ],
+   "available_at": "2025-10-29T09:30:00",
+   "as_of": "2025-12-31T15:00:00",
+   "extra": {}
+  },
+  "m_990003_roe_annualized_2025Q3": {
+   "metric_id": "m_990003_roe_annualized_2025Q3",
+   "ticker": "990003.SH",
+   "metric": "roe_annualized",
+   "value": -0.014469230765090922,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2025Q3",
+   "statement_scope": "consolidated",
+   "formula": "net_profit * 4/n_quarters / avg(total_equity_begin, total_equity_end)",
+   "formula_version": "v1",
+   "input_ids": [
+    "fact_990003_20250930_net_profit_con_filing_v2",
+    "fact_990003_20250930_total_equity_con_filing_v1",
+    "fact_990003_20241231_total_equity_con_filing_v1"
+   ],
+   "available_at": "2025-11-21T09:30:00",
+   "as_of": "2025-12-31T15:00:00",
+   "extra": {}
+  },
+  "m_990003_threshold_gross_margin_2025Q3": {
+   "metric_id": "m_990003_threshold_gross_margin_2025Q3",
+   "ticker": "990003.SH",
+   "metric": "threshold_gross_margin",
+   "value": 0.1599999999998877,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2025Q3",
+   "statement_scope": "consolidated",
+   "formula": "raw fact",
+   "formula_version": "v1",
+   "input_ids": [
+    "m_990003_gross_margin_2025Q3"
+   ],
+   "available_at": "2025-10-29T09:30:00",
+   "as_of": "2025-12-31T15:00:00",
+   "extra": {
+    "rule": "若后续报告期毛利率跌破{t}（当前{c}）"
+   }
+  },
+  "m_990003_threshold_interest_debt_ratio_2025Q3": {
+   "metric_id": "m_990003_threshold_interest_debt_ratio_2025Q3",
+   "ticker": "990003.SH",
+   "metric": "threshold_interest_debt_ratio",
+   "value": 0.31999999999999035,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2025Q3",
+   "statement_scope": "consolidated",
+   "formula": "raw fact",
+   "formula_version": "v1",
+   "input_ids": [
+    "m_990003_interest_debt_ratio_2025Q3"
+   ],
+   "available_at": "2025-10-29T09:30:00",
+   "as_of": "2025-12-31T15:00:00",
+   "extra": {
+    "rule": "若有息负债率升至{t}以上（当前{c}）"
+   }
+  },
+  "m_990003_threshold_receivable_days_2025Q3": {
+   "metric_id": "m_990003_threshold_receivable_days_2025Q3",
+   "ticker": "990003.SH",
+   "metric": "threshold_receivable_days",
+   "value": 55.00000000003117,
+   "unit": "days",
+   "status": "OK",
+   "period": "2025Q3",
+   "statement_scope": "consolidated",
+   "formula": "raw fact",
+   "formula_version": "v1",
+   "input_ids": [
+    "m_990003_receivable_days_2025Q3"
+   ],
+   "available_at": "2025-10-29T09:30:00",
+   "as_of": "2025-12-31T15:00:00",
+   "extra": {
+    "rule": "若应收账款周转天数升至{t}以上（当前{c}）"
+   }
+  },
+  "m_990003_volatility_1y_2025-12-31": {
+   "metric_id": "m_990003_volatility_1y_2025-12-31",
+   "ticker": "990003.SH",
+   "metric": "volatility_1y",
+   "value": 0.5339570874992937,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2025-12-31",
+   "statement_scope": "consolidated",
+   "formula": "std(log returns 250d) * sqrt(252)",
+   "formula_version": "v1",
+   "input_ids": [
+    "px_990003_2025-01-16_2025-12-31"
+   ],
+   "available_at": "2025-12-31T15:00:00",
+   "as_of": "2025-12-31T15:00:00",
+   "extra": {}
+  }
+ },
+ "answers": {},
+ "open_questions": [],
+ "uncertainties": [],
+ "anomalies": [
+  {
+   "code": "INVENTORY_DAYS_DETERIORATION",
+   "severity": "MEDIUM",
+   "metric_ids": [
+    "m_990003_inventory_days_2025Q3",
+    "m_990003_inventory_days_2024Q3"
+   ],
+   "message": "存货周转天数由90天升至160天",
+   "suggested_query": "存货跌价准备 计提 可变现净值",
+   "section_type": "NOTES",
+   "claim_id": "C010",
+   "evidence_ids": [
+    "E011",
+    "E021"
+   ]
+  },
+  {
+   "code": "LARGE_IMPAIRMENT",
+   "severity": "HIGH",
+   "metric_ids": [
+    "m_990003_impairment_to_profit_2025Q3"
+   ],
+   "message": "资产减值损失占净利润比例495.8%",
+   "suggested_query": "存货跌价准备 资产减值 计提",
+   "section_type": "NOTES",
+   "claim_id": "C011",
+   "evidence_ids": [
+    "E022"
+   ]
+  },
+  {
+   "code": "RELATED_PARTY_OR_POLICY_CHANGE",
+   "severity": "MEDIUM",
+   "metric_ids": [],
+   "message": "公告《关于前期会计差错更正的公告》涉及关联交易或会计变更",
+   "suggested_query": "关联交易 会计差错更正 会计估计变更",
+   "section_type": "ANNOUNCEMENT",
+   "claim_id": "C012",
+   "evidence_ids": [
+    "E020"
+   ]
+  }
+ ],
+ "conflicts": [],
+ "debate": {
+  "rounds": [
+   {
+    "round": 1,
+    "bull": [],
+    "bear": [
+     "C007",
+     "C009",
+     "C011",
+     "C014",
+     "C015",
+     "C016",
+     "C017",
+     "C018"
+    ],
+    "new_claims": [
+     "C017",
+     "C018"
+    ],
+    "new_evidence": [
+     "E025",
+     "E026"
+    ]
+   },
+   {
+    "round": 2,
+    "bull": [],
+    "bear": [
+     "C007",
+     "C009",
+     "C011",
+     "C014",
+     "C015",
+     "C016",
+     "C017",
+     "C018"
+    ],
+    "new_claims": [],
+    "new_evidence": []
+   }
+  ],
+  "disagreements": [],
+  "falsification": [
+   "C019",
+   "C020",
+   "C021"
+  ],
+  "filtered": [],
+  "manager_summary": "多方论据0条、空方论据8条；核心分歧在于盈利增长的质量与可持续性。"
+ },
+ "risk": {
+  "matrix": [
+   {
+    "dimension": "财务质量",
+    "score": 5,
+    "rationale": "经营现金流/净利润不适用(亏损/基数为负)，高危异常1项",
+    "claim_id": "C022"
+   },
+   {
+    "dimension": "估值",
+    "score": 5,
+    "rationale": "PE-TTM处于近3年96.97%分位",
+    "claim_id": "C023"
+   },
+   {
+    "dimension": "偿债与流动性",
+    "score": 3,
+    "rationale": "资产负债率45.00%，有息负债率27.00%",
+    "claim_id": "C024"
+   },
+   {
+    "dimension": "经营与行业",
+    "score": 4,
+    "rationale": "营收同比-9.24%，毛利率18.00%",
+    "claim_id": "C025"
+   },
+   {
+    "dimension": "治理与合规",
+    "score": 3,
+    "rationale": "治理与合规风险3/5：涉及公告1项（关于前期会计差错更正的公告）",
+    "claim_id": "C026"
+   },
+   {
+    "dimension": "市场波动",
+    "score": 4,
+    "rationale": "年化波动率53.40%，最大回撤-59.95%",
+    "claim_id": "C027"
+   }
+  ],
+  "dimensions": [
+   "财务质量",
+   "估值",
+   "偿债与流动性",
+   "经营与行业",
+   "治理与合规",
+   "市场波动"
+  ]
+ },
+ "timeline": [
+  {
+   "document_id": "ann_990003_20251120",
+   "title": "关于前期会计差错更正的公告",
+   "published_at": "2025-11-20T20:00:00",
+   "available_at": "2025-11-21T09:30:00"
+  }
+ ],
+ "charts": {
+  "quarterly": {
+   "title": {
+    "text": "单季营收/归母净利润(亿元)与毛利率"
+   },
+   "tooltip": {
+    "trigger": "axis"
+   },
+   "legend": {
+    "data": [
+     "营收",
+     "净利润",
+     "毛利率"
+    ]
+   },
+   "xAxis": {
+    "type": "category",
+    "data": [
+     "2023Q4",
+     "2024Q1",
+     "2024Q2",
+     "2024Q3",
+     "2024Q4",
+     "2025Q1",
+     "2025Q2",
+     "2025Q3"
+    ]
+   },
+   "yAxis": [
+    {
+     "type": "value",
+     "name": "亿元"
+    },
+    {
+     "type": "value",
+     "name": "%"
+    }
+   ],
+   "series": [
+    {
+     "name": "营收",
+     "type": "bar",
+     "data": [
+      134.4,
+      110.09,
+      119.31,
+      123.86,
+      120.55,
+      98.2,
+      110.92,
+      111.49
+     ]
+    },
+    {
+     "name": "净利润",
+     "type": "bar",
+     "data": [
+      12.22,
+      10.01,
+      10.85,
+      11.27,
+      10.96,
+      8.93,
+      -18.13,
+      1.14
+     ]
+    },
+    {
+     "name": "毛利率",
+     "type": "line",
+     "yAxisIndex": 1,
+     "data": [
+      18.0,
+      18.0,
+      18.0,
+      18.0,
+      18.0,
+      18.0,
+      18.0,
+      18.0
+     ]
+    }
+   ]
+  },
+  "price": {
+   "title": {
+    "text": "近一年收盘价"
+   },
+   "tooltip": {
+    "trigger": "axis"
+   },
+   "xAxis": {
+    "type": "category",
+    "data": [
+     "2025-01-16",
+     "2025-01-17",
+     "2025-01-20",
+     "2025-01-21",
+     "2025-01-22",
+     "2025-01-23",
+     "2025-01-24",
+     "2025-01-27",
+     "2025-01-28",
+     "2025-01-29",
+     "2025-01-30",
+     "2025-01-31",
+     "2025-02-03",
+     "2025-02-04",
+     "2025-02-05",
+     "2025-02-06",
+     "2025-02-07",
+     "2025-02-10",
+     "2025-02-11",
+     "2025-02-12",
+     "2025-02-13",
+     "2025-02-14",
+     "2025-02-17",
+     "2025-02-18",
+     "2025-02-19",
+     "2025-02-20",
+     "2025-02-21",
+     "2025-02-24",
+     "2025-02-25",
+     "2025-02-26",
+     "2025-02-27",
+     "2025-02-28",
+     "2025-03-03",
+     "2025-03-04",
+     "2025-03-05",
+     "2025-03-06",
+     "2025-03-07",
+     "2025-03-10",
+     "2025-03-11",
+     "2025-03-12",
+     "2025-03-13",
+     "2025-03-14",
+     "2025-03-17",
+     "2025-03-18",
+     "2025-03-19",
+     "2025-03-20",
+     "2025-03-21",
+     "2025-03-24",
+     "2025-03-25",
+     "2025-03-26",
+     "2025-03-27",
+     "2025-03-28",
+     "2025-03-31",
+     "2025-04-01",
+     "2025-04-02",
+     "2025-04-03",
+     "2025-04-04",
+     "2025-04-07",
+     "2025-04-08",
+     "2025-04-09",
+     "2025-04-10",
+     "2025-04-11",
+     "2025-04-14",
+     "2025-04-15",
+     "2025-04-16",
+     "2025-04-17",
+     "2025-04-18",
+     "2025-04-21",
+     "2025-04-22",
+     "2025-04-23",
+     "2025-04-24",
+     "2025-04-25",
+     "2025-04-28",
+     "2025-04-29",
+     "2025-04-30",
+     "2025-05-01",
+     "2025-05-02",
+     "2025-05-05",
+     "2025-05-06",
+     "2025-05-07",
+     "2025-05-08",
+     "2025-05-09",
+     "2025-05-12",
+     "2025-05-13",
+     "2025-05-14",
+     "2025-05-15",
+     "2025-05-16",
+     "2025-05-19",
+     "2025-05-20",
+     "2025-05-21",
+     "2025-05-22",
+     "2025-05-23",
+     "2025-05-26",
+     "2025-05-27",
+     "2025-05-28",
+     "2025-05-29",
+     "2025-05-30",
+     "2025-06-02",
+     "2025-06-03",
+     "2025-06-04",
+     "2025-06-05",
+     "2025-06-06",
+     "2025-06-09",
+     "2025-06-10",
+     "2025-06-11",
+     "2025-06-12",
+     "2025-06-13",
+     "2025-06-16",
+     "2025-06-17",
+     "2025-06-18",
+     "2025-06-19",
+     "2025-06-20",
+     "2025-06-23",
+     "2025-06-24",
+     "2025-06-25",
+     "2025-06-26",
+     "2025-06-27",
+     "2025-06-30",
+     "2025-07-01",
+     "2025-07-02",
+     "2025-07-03",
+     "2025-07-04",
+     "2025-07-07",
+     "2025-07-08",
+     "2025-07-09",
+     "2025-07-10",
+     "2025-07-11",
+     "2025-07-14",
+     "2025-07-15",
+     "2025-07-16",
+     "2025-07-17",
+     "2025-07-18",
+     "2025-07-21",
+     "2025-07-22",
+     "2025-07-23",
+     "2025-07-24",
+     "2025-07-25",
+     "2025-07-28",
+     "2025-07-29",
+     "2025-07-30",
+     "2025-07-31",
+     "2025-08-01",
+     "2025-08-04",
+     "2025-08-05",
+     "2025-08-06",
+     "2025-08-07",
+     "2025-08-08",
+     "2025-08-11",
+     "2025-08-12",
+     "2025-08-13",
+     "2025-08-14",
+     "2025-08-15",
+     "2025-08-18",
+     "2025-08-19",
+     "2025-08-20",
+     "2025-08-21",
+     "2025-08-22",
+     "2025-08-25",
+     "2025-08-26",
+     "2025-08-27",
+     "2025-08-28",
+     "2025-08-29",
+     "2025-09-01",
+     "2025-09-02",
+     "2025-09-03",
+     "2025-09-04",
+     "2025-09-05",
+     "2025-09-08",
+     "2025-09-09",
+     "2025-09-10",
+     "2025-09-11",
+     "2025-09-12",
+     "2025-09-15",
+     "2025-09-16",
+     "2025-09-17",
+     "2025-09-18",
+     "2025-09-19",
+     "2025-09-22",
+     "2025-09-23",
+     "2025-09-24",
+     "2025-09-25",
+     "2025-09-26",
+     "2025-09-29",
+     "2025-09-30",
+     "2025-10-01",
+     "2025-10-02",
+     "2025-10-03",
+     "2025-10-06",
+     "2025-10-07",
+     "2025-10-08",
+     "2025-10-09",
+     "2025-10-10",
+     "2025-10-13",
+     "2025-10-14",
+     "2025-10-15",
+     "2025-10-16",
+     "2025-10-17",
+     "2025-10-20",
+     "2025-10-21",
+     "2025-10-22",
+     "2025-10-23",
+     "2025-10-24",
+     "2025-10-27",
+     "2025-10-28",
+     "2025-10-29",
+     "2025-10-30",
+     "2025-10-31",
+     "2025-11-03",
+     "2025-11-04",
+     "2025-11-05",
+     "2025-11-06",
+     "2025-11-07",
+     "2025-11-10",
+     "2025-11-11",
+     "2025-11-12",
+     "2025-11-13",
+     "2025-11-14",
+     "2025-11-17",
+     "2025-11-18",
+     "2025-11-19",
+     "2025-11-20",
+     "2025-11-21",
+     "2025-11-24",
+     "2025-11-25",
+     "2025-11-26",
+     "2025-11-27",
+     "2025-11-28",
+     "2025-12-01",
+     "2025-12-02",
+     "2025-12-03",
+     "2025-12-04",
+     "2025-12-05",
+     "2025-12-08",
+     "2025-12-09",
+     "2025-12-10",
+     "2025-12-11",
+     "2025-12-12",
+     "2025-12-15",
+     "2025-12-16",
+     "2025-12-17",
+     "2025-12-18",
+     "2025-12-19",
+     "2025-12-22",
+     "2025-12-23",
+     "2025-12-24",
+     "2025-12-25",
+     "2025-12-26",
+     "2025-12-29",
+     "2025-12-30",
+     "2025-12-31"
+    ]
+   },
+   "yAxis": {
+    "type": "value",
+    "scale": true
+   },
+   "series": [
+    {
+     "type": "line",
+     "showSymbol": false,
+     "data": [
+      47.01,
+      47.52,
+      44.68,
+      46.31,
+      44.01,
+      46.01,
+      46.74,
+      46.3,
+      47.33,
+      47.12,
+      46.08,
+      46.14,
+      44.57,
+      45.19,
+      43.84,
+      41.38,
+      42.61,
+      42.99,
+      42.33,
+      42.95,
+      43.89,
+      46.21,
+      46.39,
+      44.9,
+      45.16,
+      41.35,
+      41.25,
+      40.62,
+      40.31,
+      40.92,
+      43.05,
+      42.51,
+      42.75,
+      42.86,
+      40.0,
+      40.99,
+      41.7,
+      42.47,
+      44.25,
+      44.2,
+      43.65,
+      43.56,
+      44.05,
+      43.75,
+      42.49,
+      42.85,
+      43.18,
+      41.06,
+      41.64,
+      40.36,
+      41.23,
+      40.5,
+      40.63,
+      40.88,
+      40.64,
+      40.07,
+      37.02,
+      37.41,
+      37.53,
+      38.51,
+      37.22,
+      37.61,
+      38.08,
+      40.67,
+      41.4,
+      43.66,
+      41.34,
+      39.6,
+      40.85,
+      40.12,
+      40.14,
+      40.56,
+      40.37,
+      41.41,
+      42.72,
+      43.18,
+      43.3,
+      42.77,
+      43.92,
+      42.42,
+      43.18,
+      44.49,
+      45.36,
+      45.56,
+      44.04,
+      43.81,
+      43.03,
+      42.81,
+      41.07,
+      42.12,
+      41.22,
+      40.78,
+      39.96,
+      40.13,
+      40.88,
+      41.11,
+      41.37,
+      40.84,
+      36.86,
+      40.07,
+      39.75,
+      39.12,
+      36.56,
+      37.05,
+      37.29,
+      37.86,
+      41.33,
+      40.57,
+      42.0,
+      40.76,
+      39.91,
+      39.53,
+      38.42,
+      38.65,
+      38.59,
+      37.84,
+      38.74,
+      40.26,
+      43.46,
+      45.85,
+      48.24,
+      47.8,
+      48.09,
+      47.27,
+      46.28,
+      48.16,
+      48.8,
+      51.52,
+      51.73,
+      50.93,
+      51.07,
+      51.09,
+      51.58,
+      51.04,
+      52.46,
+      51.74,
+      50.82,
+      52.11,
+      52.74,
+      53.13,
+      52.42,
+      52.3,
+      50.49,
+      49.43,
+      51.4,
+      48.59,
+      48.53,
+      49.08,
+      49.7,
+      50.74,
+      47.25,
+      45.18,
+      44.33,
+      43.01,
+      41.31,
+      40.78,
+      41.61,
+      40.93,
+      40.21,
+      39.29,
+      37.42,
+      36.12,
+      36.21,
+      36.57,
+      34.68,
+      33.43,
+      31.3,
+      32.11,
+      31.37,
+      33.04,
+      35.14,
+      34.96,
+      32.61,
+      32.17,
+      31.76,
+      30.97,
+      28.97,
+      27.15,
+      27.78,
+      27.38,
+      25.95,
+      25.2,
+      24.5,
+      24.87,
+      26.28,
+      26.91,
+      25.75,
+      24.77,
+      24.35,
+      23.76,
+      22.93,
+      23.92,
+      25.23,
+      24.78,
+      24.7,
+      23.51,
+      23.47,
+      22.74,
+      21.28,
+      21.67,
+      22.81,
+      23.34,
+      24.41,
+      24.0,
+      23.32,
+      23.25,
+      22.16,
+      22.79,
+      24.14,
+      24.26,
+      22.66,
+      23.86,
+      24.43,
+      23.8,
+      24.53,
+      24.1,
+      23.31,
+      23.24,
+      24.45,
+      24.48,
+      26.5,
+      26.65,
+      25.26,
+      25.88,
+      25.29,
+      24.13,
+      24.88,
+      24.56,
+      24.8,
+      23.36,
+      23.94,
+      24.71,
+      24.77,
+      23.95,
+      23.35,
+      23.61,
+      23.82,
+      24.22,
+      24.26,
+      23.95,
+      24.39,
+      24.26,
+      23.88,
+      23.78,
+      24.75,
+      24.43,
+      23.71,
+      21.33,
+      22.54,
+      22.5
+     ]
+    }
+   ]
+  },
+  "valuation": {
+   "title": {
+    "text": "PE-TTM 历史分位与同行对比"
+   },
+   "tooltip": {},
+   "xAxis": {
+    "type": "category",
+    "data": [
+     "3年最低",
+     "3年中位",
+     "3年最高",
+     "当前"
+    ]
+   },
+   "yAxis": {
+    "type": "value",
+    "name": "倍"
+   },
+   "series": [
+    {
+     "type": "bar",
+     "data": [
+      13.86,
+      17.95,
+      154.23,
+      139.48
+     ]
+    }
+   ]
+  },
+  "risk_radar": {
+   "title": {
+    "text": "六维风险雷达(1低-5高)"
+   },
+   "tooltip": {},
+   "radar": {
+    "indicator": [
+     {
+      "name": "财务质量",
+      "max": 5
+     },
+     {
+      "name": "估值",
+      "max": 5
+     },
+     {
+      "name": "偿债与流动性",
+      "max": 5
+     },
+     {
+      "name": "经营与行业",
+      "max": 5
+     },
+     {
+      "name": "治理与合规",
+      "max": 5
+     },
+     {
+      "name": "市场波动",
+      "max": 5
+     }
+    ]
+   },
+   "series": [
+    {
+     "type": "radar",
+     "data": [
+      {
+       "value": [
+        5,
+        5,
+        3,
+        4,
+        3,
+        4
+       ],
+       "name": "风险"
+      }
+     ]
+    }
+   ]
+  }
+ },
+ "verification_log": [
+  {
+   "claim_id": "C001",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C002",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C003",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C004",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C005",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C006",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C007",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C008",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C009",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C010",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C011",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C012",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C013",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C014",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C015",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C016",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C017",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C018",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C019",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C020",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C021",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C022",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C023",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C024",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C025",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C026",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C027",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  }
+ ],
+ "plan": {
+  "plan_id": "run_20261109172744_8a2c3d-plan",
+  "subtasks": [
+   {
+    "task_id": "T1",
+    "agent": "fundamental",
+    "objective": "财务三表、盈利与现金流质量、异常检测",
+    "tool_budget": 12,
+    "depends_on": [],
+    "acceptance": "核心比率与增长指标全部由算子计算并入证据库",
+    "query": null,
+    "section_types": null,
+    "anomaly_code": null
+   },
+   {
+    "task_id": "T2",
+    "agent": "market",
+    "objective": "估值分位、同行估值、波动率与回撤",
+    "tool_budget": 8,
+    "depends_on": [],
+    "acceptance": "PE/PB/PS 与3年分位、同行中位数",
+    "query": null,
+    "section_types": null,
+    "anomaly_code": null
+   },
+   {
+    "task_id": "T3",
+    "agent": "news",
+    "objective": "公告与重大事项时间线",
+    "tool_budget": 6,
+    "depends_on": [],
+    "acceptance": "所有事件带 published_at/available_at",
+    "query": null,
+    "section_types": null,
+    "anomaly_code": null
+   }
+  ],
+  "asks": [],
+  "budget_tokens": 200000,
+  "rationale": "rule-based parse (offline)"
+ },
+ "markdown": "# 演示锂电材料（990003.SH）投资研究报告\n\n- 研究时点 as_of: `2025-12-31T15:00:00`  快照: `snap_202512311500_b0e3880d`  架构: `B4`\n\n演示锂电材料（990003.SH），申万行业 基础化工/锂电化学品，研究时点 2025-12-31 15:00:00。【演示公司：数据为虚构的离线 Golden Snapshot】\n\n## 执行摘要\n多方论据0条、空方论据8条；核心分歧在于盈利增长的质量与可持续性。\n\n## 财务与经营质量\n- (事实) 2025Q3累计营业收入320.61亿元，同比-9.24%；归母净利润-8.06亿元，同比-125.09%。 [Evidence #E001] [Evidence #E002] [Evidence #E003] [Evidence #E004]\n- (算子指标) 2025Q3毛利率18.00%，净利率-2.51%，年化ROE-1.45%。 [Evidence #E005] [Evidence #E006] [Evidence #E007]\n- (算子指标) 2025Q3经营现金流/净利润为不适用(亏损/基数为负)，经营现金流同比-61.95%。 [Evidence #E008] [Evidence #E009]\n- (算子指标) 2025Q3应收账款周转天数50.0天，存货周转天数160.0天。 [Evidence #E010] [Evidence #E011]\n- (算子指标) 2025Q3资产负债率45.00%，有息负债率27.00%。 [Evidence #E012] [Evidence #E013]\n- (算子指标) 异常信号[INVENTORY_DAYS_DETERIORATION]：存货周转天数由90天升至160天。 [Evidence #E011] [Evidence #E021]\n- (算子指标) 异常信号[RELATED_PARTY_OR_POLICY_CHANGE]：公告《关于前期会计差错更正的公告》涉及关联交易或会计变更。 [Evidence #E020]\n- (事实) 管理层讨论与分析披露：报告期内公司计提大额存货跌价准备和资产减值损失，主要系锂盐价格持续下跌导致存货可变现净值低于成本；存货周转天数显著上升。 [Evidence #E023]\n\n## 估值与市场表现\n- (算子指标) 截至2025-12-31，PE-TTM为139.48倍，近3年历史分位96.97%，PB-LF为0.54倍；同行PE中位数数据不足。 [Evidence #E014] [Evidence #E015] [Evidence #E016] [Evidence #E017]\n- (算子指标) 近一年年化波动率53.40%，最大回撤-59.95%。 [Evidence #E018] [Evidence #E019]\n\n## 核心看空论点\n- (模型推断) 推断：估值处于近3年96.97%分位的偏高区间，对业绩不及预期的容忍度低。 [Evidence #E015]\n- (事实) 2025-11-20公告《关于前期会计差错更正的公告》：经自查，公司2025年第三季度报告中存货跌价准备计提不足，现予以更正。更正后2025年1-9月归属于母公司股东的净利润调减9.00亿元，资产减值损失调增9.00亿元。 [Evidence #E020]\n- (算子指标) 异常信号[LARGE_IMPAIRMENT]：资产减值损失占净利润比例495.8%。 [Evidence #E022]\n- (事实) 追查[LARGE_IMPAIRMENT]：存货跌价准备（单位：万元）显示，原材料 634,300.63 1,672.38；库存商品 951,450.94 1,672.38（单位见原表）。 [Evidence #E024] [Evidence #E022]\n- (算子指标) 收入端承压：营收同比-9.24%。 [Evidence #E002]\n- (算子指标) 公司处于亏损状态：年化ROE为-1.45%。 [Evidence #E007]\n- (事实) 反证：前五名合计占应收账款期末余额的56.00%。 [Evidence #E025]\n- (事实) 反证：公司面临行业竞争加剧、原材料价格波动、下游需求不及预期以及汇率波动等风险。 [Evidence #E026]\n\n## 关键争议与证伪条件\n- (模型推断) 若后续报告期毛利率跌破16.00%（当前18.00%），则“盈利能力稳定”的看多假设证伪。 [Evidence #E005] [Evidence #E027]\n- (模型推断) 若应收账款周转天数升至55.0天以上（当前50.0天），说明回款恶化，看多逻辑需下修。 [Evidence #E010] [Evidence #E028]\n- (模型推断) 若有息负债率升至32.00%以上（当前27.00%），偿债风险假设需上调。 [Evidence #E013] [Evidence #E029]\n\n## 六维风险矩阵\n- (算子指标) 财务质量风险5/5：经营现金流/净利润不适用(亏损/基数为负)，高危异常1项 [Evidence #E008]\n- (算子指标) 估值风险5/5：PE-TTM处于近3年96.97%分位 [Evidence #E015]\n- (算子指标) 偿债与流动性风险3/5：资产负债率45.00%，有息负债率27.00% [Evidence #E012] [Evidence #E013]\n- (算子指标) 经营与行业风险4/5：营收同比-9.24%，毛利率18.00% [Evidence #E002] [Evidence #E005]\n- (事实) 治理与合规风险3/5：涉及公告1项（关于前期会计差错更正的公告） [Evidence #E020]\n- (算子指标) 市场波动风险4/5：年化波动率53.40%，最大回撤-59.95% [Evidence #E018] [Evidence #E019]\n\n### 风险评分\n| 维度 | 评分(1-5) | 依据 |\n| --- | --- | --- |\n| 财务质量 | 5 | 经营现金流/净利润不适用(亏损/基数为负)，高危异常1项 |\n| 估值 | 5 | PE-TTM处于近3年96.97%分位 |\n| 偿债与流动性 | 3 | 资产负债率45.00%，有息负债率27.00% |\n| 经营与行业 | 4 | 营收同比-9.24%，毛利率18.00% |\n| 治理与合规 | 3 | 治理与合规风险3/5：涉及公告1项（关于前期会计差错更正的公告） |\n| 市场波动 | 4 | 年化波动率53.40%，最大回撤-59.95% |\n\n## 数据局限与不确定性声明\n- 无\n\n## 引用\n\n- **E001** [fact] 2025Q3 营业收入 = 320.61亿元 — `m_990003_operating_revenue_2025Q3` available_at=2025-10-29T09:30:00\n- **E002** [metric] 2025Q3 营收同比 = -9.24% — `m_990003_revenue_yoy_2025Q3` available_at=2025-10-29T09:30:00\n- **E003** [fact] 2025Q3 归属于母公司股东的净利润 = -8.06亿元 — `m_990003_net_profit_2025Q3` available_at=2025-11-21T09:30:00\n- **E004** [metric] 2025Q3 净利润同比 = -125.09% — `m_990003_net_profit_yoy_2025Q3` available_at=2025-11-21T09:30:00\n- **E005** [metric] 2025Q3 毛利率 = 18.00% — `m_990003_gross_margin_2025Q3` available_at=2025-10-29T09:30:00\n- **E006** [metric] 2025Q3 净利率 = -2.51% — `m_990003_net_margin_2025Q3` available_at=2025-11-21T09:30:00\n- **E007** [metric] 2025Q3 ROE(年化) = -1.45% — `m_990003_roe_annualized_2025Q3` available_at=2025-11-21T09:30:00\n- **E008** [metric] 2025Q3 经营现金流/净利润 = 不适用(亏损/基数为负) — `m_990003_ocf_to_net_profit_2025Q3` available_at=2025-11-21T09:30:00\n- **E009** [metric] 2025Q3 经营现金流同比 = -61.95% — `m_990003_ocf_yoy_2025Q3` available_at=2025-10-29T09:30:00\n- **E010** [metric] 2025Q3 应收账款周转天数 = 50.0天 — `m_990003_receivable_days_2025Q3` available_at=2025-10-29T09:30:00\n- **E011** [metric] 2025Q3 存货周转天数 = 160.0天 — `m_990003_inventory_days_2025Q3` available_at=2025-10-29T09:30:00\n- **E012** [metric] 2025Q3 资产负债率 = 45.00% — `m_990003_debt_to_assets_2025Q3` available_at=2025-10-29T09:30:00\n- **E013** [metric] 2025Q3 有息负债率 = 27.00% — `m_990003_interest_debt_ratio_2025Q3` available_at=2025-10-29T09:30:00\n- **E014** [metric] 2025-12-31 市盈率TTM = 139.48倍 — `m_990003_pe_ttm_2025-12-31` available_at=2025-12-31T15:00:00\n- **E015** [metric] 2025-12-31 PE 3年分位 = 96.97% — `m_990003_pe_percentile_3y_2025-12-31` available_at=2025-12-31T15:00:00\n- **E016** [metric] 2025-12-31 市净率LF = 0.54倍 — `m_990003_pb_lf_2025-12-31` available_at=2025-12-31T15:00:00\n- **E017** [metric] 2025-12-31 peer_pe_median = 数据不足 — `m_990003_peer_pe_median_2025-12-31` available_at=2025-12-31T15:00:00\n- **E018** [metric] 2025-12-31 年化波动率 = 53.40% — `m_990003_volatility_1y_2025-12-31` available_at=2025-12-31T15:00:00\n- **E019** [metric] 2025-12-31 最大回撤(1年) = -59.95% — `m_990003_max_drawdown_1y_2025-12-31` available_at=2025-12-31T15:00:00\n- **E020** [document] 公告正文 — `ann_990003_20251120::s1` available_at=2025-11-21T09:30:00\n- **E021** [metric] 2024Q3 存货周转天数 = 90.0天 — `m_990003_inventory_days_2024Q3` available_at=2024-10-29T09:30:00\n- **E022** [metric] 2025Q3 impairment_to_profit = 495.79% — `m_990003_impairment_to_profit_2025Q3` available_at=2025-11-21T09:30:00\n- **E023** [document] 第三节 管理层讨论与分析 — `doc_990003_2025Q3::s2` available_at=2025-10-29T09:30:00\n- **E024** [document] 存货跌价准备（单位：万元） — `doc_990003_2025Q3::s10` available_at=2025-10-29T09:30:00\n- **E025** [document] 应收账款：按欠款方归集的期末余额前五名（单位：万元） — `doc_990003_2025Q3::s9` available_at=2025-10-29T09:30:00\n- **E026** [document] 第六节 风险因素 — `doc_990003_2025Q3::s11` available_at=2025-10-29T09:30:00\n- **E027** [metric] 2025Q3 threshold_gross_margin = 16.00% — `m_990003_threshold_gross_margin_2025Q3` available_at=2025-10-29T09:30:00\n- **E028** [metric] 2025Q3 threshold_receivable_days = 55.0天 — `m_990003_threshold_receivable_days_2025Q3` available_at=2025-10-29T09:30:00\n- **E029** [metric] 2025Q3 threshold_interest_debt_ratio = 32.00% — `m_990003_threshold_interest_debt_ratio_2025Q3` available_at=2025-10-29T09:30:00\n",
+ "trace": [
+  {
+   "node": "planner",
+   "seq": 0,
+   "started_at": "2026-11-09T17:27:44.920101",
+   "tool_calls": [
+    {
+     "tool": "check_data_coverage",
+     "args": {
+      "ticker": "990003.SH"
+     },
+     "error": null,
+     "result": "6 items"
+    },
+    {
+     "tool": "register_research_plan",
+     "args": {
+      "subtasks": [
+       "fundamental",
+       "market",
+       "news"
+      ],
+      "asks": 0
+     },
+     "error": null,
+     "result": null
+    }
+   ],
+   "llm_calls": [
+    {
+     "model": "offline-strong",
+     "tier": "strong",
+     "in": 289,
+     "out": 0,
+     "latency_ms": 0.0,
+     "online": false
+    }
+   ],
+   "input_tokens": 289,
+   "output_tokens": 0,
+   "anomaly_flags": [],
+   "summary": "3 subtasks, 0 asks (rule-based parse (offline))",
+   "status": "ok",
+   "latency_ms": 22.582200006581843
+  },
+  {
+   "node": "subgraph:fundamental:T1",
+   "seq": 1,
+   "started_at": "2026-11-09T17:27:44.944738",
+   "tool_calls": [
+    {
+     "tool": "get_financial_statements",
+     "args": {
+      "ticker": "990003.SH",
+      "period": "2025Q3",
+      "scope": "consolidated"
+     },
+     "error": null,
+     "result": "13 items"
+    },
+    {
+     "tool": "calculate_financial_ratios",
+     "args": {
+      "ticker": "990003.SH",
+      "period": "2025Q3"
+     },
+     "error": null,
+     "result": "9 items"
+    },
+    {
+     "tool": "calculate_growth_metrics",
+     "args": {
+      "ticker": "990003.SH",
+      "period": "2025Q3"
+     },
+     "error": null,
+     "result": "4 items"
+    },
+    {
+     "tool": "detect_financial_anomalies",
+     "args": {
+      "ticker": "990003.SH",
+      "period": "2025Q3"
+     },
+     "error": null,
+     "result": "3 items"
+    },
+    {
+     "tool": "retrieval_grader",
+     "args": {
+      "query": "关联交易 会计差错更正 会计估计变更"
+     },
+     "error": null,
+     "result": "SUFFICIENT after 1 attempt(s)"
+    },
+    {
+     "tool": "retrieve_document_evidence",
+     "args": {
+      "query": "关联交易 会计差错更正 会计估计变更",
+      "sections": [
+       "ANNOUNCEMENT"
+      ]
+     },
+     "error": null,
+     "result": "1 items"
+    },
+    {
+     "tool": "retrieve_document_evidence",
+     "args": {
+      "query": "营业收入 净利润 毛利率 经营活动现金流量净额 变动 原因 管理层讨论",
+      "sections": [
+       "MDA"
+      ]
+     },
+     "error": null,
+     "result": "1 items"
+    }
+   ],
+   "llm_calls": [
+    {
+     "model": "offline-strong",
+     "tier": "strong",
+     "in": 618,
+     "out": 0,
+     "latency_ms": 0.0,
+     "online": false
+    }
+   ],
+   "input_tokens": 618,
+   "output_tokens": 0,
+   "anomaly_flags": [
+    "INVENTORY_DAYS_DETERIORATION",
+    "LARGE_IMPAIRMENT",
+    "RELATED_PARTY_OR_POLICY_CHANGE"
+   ],
+   "summary": "9 claims, 17 evidence, scratch=2 private notes",
+   "status": "ok",
+   "latency_ms": 76.59320000675507
+  },
+  {
+   "node": "subgraph:market:T2",
+   "seq": 2,
+   "started_at": "2026-11-09T17:27:44.946755",
+   "tool_calls": [
+    {
+     "tool": "calculate_valuation_metrics",
+     "args": {
+      "ticker": "990003.SH"
+     },
+     "error": null,
+     "result": "4 items"
+    },
+    {
+     "tool": "get_industry_peers",
+     "args": {
+      "ticker": "990003.SH"
+     },
+     "error": null,
+     "result": "metric_id='m_990003_peer_pe_median_2025-12-31' ticker='990003.SH' metric='peer_pe_median' value=None unit='x' status='IN"
+    },
+    {
+     "tool": "calculate_risk_metrics",
+     "args": {
+      "ticker": "990003.SH"
+     },
+     "error": null,
+     "result": "2 items"
+    },
+    {
+     "tool": "get_price_history",
+     "args": {
+      "ticker": "990003.SH",
+      "days": 250
+     },
+     "error": null,
+     "result": "250 items"
+    }
+   ],
+   "llm_calls": [
+    {
+     "model": "offline-strong",
+     "tier": "strong",
+     "in": 131,
+     "out": 0,
+     "latency_ms": 0.0,
+     "online": false
+    }
+   ],
+   "input_tokens": 131,
+   "output_tokens": 0,
+   "anomaly_flags": [],
+   "summary": "3 claims, 6 evidence, scratch=1 private notes",
+   "status": "ok",
+   "latency_ms": 67.9019000090193
+  },
+  {
+   "node": "subgraph:news:T3",
+   "seq": 3,
+   "started_at": "2026-11-09T17:27:44.947752",
+   "tool_calls": [
+    {
+     "tool": "get_company_announcements",
+     "args": {
+      "ticker": "990003.SH"
+     },
+     "error": null,
+     "result": "1 items"
+    },
+    {
+     "tool": "build_event_timeline",
+     "args": {
+      "n": 1
+     },
+     "error": null,
+     "result": "1 items"
+    },
+    {
+     "tool": "retrieve_document_evidence",
+     "args": {
+      "query": "关于前期会计差错更正的公告",
+      "sections": null
+     },
+     "error": null,
+     "result": "1 items"
+    }
+   ],
+   "llm_calls": [
+    {
+     "model": "offline-strong",
+     "tier": "strong",
+     "in": 133,
+     "out": 0,
+     "latency_ms": 0.0,
+     "online": false
+    }
+   ],
+   "input_tokens": 133,
+   "output_tokens": 0,
+   "anomaly_flags": [],
+   "summary": "1 claims, 1 evidence, scratch=1 private notes",
+   "status": "ok",
+   "latency_ms": 69.40020000911318
+  },
+  {
+   "node": "gather",
+   "seq": 4,
+   "started_at": "2026-11-09T17:27:45.022424",
+   "tool_calls": [],
+   "llm_calls": [],
+   "input_tokens": 0,
+   "output_tokens": 0,
+   "anomaly_flags": [],
+   "summary": "3 subtask summaries; anomalies=['INVENTORY_DAYS_DETERIORATION', 'LARGE_IMPAIRMENT', 'RELATED_PARTY_OR_POLICY_CHANGE']",
+   "status": "ok",
+   "latency_ms": 0.008100003469735384
+  },
+  {
+   "node": "replan",
+   "seq": 5,
+   "started_at": "2026-11-09T17:27:45.022424",
+   "tool_calls": [],
+   "llm_calls": [],
+   "input_tokens": 0,
+   "output_tokens": 0,
+   "anomaly_flags": [
+    "LARGE_IMPAIRMENT"
+   ],
+   "summary": "derived 1 investigation task(s): ['LARGE_IMPAIRMENT']",
+   "status": "ok",
+   "latency_ms": 0.05260002217255533
+  },
+  {
+   "node": "subgraph:investigate:R1-1",
+   "seq": 6,
+   "started_at": "2026-11-09T17:27:45.023927",
+   "tool_calls": [
+    {
+     "tool": "retrieve_document_evidence",
+     "args": {
+      "query": "存货跌价准备 资产减值 计提",
+      "sections": [
+       "NOTES"
+      ]
+     },
+     "error": null,
+     "result": "2 items"
+    }
+   ],
+   "llm_calls": [],
+   "input_tokens": 0,
+   "output_tokens": 0,
+   "anomaly_flags": [],
+   "summary": "1 claims, 2 evidence, scratch=0 private notes",
+   "status": "ok",
+   "latency_ms": 6.3599999994039536
+  },
+  {
+   "node": "gather",
+   "seq": 7,
+   "started_at": "2026-11-09T17:27:45.031237",
+   "tool_calls": [],
+   "llm_calls": [],
+   "input_tokens": 0,
+   "output_tokens": 0,
+   "anomaly_flags": [],
+   "summary": "4 subtask summaries; anomalies=['INVENTORY_DAYS_DETERIORATION', 'LARGE_IMPAIRMENT', 'RELATED_PARTY_OR_POLICY_CHANGE']",
+   "status": "ok",
+   "latency_ms": 0.008600007276982069
+  },
+  {
+   "node": "debate",
+   "seq": 8,
+   "started_at": "2026-11-09T17:27:45.032405",
+   "tool_calls": [
+    {
+     "tool": "retrieve_document_evidence",
+     "args": {
+      "query": "前五名 欠款方 合计 占应收账款 客户集中度",
+      "sections": [
+       "NOTES"
+      ]
+     },
+     "error": null,
+     "result": "2 items"
+    },
+    {
+     "tool": "retrieve_document_evidence",
+     "args": {
+      "query": "风险因素 竞争 原材料 需求",
+      "sections": [
+       "RISK_FACTORS"
+      ]
+     },
+     "error": null,
+     "result": "1 items"
+    },
+    {
+     "tool": "query_evidence_store",
+     "args": {
+      "keyword": "合同"
+     },
+     "error": null,
+     "result": "0 items"
+    }
+   ],
+   "llm_calls": [
+    {
+     "model": "context",
+     "tier": "strong",
+     "in": 257,
+     "out": 0,
+     "latency_ms": 0.0,
+     "online": false
+    },
+    {
+     "model": "offline-strong",
+     "tier": "strong",
+     "in": 228,
+     "out": 0,
+     "latency_ms": 0.0,
+     "online": false
+    }
+   ],
+   "input_tokens": 485,
+   "output_tokens": 0,
+   "anomaly_flags": [],
+   "summary": "2 round(s), 3 falsification criteria",
+   "status": "ok",
+   "latency_ms": 5.356799985747784
+  },
+  {
+   "node": "risk",
+   "seq": 9,
+   "started_at": "2026-11-09T17:27:45.039055",
+   "tool_calls": [
+    {
+     "tool": "calculate_risk_metrics",
+     "args": {
+      "ticker": "990003.SH"
+     },
+     "error": null,
+     "result": "2 items"
+    },
+    {
+     "tool": "evaluate_risk_rules",
+     "args": {
+      "ticker": "990003.SH",
+      "dimensions": [
+       "财务质量",
+       "估值",
+       "偿债与流动性",
+       "经营与行业",
+       "治理与合规",
+       "市场波动"
+      ]
+     },
+     "error": null,
+     "result": null
+    }
+   ],
+   "llm_calls": [
+    {
+     "model": "context",
+     "tier": "strong",
+     "in": 257,
+     "out": 0,
+     "latency_ms": 0.0,
+     "online": false
+    }
+   ],
+   "input_tokens": 257,
+   "output_tokens": 0,
+   "anomaly_flags": [],
+   "summary": "财务质量=5; 估值=5; 偿债与流动性=3; 经营与行业=4; 治理与合规=3; 市场波动=4",
+   "status": "ok",
+   "latency_ms": 25.41370000108145
+  },
+  {
+   "node": "verifier",
+   "seq": 10,
+   "started_at": "2026-11-09T17:27:45.066439",
+   "tool_calls": [
+    {
+     "tool": "run_deterministic_validators",
+     "args": {
+      "claims": 27
+     },
+     "error": null,
+     "result": "0 failure(s) in 2.9ms"
+    }
+   ],
+   "llm_calls": [
+    {
+     "model": "context",
+     "tier": "strong",
+     "in": 257,
+     "out": 0,
+     "latency_ms": 0.0,
+     "online": false
+    }
+   ],
+   "input_tokens": 257,
+   "output_tokens": 0,
+   "anomaly_flags": [],
+   "summary": "failures=[] downgraded=0",
+   "status": "ok",
+   "latency_ms": 3.092400002060458
+  },
+  {
+   "node": "report",
+   "seq": 11,
+   "started_at": "2026-11-09T17:27:45.071171",
+   "tool_calls": [],
+   "llm_calls": [
+    {
+     "model": "context",
+     "tier": "strong",
+     "in": 257,
+     "out": 0,
+     "latency_ms": 0.0,
+     "online": false
+    },
+    {
+     "model": "offline-strong",
+     "tier": "strong",
+     "in": 621,
+     "out": 0,
+     "latency_ms": 0.0,
+     "online": false
+    }
+   ],
+   "input_tokens": 878,
+   "output_tokens": 0,
+   "anomaly_flags": [],
+   "summary": "27 claims in report",
+   "status": "ok",
+   "latency_ms": 2.23269997513853
+  }
+ ],
+ "totals": {
+  "input_tokens": 3048,
+  "output_tokens": 0,
+  "tool_calls": 23,
+  "redundant_tool_calls": 1,
+  "nodes": 12,
+  "latency_ms": 172.53290000371635,
+  "cost_usd": 0.0,
+  "llm_online": false
+ }
+}

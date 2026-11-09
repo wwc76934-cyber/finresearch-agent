@@ -1,0 +1,72 @@
+{"query": "2025年第三季度报告 应收账款 前五名 欠款方", "target_section_contains": "应收账款：按欠款方归集", "ticker": "990001.SZ", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990001_2025Q3", "period": "2025Q3"}
+{"query": "2025年第三季度报告 存货跌价准备 计提", "target_section_contains": "存货跌价准备", "ticker": "990001.SZ", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990001_2025Q3", "period": "2025Q3"}
+{"query": "2025年第三季度报告 经营活动现金流量净额 变动原因 管理层讨论", "target_section_contains": "管理层讨论与分析", "ticker": "990001.SZ", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990001_2025Q3", "period": "2025Q3"}
+{"query": "2025年第三季度报告 合并利润表 净利润", "target_section_contains": "合并利润表", "ticker": "990001.SZ", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990001_2025Q3", "period": "2025Q3"}
+{"query": "2025年半年度报告 应收账款 前五名 欠款方", "target_section_contains": "应收账款：按欠款方归集", "ticker": "990001.SZ", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990001_2025Q2", "period": "2025Q2"}
+{"query": "2025年半年度报告 存货跌价准备 计提", "target_section_contains": "存货跌价准备", "ticker": "990001.SZ", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990001_2025Q2", "period": "2025Q2"}
+{"query": "2025年半年度报告 经营活动现金流量净额 变动原因 管理层讨论", "target_section_contains": "管理层讨论与分析", "ticker": "990001.SZ", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990001_2025Q2", "period": "2025Q2"}
+{"query": "2025年半年度报告 合并利润表 净利润", "target_section_contains": "合并利润表", "ticker": "990001.SZ", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990001_2025Q2", "period": "2025Q2"}
+{"query": "2024年年度报告 应收账款 前五名 欠款方", "target_section_contains": "应收账款：按欠款方归集", "ticker": "990001.SZ", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990001_2024Q4", "period": "2024Q4"}
+{"query": "2024年年度报告 存货跌价准备 计提", "target_section_contains": "存货跌价准备", "ticker": "990001.SZ", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990001_2024Q4", "period": "2024Q4"}
+{"query": "2024年年度报告 经营活动现金流量净额 变动原因 管理层讨论", "target_section_contains": "管理层讨论与分析", "ticker": "990001.SZ", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990001_2024Q4", "period": "2024Q4"}
+{"query": "2024年年度报告 合并利润表 净利润", "target_section_contains": "合并利润表", "ticker": "990001.SZ", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990001_2024Q4", "period": "2024Q4"}
+{"query": "2025年第三季度报告 应收账款 前五名 欠款方", "target_section_contains": "应收账款：按欠款方归集", "ticker": "990002.SZ", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990002_2025Q3", "period": "2025Q3"}
+{"query": "2025年第三季度报告 存货跌价准备 计提", "target_section_contains": "存货跌价准备", "ticker": "990002.SZ", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990002_2025Q3", "period": "2025Q3"}
+{"query": "2025年第三季度报告 经营活动现金流量净额 变动原因 管理层讨论", "target_section_contains": "管理层讨论与分析", "ticker": "990002.SZ", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990002_2025Q3", "period": "2025Q3"}
+{"query": "2025年第三季度报告 合并利润表 净利润", "target_section_contains": "合并利润表", "ticker": "990002.SZ", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990002_2025Q3", "period": "2025Q3"}
+{"query": "2025年半年度报告 应收账款 前五名 欠款方", "target_section_contains": "应收账款：按欠款方归集", "ticker": "990002.SZ", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990002_2025Q2", "period": "2025Q2"}
+{"query": "2025年半年度报告 存货跌价准备 计提", "target_section_contains": "存货跌价准备", "ticker": "990002.SZ", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990002_2025Q2", "period": "2025Q2"}
+{"query": "2025年半年度报告 经营活动现金流量净额 变动原因 管理层讨论", "target_section_contains": "管理层讨论与分析", "ticker": "990002.SZ", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990002_2025Q2", "period": "2025Q2"}
+{"query": "2025年半年度报告 合并利润表 净利润", "target_section_contains": "合并利润表", "ticker": "990002.SZ", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990002_2025Q2", "period": "2025Q2"}
+{"query": "2024年年度报告 应收账款 前五名 欠款方", "target_section_contains": "应收账款：按欠款方归集", "ticker": "990002.SZ", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990002_2024Q4", "period": "2024Q4"}
+{"query": "2024年年度报告 存货跌价准备 计提", "target_section_contains": "存货跌价准备", "ticker": "990002.SZ", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990002_2024Q4", "period": "2024Q4"}
+{"query": "2024年年度报告 经营活动现金流量净额 变动原因 管理层讨论", "target_section_contains": "管理层讨论与分析", "ticker": "990002.SZ", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990002_2024Q4", "period": "2024Q4"}
+{"query": "2024年年度报告 合并利润表 净利润", "target_section_contains": "合并利润表", "ticker": "990002.SZ", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990002_2024Q4", "period": "2024Q4"}
+{"query": "2025年第三季度报告 应收账款 前五名 欠款方", "target_section_contains": "应收账款：按欠款方归集", "ticker": "990003.SH", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990003_2025Q3", "period": "2025Q3"}
+{"query": "2025年第三季度报告 存货跌价准备 计提", "target_section_contains": "存货跌价准备", "ticker": "990003.SH", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990003_2025Q3", "period": "2025Q3"}
+{"query": "2025年第三季度报告 经营活动现金流量净额 变动原因 管理层讨论", "target_section_contains": "管理层讨论与分析", "ticker": "990003.SH", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990003_2025Q3", "period": "2025Q3"}
+{"query": "2025年第三季度报告 合并利润表 净利润", "target_section_contains": "合并利润表", "ticker": "990003.SH", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990003_2025Q3", "period": "2025Q3"}
+{"query": "2025年半年度报告 应收账款 前五名 欠款方", "target_section_contains": "应收账款：按欠款方归集", "ticker": "990003.SH", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990003_2025Q2", "period": "2025Q2"}
+{"query": "2025年半年度报告 存货跌价准备 计提", "target_section_contains": "存货跌价准备", "ticker": "990003.SH", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990003_2025Q2", "period": "2025Q2"}
+{"query": "2025年半年度报告 经营活动现金流量净额 变动原因 管理层讨论", "target_section_contains": "管理层讨论与分析", "ticker": "990003.SH", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990003_2025Q2", "period": "2025Q2"}
+{"query": "2025年半年度报告 合并利润表 净利润", "target_section_contains": "合并利润表", "ticker": "990003.SH", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990003_2025Q2", "period": "2025Q2"}
+{"query": "2024年年度报告 应收账款 前五名 欠款方", "target_section_contains": "应收账款：按欠款方归集", "ticker": "990003.SH", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990003_2024Q4", "period": "2024Q4"}
+{"query": "2024年年度报告 存货跌价准备 计提", "target_section_contains": "存货跌价准备", "ticker": "990003.SH", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990003_2024Q4", "period": "2024Q4"}
+{"query": "2024年年度报告 经营活动现金流量净额 变动原因 管理层讨论", "target_section_contains": "管理层讨论与分析", "ticker": "990003.SH", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990003_2024Q4", "period": "2024Q4"}
+{"query": "2024年年度报告 合并利润表 净利润", "target_section_contains": "合并利润表", "ticker": "990003.SH", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990003_2024Q4", "period": "2024Q4"}
+{"query": "2025年第三季度报告 应收账款 前五名 欠款方", "target_section_contains": "应收账款：按欠款方归集", "ticker": "990004.SH", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990004_2025Q3", "period": "2025Q3"}
+{"query": "2025年第三季度报告 存货跌价准备 计提", "target_section_contains": "存货跌价准备", "ticker": "990004.SH", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990004_2025Q3", "period": "2025Q3"}
+{"query": "2025年第三季度报告 经营活动现金流量净额 变动原因 管理层讨论", "target_section_contains": "管理层讨论与分析", "ticker": "990004.SH", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990004_2025Q3", "period": "2025Q3"}
+{"query": "2025年第三季度报告 合并利润表 净利润", "target_section_contains": "合并利润表", "ticker": "990004.SH", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990004_2025Q3", "period": "2025Q3"}
+{"query": "2025年半年度报告 应收账款 前五名 欠款方", "target_section_contains": "应收账款：按欠款方归集", "ticker": "990004.SH", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990004_2025Q2", "period": "2025Q2"}
+{"query": "2025年半年度报告 存货跌价准备 计提", "target_section_contains": "存货跌价准备", "ticker": "990004.SH", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990004_2025Q2", "period": "2025Q2"}
+{"query": "2025年半年度报告 经营活动现金流量净额 变动原因 管理层讨论", "target_section_contains": "管理层讨论与分析", "ticker": "990004.SH", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990004_2025Q2", "period": "2025Q2"}
+{"query": "2025年半年度报告 合并利润表 净利润", "target_section_contains": "合并利润表", "ticker": "990004.SH", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990004_2025Q2", "period": "2025Q2"}
+{"query": "2024年年度报告 应收账款 前五名 欠款方", "target_section_contains": "应收账款：按欠款方归集", "ticker": "990004.SH", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990004_2024Q4", "period": "2024Q4"}
+{"query": "2024年年度报告 存货跌价准备 计提", "target_section_contains": "存货跌价准备", "ticker": "990004.SH", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990004_2024Q4", "period": "2024Q4"}
+{"query": "2024年年度报告 经营活动现金流量净额 变动原因 管理层讨论", "target_section_contains": "管理层讨论与分析", "ticker": "990004.SH", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990004_2024Q4", "period": "2024Q4"}
+{"query": "2024年年度报告 合并利润表 净利润", "target_section_contains": "合并利润表", "ticker": "990004.SH", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990004_2024Q4", "period": "2024Q4"}
+{"query": "2025年第三季度报告 应收账款 前五名 欠款方", "target_section_contains": "应收账款：按欠款方归集", "ticker": "990005.SZ", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990005_2025Q3", "period": "2025Q3"}
+{"query": "2025年第三季度报告 存货跌价准备 计提", "target_section_contains": "存货跌价准备", "ticker": "990005.SZ", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990005_2025Q3", "period": "2025Q3"}
+{"query": "2025年第三季度报告 经营活动现金流量净额 变动原因 管理层讨论", "target_section_contains": "管理层讨论与分析", "ticker": "990005.SZ", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990005_2025Q3", "period": "2025Q3"}
+{"query": "2025年第三季度报告 合并利润表 净利润", "target_section_contains": "合并利润表", "ticker": "990005.SZ", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990005_2025Q3", "period": "2025Q3"}
+{"query": "2025年半年度报告 应收账款 前五名 欠款方", "target_section_contains": "应收账款：按欠款方归集", "ticker": "990005.SZ", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990005_2025Q2", "period": "2025Q2"}
+{"query": "2025年半年度报告 存货跌价准备 计提", "target_section_contains": "存货跌价准备", "ticker": "990005.SZ", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990005_2025Q2", "period": "2025Q2"}
+{"query": "2025年半年度报告 经营活动现金流量净额 变动原因 管理层讨论", "target_section_contains": "管理层讨论与分析", "ticker": "990005.SZ", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990005_2025Q2", "period": "2025Q2"}
+{"query": "2025年半年度报告 合并利润表 净利润", "target_section_contains": "合并利润表", "ticker": "990005.SZ", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990005_2025Q2", "period": "2025Q2"}
+{"query": "2024年年度报告 应收账款 前五名 欠款方", "target_section_contains": "应收账款：按欠款方归集", "ticker": "990005.SZ", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990005_2024Q4", "period": "2024Q4"}
+{"query": "2024年年度报告 存货跌价准备 计提", "target_section_contains": "存货跌价准备", "ticker": "990005.SZ", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990005_2024Q4", "period": "2024Q4"}
+{"query": "2024年年度报告 经营活动现金流量净额 变动原因 管理层讨论", "target_section_contains": "管理层讨论与分析", "ticker": "990005.SZ", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990005_2024Q4", "period": "2024Q4"}
+{"query": "2024年年度报告 合并利润表 净利润", "target_section_contains": "合并利润表", "ticker": "990005.SZ", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990005_2024Q4", "period": "2024Q4"}
+{"query": "2025年第三季度报告 应收账款 前五名 欠款方", "target_section_contains": "应收账款：按欠款方归集", "ticker": "990006.SZ", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990006_2025Q3", "period": "2025Q3"}
+{"query": "2025年第三季度报告 存货跌价准备 计提", "target_section_contains": "存货跌价准备", "ticker": "990006.SZ", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990006_2025Q3", "period": "2025Q3"}
+{"query": "2025年第三季度报告 经营活动现金流量净额 变动原因 管理层讨论", "target_section_contains": "管理层讨论与分析", "ticker": "990006.SZ", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990006_2025Q3", "period": "2025Q3"}
+{"query": "2025年第三季度报告 合并利润表 净利润", "target_section_contains": "合并利润表", "ticker": "990006.SZ", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990006_2025Q3", "period": "2025Q3"}
+{"query": "2025年半年度报告 应收账款 前五名 欠款方", "target_section_contains": "应收账款：按欠款方归集", "ticker": "990006.SZ", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990006_2025Q2", "period": "2025Q2"}
+{"query": "2025年半年度报告 存货跌价准备 计提", "target_section_contains": "存货跌价准备", "ticker": "990006.SZ", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990006_2025Q2", "period": "2025Q2"}
+{"query": "2025年半年度报告 经营活动现金流量净额 变动原因 管理层讨论", "target_section_contains": "管理层讨论与分析", "ticker": "990006.SZ", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990006_2025Q2", "period": "2025Q2"}
+{"query": "2025年半年度报告 合并利润表 净利润", "target_section_contains": "合并利润表", "ticker": "990006.SZ", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990006_2025Q2", "period": "2025Q2"}
+{"query": "2024年年度报告 应收账款 前五名 欠款方", "target_section_contains": "应收账款：按欠款方归集", "ticker": "990006.SZ", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990006_2024Q4", "period": "2024Q4"}
+{"query": "2024年年度报告 存货跌价准备 计提", "target_section_contains": "存货跌价准备", "ticker": "990006.SZ", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990006_2024Q4", "period": "2024Q4"}
+{"query": "2024年年度报告 经营活动现金流量净额 变动原因 管理层讨论", "target_section_contains": "管理层讨论与分析", "ticker": "990006.SZ", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990006_2024Q4", "period": "2024Q4"}
+{"query": "2024年年度报告 合并利润表 净利润", "target_section_contains": "合并利润表", "ticker": "990006.SZ", "as_of": "2025-12-31T15:00:00", "target_document_id": "doc_990006_2024Q4", "period": "2024Q4"}

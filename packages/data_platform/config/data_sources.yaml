@@ -1,0 +1,32 @@
+# Data Source Registry. Lower priority number wins when two sources disagree.
+sources:
+  - source_id: demo_filing
+    kind: golden_csv
+    priority: 1
+    rate_limit_per_min: 0          # local files, unlimited
+    path: benchmarks/golden_snapshot
+    description: Offline demo snapshot of fictitious companies (filing-grade source)
+  - source_id: demo_vendor_b
+    kind: golden_csv
+    priority: 5
+    rate_limit_per_min: 0
+    path: benchmarks/golden_snapshot
+    description: Secondary vendor feed, used to exercise conflict resolution
+  - source_id: cninfo_official_filing
+    kind: cninfo
+    priority: 0
+    rate_limit_per_min: 20
+    enabled: false
+    description: 巨潮资讯 announcement PDFs (requires network; see scripts/ingest_live.py)
+  - source_id: akshare
+    kind: akshare
+    priority: 2
+    rate_limit_per_min: 30
+    enabled: false
+    description: AKShare prices and statements (requires network)
+  - source_id: tushare
+    kind: tushare
+    priority: 3
+    rate_limit_per_min: 200
+    enabled: false
+    description: Tushare Pro (requires TUSHARE_TOKEN)
