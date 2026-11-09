@@ -35,7 +35,8 @@ def run_task(task: dict, arch: str, persist: bool) -> dict:
     scores = evaluate(task, rep)
     return {"task_id": task["task_id"], "architecture": arch, "run_id": rep["run_id"], "category": task["category"],
             "dataset": task["dataset"], "passed": task_passed(scores, task), "error_category": classify(task, rep, scores),
-            "scores": scores, "latency_ms": rep["totals"]["latency_ms"]}
+            "scores": scores, "latency_ms": rep["totals"]["latency_ms"],
+            "llm_calls_failed": rep["totals"].get("llm_calls_failed", 0)}
 
 
 def run_experiment(architectures: list[str], datasets=("golden", "chaos"), repeats: int = 1, workers: int = 1,

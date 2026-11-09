@@ -25,14 +25,23 @@ if __name__ == "__main__":
     ap.add_argument("--workers", type=int, default=2)
     ap.add_argument("--limit", type=int, default=0, help="only the first N tasks (0 = all)")
     ap.add_argument("--name", default="", help="reuse a name to resume an interrupted run")
+    ap.add_argument("--datasets", default="golden,chaos")
     a = ap.parse_args()
-    if not get_llm().online:
+    llm = get_llm()
+    if not llm.online:
         sys.exit("LLM not configured: fill LLM_API_KEY in .env")
+    probe = llm.chat("只输出JSON。", '返回 {"ok": true}', json_mode=True)
+    if probe.text is None:
+        sys.exit(f"LLM probe failed ({getattr(llm, 'fatal_error', None) or 'no response'}); not starting an 'online' eval "
+                 "that would silently fall back to templates")
     name = a.name or f"online_{a.arch}_{datetime.now():%Y%m%d_%H%M%S}"
     seen = []
     flt = (lambda t: len(seen) < a.limit and not seen.append(1)) if a.limit else None
-    p = run_experiment([a.arch], workers=a.workers, persist_archs=(a.arch,), name=name, task_filter=flt,
+    p = run_experiment([a.arch], datasets=tuple(a.datasets.split(",")), workers=a.workers, persist_archs=(a.arch,), name=name, task_filter=flt,
                        write_latest=False, resume_file=OUT / f"{name}.partial.jsonl")
+    degraded = [r["task_id"] for r in p["results"] if r.get("llm_calls_failed")]
+    if degraded:
+        print(f"WARNING: {len(degraded)} task(s) had failed LLM calls and partly used template fallbacks: {degraded}")
     agg = aggregate(p["results"])[a.arch]
     total_cost = sum(r["scores"].get("cost", {}).get("cost_cny", 0) for r in p["results"])
     (OUT / f"{name}_summary.json").write_text(json.dumps({"aggregate": agg, "total_cost_cny": total_cost},

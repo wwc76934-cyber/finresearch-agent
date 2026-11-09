@@ -61,7 +61,11 @@ class OpenAICompatLLM(BaseLLM):
         self.models = {"strong": strong, "light": light}
         self.client = httpx.Client(timeout=timeout, headers={"Authorization": f"Bearer {api_key}"})
 
+    fatal_error: Optional[str] = None
+
     def chat(self, system: str, user: str, tier: str = "strong", json_mode: bool = False) -> LLMResult:
+        if self.fatal_error:  # fail fast once the provider has said no
+            return LLMResult(None, estimate_tokens(system + user), 0, 0.0, self.models[tier])
         body: dict[str, Any] = {"model": self.models[tier], "temperature": 0.1,
                                 "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}]}
         if json_mode:
@@ -77,6 +81,14 @@ class OpenAICompatLLM(BaseLLM):
                 return LLMResult(text, usage.get("prompt_tokens", estimate_tokens(system + user)),
                                  usage.get("completion_tokens", estimate_tokens(text)),
                                  (time.perf_counter() - t0) * 1000, self.models[tier])
+            except httpx.HTTPStatusError as exc:
+                code = exc.response.status_code
+                if code in (401, 402, 403):  # bad key / no balance / forbidden: retrying cannot help
+                    self.fatal_error = f"HTTP {code}: {exc.response.text[:200]}"
+                    break
+                if attempt == 2:
+                    break
+                time.sleep(2 ** attempt)
             except (httpx.HTTPError, KeyError, ValueError):
                 if attempt == 2:
                     break
