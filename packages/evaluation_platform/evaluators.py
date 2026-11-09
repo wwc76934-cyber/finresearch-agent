@@ -267,7 +267,7 @@ def evaluate(task: dict, rep: dict) -> dict:
             out[name] = r
     out["cost"] = {"latency_ms": rep["totals"]["latency_ms"],
                    "tokens": rep["totals"]["input_tokens"] + rep["totals"]["output_tokens"],
-                   "cost_usd": rep["totals"]["cost_usd"]}
+                   "cost_cny": rep["totals"]["cost_cny"]}
     return out
 
 

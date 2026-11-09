@@ -45,7 +45,9 @@ CN_Q = {"一": 1, "二": 2, "三": 3, "四": 4}
 SYSTEM = ("你是投研规划Agent。把研究问题解析为结构化需求 asks 与子任务。只输出JSON:"
           '{"asks":[{"kind":"metric|anomalies|valuation|events|peer_compare|unanswerable","metric":"...",'
           '"period":"2025Q3","scope":"consolidated|parent","topic":"..."}],"rationale":"..."}。'
-          "metric 只能取给定的指标名。数字由确定性算子计算，你不得给出任何数值。")
+          "metric 只能取给定的指标名；同一需求只列一次；问题未明确要求的指标不要列出；"
+          "问题询问未来预测、未披露信息或目标价时，kind 用 unanswerable。rationale 用中文，不超过60字。"
+          "数字由确定性算子计算，你不得给出任何数值。")
 
 
 def parse_period(q: str) -> Optional[str]:
@@ -111,7 +113,26 @@ def plan(ctx: RunContext) -> ResearchPlan:
             for a in llm_asks:
                 if a.period and a.period not in cov["periods"]:
                     a.period = default_period
-            asks = llm_asks or asks
+            # dedupe: the model often repeats the same ask
+            seen, uniq = set(), []
+            for a in llm_asks:
+                key = (a.kind, a.metric, a.period, a.scope, a.topic if a.kind == "unanswerable" else "")
+                if key not in seen:
+                    seen.add(key)
+                    uniq.append(a.model_copy(update={"ask_id": f"A{len(uniq) + 1}"}))
+            # guard: the model may refuse an answerable question (seen online: "2025年第三季度单季营收" marked
+            # unanswerable). A refusal is accepted only if the rules also see one; otherwise rule asks win.
+            rule_refuses = any(a.kind == "unanswerable" for a in asks)
+            if not rule_refuses and any(u.kind == "unanswerable" for u in uniq):
+                uniq = [u for u in uniq if u.kind != "unanswerable"]
+                for a in asks:
+                    if a.kind == "metric" and not any(u.metric == a.metric for u in uniq):
+                        uniq.append(a.model_copy(update={"ask_id": f"A{len(uniq) + 1}"}))
+            # refusals found by rules are kept even if the model missed them
+            for a in asks:
+                if a.kind == "unanswerable" and not any(u.kind == "unanswerable" for u in uniq):
+                    uniq.append(a.model_copy(update={"ask_id": f"A{len(uniq) + 1}"}))
+            asks = uniq or asks
             rationale = data.get("rationale", "llm plan")
         except Exception:  # noqa: BLE001 - invalid LLM output falls back to rules
             pass

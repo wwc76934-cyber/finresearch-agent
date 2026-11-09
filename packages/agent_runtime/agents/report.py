@@ -71,7 +71,8 @@ def build_report(ctx: RunContext, debate: dict, risk: dict, architecture: str) -
         "answers": ctx.answers, "open_questions": ctx.open_questions,
         "uncertainties": [u.model_dump() for u in ctx.uncertainties], "anomalies": list(ctx.anomalies.values()),
         "conflicts": ctx.svc.conflicts, "debate": debate or {}, "risk": risk or {}, "timeline": ctx.timeline,
-        "charts": charts(ctx, risk or {}), "verification_log": ctx.verification_log,
+        "charts": charts(ctx, risk or {}), "verification_log": ctx.verification_log, "judge_notes": ctx.judge_notes,
+        "executive_summary_source": "llm_unverified" if data else "template",
         "plan": ctx.plan.model_dump() if ctx.plan else None,
     }
     rep["markdown"] = to_markdown(rep)
@@ -83,7 +84,8 @@ def to_markdown(rep: dict) -> str:
              f"- 研究时点 as_of: `{rep['as_of']}`  快照: `{rep['snapshot_id']}`  架构: `{rep['architecture']}`", "",
              rep["overview"], ""]
     if rep["executive_summary"]:
-        lines += ["## 执行摘要", rep["executive_summary"], ""]
+        note = "（模型生成的概括，未逐句核验；以下各节论断均已核验）" if rep.get("executive_summary_source") == "llm_unverified" else ""
+        lines += ["## 执行摘要", rep["executive_summary"] + note, ""]
     for s in rep["sections"]:
         if s["key"] == "overview":
             continue

@@ -16,11 +16,13 @@ import os
 import re
 import time
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Any, Callable, Optional
 
 import httpx
 
-PRICE_PER_1K = {"strong": (0.0005, 0.002), "light": (0.0001, 0.0004)}  # USD in/out, configurable estimate
+# 元 per 1M tokens (input, output). Defaults are placeholders; override in .env with your provider's prices.
+PRICE_PER_M = {"strong": (2.0, 8.0), "light": (0.0, 0.0)}
 
 
 def estimate_tokens(text: str) -> int:
@@ -85,6 +87,7 @@ class OpenAICompatLLM(BaseLLM):
 def parse_json(text: Optional[str]) -> Optional[dict]:
     if not text:
         return None
+    text = re.sub(r"<think>.*?</think>", "", text, flags=re.S)  # reasoning models (DeepSeek-R1 / Qwen3)
     m = re.search(r"\{.*\}", text, re.S)
     if not m:
         return None
@@ -94,7 +97,23 @@ def parse_json(text: Optional[str]) -> Optional[dict]:
         return None
 
 
+def load_dotenv(path: Optional[Path] = None) -> None:
+    """Minimal .env loader. Real environment variables always win over the file."""
+    path = path or Path(__file__).resolve().parents[2] / ".env"
+    if not path.exists():
+        return
+    for line in path.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        k, v = line.split("=", 1)
+        k, v = k.strip(), v.strip().strip('"').strip("'")
+        if v and k not in os.environ:
+            os.environ[k] = v
+
+
 def get_llm() -> BaseLLM:
+    load_dotenv()
     url, key = os.environ.get("LLM_BASE_URL"), os.environ.get("LLM_API_KEY")
     if url and key and os.environ.get("LLM_OFFLINE", "0") != "1":
         return OpenAICompatLLM(url, key, os.environ.get("LLM_MODEL_STRONG", "deepseek-chat"),
@@ -102,9 +121,17 @@ def get_llm() -> BaseLLM:
     return OfflineLLM()
 
 
-def cost_usd(tier: str, inp: int, out: int) -> float:
-    pi, po = PRICE_PER_1K.get(tier, PRICE_PER_1K["strong"])
-    return inp / 1000 * pi + out / 1000 * po
+def cost_cny(tier: str, inp: int, out: int) -> float:
+    """Price in CNY. Set LLM_PRICE_{STRONG|LIGHT}_{IN|OUT} (元 per 1M tokens) from your provider's price page."""
+    pi = float(os.environ.get(f"LLM_PRICE_{tier.upper()}_IN", PRICE_PER_M[tier][0]))
+    po = float(os.environ.get(f"LLM_PRICE_{tier.upper()}_OUT", PRICE_PER_M[tier][1]))
+    return inp / 1e6 * pi + out / 1e6 * po
+
+
+def run_cost_cny(spans: list[dict]) -> float:
+    """Only real, successful API calls are billed; context-size estimates are not."""
+    return sum(cost_cny(c["tier"], c["in"], c["out"]) for s in spans for c in s.get("llm_calls", [])
+               if c.get("online") and c.get("model") != "context")
 
 
 def call_json(llm: BaseLLM, tracer, node: str, system: str, user: str, tier: str,

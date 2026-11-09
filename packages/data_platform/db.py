@@ -162,7 +162,7 @@ class ResearchRunRow(Base):
     finished_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
     latency_ms: Mapped[float] = mapped_column(Float, default=0.0)
     total_tokens: Mapped[int] = mapped_column(Integer, default=0)
-    cost_usd: Mapped[float] = mapped_column(Float, default=0.0)
+    cost_cny: Mapped[float] = mapped_column(Float, default=0.0)
     report: Mapped[Optional[dict]] = mapped_column(JSON, nullable=True)
 
 

@@ -21,7 +21,7 @@ from .agents import debate as debate_mod
 from .agents import faults, planner, report as report_mod, risk as risk_mod, verifier
 from .agents.collectors import run_subgraph
 from .context import RunContext, drop_context, get_context
-from .llm import BaseLLM, cost_usd, estimate_tokens
+from .llm import BaseLLM, estimate_tokens, run_cost_cny
 from .state import ARCHITECTURES, ArchConfig, GraphState, ResearchRequest, SubTask
 
 
@@ -215,9 +215,13 @@ def prepare(request: ResearchRequest, config: ArchConfig, db_url: Optional[str] 
 
 def finalize(ctx: RunContext, rep: dict, started: datetime, latency_ms: float, persist: bool = True) -> dict:
     totals = ctx.tracer.totals()
-    cost = cost_usd("strong", totals["input_tokens"], totals["output_tokens"]) if ctx.llm.online else 0.0
     rep["trace"] = ctx.tracer.as_dicts()
-    rep["totals"] = {**totals, "latency_ms": latency_ms, "cost_usd": cost, "llm_online": ctx.llm.online}
+    cost = run_cost_cny(rep["trace"])
+    llm_calls = [c for s in rep["trace"] for c in s.get("llm_calls", []) if c.get("model") != "context"]
+    totals["llm_calls"] = len(llm_calls)
+    totals["llm_calls_failed"] = sum(1 for c in llm_calls if not c.get("online"))
+    totals["llm_tokens"] = sum(c["in"] + c["out"] for c in llm_calls if c.get("online"))
+    rep["totals"] = {**totals, "latency_ms": latency_ms, "cost_cny": cost, "llm_online": ctx.llm.online}
     if persist:
         ctx.lineage.flush()
         ctx.tracer.persist(ctx.db_url)
@@ -225,7 +229,7 @@ def finalize(ctx: RunContext, rep: dict, started: datetime, latency_ms: float, p
             s.add(ResearchRunRow(run_id=ctx.run_id, snapshot_id=ctx.snapshot_id, ticker=ctx.ticker, as_of=ctx.as_of,
                                  request=json.loads(ctx.request.model_dump_json()), architecture=ctx.config.name,
                                  status="done", started_at=started, finished_at=datetime.now(), latency_ms=latency_ms,
-                                 total_tokens=totals["input_tokens"] + totals["output_tokens"], cost_usd=cost,
+                                 total_tokens=totals["input_tokens"] + totals["output_tokens"], cost_cny=cost,
                                  report=json.loads(json.dumps(rep, default=str))))
             for c in ctx.claims.values():
                 s.add(ResearchClaimRow(claim_id=f"{ctx.run_id}:{c.claim_id}", run_id=ctx.run_id, section=c.section,

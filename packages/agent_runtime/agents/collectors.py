@@ -225,7 +225,8 @@ def f_summarize(s: SubState) -> dict:
     scratch = "\n".join(s.get("scratch", []))
     sys_p = "你是基本面分析Agent。用不超过120字总结要点，只能引用给定 claims，不得新增数字。输出JSON {\"summary\":\"...\"}"
     user = scratch + "\n" + "\n".join(f"{c.claim_id}: {c.text}" for c in claims)
-    data = call_json(ctx.llm, ctx.tracer, s["task"]["agent"], sys_p, user, "strong",
+    tier = "light" if s["task"]["agent"] in ("market", "news") else "strong"  # PRD 3.2 model tiering
+    data = call_json(ctx.llm, ctx.tracer, s["task"]["agent"], sys_p, user, tier,
                      validate=lambda d: isinstance(d.get("summary"), str))
     summary = data["summary"] if data else "；".join(c.text for c in claims[:3])[:200]
     return {"summary": summary}

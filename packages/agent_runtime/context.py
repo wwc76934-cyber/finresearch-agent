@@ -64,6 +64,7 @@ class RunContext:
         self.fault_state = {k: (dict(v) if isinstance(v, dict) else v) for k, v in request.fault_injection.items()}
         self.renderers: dict = {}          # claim_id -> callable that re-renders text from MetricRecords
         self.charts: dict = {}
+        self.judge_notes: dict = {}        # claim_id -> Tier-2 LLM judge label + reason
         self.timeline: list[dict] = []
         self.plan = None
         _CONTEXTS[run_id] = self

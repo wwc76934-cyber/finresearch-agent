@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import threading
 import time
 import traceback
 from concurrent.futures import ThreadPoolExecutor
@@ -38,16 +39,36 @@ def run_task(task: dict, arch: str, persist: bool) -> dict:
 
 
 def run_experiment(architectures: list[str], datasets=("golden", "chaos"), repeats: int = 1, workers: int = 1,
-                   persist_archs: tuple = ("B4",), name: Optional[str] = None, task_filter=None) -> dict:
+                   persist_archs: tuple = ("B4",), name: Optional[str] = None, task_filter=None,
+                   write_latest: bool = True, resume_file: Optional[Path] = None) -> dict:
+    """resume_file: append each finished result as one JSON line; on restart, finished tasks are skipped."""
     tasks = [t for t in load_tasks(datasets) if task_filter is None or task_filter(t)]
     exp_id = name or f"exp_{datetime.now():%Y%m%d_%H%M%S}"
     results = []
     Session = get_session_factory()
+    done: dict[tuple, dict] = {}
+    if resume_file and Path(resume_file).exists():
+        for line in Path(resume_file).read_text(encoding="utf-8").splitlines():
+            if line.strip():
+                r = json.loads(line)
+                done[(r["architecture"], r["task_id"])] = r
+    lock = threading.Lock()
+
+    def job(t, arch, persist):
+        if (arch, t["task_id"]) in done and repeats == 1:
+            return done[(arch, t["task_id"])]
+        r = run_task(t, arch, persist)
+        if resume_file:
+            with lock, open(resume_file, "a", encoding="utf-8") as f:
+                f.write(json.dumps(r, ensure_ascii=False, default=str) + "\n")
+            print(f"[{arch}] {t['task_id']} passed={r['passed']}", flush=True)
+        return r
+
     for arch in architectures:
         started = datetime.now()
         jobs = [(t, arch, arch in persist_archs) for t in tasks for _ in range(repeats)]
         with ThreadPoolExecutor(max_workers=workers) as ex:
-            arch_res = list(ex.map(lambda j: run_task(*j), jobs))
+            arch_res = list(ex.map(lambda j: job(*j), jobs))
         results += arch_res
         with Session() as s:
             eid = f"{exp_id}:{arch}"
@@ -65,7 +86,8 @@ def run_experiment(architectures: list[str], datasets=("golden", "chaos"), repea
     payload = {"experiment_id": exp_id, "created_at": datetime.now().isoformat(), "architectures": architectures,
                "datasets": list(datasets), "repeats": repeats, "results": results}
     (OUT / f"{exp_id}.json").write_text(json.dumps(payload, ensure_ascii=False, default=str), encoding="utf-8")
-    (OUT / "latest.json").write_text(json.dumps(payload, ensure_ascii=False, default=str), encoding="utf-8")
+    if write_latest:
+        (OUT / "latest.json").write_text(json.dumps(payload, ensure_ascii=False, default=str), encoding="utf-8")
     return payload
 
 

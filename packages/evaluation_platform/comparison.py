@@ -38,7 +38,7 @@ def aggregate(results: list[dict]) -> dict:
         row["latency_p95_ms"] = float(np.percentile(lat, 95))
         tok = [r["scores"].get("cost", {}).get("tokens", 0) for r in rs]
         row["tokens_mean"] = mean(tok)
-        row["cost_usd_mean"] = mean(r["scores"].get("cost", {}).get("cost_usd", 0) for r in rs)
+        row["cost_cny_mean"] = mean(r["scores"].get("cost", {}).get("cost_cny", 0) for r in rs)
         row["errors"] = funnel(rs)
         by_cat = defaultdict(list)
         for r in rs:

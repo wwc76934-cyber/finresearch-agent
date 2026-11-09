@@ -90,18 +90,44 @@ UP = ("增长", "提升", "改善", "上升", "增加")
 DOWN = ("下降", "恶化", "下滑", "减少", "承压")
 
 
-def tier2(ctx: RunContext, c: Claim) -> str:
-    evs = [ctx.evidence[e] for e in c.evidence_ids if e in ctx.evidence]
+LABELS = ("SUPPORTED", "PARTIALLY_SUPPORTED", "CONTRADICTED", "UNSUPPORTED")
+
+
+def needs_tier2(ctx: RunContext, c: Claim) -> bool:
+    """Tier-2 only judges what Tier-1 cannot prove: inferences and quotes of documents.
+    A pure metric sentence that passed Tier-1 is already proven by its MetricRecords."""
+    if c.claim_type == "model_inference":
+        return True
+    return any(ctx.evidence[e].kind == "document" for e in c.evidence_ids if e in ctx.evidence)
+
+
+def tier2_batch(ctx: RunContext, claims: list[Claim]) -> dict[str, str]:
+    """One LLM call judges all candidate claims (instead of one call per claim)."""
+    if not claims:
+        return {}
+    labels: dict[str, str] = {}
     if ctx.llm.online:
-        sys_p = ("你是金融事实核验裁判。判断证据是否支持论断。只输出JSON {\"label\":\"SUPPORTED|PARTIALLY_SUPPORTED|"
-                 "CONTRADICTED|UNSUPPORTED\",\"reason\":\"...\"}")
-        user = json.dumps({"claim": c.text, "evidence": [{"id": e.evidence_id, "summary": e.summary,
-                                                          "excerpt": e.excerpt[:600]} for e in evs]}, ensure_ascii=False)
-        d = call_json(ctx.llm, ctx.tracer, "verifier", sys_p, user, "strong",
-                      validate=lambda d: d.get("label") in ("SUPPORTED", "PARTIALLY_SUPPORTED", "CONTRADICTED", "UNSUPPORTED"))
-        if d:
-            return d["label"]
-    # offline heuristic
+        sys_p = ("你是独立的金融事实核验裁判。对每条论断，判断其所引证据是否在语义上支持它。"
+                 "推断类论断只要方向与证据一致、未夸大即可判 SUPPORTED；超出证据的部分判 PARTIALLY_SUPPORTED；"
+                 "与证据相反判 CONTRADICTED；证据无关判 UNSUPPORTED。"
+                 "只输出JSON {\"results\":[{\"claim_id\":\"C001\",\"label\":\"SUPPORTED|PARTIALLY_SUPPORTED|CONTRADICTED|UNSUPPORTED\",\"reason\":\"...\"}]}")
+        items = [{"claim_id": c.claim_id, "type": c.claim_type, "claim": c.text,
+                  "evidence": [{"id": e, "summary": ctx.evidence[e].summary, "excerpt": ctx.evidence[e].excerpt[:500]}
+                               for e in c.evidence_ids if e in ctx.evidence]} for c in claims]
+        d = call_json(ctx.llm, ctx.tracer, "verifier", sys_p, json.dumps(items, ensure_ascii=False), "strong",
+                      validate=lambda d: isinstance(d.get("results"), list))
+        for r in (d or {}).get("results", []):
+            if isinstance(r, dict) and r.get("label") in LABELS:
+                labels[str(r.get("claim_id"))] = r["label"]
+                ctx.judge_notes[str(r.get("claim_id"))] = {"label": r["label"], "reason": str(r.get("reason", ""))[:300]}
+    for c in claims:  # claims the judge skipped (or offline) fall back to the heuristic
+        labels.setdefault(c.claim_id, tier2(ctx, c))
+    return labels
+
+
+def tier2(ctx: RunContext, c: Claim) -> str:
+    """Offline heuristic judge."""
+    evs = [ctx.evidence[e] for e in c.evidence_ids if e in ctx.evidence]
     if c.claim_type == "model_inference":
         recs = [ctx.metric(m) for m in c.metric_ids]
         for r in recs:
@@ -126,13 +152,14 @@ def tier2(ctx: RunContext, c: Claim) -> str:
 def verify(ctx: RunContext) -> list[VerificationFailure]:
     cfg = ctx.config
     pending: list[VerificationFailure] = []
-    for c in ctx.claims.values():
-        if c.status != "DRAFT":
-            continue
-        fails = tier1(ctx, c) if cfg.tier1_verifier else []
+    drafts = [c for c in ctx.claims.values() if c.status == "DRAFT"]
+    t1 = {c.claim_id: (tier1(ctx, c) if cfg.tier1_verifier else []) for c in drafts}
+    t2 = tier2_batch(ctx, [c for c in drafts if not t1[c.claim_id] and needs_tier2(ctx, c)]) if cfg.tier2_verifier else {}
+    for c in drafts:
+        fails = t1[c.claim_id]
         label = "SUPPORTED"
-        if not fails and cfg.tier2_verifier:
-            label = tier2(ctx, c)
+        if not fails and c.claim_id in t2:
+            label = t2[c.claim_id]
             if label in ("CONTRADICTED", "UNSUPPORTED"):
                 fails = [VerificationFailure(claim_id=c.claim_id, tier=2, error_type=label, target_agent=c.produced_by,
                                              fix_instruction="weaken or remove the inference")]
