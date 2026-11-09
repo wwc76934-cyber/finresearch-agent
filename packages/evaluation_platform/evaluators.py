@@ -192,6 +192,41 @@ def anomaly_recall(task: dict, rep: dict) -> Optional[dict]:
             "investigations": attributed}
 
 
+# Where the explanation for each designed anomaly is written in the snapshot documents (by construction):
+# (section path keyword, text keyword). An attribution counts only if a kept claim cites such a chunk.
+DESIGNED_EXPLANATIONS = {
+    "PROFIT_OCF_DIVERGENCE": ("管理层讨论", "回款"),
+    "AR_OUTPACE_REVENUE": ("应收账款", "前五名"),
+    "GROSS_MARGIN_SHIFT": ("管理层讨论", "售价"),
+    "LARGE_IMPAIRMENT": ("", "跌价准备"),
+    "INTEREST_DEBT_JUMP": ("", "借款"),
+}
+
+
+@evaluator("attribution")
+def attribution(task: dict, rep: dict) -> Optional[dict]:
+    """Did the system find the documented *reason* for each anomaly, not just the anomaly itself?"""
+    if task["category"] != "anomaly_attribution":
+        return None
+    exp = [c for c in task["expected"].get("anomalies", []) if c in DESIGNED_EXPLANATIONS]
+    if not exp:
+        return None
+    found = {}
+    for code in exp:
+        sec_kw, txt_kw = DESIGNED_EXPLANATIONS[code]
+        ok = False
+        for c in kept_claims(rep):
+            if code not in c["text"] and c["produced_by"] not in ("investigate",):
+                continue
+            for e in c["evidence_ids"]:
+                ev = rep["evidence"].get(e, {})
+                if ev.get("kind") == "document" and txt_kw in ev.get("excerpt", "") and (
+                        not sec_kw or sec_kw in ev.get("excerpt", "") or sec_kw in ev.get("summary", "")):
+                    ok = ok or code in c["text"]
+        found[code] = ok
+    return {"score": sum(found.values()) / len(found), "found": found}
+
+
 @evaluator("refusal")
 def refusal(task: dict, rep: dict) -> Optional[dict]:
     if not task["expected"].get("must_refuse"):
@@ -231,9 +266,11 @@ def rubric(task: dict, rep: dict) -> Optional[dict]:
         return None
     from agent_runtime.llm import get_llm, parse_json
 
+    from .judges import judge_llm
+
     claims = kept_claims(rep)
-    llm = get_llm()
-    if llm.online:
+    llm = judge_llm() if get_llm().online else None  # independent model family, not the generator
+    if llm is not None:
         res = llm.chat("你是买方研究总监，按5个维度(各0-1分)盲评研报：" + "、".join(RUBRIC_DIMS) +
                        "。只输出JSON {\"scores\":[5个数],\"comment\":\"...\"}", rep["markdown"][:12000], json_mode=True)
         d = parse_json(res.text)
@@ -281,7 +318,7 @@ def evaluate(task: dict, rep: dict) -> dict:
 
 def task_passed(scores: dict, task: Optional[dict] = None) -> bool:
     checks = []
-    keys = ["numerical_accuracy", "anomaly_recall", "refusal", "conflict_handling", "recovery"]
+    keys = ["numerical_accuracy", "anomaly_recall", "attribution", "refusal", "conflict_handling", "recovery"]
     if task and task["expected"].get("expect_downgrade"):
         keys.remove("numerical_accuracy")  # the right outcome is an uncertainty statement, not a number
     for k in keys:
