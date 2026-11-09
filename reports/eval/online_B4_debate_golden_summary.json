@@ -1,8 +1,8 @@
 {
  "aggregate": {
   "n": 30,
-  "pass_rate": 0.7666666666666667,
-  "numerical_accuracy": 0.9166666666666666,
+  "pass_rate": 0.36666666666666664,
+  "numerical_accuracy": 0.6,
   "numerical_accuracy_n": 30,
   "citation_validity": 1.0,
   "citation_validity_n": 30,
@@ -18,27 +18,27 @@
   "conflict_handling_n": 0,
   "recovery": null,
   "recovery_n": 0,
-  "rubric": 0.8286666666666667,
+  "rubric": 0.784,
   "rubric_n": 10,
-  "redundant_tool_rate": 0.07889288150407861,
+  "redundant_tool_rate": 0.1074030489005633,
   "first_pass_plan_valid": 1.0,
-  "latency_p50_ms": 41641.895900000236,
-  "latency_p95_ms": 125186.28186999266,
-  "tokens_mean": 8401,
-  "cost_cny_mean": 0.009660066666666666,
+  "latency_p50_ms": 96731.46010001074,
+  "latency_p95_ms": 115665.43044498684,
+  "tokens_mean": 16832.933333333334,
+  "cost_cny_mean": 0.046073333333333334,
   "errors": {
    "DATA_MISSING": 0,
    "RETRIEVAL_MISS": 6,
    "SCOPE_CONFUSION": 0,
    "TOOL_ERROR": 0,
-   "HALLUCINATION": 1,
+   "HALLUCINATION": 13,
    "PIT_VIOLATION": 0
   },
   "pass_by_category": {
-   "deep_research": 0.3,
-   "anomaly_attribution": 1,
-   "events_peers": 1
+   "deep_research": 0,
+   "anomaly_attribution": 0.5,
+   "events_peers": 0.6
   }
  },
- "total_cost_cny": 0.289802
+ "total_cost_cny": 1.3822
 }

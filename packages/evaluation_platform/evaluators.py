@@ -67,6 +67,12 @@ def find_reported(rep: dict, exp: dict) -> Optional[dict]:
     return None
 
 
+def _has_number(text: str) -> bool:
+    from agent_runtime.agents.verifier import extract_numbers
+
+    return any(u for _, _, u, _ in extract_numbers(text))
+
+
 def _states_value(text: str, exp: dict) -> bool:
     """True when the sentence contains a number equal to the oracle value at its displayed precision."""
     from agent_runtime.agents.verifier import UNIT_SCALE, extract_numbers
@@ -103,6 +109,8 @@ def numerical_accuracy(task: dict, rep: dict) -> Optional[dict]:
                 if got.get("metric_id"):
                     texts += [c["text"] for c in kept_claims(rep) if got["metric_id"] in c["metric_ids"]
                               and not any(rep["evidence"].get(e, {}).get("kind") == "document" for e in c["evidence_ids"])]
+                # a sentence that states no number (e.g. an LLM debate argument citing the metric) cannot misstate it
+                texts = [t for t in texts if _has_number(t)]
                 good = all(_states_value(t, exp) for t in texts)
         ok += good
         details.append({"key": exp["key"], "result": "ok" if good else "wrong", "got": got.get("value"),
