@@ -8,3 +8,4 @@ reports/*.json
 reports/*.md
 reports/eval/exp_*.json
 *.egg-info/
+reports/cases/*.pdf

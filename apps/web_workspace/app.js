@@ -55,7 +55,7 @@ $("run").onclick = async () => {
   $("run").disabled = true; $("report").innerHTML = '<p class="muted">运行中…</p>'; $("plan").innerHTML = ""; spans = [];
   const st = {}; renderTopology(st); $("trace").innerHTML = "";
   const body = { ticker: $("ticker").value, as_of: $("asof").value + ":00", question: $("question").value, mode: $("mode").value,
-    architecture: $("arch").value, token_budget: +$("budget").value };
+    architecture: $("arch").value, token_budget: +$("budget").value, hitl: true, hitl_always: $("hitl-always").checked };
   try {
     const { job_id } = await api("/api/research", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
     const es = new EventSource(`/api/research/${job_id}/events`);
@@ -64,11 +64,29 @@ $("run").onclick = async () => {
       if (ev.type === "node_start") { st[nodeKey(ev.node)] = "running"; renderTopology(st); }
       if (ev.type === "node_end") { st[nodeKey(ev.node)] = ev.status === "ok" ? "done" : "error"; renderTopology(st);
         spans.push(ev); renderTrace(spans); }
-      if (ev.type === "done") { es.close(); $("run").disabled = false; await openRun(ev.run_id); loadRuns(); }
+      if (ev.type === "approval_required") showApproval(job_id, ev);
+      if (ev.type === "done") { $("approval").classList.add("hidden"); es.close(); $("run").disabled = false; await openRun(ev.run_id); loadRuns(); }
       if (ev.type === "error") { es.close(); $("run").disabled = false; $("report").innerHTML = `<p style="color:var(--bad)">${esc(ev.message)}</p>`; }
     };
   } catch (e) { $("run").disabled = false; $("report").innerHTML = `<p style="color:var(--bad)">${esc(e.message)}</p>`; }
 };
+
+function showApproval(jobId, ev) {
+  const box = $("approval");
+  const why = ev.reason === "over_budget" ? `已用 ${ev.used_tokens} tokens，超过预算 ${ev.token_budget}` : "按设置，追加调查前需要审批";
+  box.innerHTML = `<h3>需要你的审批</h3><p>${esc(why)}。系统想追查以下异常：</p>` +
+    ev.proposed.map((p) => `<div class="claim">• ${esc(p.code)}：${esc(p.message)}<br><span class="muted">检索：${esc(p.query)}</span></div>`).join("") +
+    `<label>改为检索（可选）<input id="ap-query" maxlength="80" placeholder="例如：应收账款 账龄 坏账准备"></label>
+     <label>追加 token 预算<input id="ap-extra" type="number" value="20000" step="10000"></label>
+     <div class="row"><button data-a="approve">批准</button><button data-a="modify">按新检索执行</button><button data-a="skip">跳过，直接出报告</button></div>`;
+  box.classList.remove("hidden");
+  box.querySelectorAll("button").forEach((b) => b.onclick = async () => {
+    const body = { action: b.dataset.a, query: $("ap-query").value || null, extra_tokens: +$("ap-extra").value || 0 };
+    if (body.action === "modify" && !body.query) { $("ap-query").focus(); return; }
+    box.innerHTML = '<p class="muted">已提交，继续运行…</p>';
+    await api(`/api/research/${jobId}/approve`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+  });
+}
 
 async function loadRuns() {
   const rs = await api("/api/runs?limit=15");
@@ -87,7 +105,7 @@ async function openRun(runId) {
 
 function renderReport(rep) {
   charts.forEach((c) => c.dispose()); charts = [];
-  $("export").innerHTML = `<a href="/api/runs/${esc(rep.run_id)}/export.md" target="_blank">导出 Markdown</a> · <a href="#" onclick="window.print();return false">打印/PDF</a>`;
+  $("export").innerHTML = `<a href="/api/runs/${esc(rep.run_id)}/export.md" target="_blank">导出 Markdown</a> · <a href="/api/runs/${esc(rep.run_id)}/export.pdf">导出 PDF</a>`;
   const tag = { disclosed_fact: "事实", derived_metric: "算子", model_inference: "推断" };
   let h = `<p>${esc(rep.overview)}</p><p class="muted">快照 ${esc(rep.snapshot_id)} · 架构 ${esc(rep.architecture)} · ${rep.totals.tool_calls} 次工具调用 · ${rep.totals.latency_ms.toFixed(0)}ms</p>`;
   if (rep.executive_summary) h += `<h3>执行摘要</h3><p>${esc(rep.executive_summary)}</p>`;

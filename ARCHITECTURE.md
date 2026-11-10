@@ -85,7 +85,8 @@ Checkpointer：`MemorySaver`，`thread_id = run_id`。持久化 checkpointer（`
 | PostgreSQL 16 | SQLite 默认，docker-compose 提供 PG16 | 零依赖本地运行；SQLAlchemy 模型两者通用 |
 | PGVector/Chroma + bge | 内存索引 + Hashing 稠密向量 | 离线无模型下载；`DenseEncoder`/`Reranker` 协议是替换点 |
 | 真实 A 股 Golden Snapshot | 6 家虚构公司 | 当前环境无法访问行情/公告源；`scripts/ingest_live.py` 提供 AKShare 行情接入 |
-| Human-in-the-Loop 审批卡片 | 未实现 | 预算超限时只会跳过重规划，不会暂停等待审批 |
-| PDF 导出 | Markdown 导出 + 浏览器打印样式 | — |
+| Human-in-the-Loop 审批卡片 | 已实现：`approval` 节点用 LangGraph `interrupt()` 暂停；工作台弹出审批卡（批准 / 改检索词 / 跳过，可追加预算）；`POST /api/research/{job_id}/approve` 用 `Command(resume=...)` 继续 | 触发条件：重规划会超预算，或勾选“每次追加调查前都请我审批”。API 默认开启，CLI/评测默认关闭 |
+| 持久化 Checkpoint | 已实现：`SqliteSaver` 写 `data/checkpoints.db`，`GET /api/runs/{run_id}/checkpoints` 查看每一步状态 | 限制：证据库、算子缓存等运行上下文仍在进程内存里，进程重启后暂停中的任务无法继续（`resume_research` 会报 KeyError）。PG 部署可换 `langgraph-checkpoint-postgres` |
+| PDF 导出 | 已实现：reportlab + 系统中文字体，`GET /api/runs/{run_id}/export.pdf`、`run_research.py --pdf` | 图表不进 PDF，只有文字与表格 |
 | OpenTelemetry | 自研 Tracer | 字段与 OTel span 对齐，可加 exporter |
 | P2：同行横向对比矩阵、因子 IC、Reflection 记忆、定时监控 | 只有同行 PE 中位数对比 | 属 P2 |

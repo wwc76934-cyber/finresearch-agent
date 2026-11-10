@@ -3,6 +3,8 @@ debate + risk + two-tier verifier with partial rollback) and the run entry point
 from __future__ import annotations
 
 import json
+import os
+import sqlite3
 import time
 import uuid
 from datetime import datetime
@@ -10,9 +12,9 @@ from typing import Callable, Optional
 
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph import END, START, StateGraph
-from langgraph.types import Send
+from langgraph.types import Command, Send, interrupt
 
-from data_platform.db import (EvidenceRecordRow, ResearchClaimRow, ResearchRunRow, VerificationResultRow,
+from data_platform.db import (ROOT, EvidenceRecordRow, ResearchClaimRow, ResearchRunRow, VerificationResultRow,
                               get_session_factory)
 from data_platform.serving import PITDataService
 from data_platform.versioning import create_snapshot
@@ -77,10 +79,48 @@ def route_after_collection(state: GraphState) -> str:
     cfg = ctx.config
     handled = set(state.get("handled_anomalies", []))
     high = [a for a in ctx.anomalies.values() if a["severity"] == "HIGH" and a["code"] not in handled]
-    used = sum(s["input_tokens"] + s["output_tokens"] for s in ctx.tracer.spans)
-    if cfg.replanning and high and state.get("replan_depth", 0) < cfg.max_replan_depth and used < ctx.request.token_budget:
-        return "replan"
-    return "debate"
+    used = _used_tokens(ctx)
+    if not (cfg.replanning and high and state.get("replan_depth", 0) < cfg.max_replan_depth):
+        return "debate"
+    over_budget = used >= ctx.request.token_budget
+    if ctx.request.hitl and (over_budget or ctx.request.hitl_always):
+        return "approval"   # Human-in-the-Loop: pause instead of silently skipping or overspending
+    return "debate" if over_budget else "replan"
+
+
+def _used_tokens(ctx: RunContext) -> int:
+    return sum(s["input_tokens"] + s["output_tokens"] for s in ctx.tracer.spans)
+
+
+def node_approval(state: GraphState) -> dict:
+    """Pause the graph (LangGraph interrupt) and wait for a human decision.
+
+    Resume value: {"action": "approve" | "skip" | "modify", "query": "...", "extra_tokens": int}
+    """
+    ctx = get_context(state["run_id"])
+    handled = set(state.get("handled_anomalies", []))
+    high = [a for a in ctx.anomalies.values() if a["severity"] == "HIGH" and a["code"] not in handled][:2]
+    used = _used_tokens(ctx)
+    payload = {"kind": "replan_approval", "reason": "over_budget" if used >= ctx.request.token_budget else "policy",
+               "used_tokens": used, "token_budget": ctx.request.token_budget,
+               "proposed": [{"code": a["code"], "message": a["message"], "query": a["suggested_query"]} for a in high]}
+    ctx.tracer.tool("human_approval_request", {"proposed": [p["code"] for p in payload["proposed"]]})
+    decision = interrupt(payload) or {}
+    action = decision.get("action", "skip")
+    with ctx.tracer.node("approval") as span:
+        span["summary"] = f"human decision: {action}"
+        if action == "modify" and decision.get("query"):
+            ctx.query_override = str(decision["query"])[:80]
+        if decision.get("extra_tokens"):
+            ctx.request.token_budget += int(decision["extra_tokens"])
+        if action == "skip":
+            ctx.open_questions.append({"topic": f"异常追查被人工跳过：{[p['code'] for p in payload['proposed']]}",
+                                       "reason": "human-in-the-loop 决定不追查"})
+    return {"approval": action, "handled_anomalies": [p["code"] for p in payload["proposed"]] if action == "skip" else []}
+
+
+def route_after_approval(state: GraphState) -> str:
+    return "debate" if state.get("approval") == "skip" else "replan"
 
 
 def node_replan(state: GraphState) -> dict:
@@ -88,8 +128,9 @@ def node_replan(state: GraphState) -> dict:
     handled = set(state.get("handled_anomalies", []))
     with ctx.tracer.node("replan") as span:
         high = [a for a in ctx.anomalies.values() if a["severity"] == "HIGH" and a["code"] not in handled][:2]
+        override = getattr(ctx, "query_override", None)
         tasks = [SubTask(task_id=f"R{state.get('replan_depth', 0) + 1}-{i + 1}", agent="investigate",
-                         objective=f"追查异常 {a['code']}", tool_budget=3, query=a["suggested_query"],
+                         objective=f"追查异常 {a['code']}", tool_budget=3, query=override or a["suggested_query"],
                          section_types=[a.get("section_type", "NOTES")], anomaly_code=a["code"]).model_dump()
                  for i, a in enumerate(high)]
         span["summary"] = f"derived {len(tasks)} investigation task(s): {[a['code'] for a in high]}"
@@ -174,12 +215,14 @@ def build_graph(checkpointer=None):
     g = StateGraph(GraphState)
     for name, fn in [("plan", node_plan), ("collect", node_collect), ("gather", node_gather), ("replan", node_replan),
                      ("debate", node_debate), ("risk", node_risk), ("inject", node_inject), ("verify", node_verify),
-                     ("rewrite", node_rewrite), ("report", node_report)]:
+                     ("rewrite", node_rewrite), ("report", node_report), ("approval", node_approval)]:
         g.add_node(name, fn)
     g.add_edge(START, "plan")
     g.add_conditional_edges("plan", fan_out, ["collect"])
     g.add_edge("collect", "gather")
-    g.add_conditional_edges("gather", route_after_collection, {"replan": "replan", "debate": "debate"})
+    g.add_conditional_edges("gather", route_after_collection,
+                            {"replan": "replan", "debate": "debate", "approval": "approval"})
+    g.add_conditional_edges("approval", route_after_approval, {"replan": "replan", "debate": "debate"})
     g.add_conditional_edges("replan", fan_out_replan, ["collect"])
     g.add_edge("debate", "risk")
     g.add_edge("risk", "inject")
@@ -193,11 +236,34 @@ def build_graph(checkpointer=None):
 _GRAPH = None
 
 
+def make_checkpointer():
+    """Persistent checkpoints (SQLite file data/checkpoints.db) unless CHECKPOINTER=memory."""
+    if os.environ.get("CHECKPOINTER", "sqlite") == "memory":
+        return MemorySaver()
+    try:
+        from langgraph.checkpoint.sqlite import SqliteSaver
+    except ImportError:  # optional dependency
+        return MemorySaver()
+    path = ROOT / "data" / "checkpoints.db"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    return SqliteSaver(sqlite3.connect(str(path), check_same_thread=False))
+
+
 def get_graph():
     global _GRAPH
     if _GRAPH is None:
-        _GRAPH = build_graph()
+        _GRAPH = build_graph(make_checkpointer())
     return _GRAPH
+
+
+def checkpoint_history(run_id: str) -> list[dict]:
+    """The persisted step-by-step state history of one run (newest first)."""
+    out = []
+    for snap in get_graph().get_state_history({"configurable": {"thread_id": run_id}}):
+        out.append({"step": snap.metadata.get("step"), "next": list(snap.next),
+                    "checkpoint_id": snap.config["configurable"].get("checkpoint_id"),
+                    "summaries": len(snap.values.get("summaries", [])), "replan_depth": snap.values.get("replan_depth")})
+    return out
 
 
 def prepare(request: ResearchRequest, config: ArchConfig, db_url: Optional[str] = None,
@@ -257,14 +323,34 @@ def run_research(request: ResearchRequest, architecture: str | ArchConfig = "B4"
         return BASELINES[architecture](request, db_url=db_url, llm=llm, listener=listener, persist=persist)
     config = architecture if isinstance(architecture, ArchConfig) else ARCHITECTURES[architecture]
     ctx = prepare(request, config, db_url, llm, listener)
-    started, t0 = datetime.now(), time.perf_counter()
+    ctx.started, ctx.t0, ctx.persist, ctx.arch_name = datetime.now(), time.perf_counter(), persist, name
+    init = {"run_id": ctx.run_id, "request": json.loads(request.model_dump_json()), "snapshot_id": ctx.snapshot_id,
+            "summaries": [], "handled_anomalies": [], "claim_ids": [], "shared_history": []}
+    return _drive(ctx, init)
+
+
+def _drive(ctx: RunContext, inp) -> dict:
+    """Invoke or resume the graph. On a Human-in-the-Loop interrupt the RunContext is kept alive and a
+    {"status": "awaiting_approval"} dict is returned; call resume_research(run_id, decision) to continue."""
+    cfg = {"configurable": {"thread_id": ctx.run_id}, "recursion_limit": 60}
+    done = False
     try:
-        out = get_graph().invoke({"run_id": ctx.run_id, "request": json.loads(request.model_dump_json()),
-                                  "snapshot_id": ctx.snapshot_id, "summaries": [], "handled_anomalies": [],
-                                  "claim_ids": [], "shared_history": []},
-                                 config={"configurable": {"thread_id": ctx.run_id}, "recursion_limit": 60})
-        rep = finalize(ctx, out["report"], started, (time.perf_counter() - t0) * 1000, persist)
-        rep["architecture"] = name
+        out = get_graph().invoke(inp, config=cfg)
+        if "__interrupt__" in out:
+            payload = out["__interrupt__"][0].value
+            ctx.tracer._emit({"type": "approval_required", "run_id": ctx.run_id, **payload})
+            return {"status": "awaiting_approval", "run_id": ctx.run_id, "approval": payload}
+        rep = finalize(ctx, out["report"], ctx.started, (time.perf_counter() - ctx.t0) * 1000, ctx.persist)
+        rep["architecture"] = ctx.arch_name
+        rep["status"] = "done"
+        done = True
         return rep
     finally:
-        drop_context(ctx.run_id)
+        if done or not ctx.request.hitl:
+            drop_context(ctx.run_id)
+
+
+def resume_research(run_id: str, decision: dict) -> dict:
+    """Continue a run paused for approval. decision: {"action": "approve"|"skip"|"modify", "query"?, "extra_tokens"?}"""
+    ctx = get_context(run_id)  # KeyError if the process restarted: the in-memory stores are gone
+    return _drive(ctx, Command(resume=decision))

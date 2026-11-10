@@ -13,7 +13,8 @@ python scripts/bootstrap.py                       # 入库 + 质量校验 + 切�
 python scripts/run_research.py 990001.SZ 2025-12-31   # 跑一份 B4 研报 → reports/
 python -m uvicorn apps.api_server.main:app --host 127.0.0.1 --port 8000   # 打开 http://127.0.0.1:8000
 python scripts/run_experiments.py                 # 80 题 × 12 架构 + 检索评测 → reports/eval/ 与 EVALUATION.md 表格
-python -m pytest -q                               # 35 个测试（含回归集）
+python -m pytest -q                               # 45 个测试（含回归集）
+python scripts/run_research.py 990001.SZ 2025-12-31 --pdf   # 同时导出 PDF
 ```
 
 Windows 下把 `python` 换成 `.venv\Scripts\python.exe`。

@@ -44,6 +44,8 @@ class ResearchIn(BaseModel):
     mode: str = "deep"
     architecture: str = "B4"
     token_budget: int = Field(200_000, ge=1000, le=2_000_000)
+    hitl: bool = True
+    hitl_always: bool = False
 
 
 @app.get("/api/securities")
@@ -69,16 +71,66 @@ def start_research(body: ResearchIn):
     def work():
         try:
             req = ResearchRequest(ticker=body.ticker, as_of=body.as_of, question=body.question, mode=body.mode,
-                                  token_budget=body.token_budget)
-            rep = run_research(req, body.architecture, listener=q.put)
-            JOBS[job_id].update(status="done", run_id=rep["run_id"])
-            q.put({"type": "done", "run_id": rep["run_id"]})
+                                  token_budget=body.token_budget, hitl=body.hitl, hitl_always=body.hitl_always)
+            _settle(job_id, run_research(req, body.architecture, listener=q.put))
         except Exception as exc:  # noqa: BLE001 - surfaced to the client as an event
             JOBS[job_id]["status"] = "error"
             q.put({"type": "error", "message": f"{type(exc).__name__}: {exc}"})
 
     threading.Thread(target=work, daemon=True).start()
     return {"job_id": job_id}
+
+
+def _settle(job_id: str, rep: dict) -> None:
+    job = JOBS[job_id]
+    if rep.get("status") == "awaiting_approval":
+        job.update(status="awaiting_approval", run_id=rep["run_id"], approval=rep["approval"])
+        return  # the SSE stream stays open; the approval_required event was already emitted
+    job.update(status="done", run_id=rep["run_id"])
+    job["queue"].put({"type": "done", "run_id": rep["run_id"]})
+
+
+class ApprovalIn(BaseModel):
+    action: str = Field(pattern="^(approve|skip|modify)$")
+    query: Optional[str] = Field(None, max_length=80)
+    extra_tokens: int = Field(0, ge=0, le=1_000_000)
+
+
+@app.post("/api/research/{job_id}/approve")
+def approve(job_id: str, body: ApprovalIn):
+    from agent_runtime.graph import resume_research
+
+    job = JOBS.get(job_id)
+    if not job or job["status"] != "awaiting_approval":
+        raise HTTPException(409, "job is not waiting for approval")
+    job["status"] = "running"
+
+    def work():
+        try:
+            _settle(job_id, resume_research(job["run_id"], body.model_dump()))
+        except Exception as exc:  # noqa: BLE001
+            job["status"] = "error"
+            job["queue"].put({"type": "error", "message": f"{type(exc).__name__}: {exc}"})
+
+    threading.Thread(target=work, daemon=True).start()
+    return {"ok": True}
+
+
+@app.get("/api/runs/{run_id}/checkpoints")
+def checkpoints(run_id: str):
+    from agent_runtime.graph import checkpoint_history
+
+    return checkpoint_history(run_id)
+
+
+@app.get("/api/runs/{run_id}/export.pdf")
+def export_pdf(run_id: str):
+    from fastapi.responses import Response
+
+    from agent_runtime.pdf_export import markdown_to_pdf
+
+    return Response(markdown_to_pdf(_run(run_id).report["markdown"]), media_type="application/pdf",
+                    headers={"Content-Disposition": f'attachment; filename="{run_id}.pdf"'})
 
 
 @app.get("/api/research/{job_id}/events")

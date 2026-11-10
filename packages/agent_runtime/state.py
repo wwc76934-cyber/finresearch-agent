@@ -51,6 +51,8 @@ class ResearchRequest(BaseModel):
     mode: Literal["fast", "deep"] = "deep"
     focus: list[str] = Field(default_factory=list)
     token_budget: int = 200_000
+    hitl: bool = False          # pause for human approval instead of silently skipping over-budget re-planning
+    hitl_always: bool = False   # with hitl: ask before every re-planning step, even within budget
     fault_injection: dict[str, Any] = Field(default_factory=dict)
 
 
@@ -152,5 +154,6 @@ class GraphState(TypedDict, total=False):
     debate: dict
     risk: dict
     verification_round: int
+    approval: str
     report: dict
     shared_history: Annotated[list[str], operator.add]      # only used when context isolation is OFF

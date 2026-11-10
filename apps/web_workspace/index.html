@@ -27,6 +27,7 @@
     <label>模式<select id="mode"><option value="deep">深度研究</option><option value="fast">快速分析</option></select></label>
     <label>架构<select id="arch"></select></label>
     <label>Token 预算<input id="budget" type="number" value="200000" step="10000"></label>
+    <label><input id="hitl-always" type="checkbox" style="width:auto"> 每次追加调查前都请我审批</label>
     <label>研究问题<textarea id="question" rows="5">全面研究公司基本面、估值与风险，形成包含多空审议与证伪条件的研究报告</textarea></label>
     <button id="run">开始研究</button>
     <h3>Research Plan</h3>
@@ -37,6 +38,7 @@
   <section class="col mid">
     <h3>Agent 执行拓扑</h3>
     <div id="topology"></div>
+    <div id="approval" class="card hidden"></div>
     <h3>节点轨迹</h3>
     <div id="trace" class="small"></div>
   </section>
