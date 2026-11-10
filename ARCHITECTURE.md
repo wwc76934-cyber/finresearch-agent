@@ -81,7 +81,8 @@ Checkpointer：`MemorySaver`，`thread_id = run_id`。持久化 checkpointer（`
 
 | PRD 要求 | 当前实现 | 原因 |
 |---|---|---|
-| React 18 + TS + Tailwind | 原生 JS + ECharts 单页 | 不需要构建链即可运行；页面结构与功能按 PRD 第 8 章实现 |
+| React 18 + TS + Tailwind | 已实现：`apps/web_react`（React 19 + TypeScript 严格模式 + Tailwind 4 + ECharts 6，Vite 构建）。FastAPI 在 `dist/` 存在时于 `/` 提供它；原生 JS 版保留在 `/legacy` 作为免构建备用 | — |
+| Demo 录屏 | 已实现：`scripts/record_demo.mjs`（Playwright 驱动本机 Chrome/Edge，真实 API、离线模型）→ `reports/demo/demo.mp4`、`demo.gif` | 录屏用离线模式，所以研报是模板文字；接真实模型重录需约 2 分钟/份 |
 | PostgreSQL 16 | SQLite 默认，docker-compose 提供 PG16 | 零依赖本地运行；SQLAlchemy 模型两者通用 |
 | PGVector/Chroma + bge | 内存索引 + Hashing 稠密向量 | 离线无模型下载；`DenseEncoder`/`Reranker` 协议是替换点 |
 | 真实 A 股 Golden Snapshot | 6 家虚构公司 | 当前环境无法访问行情/公告源；`scripts/ingest_live.py` 提供 AKShare 行情接入 |

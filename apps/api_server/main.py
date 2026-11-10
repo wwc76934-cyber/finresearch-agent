@@ -239,9 +239,22 @@ def data_health():
             "snapshots": list_snapshots()[:20]}
 
 
+REACT = ROOT / "apps" / "web_react" / "dist"
+
+
 @app.get("/")
 def index():
+    """React build when present (apps/web_react: npm run build); otherwise the no-build fallback page."""
+    if (REACT / "index.html").exists():
+        return FileResponse(REACT / "index.html")
+    return FileResponse(WEB / "index.html")
+
+
+@app.get("/legacy")
+def legacy():
     return FileResponse(WEB / "index.html")
 
 
 app.mount("/static", StaticFiles(directory=WEB), name="static")
+if (REACT / "assets").exists():
+    app.mount("/assets", StaticFiles(directory=REACT / "assets"), name="assets")

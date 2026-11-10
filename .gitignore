@@ -9,3 +9,7 @@ reports/*.md
 reports/eval/exp_*.json
 *.egg-info/
 reports/cases/*.pdf
+node_modules/
+apps/web_react/dist/
+reports/demo/*.webm
+reports/demo/frames/

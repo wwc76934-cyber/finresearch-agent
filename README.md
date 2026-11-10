@@ -19,6 +19,26 @@ python scripts/run_research.py 990001.SZ 2025-12-31 --pdf   # 同时导出 PDF
 
 Windows 下把 `python` 换成 `.venv\Scripts\python.exe`。
 
+### 前端（React + TypeScript + Tailwind）
+
+```bash
+cd apps/web_react && npm install && npm run build   # 生成 dist/，由 FastAPI 在 http://127.0.0.1:8000 提供
+npm run dev                                          # 开发模式 http://127.0.0.1:5173，API 代理到 8000
+```
+
+未构建时 `/` 自动退回免构建的原生 JS 版（也可访问 `/legacy`）。
+
+### Demo 录屏
+
+![demo](reports/demo/demo.gif)
+
+```bash
+LLM_OFFLINE=1 python -m uvicorn apps.api_server.main:app --host 127.0.0.1 --port 8000
+node scripts/record_demo.mjs http://127.0.0.1:8000 reports/demo   # 需本机 Chrome 或 Edge
+```
+
+流程：选 990001 → 小预算触发审批卡 → 批准 → 动态追加追查 → 研报 → 证据血缘抽屉 → 评测中台 → 数据质量。录制使用真实 API、离线模型。
+
 ### 接入真实 LLM
 
 在 `.env` 设置 `LLM_BASE_URL`、`LLM_API_KEY`、`LLM_MODEL_STRONG`（任意 OpenAI 兼容接口）。不设置时全部 Agent 走确定性模板路径，结果可复现。无论哪种模式，财务数字都只来自确定性算子。
