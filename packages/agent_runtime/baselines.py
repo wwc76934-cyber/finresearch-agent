@@ -73,7 +73,7 @@ def b1_naive(ctx: RunContext) -> dict:
                            rerank=False, return_parents=False)
         ctx.tracer.tool("retrieve", {"query": ctx.request.question, "filters": "none"}, result=f"{len(hits)} chunks")
         evs = [ctx.evidence_from_hit(h, "naive") for h in hits]
-        ctx.tracer.llm("naive", LLMResult(None, estimate_tokens("".join(e.excerpt for e in evs)), 0, 0, "ctx"), "strong")
+        ctx.tracer.llm("naive", LLMResult(None, estimate_tokens("".join(e.excerpt for e in evs)), 0, 0, "context"), "strong")
         asks = planner.rule_asks(ctx.request.question, None)
         for a in asks:
             if a.kind == "unanswerable":
@@ -123,7 +123,7 @@ def b2_react(ctx: RunContext) -> dict:
             step()
             done.append(name)
             # shared scratchpad: every observation goes back into the next prompt
-            ctx.tracer.llm("react", LLMResult(None, estimate_tokens("\n".join(ctx.raw_outputs)), 80, 0, "ctx"), "strong")
+            ctx.tracer.llm("react", LLMResult(None, estimate_tokens("\n".join(ctx.raw_outputs)), 80, 0, "context"), "strong")
         span["summary"] = f"steps={done}"
     return {}
 

@@ -18,14 +18,14 @@
   "conflict_handling_n": 0,
   "recovery": null,
   "recovery_n": 0,
-  "rubric": 0.816,
+  "rubric": 0.736,
   "rubric_n": 15,
-  "redundant_tool_rate": 0.14152556262482835,
+  "redundant_tool_rate": 0.16047427463286307,
   "first_pass_plan_valid": 1.0,
-  "latency_p50_ms": 100235.7263500162,
+  "latency_p50_ms": 102690.7343500061,
   "latency_p95_ms": 125729.53054001846,
-  "tokens_mean": 20240.116666666665,
-  "cost_cny_mean": 0.046067666666666666,
+  "tokens_mean": 22693.633333333335,
+  "cost_cny_mean": 0.05626476666666667,
   "errors": {
    "DATA_MISSING": 0,
    "RETRIEVAL_MISS": 4,
@@ -42,5 +42,5 @@
    "refusal_trap": 1
   }
  },
- "total_cost_cny": 2.7640599999999997
+ "total_cost_cny": 3.375886
 }

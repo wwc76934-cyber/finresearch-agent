@@ -337,6 +337,11 @@ def task_passed(scores: dict, task: Optional[dict] = None) -> bool:
         if k in scores and "score" in scores[k]:
             checks.append(scores[k]["score"] == 1.0)
     checks.append(scores.get("pit_violation", {}).get("score", 0) == 0.0)
+    # Evidence gate: a report that answers (i.e. not a refusal task) must carry cited claims. Without
+    # this, open questions with no other hard check passed on the PIT check alone, and B0 (no
+    # retrieval, no citations) scored 5/5 on blind open questions in the online run.
+    if "refusal" not in scores:
+        checks.append(scores.get("citation_validity", {}).get("score", 0) >= 0.8)
     # Absolute LLM rubric scores are reported but do not gate pass/fail: the same B4 system scored
     # 0.784 (DeepSeek judge) vs 0.74 (Qwen judge), so a fixed 0.8 cut-off measures the judge, not the
     # report. Quality decisions use the pairwise judge instead (EVALUATION.md section 13).

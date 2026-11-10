@@ -25,7 +25,7 @@ START → plan ──Send×N──▶ collect ──▶ gather ──(HIGH 异�
 
 | 节点 | 文件 | 作用 |
 |---|---|---|
-| plan | `agents/planner.py` | 解析问题为 `Ask` 列表（指标/异常/事件/同行/不可回答），生成 `ResearchPlan` 子任务与预算；LLM 在线时由 LLM 解析，离线用正则规则；LLM 给出未可见报告期会被改回最新可见期 |
+| plan | `agents/planner.py` | 解析问题为 `Ask` 列表（指标/异常/事件/同行/不可回答），生成 `ResearchPlan` 子任务与预算；LLM 在线时由 LLM 解析，离线用正则规则；问题指向尚未披露的报告期时转为拒答（不替换成最新可见期），未知的更早期间才回退到最新可见期 |
 | collect | `agents/collectors.py` | 用 `Send` 并行执行子图：fundamental / market / news / investigate。每个子图是独立编译的 `StateGraph(SubState)` |
 | gather | `graph.py` | Map 阶段汇合点（LangGraph superstep 保证所有 Send 完成后执行一次） |
 | replan | `graph.py` | `RouteAfterCollection`：存在未处理的 `HIGH` 级 `AnomalyFlag`、`replan_depth < max_replan_depth(2)`、已用 tokens 未超预算 → 派生最多 2 个追查子任务 |

@@ -21,10 +21,17 @@ def test_attribution_needs_replanning():
 
 
 def test_llm_rubric_does_not_gate_pass():
-    scores = {"pit_violation": {"score": 0.0}, "rubric": {"score": 0.5, "judge": "llm"}}
+    scores = {"pit_violation": {"score": 0.0}, "citation_validity": {"score": 1.0},
+              "rubric": {"score": 0.5, "judge": "llm"}}
     assert task_passed(scores)
     scores["rubric"]["judge"] = "structural"
     assert not task_passed(scores)
+
+
+def test_uncited_answer_fails():
+    # B0 used to pass open questions on the PIT check alone
+    assert not task_passed({"pit_violation": {"score": 0.0}, "rubric": {"score": 0.9, "judge": "llm"}})
+    assert task_passed({"pit_violation": {"score": 0.0}, "refusal": {"score": 1.0}})
 
 
 def test_blind_template_builds():

@@ -12,7 +12,7 @@ python scripts/bootstrap.py                       # 入库两套快照 + 质量�
 python scripts/run_research.py 300750.SZ 2025-12-31 --pdf   # 宁德时代 B4 研报（Markdown + JSON + PDF）→ reports/
 python -m uvicorn apps.api_server.main:app --host 127.0.0.1 --port 8000   # 打开 http://127.0.0.1:8000
 python scripts/run_experiments.py                 # 离线矩阵：12 架构 × 140 题 + 检索评测 → EVALUATION.md 表格
-python -m pytest -q                               # 52 个测试（含回归集、真实数据测试）
+python -m pytest -q                               # 53 个测试（含回归集、真实数据测试）
 ```
 
 真实快照已提交在 `benchmarks/real_snapshot/`。要从头重建（需联网，约 200MB 原始缓存、解析约 1 小时）：
@@ -62,7 +62,7 @@ docker compose up --build   # http://127.0.0.1:8000
 | `packages/data_platform` | Registry、Ingestion、Schema、Quality、Catalog、Lineage、Versioning、Serving、Calculators |
 | `packages/rag_engine` | 结构感知切片、BM25/Dense/RRF/Rerank、路由、Self-RAG |
 | `packages/agent_runtime` | LangGraph 主图与子图、Planner、Fundamental/Market/News/Investigate、Debate、Risk、Verifier、Report、B0–B2 |
-| `packages/evaluation_platform` | 80 题基准 + 独立 Oracle、Runner、Evaluators、Tracer、Comparison、Error Analysis、Regression、RAG eval |
+| `packages/evaluation_platform` | 140 题基准（golden/blind/chaos/lab）+ 独立 Oracle、Runner、Evaluators、Tracer、Comparison、Error Analysis、Regression、RAG eval |
 | `apps/api_server` | FastAPI + SSE |
 | `apps/web_workspace` | 投研工作台 / 评测看板 / 数据质量 |
 | `benchmarks/` | Golden Snapshot、`tasks/golden_v1.jsonl`(30)、`tasks/chaos_v1.jsonl`(50)、`regression/` |
