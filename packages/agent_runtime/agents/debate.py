@@ -129,7 +129,8 @@ def _accept_args(ctx: RunContext, items, side: str, prefix: str, log: dict) -> l
         if assumption and not DIGIT.search(assumption):
             text = f"{text}（隐含假设：{assumption}）"
         # numbers are attached by code from the cited MetricRecords, never written by the model
-        basis = [ctx.evidence[e].summary.replace(" = ", "") for e in evs if ctx.evidence[e].kind in ("metric", "fact")][:3]
+        # show every cited figure: a basis that silently drops one cited metric hides what the argument rests on
+        basis = [ctx.evidence[e].summary.replace(" = ", "") for e in evs if ctx.evidence[e].kind in ("metric", "fact")]
         if basis:
             text = f"{text}（依据：{'；'.join(basis)}）"
         cl = ctx.add_claim(side, "model_inference", f"{prefix}{text}", [ctx.evidence[e] for e in evs], side)

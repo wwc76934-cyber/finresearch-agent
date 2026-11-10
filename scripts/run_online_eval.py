@@ -26,6 +26,7 @@ if __name__ == "__main__":
     ap.add_argument("--limit", type=int, default=0, help="only the first N tasks (0 = all)")
     ap.add_argument("--name", default="", help="reuse a name to resume an interrupted run")
     ap.add_argument("--datasets", default="golden,chaos")
+    ap.add_argument("--categories", default="", help="e.g. deep_research")
     a = ap.parse_args()
     llm = get_llm()
     if not llm.online:
@@ -36,7 +37,16 @@ if __name__ == "__main__":
                  "that would silently fall back to templates")
     name = a.name or f"online_{a.arch}_{datetime.now():%Y%m%d_%H%M%S}"
     seen = []
-    flt = (lambda t: len(seen) < a.limit and not seen.append(1)) if a.limit else None
+    cats = set(a.categories.split(",")) if a.categories else None
+
+    def flt(t):
+        if cats and t["category"] not in cats:
+            return False
+        if a.limit:
+            if len(seen) >= a.limit:
+                return False
+            seen.append(1)
+        return True
     p = run_experiment([a.arch], datasets=tuple(a.datasets.split(",")), workers=a.workers, persist_archs=(a.arch,), name=name, task_filter=flt,
                        write_latest=False, resume_file=OUT / f"{name}.partial.jsonl")
     degraded = [r["task_id"] for r in p["results"] if r.get("llm_calls_failed")]

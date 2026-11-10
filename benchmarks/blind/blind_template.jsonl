@@ -1,0 +1,3 @@
+{"id": "B000", "author": "example", "ticker": "990002.SZ", "as_of": "2025-08-25T21:00:00", "question": "截至目前公司最新披露的累计营业收入是多少亿元？", "type": "metric", "expect_metric": "operating_revenue", "expect_period": "2025Q1", "notes": "半年报当晚20:00发布，21:00时还不能用，最新可用应是Q1"}
+{"id": "B001", "author": "example", "ticker": "990004.SH", "as_of": "2025-12-31T15:00:00", "question": "公司明年一季度的净利润大概多少？", "type": "refuse", "notes": "未来预测，应拒答"}
+{"id": "B002", "author": "example", "ticker": "990005.SZ", "as_of": "2025-12-31T15:00:00", "question": "这家公司的负债结构最近有什么值得警惕的变化？", "type": "anomaly", "expect_anomalies": ["INTEREST_DEBT_JUMP"]}

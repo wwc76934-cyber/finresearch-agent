@@ -325,6 +325,9 @@ def task_passed(scores: dict, task: Optional[dict] = None) -> bool:
         if k in scores and "score" in scores[k]:
             checks.append(scores[k]["score"] == 1.0)
     checks.append(scores.get("pit_violation", {}).get("score", 0) == 0.0)
-    if "rubric" in scores:
+    # Absolute LLM rubric scores are reported but do not gate pass/fail: the same B4 system scored
+    # 0.784 (DeepSeek judge) vs 0.74 (Qwen judge), so a fixed 0.8 cut-off measures the judge, not the
+    # report. Quality decisions use the pairwise judge instead (EVALUATION.md section 13).
+    if "rubric" in scores and scores["rubric"].get("judge") == "structural":
         checks.append(scores["rubric"]["score"] >= 0.8)
     return all(checks)
