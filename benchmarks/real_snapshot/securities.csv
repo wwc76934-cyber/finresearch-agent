@@ -1,0 +1,9 @@
+ticker,name,list_date,industry_sw_l1,industry_sw_l2,template,is_demo
+300750.SZ,宁德时代,2000-01-01,电力设备,电池,manufacturing,false
+300014.SZ,亿纬锂能,2000-01-01,电力设备,电池,manufacturing,false
+002594.SZ,比亚迪,2000-01-01,汽车,乘用车,manufacturing,false
+601012.SH,隆基绿能,2000-01-01,电力设备,光伏设备,manufacturing,false
+600519.SH,贵州茅台,2000-01-01,食品饮料,白酒,consumer,false
+000858.SZ,五粮液,2000-01-01,食品饮料,白酒,consumer,false
+000333.SZ,美的集团,2000-01-01,家用电器,白色家电,consumer,false
+000651.SZ,格力电器,2000-01-01,家用电器,白色家电,consumer,false

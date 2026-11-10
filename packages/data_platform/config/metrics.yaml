@@ -17,6 +17,10 @@ base_items:
   goodwill: {cn: 商誉, kind: instant}
   cash: {cn: 货币资金, kind: instant}
   shares_outstanding: {cn: 总股本, kind: instant}
+  parent_equity: {cn: 归属于母公司股东权益, kind: instant}
+  total_profit: {cn: 利润总额, kind: flow}
+  interest_expense: {cn: 利息费用, kind: flow}
+  depreciation_amortization: {cn: 折旧与摊销, kind: flow}
 
 derived:
   gross_margin: {cn: 毛利率, formula: "(operating_revenue - operating_cost) / operating_revenue", unit: ratio, version: v1}
@@ -38,6 +42,16 @@ derived:
   pb_lf: {cn: 市净率LF, formula: "total_mv / total_equity_latest (NA if <= 0)", unit: x, version: v1}
   ps_ttm: {cn: 市销率TTM, formula: "total_mv / revenue_ttm", unit: x, version: v1}
   pe_percentile_3y: {cn: PE 3年分位, formula: "rank of today's PE among month-end PE over 3y", unit: ratio, version: v1}
+  pe_percentile_5y: {cn: PE 5年分位, formula: "rank of today's PE among month-end PE over 5y (NA if < 48 months)", unit: ratio, version: v1}
+  ev_ebitda: {cn: EV/EBITDA, formula: "(total_mv + interest_bearing_debt - cash) / (total_profit_ttm + interest_expense_ttm + d&a_ttm)", unit: x, version: v1}
+  revenue_qoq: {cn: 营收环比, formula: "single_quarter_t / single_quarter_{t-1} - 1", unit: ratio, version: v1}
+  net_profit_qoq: {cn: 净利润环比, formula: "single_quarter_t / single_quarter_{t-1} - 1 (NA if base <= 0)", unit: ratio, version: v1}
+  dcf_value_per_share: {cn: DCF每股价值, formula: "sum FCF_0*(1+g)^t/(1+wacc)^t, t=1..n + TV/(1+wacc)^n, TV=FCF_n*(1+g_inf)/(wacc-g_inf); per share", unit: CNY, version: v1}
+  peer_pe_median: {cn: 同行PE中位数, formula: "median PE-TTM of same SW L2 peers (falls back to L1)", unit: x, version: v1}
+  threshold_gross_margin: {cn: 毛利率证伪阈值, formula: "gross_margin - 2pp", unit: ratio, version: v1}
+  threshold_ocf_to_net_profit: {cn: 现金流/净利润证伪阈值, formula: "0.8", unit: ratio, version: v1}
+  threshold_receivable_days: {cn: 应收周转天数证伪阈值, formula: "receivable_days * 1.1", unit: days, version: v1}
+  threshold_interest_debt_ratio: {cn: 有息负债率证伪阈值, formula: "interest_debt_ratio + 5pp", unit: ratio, version: v1}
   volatility_1y: {cn: 年化波动率, formula: "std(log returns 250d) * sqrt(252)", unit: ratio, version: v1}
   max_drawdown_1y: {cn: 最大回撤(1年), formula: "min(close / cummax(close) - 1)", unit: ratio, version: v1}
 

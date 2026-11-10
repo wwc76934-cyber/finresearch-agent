@@ -14,7 +14,7 @@ def _task(tid):
 
 
 def test_attribution_needs_replanning():
-    t = _task("G011")  # 990001: profit/cash-flow divergence + receivables
+    t = next(x for x in load_tasks(("lab",)) if x["task_id"] == "L011")  # 990001: profit/cash-flow divergence + receivables
     req = ResearchRequest(ticker=t["ticker"], as_of=datetime.fromisoformat(t["as_of"]), question=t["question"])
     assert attribution(t, run_research(req, "B4", persist=False))["score"] == 1.0
     assert attribution(t, run_research(req, "B4-no_replanning", persist=False))["score"] == 0.0

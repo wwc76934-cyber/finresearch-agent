@@ -66,7 +66,7 @@ class HashingDenseEncoder:
 
     def __init__(self, dim: int = 2048):
         self.dim = dim
-        self.idf = np.ones(dim)
+        self.idf = np.ones(dim, dtype=np.float32)
 
     def _grams(self, t: str) -> list[int]:
         t = re.sub(r"\s+", "", t)
@@ -77,10 +77,10 @@ class HashingDenseEncoder:
         df = np.zeros(self.dim)
         for t in texts:
             df[list(set(self._grams(t)))] += 1
-        self.idf = np.log((1 + len(texts)) / (1 + df)) + 1
+        self.idf = (np.log((1 + len(texts)) / (1 + df)) + 1).astype(np.float32)
 
     def encode(self, texts: list[str]) -> np.ndarray:
-        m = np.zeros((len(texts), self.dim))
+        m = np.zeros((len(texts), self.dim), dtype=np.float32)  # float32: ~10x more chunks with real filings
         for i, t in enumerate(texts):
             for g in self._grams(t):
                 m[i, g] += 1

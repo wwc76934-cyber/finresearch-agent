@@ -13,7 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "packages"))
 
 from data_platform.serving import label_to_end  # noqa: E402
-from evaluation_platform.datasets import TASK_DIR, TICKERS, Oracle, _forbidden, label, num  # noqa: E402
+from evaluation_platform.datasets import TASK_DIR, TICKERS, Oracle, _forbidden, label, num, real_securities  # noqa: E402
 
 METRICS = {"operating_revenue", "net_profit", "revenue_yoy", "net_profit_yoy", "gross_margin", "ocf_to_net_profit",
            "single_quarter:operating_revenue", "single_quarter:net_profit", "pe_ttm"}
@@ -52,7 +52,7 @@ def build(src: Path) -> list[dict]:
         if miss:
             errors.append(f"{where}: missing {miss}")
             continue
-        if q["ticker"] not in TICKERS or q["type"] not in TYPE_TO_CAT:
+        if q["ticker"] not in TICKERS + list(real_securities()) or q["type"] not in TYPE_TO_CAT:
             errors.append(f"{where}: bad ticker or type")
             continue
         as_of = datetime.fromisoformat(q["as_of"])

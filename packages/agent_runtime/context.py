@@ -96,13 +96,22 @@ class RunContext:
         self.lineage.add(rec.metric_id, ev.evidence_id, "metric", "evidence", f"agent.{produced_by}")
         return ev
 
-    def evidence_from_hit(self, hit: Hit, produced_by: str) -> EvidenceCard:
+    def evidence_from_hit(self, hit: Hit, produced_by: str, focus: str = "") -> EvidenceCard:
+        """focus: the sentence a claim quotes; the excerpt is centred on it so the quote is verifiable."""
         c = hit.parent or hit.chunk
         for e in self.evidence.values():
-            if e.source_ref == c.chunk_id:
+            if e.source_ref == c.chunk_id and (not focus or focus in e.excerpt):
                 return e
+        text = c.text
+        pos = text.find(focus) if focus else -1
+        if len(text) > 1500 and pos > 0:
+            anchor = text.split("\n", 1)[0]
+            start = max(0, pos - 400)
+            excerpt = anchor + "\n…" + text[start:start + 1400]
+        else:
+            excerpt = text[:1500]
         ev = EvidenceCard(evidence_id=f"E{next(self._ev):03d}", kind="document", source_ref=c.chunk_id,
-                          summary=c.section_path.split(" > ")[-1], excerpt=c.text[:1200], available_at=c.available_at,
+                          summary=c.section_path.split(" > ")[-1], excerpt=excerpt, available_at=c.available_at,
                           document_id=c.document_id, page=f"p{c.page_start}-{c.page_end}", produced_by=produced_by)
         self.evidence[ev.evidence_id] = ev
         self.lineage.add(c.document_id, c.chunk_id, "document", "chunk", "rag.chunking")

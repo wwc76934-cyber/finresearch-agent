@@ -20,10 +20,19 @@ def _docs(db_url: Optional[str]):
         return list(s.scalars(select(SourceDocumentRow)))
 
 
+def doc_path(path: str):
+    """Real-snapshot paths are relative to benchmarks/ ('real_snapshot/documents/..'); demo ones to golden_snapshot/."""
+    p = ROOT / "benchmarks" / path
+    return p if p.exists() else GOLDEN / path
+
+
 def build_chunks(db_url: Optional[str] = None, anchors: bool = True, naive: bool = False) -> list[Chunk]:
     out = []
     for d in _docs(db_url):
-        text = (GOLDEN / d.path).read_text(encoding="utf-8")
+        p = doc_path(d.path)
+        if not p.exists():
+            continue
+        text = p.read_text(encoding="utf-8")
         if naive:
             out += naive_chunks(d.document_id, d.ticker, text, d.available_at)
         else:

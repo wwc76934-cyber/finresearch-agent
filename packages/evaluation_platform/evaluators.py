@@ -30,7 +30,9 @@ def kept_claims(rep: dict) -> list[dict]:
 def fmt_value(value: float, metric: str, unit: Optional[str]) -> str:
     if metric in ("pe_ttm", "pb_lf", "ps_ttm"):
         return f"{value:.2f}倍"
-    if metric.endswith(("_yoy", "margin", "_ratio", "ocf_to_net_profit")) or metric in ("gross_margin", "debt_to_assets"):
+    if metric in ("ev_ebitda",):
+        return f"{value:.2f}倍"
+    if metric.endswith(("_yoy", "_qoq", "margin", "_ratio", "ocf_to_net_profit")) or metric in ("gross_margin", "debt_to_assets"):
         return f"{value * 100:.2f}%"
     if unit == "万元":
         return f"{value / 1e4:.2f}万元"
@@ -208,6 +210,16 @@ def attribution(task: dict, rep: dict) -> Optional[dict]:
     """Did the system find the documented *reason* for each anomaly, not just the anomaly itself?"""
     if task["category"] != "anomaly_attribution":
         return None
+    if task["expected"].get("real"):
+        # real filings: no designed answer key; an attribution counts when a kept claim that names the
+        # anomaly cites an MD&A / notes / announcement chunk of the same company
+        exp = [c for c in task["expected"].get("anomalies", []) if c != "RELATED_PARTY_OR_POLICY_CHANGE"]
+        if not exp:
+            return None
+        found = {code: any(code in c["text"] and any(
+            rep["evidence"].get(e, {}).get("kind") == "document" for e in c["evidence_ids"]) for c in kept_claims(rep))
+            for code in exp}
+        return {"score": sum(found.values()) / len(found), "found": found}
     exp = [c for c in task["expected"].get("anomalies", []) if c in DESIGNED_EXPLANATIONS]
     if not exp:
         return None

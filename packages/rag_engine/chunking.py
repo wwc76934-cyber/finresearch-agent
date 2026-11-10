@@ -12,7 +12,7 @@ from datetime import datetime
 from typing import Optional
 
 PAGE_RE = re.compile(r"<!--\s*page\s+(\d+)\s*-->")
-UNIT_RE = re.compile(r"单位：(元|万元|亿元)")
+UNIT_RE = re.compile(r"单位：(元|千元|万元|亿元)")
 CHILD_MAX_CHARS = 450  # ~300-500 tokens for Chinese text
 
 
@@ -34,14 +34,16 @@ class Section:
 def section_type_of(path: str, doc_type: str) -> str:
     if doc_type == "announcement":
         return "ANNOUNCEMENT"
+    if "附注" in path or "注释" in path:
+        return "NOTES"
+    if re.search(r"(资产负债表|利润表|现金流量表)", path.split(" > ")[-1]) or "财务报表" in path:
+        return "STATEMENTS"
     if "管理层讨论" in path:
         return "MDA"
-    if "附注" in path:
-        return "NOTES"
     if "风险" in path:
         return "RISK_FACTORS"
-    if "财务报表" in path:
-        return "STATEMENTS"
+    if doc_type in ("q1_report", "q3_report"):
+        return "MDA"   # quarterly reports have no MD&A chapter; their prose explains the changes
     return "OTHER"
 
 

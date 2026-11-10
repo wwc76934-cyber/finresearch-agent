@@ -1,0 +1,3964 @@
+{
+ "checks": [
+  {
+   "ticker": "300750.SZ",
+   "period": "2024-06-30",
+   "metric": "operating_revenue",
+   "eastmoney": 166766834000.0,
+   "filing_pdf": 166766833600.0,
+   "rel_diff": 2.3985584567732456e-09,
+   "update_date": "2025-07-31"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2024-06-30",
+   "metric": "operating_cost",
+   "eastmoney": 127657244000.0,
+   "filing_pdf": 122517848800.00002,
+   "rel_diff": 0.04025933068083457,
+   "update_date": "2025-07-31"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2024-06-30",
+   "metric": "net_profit",
+   "eastmoney": 22864987000.0,
+   "filing_pdf": 22864987400.000004,
+   "rel_diff": 1.7493996555287665e-08,
+   "update_date": "2025-07-31"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2024-06-30",
+   "metric": "operating_cash_flow",
+   "eastmoney": 44708955000.0,
+   "filing_pdf": 44708954600.0,
+   "rel_diff": 8.946753508329596e-09,
+   "update_date": "2025-07-31"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2024-06-30",
+   "metric": "accounts_receivable",
+   "eastmoney": 58099476000.0,
+   "filing_pdf": 58099476000.0,
+   "rel_diff": 0.0,
+   "update_date": "2025-07-31"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2024-06-30",
+   "metric": "inventory",
+   "eastmoney": 48050676200.0,
+   "filing_pdf": 48050676200.0,
+   "rel_diff": 0.0,
+   "update_date": "2025-07-31"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2024-06-30",
+   "metric": "total_assets",
+   "eastmoney": 715251888900.0,
+   "filing_pdf": 715251888900.0,
+   "rel_diff": 0.0,
+   "update_date": "2025-07-31"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2024-06-30",
+   "metric": "total_liabilities",
+   "eastmoney": 495412262100.0,
+   "filing_pdf": 495412262100.0,
+   "rel_diff": 0.0,
+   "update_date": "2025-07-31"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2024-06-30",
+   "metric": "total_equity",
+   "eastmoney": 219839626800.0,
+   "filing_pdf": 219839626800.0,
+   "rel_diff": 0.0,
+   "update_date": "2025-07-31"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2024-06-30",
+   "metric": "parent_equity",
+   "eastmoney": 196231143400.0,
+   "filing_pdf": 196231143400.0,
+   "rel_diff": 0.0,
+   "update_date": "2025-07-31"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2024-06-30",
+   "metric": "cash",
+   "eastmoney": 255002207100.0,
+   "filing_pdf": 255002207100.0,
+   "rel_diff": 0.0,
+   "update_date": "2025-07-31"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2024-09-30",
+   "metric": "operating_revenue",
+   "eastmoney": 259044749000.0,
+   "filing_pdf": 259044748600.0,
+   "rel_diff": 1.5441347548797448e-09,
+   "update_date": "2025-10-21"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2024-09-30",
+   "metric": "operating_cost",
+   "eastmoney": 194352589000.0,
+   "filing_pdf": 186032900900.0,
+   "rel_diff": 0.04280718946326977,
+   "update_date": "2025-10-21"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2024-09-30",
+   "metric": "net_profit",
+   "eastmoney": 36001074000.0,
+   "filing_pdf": 36001073800.0,
+   "rel_diff": 5.555389819759266e-09,
+   "update_date": "2025-10-21"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2024-09-30",
+   "metric": "operating_cash_flow",
+   "eastmoney": 67443601000.0,
+   "filing_pdf": 67443601100.0,
+   "rel_diff": 1.4827203547449964e-09,
+   "update_date": "2025-10-21"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2024-09-30",
+   "metric": "accounts_receivable",
+   "eastmoney": 66702709300.0,
+   "filing_pdf": 66702709300.0,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-21"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2024-09-30",
+   "metric": "inventory",
+   "eastmoney": 55215275300.0,
+   "filing_pdf": 55215275300.0,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-21"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2024-09-30",
+   "metric": "total_assets",
+   "eastmoney": 738235004400.0,
+   "filing_pdf": 738235004400.0,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-21"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2024-09-30",
+   "metric": "total_liabilities",
+   "eastmoney": 474934361000.0,
+   "filing_pdf": 474934361000.0,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-21"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2024-09-30",
+   "metric": "total_equity",
+   "eastmoney": 263300643400.0,
+   "filing_pdf": 263300643400.0,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-21"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2024-09-30",
+   "metric": "parent_equity",
+   "eastmoney": 236956231200.0,
+   "filing_pdf": 236956231200.0,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-21"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2024-09-30",
+   "metric": "cash",
+   "eastmoney": 264675795100.0,
+   "filing_pdf": 264675795100.00003,
+   "rel_diff": 1.1530173400809027e-16,
+   "update_date": "2025-10-21"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2024-12-31",
+   "metric": "operating_revenue",
+   "eastmoney": 362012554000.0,
+   "filing_pdf": 362012554000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-03-10"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2024-12-31",
+   "metric": "operating_cost",
+   "eastmoney": 273518959000.0,
+   "filing_pdf": 273518959000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-03-10"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2024-12-31",
+   "metric": "net_profit",
+   "eastmoney": 50744682000.0,
+   "filing_pdf": 50744682000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-03-10"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2024-12-31",
+   "metric": "operating_cash_flow",
+   "eastmoney": 96990345000.0,
+   "filing_pdf": 96990345000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-03-10"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2024-12-31",
+   "metric": "accounts_receivable",
+   "eastmoney": 64135510000.0,
+   "filing_pdf": 64135510000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-03-10"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2024-12-31",
+   "metric": "inventory",
+   "eastmoney": 59835533000.0,
+   "filing_pdf": 59835533000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-03-10"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2024-12-31",
+   "metric": "total_assets",
+   "eastmoney": 786658123000.0,
+   "filing_pdf": 786658123000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-03-10"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2024-12-31",
+   "metric": "total_liabilities",
+   "eastmoney": 513201949000.0,
+   "filing_pdf": 513201949000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-03-10"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2024-12-31",
+   "metric": "total_equity",
+   "eastmoney": 273456174000.0,
+   "filing_pdf": 273456174000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-03-10"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2024-12-31",
+   "metric": "parent_equity",
+   "eastmoney": 246930033000.0,
+   "filing_pdf": 246930033000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-03-10"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2024-12-31",
+   "metric": "cash",
+   "eastmoney": 303511993000.0,
+   "filing_pdf": 303511993000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-03-10"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2025-03-31",
+   "metric": "operating_revenue",
+   "eastmoney": 84704589000.0,
+   "filing_pdf": 84704589000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-16"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2025-03-31",
+   "metric": "operating_cost",
+   "eastmoney": 64030111000.0,
+   "filing_pdf": 64030111000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-16"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2025-03-31",
+   "metric": "net_profit",
+   "eastmoney": 13962558000.0,
+   "filing_pdf": 13962558000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-16"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2025-03-31",
+   "metric": "operating_cash_flow",
+   "eastmoney": 32868257000.0,
+   "filing_pdf": 32868257000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-16"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2025-03-31",
+   "metric": "accounts_receivable",
+   "eastmoney": 60182430000.0,
+   "filing_pdf": 60182430000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-16"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2025-03-31",
+   "metric": "inventory",
+   "eastmoney": 65639666000.0,
+   "filing_pdf": 65639666000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-16"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2025-03-31",
+   "metric": "total_assets",
+   "eastmoney": 820097269000.0,
+   "filing_pdf": 820097269000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-16"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2025-03-31",
+   "metric": "total_liabilities",
+   "eastmoney": 530957915000.0,
+   "filing_pdf": 530957915000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-16"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2025-03-31",
+   "metric": "total_equity",
+   "eastmoney": 289139355000.0,
+   "filing_pdf": 289139355000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-16"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2025-03-31",
+   "metric": "parent_equity",
+   "eastmoney": 261557647000.0,
+   "filing_pdf": 261557647000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-16"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2025-03-31",
+   "metric": "cash",
+   "eastmoney": 321323654000.0,
+   "filing_pdf": 321323654000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-16"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2025-06-30",
+   "metric": "operating_revenue",
+   "eastmoney": 178886253000.0,
+   "filing_pdf": 178886253000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-07-25"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2025-06-30",
+   "metric": "operating_cost",
+   "eastmoney": 134123603000.0,
+   "filing_pdf": 134123603000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-07-25"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2025-06-30",
+   "metric": "net_profit",
+   "eastmoney": 30485139000.0,
+   "filing_pdf": 30485139000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-07-25"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2025-06-30",
+   "metric": "operating_cash_flow",
+   "eastmoney": 58687066000.0,
+   "filing_pdf": 58687066000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-07-25"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2025-06-30",
+   "metric": "accounts_receivable",
+   "eastmoney": 63800375000.0,
+   "filing_pdf": 63800375000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-07-25"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2025-06-30",
+   "metric": "inventory",
+   "eastmoney": 72272139000.0,
+   "filing_pdf": 72272139000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-07-25"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2025-06-30",
+   "metric": "total_assets",
+   "eastmoney": 867181431000.0,
+   "filing_pdf": 867181431000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-07-25"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2025-06-30",
+   "metric": "total_liabilities",
+   "eastmoney": 542792019000.0,
+   "filing_pdf": 542792019000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-07-25"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2025-06-30",
+   "metric": "total_equity",
+   "eastmoney": 324389412000.0,
+   "filing_pdf": 324389412000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-07-25"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2025-06-30",
+   "metric": "parent_equity",
+   "eastmoney": 294923020000.0,
+   "filing_pdf": 294923020000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-07-25"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2025-06-30",
+   "metric": "cash",
+   "eastmoney": 350577746000.0,
+   "filing_pdf": 350577746000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-07-25"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2025-09-30",
+   "metric": "operating_revenue",
+   "eastmoney": 283071987000.0,
+   "filing_pdf": 283071987000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-21"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2025-09-30",
+   "metric": "operating_cost",
+   "eastmoney": 211427147000.0,
+   "filing_pdf": 211427147000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-21"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2025-09-30",
+   "metric": "net_profit",
+   "eastmoney": 49034109000.0,
+   "filing_pdf": 49034109000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-21"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2025-09-30",
+   "metric": "operating_cash_flow",
+   "eastmoney": 80660430000.0,
+   "filing_pdf": 80660430000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-21"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2025-09-30",
+   "metric": "accounts_receivable",
+   "eastmoney": 66481235000.0,
+   "filing_pdf": 66481235000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-21"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2025-09-30",
+   "metric": "inventory",
+   "eastmoney": 80211558000.0,
+   "filing_pdf": 80211558000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-21"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2025-09-30",
+   "metric": "total_assets",
+   "eastmoney": 896082131000.0,
+   "filing_pdf": 896082131000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-21"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2025-09-30",
+   "metric": "total_liabilities",
+   "eastmoney": 549070060000.0,
+   "filing_pdf": 549070060000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-21"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2025-09-30",
+   "metric": "total_equity",
+   "eastmoney": 347012071000.0,
+   "filing_pdf": 347012071000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-21"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2025-09-30",
+   "metric": "parent_equity",
+   "eastmoney": 314247976000.0,
+   "filing_pdf": 314247976000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-21"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2025-09-30",
+   "metric": "cash",
+   "eastmoney": 324241586000.0,
+   "filing_pdf": 324241586000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-21"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2025-12-31",
+   "metric": "operating_revenue",
+   "eastmoney": 423701834000.0,
+   "filing_pdf": 423701834000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-03-10"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2025-12-31",
+   "metric": "operating_cost",
+   "eastmoney": 312383297000.0,
+   "filing_pdf": 312383297000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-03-10"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2025-12-31",
+   "metric": "net_profit",
+   "eastmoney": 72201282000.0,
+   "filing_pdf": 72201282000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-03-10"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2025-12-31",
+   "metric": "operating_cash_flow",
+   "eastmoney": 133219982000.0,
+   "filing_pdf": 133219982000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-03-10"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2025-12-31",
+   "metric": "accounts_receivable",
+   "eastmoney": 76403264000.0,
+   "filing_pdf": 76403264000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-03-10"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2025-12-31",
+   "metric": "inventory",
+   "eastmoney": 94526239000.0,
+   "filing_pdf": 94526239000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-03-10"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2025-12-31",
+   "metric": "total_assets",
+   "eastmoney": 974827544000.0,
+   "filing_pdf": 974827544000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-03-10"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2025-12-31",
+   "metric": "total_liabilities",
+   "eastmoney": 603801220000.0,
+   "filing_pdf": 603801220000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-03-10"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2025-12-31",
+   "metric": "total_equity",
+   "eastmoney": 371026324000.0,
+   "filing_pdf": 371026324000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-03-10"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2025-12-31",
+   "metric": "parent_equity",
+   "eastmoney": 337107747000.0,
+   "filing_pdf": 337107747000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-03-10"
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2025-12-31",
+   "metric": "cash",
+   "eastmoney": 333512927000.0,
+   "filing_pdf": 333512927000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-03-10"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2024-06-30",
+   "metric": "operating_revenue",
+   "eastmoney": 21659398588.08,
+   "filing_pdf": 21659398588.08,
+   "rel_diff": 0.0,
+   "update_date": "2025-08-22"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2024-06-30",
+   "metric": "operating_cost",
+   "eastmoney": 18167593331.51,
+   "filing_pdf": 18095684686.37,
+   "rel_diff": 0.00395807214680882,
+   "update_date": "2025-08-22"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2024-06-30",
+   "metric": "net_profit",
+   "eastmoney": 2137249689.22,
+   "filing_pdf": 2137249689.22,
+   "rel_diff": 0.0,
+   "update_date": "2025-08-22"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2024-06-30",
+   "metric": "accounts_receivable",
+   "eastmoney": 12502761822.36,
+   "filing_pdf": 12502761822.36,
+   "rel_diff": 0.0,
+   "update_date": "2025-08-22"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2024-06-30",
+   "metric": "inventory",
+   "eastmoney": 6357901044.76,
+   "filing_pdf": 6357901044.76,
+   "rel_diff": 0.0,
+   "update_date": "2025-08-22"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2024-06-30",
+   "metric": "cash",
+   "eastmoney": 8700553974.63,
+   "filing_pdf": 8700553974.63,
+   "rel_diff": 0.0,
+   "update_date": "2025-08-22"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2024-09-30",
+   "metric": "operating_revenue",
+   "eastmoney": 34049276929.36,
+   "filing_pdf": 34049276929.36,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-24"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2024-09-30",
+   "metric": "operating_cost",
+   "eastmoney": 28249638189.39,
+   "filing_pdf": 28130548504.43,
+   "rel_diff": 0.004215618060720041,
+   "update_date": "2025-10-24"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2024-09-30",
+   "metric": "net_profit",
+   "eastmoney": 3188651049.63,
+   "filing_pdf": 3188651049.63,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-24"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2024-09-30",
+   "metric": "operating_cash_flow",
+   "eastmoney": 2116324374.61,
+   "filing_pdf": 2116324374.61,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-24"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2024-09-30",
+   "metric": "accounts_receivable",
+   "eastmoney": 12493222676.56,
+   "filing_pdf": 12493222676.56,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-24"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2024-09-30",
+   "metric": "inventory",
+   "eastmoney": 5924579949.11,
+   "filing_pdf": 5924579949.11,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-24"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2024-09-30",
+   "metric": "total_assets",
+   "eastmoney": 100844748499.14,
+   "filing_pdf": 100844748499.14,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-24"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2024-09-30",
+   "metric": "total_liabilities",
+   "eastmoney": 60864523639.63,
+   "filing_pdf": 60864523639.63,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-24"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2024-09-30",
+   "metric": "total_equity",
+   "eastmoney": 39980224859.51,
+   "filing_pdf": 39980224859.51,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-24"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2024-09-30",
+   "metric": "parent_equity",
+   "eastmoney": 36621287059.96,
+   "filing_pdf": 36621287059.96,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-24"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2024-09-30",
+   "metric": "cash",
+   "eastmoney": 9488551624.71,
+   "filing_pdf": 9488551624.71,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-24"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2024-12-31",
+   "metric": "operating_revenue",
+   "eastmoney": 48614556525.09,
+   "filing_pdf": 48614556525.09,
+   "rel_diff": 0.0,
+   "update_date": "2026-03-28"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2024-12-31",
+   "metric": "operating_cost",
+   "eastmoney": 40149208233.59,
+   "filing_pdf": 40149208233.59,
+   "rel_diff": 0.0,
+   "update_date": "2026-03-28"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2024-12-31",
+   "metric": "net_profit",
+   "eastmoney": 4075585284.37,
+   "filing_pdf": 4075585284.37,
+   "rel_diff": 0.0,
+   "update_date": "2026-03-28"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2024-12-31",
+   "metric": "accounts_receivable",
+   "eastmoney": 13098572528.22,
+   "filing_pdf": 13098572528.22,
+   "rel_diff": 0.0,
+   "update_date": "2026-03-28"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2024-12-31",
+   "metric": "inventory",
+   "eastmoney": 5251441952.53,
+   "filing_pdf": 5251441952.53,
+   "rel_diff": 0.0,
+   "update_date": "2026-03-28"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2024-12-31",
+   "metric": "cash",
+   "eastmoney": 9064859345.79,
+   "filing_pdf": 9064859345.79,
+   "rel_diff": 0.0,
+   "update_date": "2026-03-28"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2025-03-31",
+   "metric": "operating_revenue",
+   "eastmoney": 12796142215.48,
+   "filing_pdf": 12796142215.48,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-25"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2025-03-31",
+   "metric": "operating_cost",
+   "eastmoney": 10600417002.75,
+   "filing_pdf": 10600417002.75,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-25"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2025-03-31",
+   "metric": "net_profit",
+   "eastmoney": 1101115915.75,
+   "filing_pdf": 1101115915.75,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-25"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2025-03-31",
+   "metric": "operating_cash_flow",
+   "eastmoney": 892143948.57,
+   "filing_pdf": 892143948.57,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-25"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2025-03-31",
+   "metric": "accounts_receivable",
+   "eastmoney": 12807923722.26,
+   "filing_pdf": 12807923722.26,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-25"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2025-03-31",
+   "metric": "inventory",
+   "eastmoney": 5301816669.62,
+   "filing_pdf": 5301816669.62,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-25"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2025-03-31",
+   "metric": "total_assets",
+   "eastmoney": 108500838294.33,
+   "filing_pdf": 108500838294.33,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-25"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2025-03-31",
+   "metric": "total_liabilities",
+   "eastmoney": 67248685643.23,
+   "filing_pdf": 67248685643.23,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-25"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2025-03-31",
+   "metric": "total_equity",
+   "eastmoney": 41252152651.1,
+   "filing_pdf": 41252152651.1,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-25"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2025-03-31",
+   "metric": "parent_equity",
+   "eastmoney": 38712039730.65,
+   "filing_pdf": 38712039730.65,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-25"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2025-03-31",
+   "metric": "cash",
+   "eastmoney": 13435049244.98,
+   "filing_pdf": 13435049244.98,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-25"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2025-06-30",
+   "metric": "operating_revenue",
+   "eastmoney": 28169564043.41,
+   "filing_pdf": 28169564043.41,
+   "rel_diff": 0.0,
+   "update_date": "2026-08-20"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2025-06-30",
+   "metric": "operating_cost",
+   "eastmoney": 23289022724.62,
+   "filing_pdf": 23289022724.62,
+   "rel_diff": 0.0,
+   "update_date": "2026-08-20"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2025-06-30",
+   "metric": "net_profit",
+   "eastmoney": 1605171455.77,
+   "filing_pdf": 1605171455.77,
+   "rel_diff": 0.0,
+   "update_date": "2026-08-20"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2025-06-30",
+   "metric": "operating_cash_flow",
+   "eastmoney": 2372565711.61,
+   "filing_pdf": 2372565711.61,
+   "rel_diff": 0.0,
+   "update_date": "2026-08-20"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2025-06-30",
+   "metric": "accounts_receivable",
+   "eastmoney": 13802699964.93,
+   "filing_pdf": 13802699964.93,
+   "rel_diff": 0.0,
+   "update_date": "2026-08-20"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2025-06-30",
+   "metric": "inventory",
+   "eastmoney": 6029995571.09,
+   "filing_pdf": 6029995571.09,
+   "rel_diff": 0.0,
+   "update_date": "2026-08-20"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2025-06-30",
+   "metric": "total_assets",
+   "eastmoney": 110693660018.39,
+   "filing_pdf": 110693660018.39,
+   "rel_diff": 0.0,
+   "update_date": "2026-08-20"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2025-06-30",
+   "metric": "total_liabilities",
+   "eastmoney": 69259482586.49,
+   "filing_pdf": 69259482586.49,
+   "rel_diff": 0.0,
+   "update_date": "2026-08-20"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2025-06-30",
+   "metric": "total_equity",
+   "eastmoney": 41434177431.9,
+   "filing_pdf": 41434177431.9,
+   "rel_diff": 0.0,
+   "update_date": "2026-08-20"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2025-06-30",
+   "metric": "parent_equity",
+   "eastmoney": 38815638241.4,
+   "filing_pdf": 38815638241.4,
+   "rel_diff": 0.0,
+   "update_date": "2026-08-20"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2025-06-30",
+   "metric": "cash",
+   "eastmoney": 7064548762.76,
+   "filing_pdf": 7064548762.76,
+   "rel_diff": 0.0,
+   "update_date": "2026-08-20"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2025-09-30",
+   "metric": "operating_revenue",
+   "eastmoney": 45001518158.94,
+   "filing_pdf": 45001518158.94,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-24"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2025-09-30",
+   "metric": "operating_cost",
+   "eastmoney": 37821584359.35,
+   "filing_pdf": 37821584359.35,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-24"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2025-09-30",
+   "metric": "net_profit",
+   "eastmoney": 2815688702.22,
+   "filing_pdf": 2815688702.22,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-24"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2025-09-30",
+   "metric": "operating_cash_flow",
+   "eastmoney": 4903825467.82,
+   "filing_pdf": 4903825467.82,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-24"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2025-09-30",
+   "metric": "accounts_receivable",
+   "eastmoney": 15130487840.29,
+   "filing_pdf": 15130487840.29,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-24"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2025-09-30",
+   "metric": "inventory",
+   "eastmoney": 6006078920.65,
+   "filing_pdf": 6006078920.65,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-24"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2025-09-30",
+   "metric": "total_assets",
+   "eastmoney": 116370312830.31,
+   "filing_pdf": 116370312830.31,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-24"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2025-09-30",
+   "metric": "total_liabilities",
+   "eastmoney": 73855176935.69,
+   "filing_pdf": 73855176935.69,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-24"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2025-09-30",
+   "metric": "cash",
+   "eastmoney": 9444793190.9,
+   "filing_pdf": 9444793190.9,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-24"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2025-12-31",
+   "metric": "operating_revenue",
+   "eastmoney": 61469630776.09,
+   "filing_pdf": 61469630776.09,
+   "rel_diff": 0.0,
+   "update_date": "2026-03-28"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2025-12-31",
+   "metric": "operating_cost",
+   "eastmoney": 51528491525.28,
+   "filing_pdf": 51528491525.28,
+   "rel_diff": 0.0,
+   "update_date": "2026-03-28"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2025-12-31",
+   "metric": "net_profit",
+   "eastmoney": 4134303670.89,
+   "filing_pdf": 4134303670.89,
+   "rel_diff": 0.0,
+   "update_date": "2026-03-28"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2025-12-31",
+   "metric": "accounts_receivable",
+   "eastmoney": 14860257383.23,
+   "filing_pdf": 14860257383.23,
+   "rel_diff": 0.0,
+   "update_date": "2026-03-28"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2025-12-31",
+   "metric": "inventory",
+   "eastmoney": 8239887039.65,
+   "filing_pdf": 8239887039.65,
+   "rel_diff": 0.0,
+   "update_date": "2026-03-28"
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2025-12-31",
+   "metric": "cash",
+   "eastmoney": 8501799285.35,
+   "filing_pdf": 8501799285.35,
+   "rel_diff": 0.0,
+   "update_date": "2026-03-28"
+  },
+  {
+   "ticker": "002594.SZ",
+   "period": "2024-09-30",
+   "metric": "operating_revenue",
+   "eastmoney": 502251312000.0,
+   "filing_pdf": 502251312000.0,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-31"
+  },
+  {
+   "ticker": "002594.SZ",
+   "period": "2024-09-30",
+   "metric": "operating_cost",
+   "eastmoney": 405231798000.0,
+   "filing_pdf": 397953563000.0,
+   "rel_diff": 0.017960670993543305,
+   "update_date": "2025-10-31"
+  },
+  {
+   "ticker": "002594.SZ",
+   "period": "2024-09-30",
+   "metric": "net_profit",
+   "eastmoney": 25238115000.0,
+   "filing_pdf": 25238115000.0,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-31"
+  },
+  {
+   "ticker": "002594.SZ",
+   "period": "2024-09-30",
+   "metric": "operating_cash_flow",
+   "eastmoney": 56273315000.0,
+   "filing_pdf": 56273315000.0,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-31"
+  },
+  {
+   "ticker": "002594.SZ",
+   "period": "2024-09-30",
+   "metric": "accounts_receivable",
+   "eastmoney": 79443781000.0,
+   "filing_pdf": 79443781000.0,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-31"
+  },
+  {
+   "ticker": "002594.SZ",
+   "period": "2024-09-30",
+   "metric": "inventory",
+   "eastmoney": 124358648000.0,
+   "filing_pdf": 124358648000.0,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-31"
+  },
+  {
+   "ticker": "002594.SZ",
+   "period": "2024-09-30",
+   "metric": "total_assets",
+   "eastmoney": 764259515000.0,
+   "filing_pdf": 764259515000.0,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-31"
+  },
+  {
+   "ticker": "002594.SZ",
+   "period": "2024-09-30",
+   "metric": "total_liabilities",
+   "eastmoney": 595456788000.0,
+   "filing_pdf": 595456788000.0,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-31"
+  },
+  {
+   "ticker": "002594.SZ",
+   "period": "2024-09-30",
+   "metric": "total_equity",
+   "eastmoney": 168802727000.0,
+   "filing_pdf": 168802727000.0,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-31"
+  },
+  {
+   "ticker": "002594.SZ",
+   "period": "2024-09-30",
+   "metric": "parent_equity",
+   "eastmoney": 155462393000.0,
+   "filing_pdf": 155462393000.0,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-31"
+  },
+  {
+   "ticker": "002594.SZ",
+   "period": "2024-09-30",
+   "metric": "cash",
+   "eastmoney": 66319375000.0,
+   "filing_pdf": 66319375000.0,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-31"
+  },
+  {
+   "ticker": "002594.SZ",
+   "period": "2025-03-31",
+   "metric": "operating_revenue",
+   "eastmoney": 170360448000.0,
+   "filing_pdf": 170360448000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-29"
+  },
+  {
+   "ticker": "002594.SZ",
+   "period": "2025-03-31",
+   "metric": "operating_cost",
+   "eastmoney": 136175385000.0,
+   "filing_pdf": 136175385000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-29"
+  },
+  {
+   "ticker": "002594.SZ",
+   "period": "2025-03-31",
+   "metric": "net_profit",
+   "eastmoney": 9154985000.0,
+   "filing_pdf": 9154985000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-29"
+  },
+  {
+   "ticker": "002594.SZ",
+   "period": "2025-03-31",
+   "metric": "operating_cash_flow",
+   "eastmoney": 8580961000.0,
+   "filing_pdf": 8580961000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-29"
+  },
+  {
+   "ticker": "002594.SZ",
+   "period": "2025-03-31",
+   "metric": "accounts_receivable",
+   "eastmoney": 53182767000.0,
+   "filing_pdf": 53182767000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-29"
+  },
+  {
+   "ticker": "002594.SZ",
+   "period": "2025-03-31",
+   "metric": "inventory",
+   "eastmoney": 154373616000.0,
+   "filing_pdf": 154373616000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-29"
+  },
+  {
+   "ticker": "002594.SZ",
+   "period": "2025-03-31",
+   "metric": "total_assets",
+   "eastmoney": 840527145000.0,
+   "filing_pdf": 840527145000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-29"
+  },
+  {
+   "ticker": "002594.SZ",
+   "period": "2025-03-31",
+   "metric": "total_liabilities",
+   "eastmoney": 594365580000.0,
+   "filing_pdf": 594365580000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-29"
+  },
+  {
+   "ticker": "002594.SZ",
+   "period": "2025-03-31",
+   "metric": "total_equity",
+   "eastmoney": 246161565000.0,
+   "filing_pdf": 246161565000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-29"
+  },
+  {
+   "ticker": "002594.SZ",
+   "period": "2025-03-31",
+   "metric": "parent_equity",
+   "eastmoney": 233361322000.0,
+   "filing_pdf": 233361322000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-29"
+  },
+  {
+   "ticker": "002594.SZ",
+   "period": "2025-03-31",
+   "metric": "cash",
+   "eastmoney": 117406726000.0,
+   "filing_pdf": 117406726000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-29"
+  },
+  {
+   "ticker": "002594.SZ",
+   "period": "2025-09-30",
+   "metric": "operating_revenue",
+   "eastmoney": 566265546000.0,
+   "filing_pdf": 566265546000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-30"
+  },
+  {
+   "ticker": "002594.SZ",
+   "period": "2025-09-30",
+   "metric": "operating_cost",
+   "eastmoney": 465053652000.0,
+   "filing_pdf": 465053652000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-30"
+  },
+  {
+   "ticker": "002594.SZ",
+   "period": "2025-09-30",
+   "metric": "net_profit",
+   "eastmoney": 23333173000.0,
+   "filing_pdf": 23333173000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-30"
+  },
+  {
+   "ticker": "002594.SZ",
+   "period": "2025-09-30",
+   "metric": "operating_cash_flow",
+   "eastmoney": 40845498000.0,
+   "filing_pdf": 40845498000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-30"
+  },
+  {
+   "ticker": "002594.SZ",
+   "period": "2025-09-30",
+   "metric": "accounts_receivable",
+   "eastmoney": 39364118000.0,
+   "filing_pdf": 39364118000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-30"
+  },
+  {
+   "ticker": "002594.SZ",
+   "period": "2025-09-30",
+   "metric": "inventory",
+   "eastmoney": 152973306000.0,
+   "filing_pdf": 152973306000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-30"
+  },
+  {
+   "ticker": "002594.SZ",
+   "period": "2025-09-30",
+   "metric": "total_assets",
+   "eastmoney": 901925091000.0,
+   "filing_pdf": 901925091000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-30"
+  },
+  {
+   "ticker": "002594.SZ",
+   "period": "2025-09-30",
+   "metric": "total_liabilities",
+   "eastmoney": 643526696000.0,
+   "filing_pdf": 643526696000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-30"
+  },
+  {
+   "ticker": "002594.SZ",
+   "period": "2025-09-30",
+   "metric": "total_equity",
+   "eastmoney": 258398395000.0,
+   "filing_pdf": 258398395000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-30"
+  },
+  {
+   "ticker": "002594.SZ",
+   "period": "2025-09-30",
+   "metric": "parent_equity",
+   "eastmoney": 245515455000.0,
+   "filing_pdf": 245515455000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-30"
+  },
+  {
+   "ticker": "002594.SZ",
+   "period": "2025-09-30",
+   "metric": "cash",
+   "eastmoney": 119725097000.0,
+   "filing_pdf": 119725097000.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-30"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2024-06-30",
+   "metric": "operating_revenue",
+   "eastmoney": 38528702860.54,
+   "filing_pdf": 38528702860.54,
+   "rel_diff": 0.0,
+   "update_date": "2025-08-23"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2024-06-30",
+   "metric": "operating_cost",
+   "eastmoney": 35579171022.74,
+   "filing_pdf": 35579171022.74,
+   "rel_diff": 0.0,
+   "update_date": "2025-08-23"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2024-06-30",
+   "metric": "net_profit",
+   "eastmoney": -5230631522.98,
+   "filing_pdf": -5243344677.95,
+   "rel_diff": 0.002430520084266482,
+   "update_date": "2025-08-23"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2024-06-30",
+   "metric": "operating_cash_flow",
+   "eastmoney": -6413098864.02,
+   "filing_pdf": -6413098864.02,
+   "rel_diff": 0.0,
+   "update_date": "2025-08-23"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2024-06-30",
+   "metric": "accounts_receivable",
+   "eastmoney": 10229847942.49,
+   "filing_pdf": 10229847942.49,
+   "rel_diff": 0.0,
+   "update_date": "2025-08-23"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2024-06-30",
+   "metric": "inventory",
+   "eastmoney": 18409609772.76,
+   "filing_pdf": 18409609772.76,
+   "rel_diff": 0.0,
+   "update_date": "2025-08-23"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2024-06-30",
+   "metric": "total_assets",
+   "eastmoney": 158962649160.9,
+   "filing_pdf": 158962649160.9,
+   "rel_diff": 0.0,
+   "update_date": "2025-08-23"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2024-06-30",
+   "metric": "total_liabilities",
+   "eastmoney": 94042371079.28,
+   "filing_pdf": 94042371079.28,
+   "rel_diff": 0.0,
+   "update_date": "2025-08-23"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2024-06-30",
+   "metric": "cash",
+   "eastmoney": 54484187039.06,
+   "filing_pdf": 54484187039.06,
+   "rel_diff": 0.0,
+   "update_date": "2025-08-23"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2024-09-30",
+   "metric": "operating_revenue",
+   "eastmoney": 58592695599.44,
+   "filing_pdf": 58592695599.44,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-31"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2024-09-30",
+   "metric": "operating_cost",
+   "eastmoney": 53917965024.32,
+   "filing_pdf": 53917965024.32,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-31"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2024-09-30",
+   "metric": "net_profit",
+   "eastmoney": -6485532106.05,
+   "filing_pdf": -6504601727.33,
+   "rel_diff": 0.0029403325691982497,
+   "update_date": "2025-10-31"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2024-09-30",
+   "metric": "operating_cash_flow",
+   "eastmoney": -8367081645.6,
+   "filing_pdf": -8367081645.6,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-31"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2024-09-30",
+   "metric": "accounts_receivable",
+   "eastmoney": 10671412837.0,
+   "filing_pdf": 10671412837.0,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-31"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2024-09-30",
+   "metric": "inventory",
+   "eastmoney": 19215397966.48,
+   "filing_pdf": 19215397966.48,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-31"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2024-09-30",
+   "metric": "total_assets",
+   "eastmoney": 155192005658.17,
+   "filing_pdf": 155192005658.17,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-31"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2024-09-30",
+   "metric": "total_liabilities",
+   "eastmoney": 91866827810.13,
+   "filing_pdf": 91866827810.13,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-31"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2024-09-30",
+   "metric": "cash",
+   "eastmoney": 51110276619.06,
+   "filing_pdf": 51110276619.06,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-31"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2024-12-31",
+   "metric": "operating_revenue",
+   "eastmoney": 82582273118.72,
+   "filing_pdf": 82582273118.72,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-29"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2024-12-31",
+   "metric": "operating_cost",
+   "eastmoney": 76439845701.51,
+   "filing_pdf": 76439845701.51,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-29"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2024-12-31",
+   "metric": "net_profit",
+   "eastmoney": -8592102400.42,
+   "filing_pdf": -8617528506.44,
+   "rel_diff": 0.002959241502843073,
+   "update_date": "2026-04-29"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2024-12-31",
+   "metric": "operating_cash_flow",
+   "eastmoney": -4724978931.84,
+   "filing_pdf": -4724978931.84,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-29"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2024-12-31",
+   "metric": "accounts_receivable",
+   "eastmoney": 13940747611.88,
+   "filing_pdf": 13940747611.88,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-29"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2024-12-31",
+   "metric": "inventory",
+   "eastmoney": 13382209109.1,
+   "filing_pdf": 13382209109.1,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-29"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2024-12-31",
+   "metric": "total_assets",
+   "eastmoney": 152841364930.92,
+   "filing_pdf": 152844602368.05,
+   "rel_diff": 2.1181681617653673e-05,
+   "update_date": "2026-04-29"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2024-12-31",
+   "metric": "total_liabilities",
+   "eastmoney": 91443923169.18,
+   "filing_pdf": 91443923169.18,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-29"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2024-12-31",
+   "metric": "cash",
+   "eastmoney": 53156782586.47,
+   "filing_pdf": 53156782586.47,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-29"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2025-03-31",
+   "metric": "operating_revenue",
+   "eastmoney": 13652473612.63,
+   "filing_pdf": 13652473612.63,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-29"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2025-03-31",
+   "metric": "operating_cost",
+   "eastmoney": 14223458629.93,
+   "filing_pdf": 14223458629.93,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-29"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2025-03-31",
+   "metric": "net_profit",
+   "eastmoney": -1430653676.59,
+   "filing_pdf": -1436171302.68,
+   "rel_diff": 0.0038567168143387137,
+   "update_date": "2026-04-29"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2025-03-31",
+   "metric": "operating_cash_flow",
+   "eastmoney": -1747336782.35,
+   "filing_pdf": -1747336782.35,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-29"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2025-03-31",
+   "metric": "accounts_receivable",
+   "eastmoney": 10785010352.39,
+   "filing_pdf": 10785010352.39,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-29"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2025-03-31",
+   "metric": "inventory",
+   "eastmoney": 13635073437.8,
+   "filing_pdf": 13635073437.8,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-29"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2025-03-31",
+   "metric": "total_assets",
+   "eastmoney": 149043011024.39,
+   "filing_pdf": 149043011024.39,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-29"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2025-03-31",
+   "metric": "total_liabilities",
+   "eastmoney": 89129096737.98,
+   "filing_pdf": 89129096737.98,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-29"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2025-03-31",
+   "metric": "cash",
+   "eastmoney": 51482654243.61,
+   "filing_pdf": 51482654243.61,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-29"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2025-06-30",
+   "metric": "operating_revenue",
+   "eastmoney": 32813146398.68,
+   "filing_pdf": 32813146398.68,
+   "rel_diff": 0.0,
+   "update_date": "2026-08-31"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2025-06-30",
+   "metric": "operating_cost",
+   "eastmoney": 33080973460.6,
+   "filing_pdf": 33080973460.6,
+   "rel_diff": 0.0,
+   "update_date": "2026-08-31"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2025-06-30",
+   "metric": "net_profit",
+   "eastmoney": -2569358351.05,
+   "filing_pdf": -2569358351.05,
+   "rel_diff": 0.0,
+   "update_date": "2026-08-31"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2025-06-30",
+   "metric": "operating_cash_flow",
+   "eastmoney": -484332299.83,
+   "filing_pdf": -484332299.83,
+   "rel_diff": 0.0,
+   "update_date": "2026-08-31"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2025-06-30",
+   "metric": "accounts_receivable",
+   "eastmoney": 11908490906.33,
+   "filing_pdf": 11908490906.33,
+   "rel_diff": 0.0,
+   "update_date": "2026-08-31"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2025-06-30",
+   "metric": "inventory",
+   "eastmoney": 14459934052.84,
+   "filing_pdf": 14459934052.84,
+   "rel_diff": 0.0,
+   "update_date": "2026-08-31"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2025-06-30",
+   "metric": "total_assets",
+   "eastmoney": 149604304410.28,
+   "filing_pdf": 149604304410.28,
+   "rel_diff": 0.0,
+   "update_date": "2026-08-31"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2025-06-30",
+   "metric": "total_liabilities",
+   "eastmoney": 90845679608.24,
+   "filing_pdf": 90845679608.24,
+   "rel_diff": 0.0,
+   "update_date": "2026-08-31"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2025-06-30",
+   "metric": "cash",
+   "eastmoney": 49303447169.09,
+   "filing_pdf": 49303447169.09,
+   "rel_diff": 0.0,
+   "update_date": "2026-08-31"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2025-09-30",
+   "metric": "operating_revenue",
+   "eastmoney": 50914567855.0,
+   "filing_pdf": 50914567855.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-31"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2025-09-30",
+   "metric": "operating_cost",
+   "eastmoney": 50296375767.88,
+   "filing_pdf": 50296375767.88,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-31"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2025-09-30",
+   "metric": "net_profit",
+   "eastmoney": -3403469441.0,
+   "filing_pdf": -3403469441.0,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-31"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2025-09-30",
+   "metric": "operating_cash_flow",
+   "eastmoney": 1818660320.07,
+   "filing_pdf": 1818660320.07,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-31"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2025-09-30",
+   "metric": "accounts_receivable",
+   "eastmoney": 12200187305.06,
+   "filing_pdf": 12200187305.06,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-31"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2025-09-30",
+   "metric": "inventory",
+   "eastmoney": 14515844757.37,
+   "filing_pdf": 14515844757.37,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-31"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2025-09-30",
+   "metric": "total_assets",
+   "eastmoney": 153972478031.54,
+   "filing_pdf": 153972478031.54,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-31"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2025-09-30",
+   "metric": "total_liabilities",
+   "eastmoney": 96126619599.58,
+   "filing_pdf": 96126619599.58,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-31"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2025-09-30",
+   "metric": "cash",
+   "eastmoney": 51365975445.28,
+   "filing_pdf": 51365975445.28,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-31"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2025-12-31",
+   "metric": "operating_revenue",
+   "eastmoney": 70347049950.42,
+   "filing_pdf": 70347049950.42,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-29"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2025-12-31",
+   "metric": "operating_cost",
+   "eastmoney": 69777399589.97,
+   "filing_pdf": 69777399589.97,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-29"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2025-12-31",
+   "metric": "net_profit",
+   "eastmoney": -6419556843.85,
+   "filing_pdf": -6419556843.85,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-29"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2025-12-31",
+   "metric": "operating_cash_flow",
+   "eastmoney": 4359382755.77,
+   "filing_pdf": 4359382755.77,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-29"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2025-12-31",
+   "metric": "accounts_receivable",
+   "eastmoney": 11551104332.65,
+   "filing_pdf": 11551104332.65,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-29"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2025-12-31",
+   "metric": "inventory",
+   "eastmoney": 14541724708.56,
+   "filing_pdf": 14541724708.56,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-29"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2025-12-31",
+   "metric": "total_assets",
+   "eastmoney": 153803608808.29,
+   "filing_pdf": 153803608808.29,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-29"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2025-12-31",
+   "metric": "total_liabilities",
+   "eastmoney": 99092656484.29,
+   "filing_pdf": 99092656484.29,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-29"
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2025-12-31",
+   "metric": "cash",
+   "eastmoney": 55472934100.37,
+   "filing_pdf": 55472934100.37,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-29"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2024-06-30",
+   "metric": "operating_revenue",
+   "eastmoney": 81930977667.75,
+   "filing_pdf": 81930977667.75,
+   "rel_diff": 0.0,
+   "update_date": "2025-08-13"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2024-06-30",
+   "metric": "operating_cost",
+   "eastmoney": 6750879251.19,
+   "filing_pdf": 6750879251.19,
+   "rel_diff": 0.0,
+   "update_date": "2025-08-13"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2024-06-30",
+   "metric": "net_profit",
+   "eastmoney": 41695610983.37,
+   "filing_pdf": 41695610983.37,
+   "rel_diff": 0.0,
+   "update_date": "2025-08-13"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2024-06-30",
+   "metric": "operating_cash_flow",
+   "eastmoney": 36621833812.63,
+   "filing_pdf": 36621833812.63,
+   "rel_diff": 0.0,
+   "update_date": "2025-08-13"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2024-06-30",
+   "metric": "accounts_receivable",
+   "eastmoney": 1358595.12,
+   "filing_pdf": 1358595.12,
+   "rel_diff": 0.0,
+   "update_date": "2025-08-13"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2024-06-30",
+   "metric": "inventory",
+   "eastmoney": 47766478732.37,
+   "filing_pdf": 47766478732.37,
+   "rel_diff": 0.0,
+   "update_date": "2025-08-13"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2024-06-30",
+   "metric": "total_assets",
+   "eastmoney": 279207261166.63,
+   "filing_pdf": 279207261166.63,
+   "rel_diff": 0.0,
+   "update_date": "2025-08-13"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2024-06-30",
+   "metric": "total_liabilities",
+   "eastmoney": 51162451517.35,
+   "filing_pdf": 51162451517.35,
+   "rel_diff": 0.0,
+   "update_date": "2025-08-13"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2024-06-30",
+   "metric": "cash",
+   "eastmoney": 56840349530.82,
+   "filing_pdf": 56840349530.82,
+   "rel_diff": 0.0,
+   "update_date": "2025-08-13"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2024-09-30",
+   "metric": "operating_revenue",
+   "eastmoney": 120776131874.69,
+   "filing_pdf": 120776131874.69,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-30"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2024-09-30",
+   "metric": "operating_cost",
+   "eastmoney": 10228077394.34,
+   "filing_pdf": 10228077394.34,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-30"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2024-09-30",
+   "metric": "net_profit",
+   "eastmoney": 60827552118.51,
+   "filing_pdf": 60827552118.51,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-30"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2024-09-30",
+   "metric": "operating_cash_flow",
+   "eastmoney": 44421386217.45,
+   "filing_pdf": 44421386217.45,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-30"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2024-09-30",
+   "metric": "accounts_receivable",
+   "eastmoney": 10131702.74,
+   "filing_pdf": 10131702.74,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-30"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2024-09-30",
+   "metric": "inventory",
+   "eastmoney": 48224880009.62,
+   "filing_pdf": 48224880009.62,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-30"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2024-09-30",
+   "metric": "total_assets",
+   "eastmoney": 286770722957.69,
+   "filing_pdf": 286770722957.69,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-30"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2024-09-30",
+   "metric": "total_liabilities",
+   "eastmoney": 39082558719.52,
+   "filing_pdf": 39082558719.52,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-30"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2024-09-30",
+   "metric": "cash",
+   "eastmoney": 60084745614.27,
+   "filing_pdf": 60084745614.27,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-30"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2024-12-31",
+   "metric": "operating_revenue",
+   "eastmoney": 170899152276.34,
+   "filing_pdf": 170899152276.34,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-17"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2024-12-31",
+   "metric": "operating_cost",
+   "eastmoney": 13789482367.98,
+   "filing_pdf": 13789482367.98,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-17"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2024-12-31",
+   "metric": "net_profit",
+   "eastmoney": 86228146421.62,
+   "filing_pdf": 86228146421.62,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-17"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2024-12-31",
+   "metric": "operating_cash_flow",
+   "eastmoney": 92463692168.43,
+   "filing_pdf": 92463692168.43,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-17"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2024-12-31",
+   "metric": "accounts_receivable",
+   "eastmoney": 18974192.75,
+   "filing_pdf": 18974192.75,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-17"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2024-12-31",
+   "metric": "inventory",
+   "eastmoney": 54343285157.47,
+   "filing_pdf": 54343285157.47,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-17"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2024-12-31",
+   "metric": "total_assets",
+   "eastmoney": 298944579918.7,
+   "filing_pdf": 298944579918.7,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-17"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2024-12-31",
+   "metric": "total_liabilities",
+   "eastmoney": 56933264798.1,
+   "filing_pdf": 56933264798.1,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-17"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2024-12-31",
+   "metric": "cash",
+   "eastmoney": 59295822956.89,
+   "filing_pdf": 59295822956.89,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-17"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2025-03-31",
+   "metric": "operating_revenue",
+   "eastmoney": 50600957885.78,
+   "filing_pdf": 50600957885.78,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-25"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2025-03-31",
+   "metric": "operating_cost",
+   "eastmoney": 4061430550.43,
+   "filing_pdf": 4061430550.43,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-25"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2025-03-31",
+   "metric": "net_profit",
+   "eastmoney": 26847474238.76,
+   "filing_pdf": 26847474238.76,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-25"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2025-03-31",
+   "metric": "operating_cash_flow",
+   "eastmoney": 8809195646.38,
+   "filing_pdf": 8809195646.38,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-25"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2025-03-31",
+   "metric": "accounts_receivable",
+   "eastmoney": 15199312.09,
+   "filing_pdf": 15199312.09,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-25"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2025-03-31",
+   "metric": "inventory",
+   "eastmoney": 54798455069.13,
+   "filing_pdf": 54798455069.13,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-25"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2025-03-31",
+   "metric": "total_assets",
+   "eastmoney": 312368697395.05,
+   "filing_pdf": 312368697395.05,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-25"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2025-03-31",
+   "metric": "total_liabilities",
+   "eastmoney": 44178362224.66,
+   "filing_pdf": 44178362224.66,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-25"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2025-03-31",
+   "metric": "cash",
+   "eastmoney": 52199240419.27,
+   "filing_pdf": 52199240419.27,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-25"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2025-06-30",
+   "metric": "operating_revenue",
+   "eastmoney": 89389354416.84,
+   "filing_pdf": 89389354416.84,
+   "rel_diff": 0.0,
+   "update_date": "2026-08-15"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2025-06-30",
+   "metric": "operating_cost",
+   "eastmoney": 7777491083.93,
+   "filing_pdf": 7777491083.93,
+   "rel_diff": 0.0,
+   "update_date": "2026-08-15"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2025-06-30",
+   "metric": "net_profit",
+   "eastmoney": 45402962298.1,
+   "filing_pdf": 45402962298.1,
+   "rel_diff": 0.0,
+   "update_date": "2026-08-15"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2025-06-30",
+   "metric": "operating_cash_flow",
+   "eastmoney": 13119061031.33,
+   "filing_pdf": 13119061031.33,
+   "rel_diff": 0.0,
+   "update_date": "2026-08-15"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2025-06-30",
+   "metric": "accounts_receivable",
+   "eastmoney": 37961242.39,
+   "filing_pdf": 37961242.39,
+   "rel_diff": 0.0,
+   "update_date": "2026-08-15"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2025-06-30",
+   "metric": "inventory",
+   "eastmoney": 54971731959.6,
+   "filing_pdf": 54971731959.6,
+   "rel_diff": 0.0,
+   "update_date": "2026-08-15"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2025-06-30",
+   "metric": "total_assets",
+   "eastmoney": 292257789095.51,
+   "filing_pdf": 292257789095.51,
+   "rel_diff": 0.0,
+   "update_date": "2026-08-15"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2025-06-30",
+   "metric": "total_liabilities",
+   "eastmoney": 43122202832.76,
+   "filing_pdf": 43122202832.76,
+   "rel_diff": 0.0,
+   "update_date": "2026-08-15"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2025-06-30",
+   "metric": "cash",
+   "eastmoney": 51644880716.93,
+   "filing_pdf": 51644880716.93,
+   "rel_diff": 0.0,
+   "update_date": "2026-08-15"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2025-09-30",
+   "metric": "operating_revenue",
+   "eastmoney": 128453707655.86,
+   "filing_pdf": 128453707655.86,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-31"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2025-09-30",
+   "metric": "operating_cost",
+   "eastmoney": 11183972073.77,
+   "filing_pdf": 11183972073.77,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-31"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2025-09-30",
+   "metric": "net_profit",
+   "eastmoney": 64626746712.18,
+   "filing_pdf": 64626746712.18,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-31"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2025-09-30",
+   "metric": "operating_cash_flow",
+   "eastmoney": 38196802155.27,
+   "filing_pdf": 38196802155.27,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-31"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2025-09-30",
+   "metric": "accounts_receivable",
+   "eastmoney": 25531737.62,
+   "filing_pdf": 25531737.62,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-31"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2025-09-30",
+   "metric": "inventory",
+   "eastmoney": 55858862716.48,
+   "filing_pdf": 55858862716.48,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-31"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2025-09-30",
+   "metric": "total_assets",
+   "eastmoney": 304738184929.86,
+   "filing_pdf": 304738184929.86,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-31"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2025-09-30",
+   "metric": "total_liabilities",
+   "eastmoney": 39033160057.01,
+   "filing_pdf": 39033160057.01,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-31"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2025-09-30",
+   "metric": "cash",
+   "eastmoney": 51753057846.45,
+   "filing_pdf": 51753057846.45,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-31"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2025-12-31",
+   "metric": "operating_revenue",
+   "eastmoney": 168838102514.79,
+   "filing_pdf": 168838102514.79,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-17"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2025-12-31",
+   "metric": "operating_cost",
+   "eastmoney": 14892277570.91,
+   "filing_pdf": 14892277570.91,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-17"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2025-12-31",
+   "metric": "net_profit",
+   "eastmoney": 82320067101.68,
+   "filing_pdf": 82320067101.68,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-17"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2025-12-31",
+   "metric": "operating_cash_flow",
+   "eastmoney": 61522204989.35,
+   "filing_pdf": 61522204989.35,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-17"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2025-12-31",
+   "metric": "accounts_receivable",
+   "eastmoney": 2609048.49,
+   "filing_pdf": 2609048.49,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-17"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2025-12-31",
+   "metric": "inventory",
+   "eastmoney": 61427421796.18,
+   "filing_pdf": 61427421796.18,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-17"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2025-12-31",
+   "metric": "total_assets",
+   "eastmoney": 303834844021.44,
+   "filing_pdf": 303834844021.44,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-17"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2025-12-31",
+   "metric": "total_liabilities",
+   "eastmoney": 49875590112.37,
+   "filing_pdf": 49875590112.37,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-17"
+  },
+  {
+   "ticker": "600519.SH",
+   "period": "2025-12-31",
+   "metric": "cash",
+   "eastmoney": 51690610946.5,
+   "filing_pdf": 51690610946.5,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-17"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2024-06-30",
+   "metric": "operating_revenue",
+   "eastmoney": 50648026578.65,
+   "filing_pdf": 50648026578.65,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2024-06-30",
+   "metric": "operating_cost",
+   "eastmoney": 11466138507.2,
+   "filing_pdf": 11466138507.2,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2024-06-30",
+   "metric": "net_profit",
+   "eastmoney": 19056829528.87,
+   "filing_pdf": 19056829528.87,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2024-06-30",
+   "metric": "operating_cash_flow",
+   "eastmoney": 13427928655.63,
+   "filing_pdf": 13427928655.63,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2024-06-30",
+   "metric": "accounts_receivable",
+   "eastmoney": 84118689.5,
+   "filing_pdf": 84118689.5,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2024-06-30",
+   "metric": "inventory",
+   "eastmoney": 16847018906.97,
+   "filing_pdf": 16847018906.97,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2024-06-30",
+   "metric": "total_assets",
+   "eastmoney": 185984511884.61,
+   "filing_pdf": 185984511884.61,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2024-06-30",
+   "metric": "total_liabilities",
+   "eastmoney": 51935717475.57,
+   "filing_pdf": 51935717475.57,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2024-06-30",
+   "metric": "total_equity",
+   "eastmoney": 134048794409.04,
+   "filing_pdf": 134048794409.04,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2024-06-30",
+   "metric": "parent_equity",
+   "eastmoney": 130487961186.03,
+   "filing_pdf": 130487961186.03,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2024-06-30",
+   "metric": "cash",
+   "eastmoney": 128714842080.74,
+   "filing_pdf": 128714842080.74,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2024-09-30",
+   "metric": "operating_revenue",
+   "eastmoney": 67915580112.25,
+   "filing_pdf": 67915580112.25,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2024-09-30",
+   "metric": "operating_cost",
+   "eastmoney": 15580442572.51,
+   "filing_pdf": 15580442572.51,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2024-09-30",
+   "metric": "net_profit",
+   "eastmoney": 24930782556.55,
+   "filing_pdf": 24930782556.55,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2024-09-30",
+   "metric": "operating_cash_flow",
+   "eastmoney": 29794118733.59,
+   "filing_pdf": 29794118733.59,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2024-09-30",
+   "metric": "accounts_receivable",
+   "eastmoney": 147157413.26,
+   "filing_pdf": 147157413.26,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2024-09-30",
+   "metric": "inventory",
+   "eastmoney": 17536263234.37,
+   "filing_pdf": 17536263234.37,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2024-09-30",
+   "metric": "total_assets",
+   "eastmoney": 171704058921.09,
+   "filing_pdf": 171704058921.09,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2024-09-30",
+   "metric": "total_liabilities",
+   "eastmoney": 32600404546.2,
+   "filing_pdf": 32600404546.2,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2024-09-30",
+   "metric": "total_equity",
+   "eastmoney": 139103654374.89,
+   "filing_pdf": 139103654374.89,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2024-09-30",
+   "metric": "parent_equity",
+   "eastmoney": 136361914213.71,
+   "filing_pdf": 136361914213.71,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2024-09-30",
+   "metric": "cash",
+   "eastmoney": 125112231144.89,
+   "filing_pdf": 125112231144.89,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2024-12-31",
+   "metric": "operating_revenue",
+   "eastmoney": 89175178322.7,
+   "filing_pdf": 89175178322.7,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2024-12-31",
+   "metric": "operating_cost",
+   "eastmoney": 20461423083.74,
+   "filing_pdf": 20461423083.74,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2024-12-31",
+   "metric": "net_profit",
+   "eastmoney": 31853172533.98,
+   "filing_pdf": 31853172533.98,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2024-12-31",
+   "metric": "operating_cash_flow",
+   "eastmoney": 33939755192.78,
+   "filing_pdf": 33939755192.78,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2024-12-31",
+   "metric": "accounts_receivable",
+   "eastmoney": 37346561.95,
+   "filing_pdf": 37346561.95,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2024-12-31",
+   "metric": "inventory",
+   "eastmoney": 18233702166.62,
+   "filing_pdf": 18233702166.62,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2024-12-31",
+   "metric": "total_assets",
+   "eastmoney": 188252218704.17,
+   "filing_pdf": 188252218704.17,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2024-12-31",
+   "metric": "total_liabilities",
+   "eastmoney": 51857424971.48,
+   "filing_pdf": 51857424971.48,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2024-12-31",
+   "metric": "total_equity",
+   "eastmoney": 136394793732.69,
+   "filing_pdf": 136394793732.69,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2024-12-31",
+   "metric": "parent_equity",
+   "eastmoney": 133285282015.97,
+   "filing_pdf": 133285282015.97,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2024-12-31",
+   "metric": "cash",
+   "eastmoney": 127398915484.11,
+   "filing_pdf": 127398915484.11,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2025-03-31",
+   "metric": "operating_revenue",
+   "eastmoney": 17085765657.95,
+   "filing_pdf": 36940356116.35,
+   "rel_diff": 1.16205447598198,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2025-03-31",
+   "metric": "operating_cost",
+   "eastmoney": 3575965782.65,
+   "filing_pdf": 8222043546.33,
+   "rel_diff": 1.2992511802607307,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2025-03-31",
+   "metric": "net_profit",
+   "eastmoney": 4416313048.41,
+   "filing_pdf": 14860265752.48,
+   "rel_diff": 2.3648578779600156,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2025-03-31",
+   "metric": "operating_cash_flow",
+   "eastmoney": 15848802262.24,
+   "filing_pdf": 15848802262.24,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2025-03-31",
+   "metric": "accounts_receivable",
+   "eastmoney": 189416225.68,
+   "filing_pdf": 189416225.68,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2025-03-31",
+   "metric": "inventory",
+   "eastmoney": 17035010605.05,
+   "filing_pdf": 17035010605.05,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2025-03-31",
+   "metric": "total_assets",
+   "eastmoney": 202449964854.81,
+   "filing_pdf": 197980160530.01,
+   "rel_diff": 0.022078563105731207,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2025-03-31",
+   "metric": "total_liabilities",
+   "eastmoney": 61408466386.8,
+   "filing_pdf": 46217402540.95,
+   "rel_diff": 0.24737735266281435,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2025-03-31",
+   "metric": "total_equity",
+   "eastmoney": 141041498468.01,
+   "filing_pdf": 151762757989.06,
+   "rel_diff": 0.07601492920526298,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2025-03-31",
+   "metric": "parent_equity",
+   "eastmoney": 137701595064.38,
+   "filing_pdf": 148145547768.45,
+   "rel_diff": 0.07584482009222274,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2025-03-31",
+   "metric": "cash",
+   "eastmoney": 138550337538.89,
+   "filing_pdf": 138550337538.89,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2025-06-30",
+   "metric": "operating_revenue",
+   "eastmoney": 23509972048.65,
+   "filing_pdf": 52770984383.52,
+   "rel_diff": 1.2446213153430878,
+   "update_date": "2026-08-29"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2025-06-30",
+   "metric": "operating_cost",
+   "eastmoney": 5203656031.65,
+   "filing_pdf": 12228189911.58,
+   "rel_diff": 1.3499227922070454,
+   "update_date": "2026-08-29"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2025-06-30",
+   "metric": "net_profit",
+   "eastmoney": 4623850715.13,
+   "filing_pdf": 19491942398.53,
+   "rel_diff": 3.2155215640395043,
+   "update_date": "2026-08-29"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2025-06-30",
+   "metric": "operating_cash_flow",
+   "eastmoney": 31136736628.58,
+   "filing_pdf": 31136736628.58,
+   "rel_diff": 0.0,
+   "update_date": "2026-08-29"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2025-06-30",
+   "metric": "accounts_receivable",
+   "eastmoney": 64351041.9,
+   "filing_pdf": 64351041.9,
+   "rel_diff": 0.0,
+   "update_date": "2026-08-29"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2025-06-30",
+   "metric": "inventory",
+   "eastmoney": 17745770666.17,
+   "filing_pdf": 17745770666.17,
+   "rel_diff": 0.0,
+   "update_date": "2026-08-29"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2025-06-30",
+   "metric": "total_assets",
+   "eastmoney": 202980749343.69,
+   "filing_pdf": 193415382562.71,
+   "rel_diff": 0.04712450225899891,
+   "update_date": "2026-08-29"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2025-06-30",
+   "metric": "total_liabilities",
+   "eastmoney": 74104467263.57,
+   "filing_pdf": 49284244654.68,
+   "rel_diff": 0.3349355784531995,
+   "update_date": "2026-08-29"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2025-06-30",
+   "metric": "total_equity",
+   "eastmoney": 128876282080.12,
+   "filing_pdf": 144131137908.03,
+   "rel_diff": 0.11836821781083305,
+   "update_date": "2026-08-29"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2025-06-30",
+   "metric": "parent_equity",
+   "eastmoney": 125608316963.25,
+   "filing_pdf": 140476408646.65,
+   "rel_diff": 0.11836868802047593,
+   "update_date": "2026-08-29"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2025-06-30",
+   "metric": "cash",
+   "eastmoney": 148319946342.06,
+   "filing_pdf": 148319946342.06,
+   "rel_diff": 0.0,
+   "update_date": "2026-08-29"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2025-09-30",
+   "metric": "operating_revenue",
+   "eastmoney": 30637727654.97,
+   "filing_pdf": 60945321083.57,
+   "rel_diff": 0.9892245851230272,
+   "update_date": "2026-10-28"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2025-09-30",
+   "metric": "operating_cost",
+   "eastmoney": 7437309893.84,
+   "filing_pdf": 15281724786.58,
+   "rel_diff": 1.0547382057102646,
+   "update_date": "2026-10-28"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2025-09-30",
+   "metric": "net_profit",
+   "eastmoney": 6474551792.18,
+   "filing_pdf": 21511276550.29,
+   "rel_diff": 2.322434855841518,
+   "update_date": "2026-10-28"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2025-09-30",
+   "metric": "operating_cash_flow",
+   "eastmoney": 28247488416.94,
+   "filing_pdf": 28247488416.94,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-28"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2025-09-30",
+   "metric": "accounts_receivable",
+   "eastmoney": 98282128.5,
+   "filing_pdf": 98282128.5,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-28"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2025-09-30",
+   "metric": "inventory",
+   "eastmoney": 17540752483.71,
+   "filing_pdf": 17540752483.71,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-28"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2025-09-30",
+   "metric": "total_assets",
+   "eastmoney": 191181308049.92,
+   "filing_pdf": 181073423202.77,
+   "rel_diff": 0.05287067522579519,
+   "update_date": "2026-10-28"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2025-09-30",
+   "metric": "total_liabilities",
+   "eastmoney": 60405702731.41,
+   "filing_pdf": 34872936995.66,
+   "rel_diff": 0.42268800098692283,
+   "update_date": "2026-10-28"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2025-09-30",
+   "metric": "total_equity",
+   "eastmoney": 130775605318.51,
+   "filing_pdf": 146200486207.11,
+   "rel_diff": 0.11794922188302616,
+   "update_date": "2026-10-28"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2025-09-30",
+   "metric": "parent_equity",
+   "eastmoney": 127459018040.3,
+   "filing_pdf": 142495742798.41,
+   "rel_diff": 0.11797301587052622,
+   "update_date": "2026-10-28"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2025-09-30",
+   "metric": "cash",
+   "eastmoney": 136305976701.21,
+   "filing_pdf": 136305976701.21,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-28"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2025-12-31",
+   "metric": "operating_revenue",
+   "eastmoney": 40528509770.23,
+   "filing_pdf": 40528509770.23,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2025-12-31",
+   "metric": "operating_cost",
+   "eastmoney": 9101956953.59,
+   "filing_pdf": 9101956953.59,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2025-12-31",
+   "metric": "net_profit",
+   "eastmoney": 8954257202.51,
+   "filing_pdf": 8954257202.51,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2025-12-31",
+   "metric": "operating_cash_flow",
+   "eastmoney": 29706259919.13,
+   "filing_pdf": 29706259919.13,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2025-12-31",
+   "metric": "accounts_receivable",
+   "eastmoney": 37745419.51,
+   "filing_pdf": 37745419.51,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2025-12-31",
+   "metric": "inventory",
+   "eastmoney": 20065336751.2,
+   "filing_pdf": 20065336751.2,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2025-12-31",
+   "metric": "total_assets",
+   "eastmoney": 189984270815.47,
+   "filing_pdf": 189984270815.47,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2025-12-31",
+   "metric": "total_liabilities",
+   "eastmoney": 67803587170.33,
+   "filing_pdf": 67803587170.33,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2025-12-31",
+   "metric": "total_equity",
+   "eastmoney": 122180683645.14,
+   "filing_pdf": 122180683645.14,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2025-12-31",
+   "metric": "parent_equity",
+   "eastmoney": 119932271234.99,
+   "filing_pdf": 119932271234.99,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2025-12-31",
+   "metric": "cash",
+   "eastmoney": 127014443016.86,
+   "filing_pdf": 127014443016.86,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-30"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2024-06-30",
+   "metric": "operating_revenue",
+   "eastmoney": 99783116496.59,
+   "filing_pdf": 99783116496.59,
+   "rel_diff": 0.0,
+   "update_date": "2025-08-29"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2024-06-30",
+   "metric": "operating_cost",
+   "eastmoney": 70474896772.78,
+   "filing_pdf": 69379898980.12,
+   "rel_diff": 0.015537416055966926,
+   "update_date": "2025-08-29"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2024-06-30",
+   "metric": "net_profit",
+   "eastmoney": 14136119367.6,
+   "filing_pdf": 14136119367.6,
+   "rel_diff": 0.0,
+   "update_date": "2025-08-29"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2024-06-30",
+   "metric": "operating_cash_flow",
+   "eastmoney": 5122166411.4,
+   "filing_pdf": 5122166411.4,
+   "rel_diff": 0.0,
+   "update_date": "2025-08-29"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2024-06-30",
+   "metric": "accounts_receivable",
+   "eastmoney": 20964903714.87,
+   "filing_pdf": 20964903714.87,
+   "rel_diff": 0.0,
+   "update_date": "2025-08-29"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2024-06-30",
+   "metric": "inventory",
+   "eastmoney": 29123420009.3,
+   "filing_pdf": 29123420009.3,
+   "rel_diff": 0.0,
+   "update_date": "2025-08-29"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2024-06-30",
+   "metric": "total_assets",
+   "eastmoney": 384555509296.91,
+   "filing_pdf": 384555509296.91,
+   "rel_diff": 0.0,
+   "update_date": "2025-08-29"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2024-06-30",
+   "metric": "total_liabilities",
+   "eastmoney": 263164921391.99,
+   "filing_pdf": 263164921391.99,
+   "rel_diff": 0.0,
+   "update_date": "2025-08-29"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2024-06-30",
+   "metric": "total_equity",
+   "eastmoney": 121390587904.92,
+   "filing_pdf": 121390587904.92,
+   "rel_diff": 0.0,
+   "update_date": "2025-08-29"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2024-06-30",
+   "metric": "parent_equity",
+   "eastmoney": 117762962169.42,
+   "filing_pdf": 117762962169.42,
+   "rel_diff": 0.0,
+   "update_date": "2025-08-29"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2024-06-30",
+   "metric": "cash",
+   "eastmoney": 119805076724.91,
+   "filing_pdf": 119805076724.91,
+   "rel_diff": 0.0,
+   "update_date": "2025-08-29"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2024-09-30",
+   "metric": "operating_revenue",
+   "eastmoney": 146722377976.28,
+   "filing_pdf": 146722377976.28,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-31"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2024-09-30",
+   "metric": "operating_cost",
+   "eastmoney": 103998583909.06,
+   "filing_pdf": 102391886085.03,
+   "rel_diff": 0.015449227899439012,
+   "update_date": "2025-10-31"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2024-09-30",
+   "metric": "net_profit",
+   "eastmoney": 21960897001.18,
+   "filing_pdf": 21960897001.18,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-31"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2024-09-30",
+   "metric": "operating_cash_flow",
+   "eastmoney": 12712439743.99,
+   "filing_pdf": 12712439743.99,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-31"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2024-09-30",
+   "metric": "accounts_receivable",
+   "eastmoney": 18588334820.33,
+   "filing_pdf": 18588334820.33,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-31"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2024-09-30",
+   "metric": "inventory",
+   "eastmoney": 25337318250.88,
+   "filing_pdf": 25337318250.88,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-31"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2024-09-30",
+   "metric": "total_assets",
+   "eastmoney": 370710990552.17,
+   "filing_pdf": 370710990552.17,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-31"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2024-09-30",
+   "metric": "total_liabilities",
+   "eastmoney": 241157978879.24,
+   "filing_pdf": 241157978879.24,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-31"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2024-09-30",
+   "metric": "total_equity",
+   "eastmoney": 129553011672.93,
+   "filing_pdf": 129553011672.93,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-31"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2024-09-30",
+   "metric": "parent_equity",
+   "eastmoney": 126346542647.86,
+   "filing_pdf": 126346542647.86,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-31"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2024-09-30",
+   "metric": "cash",
+   "eastmoney": 111396658188.03,
+   "filing_pdf": 111396658188.03,
+   "rel_diff": 0.0,
+   "update_date": "2025-10-31"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2025-03-31",
+   "metric": "operating_revenue",
+   "eastmoney": 41506860074.79,
+   "filing_pdf": 41506860074.79,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-29"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2025-03-31",
+   "metric": "operating_cost",
+   "eastmoney": 30150364481.08,
+   "filing_pdf": 30150364481.08,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-29"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2025-03-31",
+   "metric": "net_profit",
+   "eastmoney": 5904459443.46,
+   "filing_pdf": 5904459443.46,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-29"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2025-03-31",
+   "metric": "operating_cash_flow",
+   "eastmoney": 11001218583.01,
+   "filing_pdf": 11001218583.01,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-29"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2025-03-31",
+   "metric": "accounts_receivable",
+   "eastmoney": 18814278247.59,
+   "filing_pdf": 18814278247.59,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-29"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2025-03-31",
+   "metric": "inventory",
+   "eastmoney": 27936117097.35,
+   "filing_pdf": 27936117097.35,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-29"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2025-03-31",
+   "metric": "total_assets",
+   "eastmoney": 394568798089.75,
+   "filing_pdf": 394568798089.75,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-29"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2025-03-31",
+   "metric": "total_liabilities",
+   "eastmoney": 247276037775.29,
+   "filing_pdf": 247276037775.29,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-29"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2025-03-31",
+   "metric": "total_equity",
+   "eastmoney": 147292760314.46,
+   "filing_pdf": 147292760314.46,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-29"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2025-03-31",
+   "metric": "parent_equity",
+   "eastmoney": 143186373760.39,
+   "filing_pdf": 143186373760.39,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-29"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2025-03-31",
+   "metric": "cash",
+   "eastmoney": 124472018105.34,
+   "filing_pdf": 124472018105.34,
+   "rel_diff": 0.0,
+   "update_date": "2026-04-29"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2025-06-30",
+   "metric": "operating_revenue",
+   "eastmoney": 97324925988.2,
+   "filing_pdf": 97324925988.2,
+   "rel_diff": 0.0,
+   "update_date": "2026-08-27"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2025-06-30",
+   "metric": "operating_cost",
+   "eastmoney": 69597138607.41,
+   "filing_pdf": 69597138607.41,
+   "rel_diff": 0.0,
+   "update_date": "2026-08-27"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2025-06-30",
+   "metric": "net_profit",
+   "eastmoney": 14412407113.84,
+   "filing_pdf": 14412407113.84,
+   "rel_diff": 0.0,
+   "update_date": "2026-08-27"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2025-06-30",
+   "metric": "operating_cash_flow",
+   "eastmoney": 28328562187.2,
+   "filing_pdf": 28328562187.2,
+   "rel_diff": 0.0,
+   "update_date": "2026-08-27"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2025-06-30",
+   "metric": "accounts_receivable",
+   "eastmoney": 19722186150.14,
+   "filing_pdf": 19722186150.14,
+   "rel_diff": 0.0,
+   "update_date": "2026-08-27"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2025-06-30",
+   "metric": "inventory",
+   "eastmoney": 24254482335.19,
+   "filing_pdf": 24254482335.19,
+   "rel_diff": 0.0,
+   "update_date": "2026-08-27"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2025-06-30",
+   "metric": "total_assets",
+   "eastmoney": 401189411937.9,
+   "filing_pdf": 401189411937.9,
+   "rel_diff": 0.0,
+   "update_date": "2026-08-27"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2025-06-30",
+   "metric": "total_liabilities",
+   "eastmoney": 261597726966.35,
+   "filing_pdf": 261597726966.35,
+   "rel_diff": 0.0,
+   "update_date": "2026-08-27"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2025-06-30",
+   "metric": "total_equity",
+   "eastmoney": 139591684971.55,
+   "filing_pdf": 139591684971.55,
+   "rel_diff": 0.0,
+   "update_date": "2026-08-27"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2025-06-30",
+   "metric": "parent_equity",
+   "eastmoney": 135395447305.45,
+   "filing_pdf": 135395447305.45,
+   "rel_diff": 0.0,
+   "update_date": "2026-08-27"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2025-06-30",
+   "metric": "cash",
+   "eastmoney": 122370525634.7,
+   "filing_pdf": 122370525634.7,
+   "rel_diff": 0.0,
+   "update_date": "2026-08-27"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2025-09-30",
+   "metric": "operating_revenue",
+   "eastmoney": 137180093143.85,
+   "filing_pdf": 137180093143.85,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-27"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2025-09-30",
+   "metric": "operating_cost",
+   "eastmoney": 98168036934.67,
+   "filing_pdf": 98168036934.67,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-27"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2025-09-30",
+   "metric": "net_profit",
+   "eastmoney": 21461336806.54,
+   "filing_pdf": 21461336806.54,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-27"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2025-09-30",
+   "metric": "operating_cash_flow",
+   "eastmoney": 45728383685.2,
+   "filing_pdf": 45728383685.2,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-27"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2025-09-30",
+   "metric": "accounts_receivable",
+   "eastmoney": 15019829519.67,
+   "filing_pdf": 15019829519.67,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-27"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2025-09-30",
+   "metric": "inventory",
+   "eastmoney": 25341875464.64,
+   "filing_pdf": 25341875464.64,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-27"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2025-09-30",
+   "metric": "total_assets",
+   "eastmoney": 399221931501.58,
+   "filing_pdf": 399221931501.58,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-27"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2025-09-30",
+   "metric": "total_liabilities",
+   "eastmoney": 250709982981.23,
+   "filing_pdf": 250709982981.23,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-27"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2025-09-30",
+   "metric": "total_equity",
+   "eastmoney": 148511948520.35,
+   "filing_pdf": 148511948520.35,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-27"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2025-09-30",
+   "metric": "parent_equity",
+   "eastmoney": 144424252622.96,
+   "filing_pdf": 144424252622.96,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-27"
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2025-09-30",
+   "metric": "cash",
+   "eastmoney": 116235166802.51,
+   "filing_pdf": 116235166802.51,
+   "rel_diff": 0.0,
+   "update_date": "2026-10-27"
+  }
+ ],
+ "restated_periods": [
+  {
+   "ticker": "300750.SZ",
+   "period": "2024-06-30",
+   "update_date": "2025-07-31",
+   "metrics": [
+    "operating_cost"
+   ]
+  },
+  {
+   "ticker": "300750.SZ",
+   "period": "2024-09-30",
+   "update_date": "2025-10-21",
+   "metrics": [
+    "operating_cost"
+   ]
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2024-06-30",
+   "update_date": "2025-08-22",
+   "metrics": [
+    "operating_cost"
+   ]
+  },
+  {
+   "ticker": "300014.SZ",
+   "period": "2024-09-30",
+   "update_date": "2025-10-24",
+   "metrics": [
+    "operating_cost"
+   ]
+  },
+  {
+   "ticker": "002594.SZ",
+   "period": "2024-09-30",
+   "update_date": "2025-10-31",
+   "metrics": [
+    "operating_cost"
+   ]
+  },
+  {
+   "ticker": "601012.SH",
+   "period": "2025-03-31",
+   "update_date": "2026-04-29",
+   "metrics": [
+    "net_profit"
+   ]
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2025-03-31",
+   "update_date": "2026-04-30",
+   "metrics": [
+    "operating_revenue",
+    "operating_cost",
+    "net_profit",
+    "total_assets",
+    "total_liabilities",
+    "total_equity",
+    "parent_equity"
+   ]
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2025-06-30",
+   "update_date": "2026-08-29",
+   "metrics": [
+    "operating_revenue",
+    "operating_cost",
+    "net_profit",
+    "total_assets",
+    "total_liabilities",
+    "total_equity",
+    "parent_equity"
+   ]
+  },
+  {
+   "ticker": "000858.SZ",
+   "period": "2025-09-30",
+   "update_date": "2026-10-28",
+   "metrics": [
+    "operating_revenue",
+    "operating_cost",
+    "net_profit",
+    "total_assets",
+    "total_liabilities",
+    "total_equity",
+    "parent_equity"
+   ]
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2024-06-30",
+   "update_date": "2025-08-29",
+   "metrics": [
+    "operating_cost"
+   ]
+  },
+  {
+   "ticker": "000651.SZ",
+   "period": "2024-09-30",
+   "update_date": "2025-10-31",
+   "metrics": [
+    "operating_cost"
+   ]
+  }
+ ]
+}

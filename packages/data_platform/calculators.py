@@ -133,8 +133,10 @@ class FinancialCalculator:
         ratio("ocf_to_net_profit", g("operating_cash_flow"), g("net_profit"), "NEGATIVE_EARNINGS_NA", den_positive=True)
         ratio("debt_to_assets", g("total_liabilities"), g("total_assets"))
         ratio("interest_debt_ratio", g("interest_bearing_debt"), g("total_assets"))
-        np_, eq = g("net_profit"), g("total_equity")
-        eq_begin = self.svc.fact(ticker, "total_equity", date(pe.year - 1, 12, 31))
+        # ROE: parent net profit over parent equity when the source provides it (real filings), else total equity
+        eq_metric = "parent_equity" if g("parent_equity") else "total_equity"
+        np_, eq = g("net_profit"), g(eq_metric)
+        eq_begin = self.svc.fact(ticker, eq_metric, date(pe.year - 1, 12, 31))
         if np_ and eq and eq_begin:
             avg_eq = (eq.value + eq_begin.value) / 2
             nq = CUM_MONTH[pe.month]
@@ -163,7 +165,28 @@ class FinancialCalculator:
                 out[name] = self._record(ticker, name, lbl, None, "ratio", [cur, base], "NEGATIVE_EARNINGS_NA")
             else:
                 out[name] = self._record(ticker, name, lbl, cur.value / base.value - 1, "ratio", [cur, base])
+        # QoQ on single quarters (Q1 is compared with the previous Q4 = annual - Q3 cumulative)
+        prev_pe = prev_quarter_end(pe) or date(pe.year - 1, 12, 31)
+        for name, m in (("revenue_qoq", "operating_revenue"), ("net_profit_qoq", "net_profit")):
+            cur, prev = self.single_quarter(ticker, m, pe), self.single_quarter(ticker, m, prev_pe)
+            if cur.value is None or prev.value is None:
+                out[name] = self._record(ticker, name, lbl, None, "ratio", [cur, prev],
+                                         cur.status if cur.status != "OK" else prev.status)
+            elif prev.value <= 0:
+                out[name] = self._record(ticker, name, lbl, None, "ratio", [cur, prev], "NEGATIVE_EARNINGS_NA")
+            else:
+                out[name] = self._record(ticker, name, lbl, cur.value / prev.value - 1, "ratio", [cur, prev])
         return out
+
+    def ttm_latest(self, ticker: str, metric: str, at: Optional[datetime] = None) -> tuple[Optional[float], list]:
+        """TTM of a flow reported only in some periods (D&A: H1 and annual) from its latest visible period."""
+        periods = [p for p in reversed(self.svc.visible_periods(ticker, at))
+                   if self.svc.fact(ticker, metric, p, at=at) is not None]
+        for p in periods[:2]:
+            v, ins = self.ttm(ticker, metric, p, at=at)
+            if v is not None:
+                return v, ins
+        return None, []
 
     # ---------- valuation ----------
     def _pe_at(self, ticker: str, d: date) -> tuple[Optional[float], str, list]:
@@ -198,24 +221,68 @@ class FinancialCalculator:
         rev_ttm, rin = self.ttm(ticker, "operating_revenue", pe_end)
         if rev_ttm:
             out["ps_ttm"] = self._record(ticker, "ps_ttm", lbl, px.total_mv / rev_ttm, "x", [price_ref, *rin])
-        # 3y PE percentile using month-end PIT-correct history
+        # EV/EBITDA: EBITDA = total profit + interest expense + D&A (all TTM)
+        debt, cash = self.svc.fact(ticker, "interest_bearing_debt", pe_end), self.svc.fact(ticker, "cash", pe_end)
+        tp, tin = self.ttm(ticker, "total_profit", pe_end)
+        ie, iin = self.ttm(ticker, "interest_expense", pe_end)
+        da, din = self.ttm_latest(ticker, "depreciation_amortization")
+        if None not in (debt, cash, tp, da):
+            ebitda = tp + (ie or 0) + da
+            ev = px.total_mv + debt.value - cash.value
+            out["ev_ebitda"] = self._record(ticker, "ev_ebitda", lbl, ev / ebitda if ebitda > 0 else None, "x",
+                                            [price_ref, debt, cash, *tin, *iin, *din],
+                                            "OK" if ebitda > 0 else "NEGATIVE_EARNINGS_NA",
+                                            extra={"ev": ev, "ebitda_ttm": ebitda})
+        # PE percentiles over month-end PIT-correct history
         hist = []
         m = d.replace(day=1)
-        for _ in range(36):
+        for _ in range(60):
             m = (m - timedelta(days=1)).replace(day=1)
             month_end = (m + timedelta(days=32)).replace(day=1) - timedelta(days=1)
             v, st, _ = self._pe_at(ticker, month_end)
-            if st == "OK":
-                hist.append(v)
-        if val is not None and len(hist) >= 12:
-            pct = sum(1 for h in hist if h <= val) / len(hist)
-            out["pe_percentile_3y"] = self._record(ticker, "pe_percentile_3y", lbl, pct, "ratio", [out["pe_ttm"]],
-                                                   extra={"n_months": len(hist), "min": min(hist), "max": max(hist),
-                                                          "median": median(hist)})
-        else:
-            out["pe_percentile_3y"] = self._record(ticker, "pe_percentile_3y", lbl, None, "ratio", [out["pe_ttm"]],
-                                                   status if status != "OK" else "INSUFFICIENT_DATA")
+            hist.append(v if st == "OK" else None)
+        for years, need in ((3, 12), (5, 48)):
+            h = [x for x in hist[:years * 12] if x is not None]
+            name = f"pe_percentile_{years}y"
+            if val is not None and len(h) >= need:
+                out[name] = self._record(ticker, name, lbl, sum(1 for x in h if x <= val) / len(h), "ratio",
+                                         [out["pe_ttm"]], extra={"n_months": len(h), "min": min(h), "max": max(h),
+                                                                 "median": median(h)})
+            else:
+                out[name] = self._record(ticker, name, lbl, None, "ratio", [out["pe_ttm"]],
+                                         status if status != "OK" else "INSUFFICIENT_DATA",
+                                         extra={"n_months": len(h), "needed": need})
         return out
+
+    def dcf(self, ticker: str, fcf0: float, growth: float, wacc: float, terminal_growth: float, years: int = 5,
+            wacc_grid: tuple = (-0.01, -0.005, 0.0, 0.005, 0.01),
+            g_grid: tuple = (-0.01, -0.005, 0.0, 0.005, 0.01)) -> MetricRecord:
+        """Optional DCF. All assumptions are explicit inputs (never chosen by an LLM) and a 2-D
+        WACC x terminal-growth sensitivity matrix is always returned (PRD 4.3)."""
+        shares_f = self.svc.fact(ticker, "shares_outstanding", self.svc.latest_period(ticker))
+        if shares_f is None or not shares_f.value:
+            return self._record(ticker, "dcf_value_per_share", self.svc.as_of.date().isoformat(), None, "CNY", [],
+                                "INSUFFICIENT_DATA")
+
+        def value(w: float, gi: float) -> Optional[float]:
+            if w <= gi:
+                return None
+            pv, f = 0.0, fcf0
+            for t in range(1, years + 1):
+                f *= 1 + growth
+                pv += f / (1 + w) ** t
+            tv = f * (1 + gi) / (w - gi)
+            return (pv + tv / (1 + w) ** years) / shares_f.value
+
+        base = value(wacc, terminal_growth)
+        matrix = [[value(wacc + dw, terminal_growth + dg) for dg in g_grid] for dw in wacc_grid]
+        return self._record(ticker, "dcf_value_per_share", self.svc.as_of.date().isoformat(), base, "CNY", [shares_f],
+                            "OK" if base is not None else "ZERO_DENOMINATOR_NA",
+                            extra={"assumptions": {"fcf0": fcf0, "growth": growth, "wacc": wacc,
+                                                   "terminal_growth": terminal_growth, "years": years},
+                                   "sensitivity": {"wacc": [wacc + x for x in wacc_grid],
+                                                   "terminal_growth": [terminal_growth + x for x in g_grid],
+                                                   "value_per_share": matrix}})
 
     def peer_valuation(self, ticker: str) -> MetricRecord:
         d = self.svc.as_of.date()

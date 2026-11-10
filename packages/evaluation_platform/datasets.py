@@ -23,17 +23,22 @@ VERSION = "v1"
 TICKERS = ["990001.SZ", "990002.SZ", "990003.SH", "990004.SH", "990005.SZ", "990006.SZ"]
 NAMES = {"990001.SZ": "演示动力电池", "990002.SZ": "演示新能源整车", "990003.SH": "演示锂电材料", "990004.SH": "演示白酒",
          "990005.SZ": "演示光伏组件", "990006.SZ": "演示储能系统"}
-SOURCE_PRIORITY = {"demo_filing": 1, "demo_vendor_b": 5}
+SOURCE_PRIORITY = {"demo_filing": 1, "eastmoney_f10": 2, "demo_vendor_b": 5, "cninfo_pdf_parse": 6}
+REAL = ROOT / "benchmarks" / "real_snapshot"
 
 
 # ---------------------------------------------------------------- oracle
 class Oracle:
+    """Independent ground truth over both snapshots (pandas, shares no code with the calculators)."""
+
     def __init__(self):
-        f = pd.read_csv(GOLDEN / "financial_facts.csv", parse_dates=["period_end", "published_at", "available_at"])
+        dirs = [d for d in (GOLDEN, REAL) if (d / "financial_facts.csv").exists()]
+        rd = lambda n, dates: pd.concat([pd.read_csv(d / n, parse_dates=dates) for d in dirs], ignore_index=True)  # noqa: E731
+        f = rd("financial_facts.csv", ["period_end", "published_at", "available_at"])
         f["prio"] = f["source"].map(SOURCE_PRIORITY).fillna(9)
         self.f = f
-        self.p = pd.read_csv(GOLDEN / "market_prices.csv", parse_dates=["trade_date", "available_at"])
-        self.docs = pd.read_csv(GOLDEN / "documents.csv", parse_dates=["published_at", "available_at"])
+        self.p = rd("market_prices.csv", ["trade_date", "available_at"])
+        self.docs = rd("documents.csv", ["published_at", "available_at"])
 
     def _row(self, t, m, pe, as_of, scope="consolidated"):
         d = self.f[(self.f.ticker == t) & (self.f.metric == m) & (self.f.statement_scope == scope)
@@ -122,7 +127,9 @@ DESIGNED_ANOMALIES = {"990001.SZ": ["PROFIT_OCF_DIVERGENCE", "AR_OUTPACE_REVENUE
 
 def _forbidden(o: Oracle, t, as_of) -> dict:
     fut = o.future_docs(t, as_of)
-    kw = [d["title"] for d in fut if "公告" in d["title"]]
+    seen = set(o.docs[(o.docs.ticker == t) & (o.docs.available_at <= pd.Timestamp(as_of))].title)
+    # recurring titles (e.g. monthly 回购进展公告) also exist before as_of, so they prove nothing as keywords
+    kw = [d["title"] for d in fut if "公告" in d["title"] and d["title"] not in seen]
     return {"doc_ids": [d["document_id"] for d in fut], "keywords": kw}
 
 
@@ -132,7 +139,7 @@ def build_tasks() -> tuple[list[dict], list[dict]]:
     gid = iter(range(1, 1000))
 
     def g(cat, t, as_of, question, expected, mode="deep", trap="none"):
-        golden.append({"task_id": f"G{next(gid):03d}", "dataset": "golden", "category": cat, "trap_type": trap,
+        golden.append({"task_id": f"L{next(gid):03d}", "dataset": "lab", "category": cat, "trap_type": trap,
                        "ticker": t, "as_of": as_of.isoformat(), "question": question, "mode": mode,
                        "fault_injection": {}, "expected": expected})
 
@@ -257,19 +264,121 @@ def build_tasks() -> tuple[list[dict], list[dict]]:
     return golden, chaos
 
 
+# ---------------------------------------------------------------- real A-share golden set (Tier-A)
+def real_securities() -> dict[str, str]:
+    p = REAL / "securities.csv"
+    if not p.exists():
+        return {}
+    d = pd.read_csv(p)
+    return dict(zip(d.ticker, d.name))
+
+
+def oracle_anomalies(o: Oracle, t: str, as_of: datetime) -> list[str]:
+    """Independent pandas implementation of the 7 anomaly rules as written in PRD 2.2 / calculators' spec."""
+    pe = o.latest(t, as_of)
+    ya = date(pe.year - 1, pe.month, pe.day)
+    v = lambda m, p=pe: o.val(t, m, p, as_of)  # noqa: E731
+    out = []
+    ny, _ = o.yoy(t, "net_profit", pe, as_of)
+    oy, _ = o.yoy(t, "operating_cash_flow", pe, as_of)
+    if ny is not None and oy is not None and ny > 0.2 and oy < -0.3:
+        out.append("PROFIT_OCF_DIVERGENCE")
+    ar, ar0 = v("accounts_receivable"), v("accounts_receivable", ya)
+    ry, _ = o.yoy(t, "operating_revenue", pe, as_of)
+    if ar and ar0 and ry is not None and ar0 > 0 and (ar / ar0 - 1) - ry > 0.3:
+        out.append("AR_OUTPACE_REVENUE")
+    cost_ttm, cost_ttm0 = o.ttm(t, "operating_cost", pe, as_of), o.ttm(t, "operating_cost", ya, as_of)
+    inv, inv0 = v("inventory"), v("inventory", ya)
+    if inv and inv0 and cost_ttm and cost_ttm0 and (inv / cost_ttm) / (inv0 / cost_ttm0) - 1 > 0.3:
+        out.append("INVENTORY_DAYS_DETERIORATION")
+    gms, d = [], pe
+    for _ in range(8):
+        r, _s = o.single_q(t, "operating_revenue", d, as_of)
+        c, _s2 = o.single_q(t, "operating_cost", d, as_of)
+        if r and c is not None:
+            gms.append((r - c) / r)
+        d = Oracle.prev_q(d) or date(d.year - 1, 12, 31)
+    for idx in (0, 1):
+        if idx + 1 >= len(gms):
+            break
+        cur, prev, hist = gms[idx], gms[idx + 1], gms[idx + 1:]
+        sd = float(pd.Series(hist).std(ddof=0)) if len(hist) > 2 else 0.0
+        if abs(cur - prev) > 0.04 or (sd > 0 and abs(cur - sum(hist) / len(hist)) > 2 * sd and abs(cur - prev) > 0.02):
+            out.append("GROSS_MARGIN_SHIFT")
+            break
+    imp, np_, ta = v("asset_impairment_loss"), v("net_profit"), v("total_assets")
+    if imp is not None and np_ is not None and ta and (imp / max(abs(np_), 1) > 0.3 or imp / ta > 0.02):
+        out.append("LARGE_IMPAIRMENT")
+    d1, d0, a1, a0 = v("interest_bearing_debt"), v("interest_bearing_debt", ya), ta, v("total_assets", ya)
+    if None not in (d1, d0, a1, a0) and a1 and a0 and d1 / a1 - d0 / a0 > 0.08:
+        out.append("INTEREST_DEBT_JUMP")
+    titles = o.docs[(o.docs.ticker == t) & (o.docs.doc_type == "announcement")
+                    & (o.docs.available_at <= pd.Timestamp(as_of))].title.tolist()
+    if any(k in x for x in titles for k in ("关联交易", "会计估计变更", "会计差错")):
+        out.append("RELATED_PARTY_OR_POLICY_CHANGE")
+    return out
+
+
+def build_real_golden(o: Oracle) -> list[dict]:
+    names = real_securities()
+    if not names:
+        return []
+    rows, gid = [], iter(range(1, 1000))
+    tick = list(names)
+
+    def g(cat, t, as_of, question, expected, mode="deep"):
+        rows.append({"task_id": f"G{next(gid):03d}", "dataset": "golden", "category": cat, "trap_type": "none",
+                     "ticker": t, "as_of": as_of.isoformat(), "question": question, "mode": mode, "fault_injection": {},
+                     "expected": {"forbidden": _forbidden(o, t, as_of), **expected}})
+
+    def key_facts(t, as_of):
+        pe = o.latest(t, as_of)
+        rev, np_ = o.val(t, "operating_revenue", pe, as_of), o.val(t, "net_profit", pe, as_of)
+        cost, ocf = o.val(t, "operating_cost", pe, as_of), o.val(t, "operating_cash_flow", pe, as_of)
+        ry, rys = o.yoy(t, "operating_revenue", pe, as_of)
+        ny, nys = o.yoy(t, "net_profit", pe, as_of)
+        out = [num("revenue", "operating_revenue", pe, rev), num("revenue_yoy", "revenue_yoy", pe, ry, rys),
+               num("net_profit", "net_profit", pe, np_), num("net_profit_yoy", "net_profit_yoy", pe, ny, nys)]
+        if rev and cost is not None:
+            out.append(num("gross_margin", "gross_margin", pe, (rev - cost) / rev))
+        if np_ is not None and ocf is not None:
+            out.append(num("ocf_to_np", "ocf_to_net_profit", pe, ocf / np_ if np_ > 0 else None,
+                           "OK" if np_ > 0 else "NEGATIVE_EARNINGS_NA"))
+        return out
+
+    A = datetime(2025, 12, 31, 15)
+    deep_q = "以研究时点为准，全面研究{n}的基本面、行业竞争格局、近期公告、财务风险和估值水平，形成包含多空对抗审议、证伪条件与完整数据血缘追溯的投资研究报告。"
+    for t, as_of in [(x, A) for x in tick] + [(tick[0], datetime(2025, 9, 1, 15)), (tick[4], datetime(2025, 9, 1, 15))]:
+        g("deep_research", t, as_of, deep_q.format(n=names[t]),
+          {"numbers": key_facts(t, as_of), "rubric": True, "latest_period": label(o.latest(t, as_of))})
+    an_q = "公司最新一期定期报告中哪些核心财务指标发生背离或异常变动？结合管理层讨论与专项公告分析潜在风险信号。"
+    for t, as_of in [(x, datetime(2025, 11, 3, 15)) for x in tick] + [(tick[1], datetime(2025, 9, 1, 15)),
+                                                                       (tick[3], datetime(2025, 9, 1, 15))]:
+        g("anomaly_attribution", t, as_of, an_q,
+          {"anomalies": oracle_anomalies(o, t, as_of), "numbers": key_facts(t, as_of)[:2], "real": True})
+    ev_q = "结合近期公告分析{n}的重大事项及其影响，并与同行估值进行对比。"
+    for t, as_of in [(x, A) for x in tick] + [(tick[0], datetime(2026, 3, 13, 15)), (tick[4], datetime(2026, 4, 7, 15))]:
+        pe_v, pe_s = o.pe_ttm(t, as_of)
+        g("events_peers", t, as_of, ev_q.format(n=names[t]),
+          {"numbers": [num("pe_ttm", "pe_ttm", as_of.date().isoformat(), pe_v, pe_s, tol_rel=1e-3)],
+           "events": o.visible_announcements(t, as_of)})
+    return rows
+
+
 def write_tasks() -> dict:
-    golden, chaos = build_tasks()
+    lab, chaos = build_tasks()
+    golden = build_real_golden(Oracle())
     TASK_DIR.mkdir(parents=True, exist_ok=True)
-    for name, rows in (("golden_v1.jsonl", golden), ("chaos_v1.jsonl", chaos)):
+    for name, rows in (("lab_v1.jsonl", lab), ("golden_v1.jsonl", golden), ("chaos_v1.jsonl", chaos)):
         with open(TASK_DIR / name, "w", encoding="utf-8") as f:
             for r in rows:
                 f.write(json.dumps(r, ensure_ascii=False, default=str) + "\n")
     with get_session_factory()() as s:
-        for r in golden + chaos:
+        for r in lab + golden + chaos:
             s.merge(BenchmarkTaskRow(task_id=r["task_id"], dataset=r["dataset"], version=VERSION, snapshot_id=None,
                                      trap_type=r["category"], payload=json.loads(json.dumps(r, default=str))))
         s.commit()
-    return {"golden": len(golden), "chaos": len(chaos)}
+    return {"golden_real": len(golden), "chaos": len(chaos), "lab": len(lab)}
 
 
 def load_tasks(datasets=("golden", "chaos"), path: Path = TASK_DIR) -> list[dict]:

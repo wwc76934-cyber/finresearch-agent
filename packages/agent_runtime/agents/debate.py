@@ -69,10 +69,11 @@ def _template_rounds(ctx: RunContext, log: dict, bull_ids: list, bear_ids: list)
                     m = DETAIL.search((h.parent or h.chunk).text)
                     if not m:
                         continue
-                    ev = ctx.evidence_from_hit(h, "bear")
+                    quote = m.group(0)[-260:]
+                    ev = ctx.evidence_from_hit(h, "bear", focus=quote)
                     if ev.evidence_id in {e for c in bear_ids for e in ctx.claims[c].evidence_ids}:
                         continue
-                    cl = ctx.add_claim("bear", "disclosed_fact", f"反证：{m.group(0)}", [ev], "bear")
+                    cl = ctx.add_claim("bear", "disclosed_fact", f"反证：{quote}", [ev], "bear")
                     bear_ids.append(cl.claim_id)
                     new_claims.append(cl.claim_id)
                     new_ev.append(ev.evidence_id)

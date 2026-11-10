@@ -12,6 +12,18 @@ sources:
     rate_limit_per_min: 0
     path: benchmarks/golden_snapshot
     description: Secondary vendor feed, used to exercise conflict resolution
+  - source_id: eastmoney_f10
+    kind: golden_csv
+    priority: 2
+    rate_limit_per_min: 60
+    path: benchmarks/real_snapshot
+    description: Real A-share consolidated statements (Eastmoney F10 datacenter), PIT by disclosure date
+  - source_id: cninfo_pdf_parse
+    kind: golden_csv
+    priority: 6
+    rate_limit_per_min: 20
+    path: benchmarks/real_snapshot
+    description: Values parsed from original 巨潮 filing PDFs; used to cross-check and expose disagreements
   - source_id: cninfo_official_filing
     kind: cninfo
     priority: 0

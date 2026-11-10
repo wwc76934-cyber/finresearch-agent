@@ -33,9 +33,11 @@ def create_snapshot(as_of: datetime, tickers: list[str], db_url: Optional[str] =
             mx = s.scalar(select(func.max(model.available_at)).where(cond))
             watermarks[name] = mx.isoformat() if mx else ""
             counts[name] = s.scalar(select(func.count()).select_from(model).where(cond)) or 0
-    hashes = {p.name: sha256_file(p) for p in sorted(GOLDEN.glob("*.csv"))} if GOLDEN.exists() else {}
+    hashes = {f"{d.name}/{p.name}": sha256_file(p) for d in (GOLDEN, GOLDEN.parent / "real_snapshot") if d.exists()
+              for p in sorted(d.glob("*.csv"))}
     body = {"as_of": as_of.isoformat(), "tickers": sorted(tickers), "watermarks": watermarks, "row_counts": counts,
-            "file_hashes": hashes, "source_versions": {"demo_filing": "golden_v1", "calculators": "v1"}}
+            "file_hashes": hashes, "source_versions": {"demo_filing": "golden_v1", "eastmoney_f10": "real_v1",
+                                                       "calculators": "v1"}}
     mhash = hashlib.sha256(json.dumps(body, sort_keys=True).encode()).hexdigest()
     manifest = SnapshotManifest(snapshot_id=f"snap_{as_of:%Y%m%d%H%M}_{mhash[:8]}", as_of=as_of,
                                 created_at=datetime.now().replace(microsecond=0), tickers=sorted(tickers),

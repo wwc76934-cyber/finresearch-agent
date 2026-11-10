@@ -111,6 +111,10 @@ def f_compute(s: SubState) -> dict:
         ids.append(_claim(ctx, "financials", "derived_metric", [r["receivable_days"], r["inventory_days"]],
                           lambda: f"{lbl}应收账款周转天数{fmt(r['receivable_days'])}，存货周转天数{fmt(r['inventory_days'])}。",
                           "fundamental").claim_id)
+    rq, nq = g.get("revenue_qoq"), g.get("net_profit_qoq")
+    if rq is not None and rq.value is not None:
+        ids.append(_claim(ctx, "financials", "derived_metric", [rq, nq],
+                          lambda: f"{lbl}单季营收环比{fmt(rq)}，单季归母净利润环比{fmt(nq)}。", "fundamental").claim_id)
     if "debt_to_assets" in r and "interest_debt_ratio" in r:
         ids.append(_claim(ctx, "financials", "derived_metric", [r["debt_to_assets"], r["interest_debt_ratio"]],
                           lambda: f"{lbl}资产负债率{fmt(r['debt_to_assets'])}，有息负债率{fmt(r['interest_debt_ratio'])}。",
@@ -139,7 +143,8 @@ def answer_asks(ctx: RunContext, asks: list[Ask], agent: str, kinds: tuple[str, 
         if a.kind != "metric" or not a.metric:
             continue
         m = a.metric
-        is_market = m in ("pe_ttm", "pb_lf", "pe_percentile_3y", "volatility_1y", "max_drawdown_1y", "ps_ttm")
+        is_market = m in ("pe_ttm", "pb_lf", "pe_percentile_3y", "pe_percentile_5y", "volatility_1y", "max_drawdown_1y",
+                          "ps_ttm", "ev_ebitda")
         if (agent == "market") != is_market:
             continue
         pe = label_to_end(a.period) if a.period else tools.latest_period(ctx)
@@ -194,6 +199,12 @@ def f_anomalies(s: SubState) -> dict:
         ctx.anomalies[fl.code] = d
         out.append(d)
         ids.append(cl.claim_id)
+        if fl.severity == "MEDIUM" and fl.code != "RELATED_PARTY_OR_POLICY_CHANGE":
+            # MEDIUM flags do not justify a re-plan (PRD 3.3), but the subgraph spends one targeted
+            # lookup of its own budget to attach the disclosed explanation when there is one
+            found = explain_anomaly(ctx, fl.code, fl.suggested_query, [fl.section_type], cl.evidence_ids,
+                                    "fundamental", prefix="说明")
+            ids += found
     ctx.tracer._cur() and ctx.tracer._cur()["anomaly_flags"].extend([f.code for f in flags])
     return {"anomalies": out, "claim_ids": ids}
 
@@ -211,8 +222,8 @@ def f_explain(s: SubState) -> dict:
         text = (h.parent or h.chunk).text
         m = EXPLAIN_LINE.search(text)
         if m:
-            ev = ctx.evidence_from_hit(h, "fundamental")
-            sentence = m.group(0)
+            sentence = m.group(0)[-300:]
+            ev = ctx.evidence_from_hit(h, "fundamental", focus=sentence)
             cl = ctx.add_claim("financials", "disclosed_fact", f"管理层讨论与分析披露：{sentence}", [ev], "fundamental")
             ids.append(cl.claim_id)
             break
@@ -233,6 +244,8 @@ def f_summarize(s: SubState) -> dict:
 
 
 # ======================= Market =======================
+def _fv(v: dict, key: str) -> str:
+    return fmt(v[key]) if v.get(key) is not None else "数据不足"
 def m_valuation(s: SubState) -> dict:
     ctx = _ctx(s)
     v = tools.calculate_valuation_metrics(ctx)
@@ -243,7 +256,7 @@ def m_valuation(s: SubState) -> dict:
         if pe.status == "OK":
             ids.append(_claim(ctx, "valuation", "derived_metric", [pe, pct, v.get("pb_lf"), peer],
                               lambda: (f"截至{ctx.as_of.date()}，PE-TTM为{fmt(pe)}，近3年历史分位{fmt(pct)}，"
-                                       f"PB-LF为{fmt(v['pb_lf'])}；同行PE中位数{fmt(peer)}。"), "market").claim_id)
+                                       f"PB-LF为{_fv(v, 'pb_lf')}；同行PE中位数{fmt(peer)}。"), "market").claim_id)
             if pct.value is not None:
                 if pct.value >= 0.7:
                     ids.append(_claim(ctx, "bear", "model_inference", [pct],
@@ -255,8 +268,19 @@ def m_valuation(s: SubState) -> dict:
                                       "market").claim_id)
         else:
             ids.append(_claim(ctx, "valuation", "derived_metric", [pe, v.get("pb_lf"), v.get("ps_ttm")],
-                              lambda: (f"PE-TTM{fmt(pe)}，改用PB-LF {fmt(v['pb_lf'])}与PS-TTM {fmt(v['ps_ttm'])}衡量估值。"),
+                              lambda: (f"PE-TTM{fmt(pe)}，改用PB-LF {_fv(v, 'pb_lf')}与PS-TTM {_fv(v, 'ps_ttm')}衡量估值。"),
                               "market").claim_id)
+    ev, ps, p5 = v.get("ev_ebitda"), v.get("ps_ttm"), v.get("pe_percentile_5y")
+    if ev is not None or (p5 is not None and p5.value is not None):
+        parts = []
+        if ev is not None:
+            parts.append(lambda: f"EV/EBITDA为{fmt(ev)}")
+        if ps is not None:
+            parts.append(lambda: f"PS-TTM为{fmt(ps)}")
+        if p5 is not None and p5.value is not None:
+            parts.append(lambda: f"PE近5年分位{fmt(p5)}")
+        ids.append(_claim(ctx, "valuation", "derived_metric", [x for x in (ev, ps, p5) if x is not None],
+                          lambda parts=parts: "，".join(f() for f in parts) + "。", "market").claim_id)
     risk = tools.calculate_risk_metrics(ctx)
     if risk:
         ids.append(_claim(ctx, "valuation", "derived_metric", [risk["volatility_1y"], risk["max_drawdown_1y"]],
@@ -283,8 +307,11 @@ def n_events(s: SubState) -> dict:
         hits = tools.retrieve_document_evidence(ctx, d.title, doc_ids=[d.document_id], top_k=1)
         if not hits:
             continue
-        ev = ctx.evidence_from_hit(hits[0], "news")
         body = (hits[0].parent or hits[0].chunk).text.split("\n")[-1]
+        if len(body) > 220:   # real announcements are long; quote the opening and cut at a sentence end
+            cut = body[:220]
+            body = cut[:cut.rfind("。") + 1] if "。" in cut else cut + "…"
+        ev = ctx.evidence_from_hit(hits[0], "news", focus=body.rstrip("…")[:120])
         sec = "bear" if any(k in d.title for k in ("召回", "差错", "关联交易", "立案", "债券", "借款")) else \
             ("bull" if "合同" in d.title else "events")
         cl = ctx.add_claim(sec if sec != "events" else "events", "disclosed_fact",
@@ -298,33 +325,43 @@ def n_events(s: SubState) -> dict:
 DETAIL_LINE = re.compile(r"[^。\n|]*(合计|主要系|所致|计提|新增|调减|调增)[^。\n|]*。")
 
 
-def i_investigate(s: SubState) -> dict:
-    ctx = _ctx(s)
-    t = s["task"]
-    hits = tools.retrieve_latest_first(ctx, t["query"], t.get("section_types"), top_k=4)
-    key = t["query"].split()[0]
+def explain_anomaly(ctx: RunContext, code: str, query: str, section_types, anomaly_evidence_ids: list[str],
+                    agent: str, prefix: str = "追查") -> list[str]:
+    """Find the disclosed explanation (MD&A sentence or note table) for an anomaly and bind it to the claim."""
+    hits = tools.retrieve_latest_first(ctx, query, section_types, top_k=4)
+    key = query.split()[0]
     hits = sorted(hits, key=lambda h: 0 if key in (h.parent or h.chunk).section_path else 1)  # topical match first
-    ids = []
-    used = {c.evidence_ids[0] for c in ctx.claims.values() if c.produced_by == "investigate" and c.evidence_ids}
+    used = {c.evidence_ids[0] for c in ctx.claims.values() if c.produced_by == agent and c.evidence_ids
+            and code in c.text}
     for h in hits[:3]:
         c = h.parent or h.chunk
         m = DETAIL_LINE.search(c.text)
         if m:
-            finding = m.group(0)
+            finding = focus = m.group(0)[-260:]
         elif c.is_table:
             rows = [r for r in c.text.splitlines() if r.startswith("|") and "---" not in r][1:4]
-            finding = "；".join(" ".join(x.strip() for x in r.strip("|").split("|")) for r in rows) + "（单位见原表）。"
+            if not rows:
+                continue
+            finding = "；".join(" ".join(x.strip() for x in r.strip("|").split("|") if x.strip()) for r in rows) + "（单位见原表）。"
+            focus = rows[0]
         else:
             continue
-        ev = ctx.evidence_from_hit(h, "investigate")
+        ev = ctx.evidence_from_hit(h, agent, focus=focus)
         if ev.evidence_id in used:
             continue
-        an = ctx.anomalies.get(t["anomaly_code"], {})
-        an_evs = [ctx.evidence[e] for e in an.get("evidence_ids", []) if e in ctx.evidence]
-        cl = ctx.add_claim("bear", "disclosed_fact", f"追查[{t['anomaly_code']}]：{c.section_path.split(' > ')[-1]}显示，{finding}",
-                           [ev, *an_evs], "investigate")
-        ids.append(cl.claim_id)
-        break
+        an_evs = [ctx.evidence[e] for e in anomaly_evidence_ids if e in ctx.evidence]
+        cl = ctx.add_claim("bear", "disclosed_fact", f"{prefix}[{code}]：{c.section_path.split(' > ')[-1]}显示，{finding}",
+                           [ev, *an_evs], agent)
+        return [cl.claim_id]
+    return []
+
+
+def i_investigate(s: SubState) -> dict:
+    ctx = _ctx(s)
+    t = s["task"]
+    an = ctx.anomalies.get(t["anomaly_code"], {})
+    ids = explain_anomaly(ctx, t["anomaly_code"], t["query"], t.get("section_types"), an.get("evidence_ids", []),
+                          "investigate")
     if not ids:
         ctx.open_questions.append({"topic": f"{t['anomaly_code']} 追查未找到解释性证据", "reason": "检索不充分"})
     return {"claim_ids": ids, "summary": f"investigated {t['anomaly_code']}: {len(ids)} claim(s)"}

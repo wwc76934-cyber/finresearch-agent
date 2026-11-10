@@ -130,7 +130,7 @@ class IngestionPipeline:
             for doc in docs:
                 s.merge(SourceDocumentRow(**doc.model_dump()))
             s.commit()
-        for sid in ("demo_filing", "demo_vendor_b"):
+        for sid in {f.source for f in facts}:
             self.registry.mark(sid, "healthy")
         self.register_sources()
         return {"securities": len(secs), "facts": len(facts) - len(rejected), "prices": len(prices),
