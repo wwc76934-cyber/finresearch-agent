@@ -42,8 +42,10 @@ UNANSWERABLE = [
     (r"未披露|内部|商业机密", "未公开信息"),
     (r"目标价", "目标股价（无DCF假设输入，不允许直接给出）"),
     (r"细分产品.*毛利率|分产品毛利率", "未披露的细分产品毛利率"),
+    (r"会不会|会否|是否会|走势|批价|涨到|跌破|股价.{0,6}(涨|跌)", "未来价格或走势判断（快照无法证实）"),
+    (r"哪几家|是哪些公司|具体是哪|名单", "未披露的交易对手具体名称"),
 ]
-PERIOD_RE = re.compile(r"(20\d{2})\s*(?:年)?\s*(?:Q([1-4])|第([一二三四])季度|(半年度|中报|上半年)|(年报|年度))")
+PERIOD_RE = re.compile(r"(20\d{2})\s*(?:年)?\s*(?:Q([1-4])|第?([一二三四])季度|(半年度|中报|上半年)|(年报|年度|全年))")
 CN_Q = {"一": 1, "二": 2, "三": 3, "四": 4}
 
 SYSTEM = ("你是投研规划Agent。把研究问题解析为结构化需求 asks 与子任务。只输出JSON:"
@@ -113,9 +115,11 @@ def plan(ctx: RunContext) -> ResearchPlan:
         try:
             llm_asks = [Ask(ask_id=f"A{i + 1}", **{k: v for k, v in a.items() if k in Ask.model_fields and k != "ask_id"})
                         for i, a in enumerate(data["asks"])]
-            # PIT/period guard: an LLM may not invent a period that is not yet visible
+            # period guard: a period later than the latest visible one is NOT silently replaced by the latest
+            # (that would answer a different question); it becomes a refusal below. Unknown older periods fall
+            # back to the latest visible one.
             for a in llm_asks:
-                if a.period and a.period not in cov["periods"]:
+                if a.period and a.period not in cov["periods"] and not (default_period and a.period > default_period):
                     a.period = default_period
             # dedupe: the model often repeats the same ask
             seen, uniq = set(), []
@@ -140,6 +144,14 @@ def plan(ctx: RunContext) -> ResearchPlan:
             rationale = data.get("rationale", "llm plan")
         except Exception:  # noqa: BLE001 - invalid LLM output falls back to rules
             pass
+    # PIT refusal: the question names a report period that is not yet disclosed at as_of
+    asked = parse_period(req.question)
+    future = [a for a in asks if a.kind == "metric" and a.period and default_period and a.period > default_period]
+    if (asked and default_period and asked > default_period) or future:
+        p = asked if asked and default_period and asked > default_period else future[0].period
+        asks = [a for a in asks if not (a.kind == "metric" and a.period and a.period > default_period)]
+        asks.append(Ask(ask_id=f"A{len(asks) + 1}", kind="unanswerable",
+                        topic=f"{p} 报告在研究时点尚未披露（最新可见 {default_period}）"))
     deep = req.mode == "deep"
     subtasks = [SubTask(task_id="T1", agent="fundamental", objective="财务三表、盈利与现金流质量、异常检测", tool_budget=12,
                         acceptance="核心比率与增长指标全部由算子计算并入证据库")]

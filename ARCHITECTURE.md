@@ -85,7 +85,10 @@ Checkpointer：`MemorySaver`，`thread_id = run_id`。持久化 checkpointer（`
 | Demo 录屏 | 已实现：`scripts/record_demo.mjs`（Playwright 驱动本机 Chrome/Edge，真实 API、离线模型）→ `reports/demo/demo.mp4`、`demo.gif` | 录屏用离线模式，所以研报是模板文字；接真实模型重录需约 2 分钟/份 |
 | PostgreSQL 16 | SQLite 默认，docker-compose 提供 PG16 | 零依赖本地运行；SQLAlchemy 模型两者通用 |
 | PGVector/Chroma + bge | 内存索引 + Hashing 稠密向量 | 离线无模型下载；`DenseEncoder`/`Reranker` 协议是替换点 |
-| 真实 A 股 Golden Snapshot | 6 家虚构公司 | 当前环境无法访问行情/公告源；`scripts/ingest_live.py` 提供 AKShare 行情接入 |
+| 真实 A 股 Golden Snapshot | 已实现：8 家真实公司（`benchmarks/real_snapshot/`），东方财富 F10 三表 + 巨潮原始 PDF + Yahoo 日线；6 家虚构公司保留为故障注入“实验室” | 见 `DATA_CONTRACTS.md` 第 8 节；母公司口径未接入 |
+| 财报 PDF 解析（MinerU / Docling） | 已实现：PyMuPDF 文字 + 表格（`packages/rag_engine/pdf_parser.py`），文字与表格按页面纵坐标交错，表格落在正确标题下；修复千分位/负号乱序；只保留主要会计数据、MD&A、三表、关键附注 | 未用 MinerU/Docling（需下载大模型）；PyMuPDF 2.x 的 ONNX 版面模型在部分财报上原生崩溃，已关闭（`use_layout=False`） |
+| 估值算子 | PE/PB/PS-TTM、EV/EBITDA、PE 3/5 年分位（5 年不足 48 个月时返回 INSUFFICIENT_DATA）、同行中位数、QoQ 环比；DCF 为可选算子，假设必须显式传入并输出 5×5 WACC×永续增长率敏感性矩阵 | 申万行业中位数只在 8 家公司内计算 |
+| 银行/保险/券商模板 | 未实现 | 快照里没有金融业公司，所需科目（净息差、不良率等）也不在东方财富通用报表接口里 |
 | Human-in-the-Loop 审批卡片 | 已实现：`approval` 节点用 LangGraph `interrupt()` 暂停；工作台弹出审批卡（批准 / 改检索词 / 跳过，可追加预算）；`POST /api/research/{job_id}/approve` 用 `Command(resume=...)` 继续 | 触发条件：重规划会超预算，或勾选“每次追加调查前都请我审批”。API 默认开启，CLI/评测默认关闭 |
 | 持久化 Checkpoint | 已实现：`SqliteSaver` 写 `data/checkpoints.db`，`GET /api/runs/{run_id}/checkpoints` 查看每一步状态 | 限制：证据库、算子缓存等运行上下文仍在进程内存里，进程重启后暂停中的任务无法继续（`resume_research` 会报 KeyError）。PG 部署可换 `langgraph-checkpoint-postgres` |
 | PDF 导出 | 已实现：reportlab + 系统中文字体，`GET /api/runs/{run_id}/export.pdf`、`run_research.py --pdf` | 图表不进 PDF，只有文字与表格 |

@@ -33,8 +33,8 @@ def write_markdown(cmp: dict, rag: dict, exp_id: str) -> str:
     agg, d = cmp["aggregate"], cmp["delta_vs_reference"]
     L = ["# EVALUATION — FinResearch Agent 评测报告", "",
          f"> 自动生成于 {datetime.now():%Y-%m-%d %H:%M}，实验 `{exp_id}`，原始数据 `reports/eval/{exp_id}.json`。",
-         "> 运行模式：**离线确定性模式**（未配置 LLM_BASE_URL）。所有 Agent 使用规则/模板路径，Tier-2 与 Rubric 使用离线启发式裁判。",
-         "> 数据：6 家**虚构**演示公司的 Golden Snapshot（见 `DATA_CONTRACTS.md`）。结论只说明本数据集上的机制差异，不代表真实市场表现。", "",
+         "> 运行模式：**离线确定性模式**（强制 LLM_OFFLINE=1）。所有 Agent 使用规则/模板路径，Tier-2 与 Rubric 使用离线启发式裁判。真实模型结果见后文“在线”各节。",
+         "> 数据：8 家真实 A 股（东方财富 F10 三表 + 巨潮原始财报/公告 + Yahoo 日线）与 6 家虚构“实验室”公司（故障注入用）。见 `DATA_CONTRACTS.md`。", "",
          "## 1. 五级基线对比 (B0–B4)", "",
          "| 架构 | 任务通过率 | 数值准确率 | 引用有效 | 语义支持 | PIT 泄漏率 | 异常召回 | 拒答正确 | 冲突识别 | 故障自愈 | Rubric | 冗余工具率 | P50 ms | P95 ms | 平均 tokens |",
          "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
@@ -63,12 +63,19 @@ def write_markdown(cmp: dict, rag: dict, exp_id: str) -> str:
         ci = f"[{bs['ci95'][0] * 100:+.1f}, {bs['ci95'][1] * 100:+.1f}]" if bs else "—"
         L.append(f"| {LABEL[a]} | {pct(r['pass_rate'])} | {dd['pass_rate'] * 100:+.1f}pp | {ci} | {pct(r['numerical_accuracy'])} | "
                  f"{pct(r['pit_violation'])} | {pct(r['recovery'])} | {pct(r['rubric'])} | {dd['token_ratio']:.2f} |")
-    L += ["", "## 3. 检索评测 (72 条查询, 6 公司 × 3 报告期 × 4 意图)", "", "| 配置 | Recall@5 | MRR |", "|---|---|---|"]
+    real = rag.get("real", {})
+    L += ["", f"## 3. 检索评测（实验室 {rag['bm25']['n']} 条 / 真实财报 {real.get('bm25', {}).get('n', 0)} 条查询）", "",
+          "| 配置 | 实验室 Recall@5 | 实验室 MRR | 真实 Recall@5 | 真实 MRR |", "|---|---|---|---|---|"]
     for k, v in rag.items():
-        if k != "table_integrity":
-            L.append(f"| {k} | {pct(v['recall@5'])} | {v['mrr']:.3f} |")
+        if k in ("table_integrity", "real"):
+            continue
+        rv = real.get(k, {})
+        L.append(f"| {k} | {pct(v['recall@5'])} | {v['mrr']:.3f} | {pct(rv.get('recall@5'))} | "
+                 f"{rv.get('mrr', 0):.3f} |")
     ti = rag["table_integrity"]
-    L += ["", f"跨页表格完整率（合并利润表在第 3/4 页之间断开）：结构感知切片 {pct(ti['structure_aware'])}，固定长度切片 {pct(ti['naive_fixed_size'])}。", "",
+    rti = real.get("table_integrity", {})
+    L += ["", f"跨页表格完整率：实验室结构感知切片 {pct(ti['structure_aware'])}，固定长度切片 {pct(ti['naive_fixed_size'])}；"
+          f"真实财报 {rti.get('statements_spanning_pages', 0)} 张跨页合并利润表，结构感知完整率 {pct(rti.get('structure_aware'))}。", "",
           "## 4. 错误根因漏斗", "", "| 架构 | " + " | ".join(agg["B4"]["errors"]) + " |", "|---|" + "---|" * len(agg["B4"]["errors"])]
     for a in BASE + ABL:
         if a in agg:
@@ -76,15 +83,35 @@ def write_markdown(cmp: dict, rag: dict, exp_id: str) -> str:
     return "\n".join(L) + "\n"
 
 
+def by_dataset(results: list[dict], archs: list[str]) -> str:
+    sets = ["golden", "blind", "chaos", "lab"]
+    L = ["## 0. 按数据集通过率", "", "golden = 8 家真实 A 股（Tier-A 30 题）；blind = 独立出题人在真实数据上出的 30 题；"
+         "chaos = 虚构实验室公司上的故障注入 50 题；lab = 虚构实验室公司上的旧版 30 题。", "",
+         "| 架构 | " + " | ".join(sets) + " | 合计 |", "|---|" + "---|" * (len(sets) + 1)]
+    for a in archs:
+        rs = [r for r in results if r["architecture"] == a]
+        cells = []
+        for d in sets:
+            x = [r["passed"] for r in rs if r.get("dataset") == d]
+            cells.append(f"{sum(x)}/{len(x)}" if x else "—")
+        L.append(f"| {a} | " + " | ".join(cells) + f" | {sum(r['passed'] for r in rs)}/{len(rs)} |")
+    return "\n".join(L) + "\n\n"
+
+
 if __name__ == "__main__":
+    import os
+
     ap = argparse.ArgumentParser()
     ap.add_argument("--quick", action="store_true")
     ap.add_argument("--repeats", type=int, default=1)
+    ap.add_argument("--datasets", default="golden,blind,chaos,lab")
     a = ap.parse_args()
+    os.environ["LLM_OFFLINE"] = "1"   # this script is the offline matrix; online runs use run_online_eval.py
     print(write_tasks())
     archs = ["B3", "B4"] if a.quick else BASE + ABL
     exp_id = f"exp_{datetime.now():%Y%m%d_%H%M%S}"
-    payload = run_experiment(archs, repeats=a.repeats, persist_archs=("B3", "B4"), name=exp_id)
+    payload = run_experiment(archs, datasets=tuple(a.datasets.split(",")), repeats=a.repeats,
+                             persist_archs=("B3", "B4"), name=exp_id)
     cmp = compare(payload["results"])
     rag = rag_eval.run()
     out = ROOT / "reports" / "eval"
@@ -94,5 +121,7 @@ if __name__ == "__main__":
                                                         ensure_ascii=False, default=str), encoding="utf-8")
     if not a.quick:
         md = write_markdown(cmp, rag, exp_id)
+        head, _, rest = md.partition("## 1.")
+        md = head + by_dataset(payload["results"], archs) + "## 1." + rest
         (out / "EVALUATION_generated.md").write_text(md, encoding="utf-8")
         print(md)

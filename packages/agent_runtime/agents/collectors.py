@@ -322,7 +322,7 @@ def n_events(s: SubState) -> dict:
 
 
 # ======================= Investigation (re-planning) =======================
-DETAIL_LINE = re.compile(r"[^。\n|]*(合计|主要系|所致|计提|新增|调减|调增)[^。\n|]*。")
+DETAIL_LINE = re.compile(r"[^。\n|]*(合计|主要系|所致|主要原因|变动原因|原因是|计提|新增|调减|调增)[^。\n|]*。")
 
 
 def explain_anomaly(ctx: RunContext, code: str, query: str, section_types, anomaly_evidence_ids: list[str],

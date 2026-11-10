@@ -30,6 +30,7 @@ def run_task(task: dict, arch: str, persist: bool) -> dict:
         rep = run_research(req, arch, persist=persist)
     except Exception as exc:  # noqa: BLE001 - a crashed run is a scored failure, not a runner crash
         return {"task_id": task["task_id"], "architecture": arch, "run_id": None, "passed": False,
+                "category": task["category"], "dataset": task["dataset"],
                 "error_category": "TOOL_ERROR", "scores": {"crash": {"error": repr(exc), "tb": traceback.format_exc()[-800:]}},
                 "latency_ms": (time.perf_counter() - t0) * 1000}
     scores = evaluate(task, rep)

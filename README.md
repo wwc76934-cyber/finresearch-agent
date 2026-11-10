@@ -2,19 +2,24 @@
 
 A 股多智能体投研系统，含金融数据中台（PIT + 血缘）与 Agent 评测中台（B0–B4 基线 + 7 项消融）。
 
-> 仓库自带的数据是 **6 家虚构演示公司**（代码 99000x，名称“演示…”），用于离线复现与评测。它们不是行情数据，不构成投资建议。
+> 数据：**8 家真实 A 股**（宁德时代、亿纬锂能、比亚迪、隆基绿能、贵州茅台、五粮液、美的集团、格力电器；东方财富三表 + 巨潮原始财报 PDF + Yahoo 日线），以及 6 家**虚构“实验室”公司**（99000x，用于故障注入）。仅供研究，不构成投资建议。
 
-## 快速开始（无需任何服务）
+## 快速开始
 
 ```bash
 uv venv .venv && uv pip install -e ".[dev]"      # 或 pip install -e ".[dev]"
-python scripts/build_golden_snapshot.py           # 生成演示快照（已提交，可跳过）
-python scripts/bootstrap.py                       # 入库 + 质量校验 + 切片索引（SQLite: data/finresearch.db）
-python scripts/run_research.py 990001.SZ 2025-12-31   # 跑一份 B4 研报 → reports/
+python scripts/bootstrap.py                       # 入库两套快照 + 质量校验 + 切片索引（SQLite: data/finresearch.db）
+python scripts/run_research.py 300750.SZ 2025-12-31 --pdf   # 宁德时代 B4 研报（Markdown + JSON + PDF）→ reports/
 python -m uvicorn apps.api_server.main:app --host 127.0.0.1 --port 8000   # 打开 http://127.0.0.1:8000
-python scripts/run_experiments.py                 # 80 题 × 12 架构 + 检索评测 → reports/eval/ 与 EVALUATION.md 表格
-python -m pytest -q                               # 45 个测试（含回归集）
-python scripts/run_research.py 990001.SZ 2025-12-31 --pdf   # 同时导出 PDF
+python scripts/run_experiments.py                 # 离线矩阵：12 架构 × 140 题 + 检索评测 → EVALUATION.md 表格
+python -m pytest -q                               # 52 个测试（含回归集、真实数据测试）
+```
+
+真实快照已提交在 `benchmarks/real_snapshot/`。要从头重建（需联网，约 200MB 原始缓存、解析约 1 小时）：
+
+```bash
+python scripts/fetch_real.py --pdfs
+python scripts/build_real_snapshot.py
 ```
 
 Windows 下把 `python` 换成 `.venv\Scripts\python.exe`。
