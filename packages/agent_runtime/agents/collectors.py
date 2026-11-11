@@ -11,6 +11,7 @@ import re
 from datetime import date
 from typing import Annotated, Callable, Optional, TypedDict
 
+from data_platform.calculators import ROUTINE_RPT_RE
 from langgraph.graph import END, START, StateGraph
 
 from data_platform.catalog import cn_name
@@ -210,6 +211,8 @@ def f_anomalies(s: SubState) -> dict:
 
 
 EXPLAIN_LINE = re.compile(r"[^。\n]*(主要系|所致|原因)[^。\n]*。")
+RULE_TEXT = re.compile(r"应(当)?说明|解释性公告|信息披露编报规则")
+CHECKBOX = re.compile(r"^.*适用[\s□√]*不适用\s*")   # form heading "……原因说明√适用□不适用" before the real text
 
 
 def f_explain(s: SubState) -> dict:
@@ -220,9 +223,12 @@ def f_explain(s: SubState) -> dict:
     ids = []
     for h in hits:
         text = (h.parent or h.chunk).text
-        m = EXPLAIN_LINE.search(text)
+        # skip disclosure-rule text quoted inside reports ("……应说明原因"): it explains nothing
+        m = next((x for x in EXPLAIN_LINE.finditer(text) if not RULE_TEXT.search(x.group(0))), None)
         if m:
-            sentence = m.group(0)[-300:]
+            sentence = CHECKBOX.sub("", m.group(0))[-300:]
+            if len(sentence) < 15 or not re.search(r"主要系|所致|原因", sentence):
+                continue   # the keyword was in the form heading, not in an explanation
             ev = ctx.evidence_from_hit(h, "fundamental", focus=sentence)
             cl = ctx.add_claim("financials", "disclosed_fact", f"管理层讨论与分析披露：{sentence}", [ev], "fundamental")
             ids.append(cl.claim_id)
@@ -298,6 +304,17 @@ def m_valuation(s: SubState) -> dict:
 
 
 # ======================= News / Event =======================
+# the legal statement every A-share announcement opens with; quoting it says nothing about the event
+_BOILERPLATE_RE = re.compile(r"^.*?(本公司|公司)?董事会及全体董事保证.*?(承担(个别及连带)?(法律)?责任|连带责任)。")
+
+
+def _strip_boilerplate(body: str) -> str:
+    m = _BOILERPLATE_RE.match(body)
+    if m and len(body) - m.end() >= 20:
+        body = body[m.end():]
+    return re.sub(r"^\s*重要内容提示[：:]\s*", "", body).lstrip("●• ")
+
+
 def n_events(s: SubState) -> dict:
     ctx = _ctx(s)
     docs = tools.get_company_announcements(ctx)
@@ -307,13 +324,13 @@ def n_events(s: SubState) -> dict:
         hits = tools.retrieve_document_evidence(ctx, d.title, doc_ids=[d.document_id], top_k=1)
         if not hits:
             continue
-        body = (hits[0].parent or hits[0].chunk).text.split("\n")[-1]
+        body = _strip_boilerplate((hits[0].parent or hits[0].chunk).text.split("\n")[-1])
         if len(body) > 220:   # real announcements are long; quote the opening and cut at a sentence end
             cut = body[:220]
             body = cut[:cut.rfind("。") + 1] if "。" in cut else cut + "…"
         ev = ctx.evidence_from_hit(hits[0], "news", focus=body.rstrip("…")[:120])
-        sec = "bear" if any(k in d.title for k in ("召回", "差错", "关联交易", "立案", "债券", "借款")) else \
-            ("bull" if "合同" in d.title else "events")
+        sec = "bear" if any(k in d.title for k in ("召回", "差错", "关联交易", "立案", "债券", "借款")) \
+            and not ROUTINE_RPT_RE.search(d.title) else ("bull" if "合同" in d.title else "events")
         cl = ctx.add_claim(sec if sec != "events" else "events", "disclosed_fact",
                            f"{d.published_at.date()}公告《{d.title}》：{body}", [ev], "news")
         ids.append(cl.claim_id)

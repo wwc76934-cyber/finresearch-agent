@@ -1,6 +1,8 @@
 """Independent Risk Agent: six-dimension rule engine over MetricRecords and events."""
 from __future__ import annotations
 
+from data_platform.calculators import ROUTINE_RPT_RE
+
 from .. import tools
 from ..context import RunContext, fmt
 
@@ -50,7 +52,8 @@ def evaluate_risk(ctx: RunContext) -> dict:
             s = min(5, s + 1)
         add("经营与行业", s, [ry, gm], f"营收同比{fmt(ry)}，毛利率{fmt(gm) if gm else '数据不足'}")
     titles = [t["title"] for t in ctx.timeline] or [d.title for d in ctx.svc.documents(ctx.ticker, "announcement")]
-    hits = [t for t in titles if any(k in t for k in ("立案", "差错", "关联交易", "召回", "处罚"))]
+    hits = [t for t in titles if any(k in t for k in ("立案", "差错", "关联交易", "召回", "处罚"))
+            and not ROUTINE_RPT_RE.search(t)]
     evs = [e for e in ctx.evidence.values() if e.kind == "document" and any(h in e.excerpt or h[:6] in e.summary for h in hits)]
     score = 1 + min(4, 2 * len(hits))
     if hits and evs:

@@ -1,0 +1,4257 @@
+{
+ "run_id": "run_20261111095222_9d6986",
+ "architecture": "B4",
+ "ticker": "300750.SZ",
+ "name": "宁德时代",
+ "as_of": "2026-05-06T15:00:00",
+ "snapshot_id": "snap_202605061500_bbe62730",
+ "question": "全面研究公司基本面、估值与风险，形成包含多空审议与证伪条件的研究报告",
+ "overview": "宁德时代（300750.SZ），申万行业 电力设备/电池，研究时点 2026-05-06 15:00:00。",
+ "executive_summary": "公司营业收入与归母净利润同比显著增长，毛利率与净利率保持稳定，年化ROE表现良好。经营现金流显著优于净利润，显示盈利质量优异。存货周转天数有所上升，需关注库存管理效率。公司公告涉及股份回购、募集资金用途变更及绿色债券发行等事项。管理层表示新能源行业持续增长，公司产品产销两旺。当前估值处于历史较高分位，对业绩不及预期的容忍度较低。业务扩张与现金流优势构成主要看多因素。",
+ "sections": [
+  {
+   "key": "overview",
+   "title": "公司与行业概况",
+   "claim_ids": []
+  },
+  {
+   "key": "answer",
+   "title": "问题直接回答",
+   "claim_ids": [
+    "C012",
+    "C013",
+    "C014",
+    "C015",
+    "C016",
+    "C017",
+    "C025",
+    "C026",
+    "C027",
+    "C028"
+   ]
+  },
+  {
+   "key": "financials",
+   "title": "财务与经营质量",
+   "claim_ids": [
+    "C001",
+    "C002",
+    "C003",
+    "C004",
+    "C005",
+    "C006",
+    "C007",
+    "C018",
+    "C020"
+   ]
+  },
+  {
+   "key": "valuation",
+   "title": "估值与市场表现",
+   "claim_ids": [
+    "C021",
+    "C023",
+    "C024"
+   ]
+  },
+  {
+   "key": "events",
+   "title": "近期公告与事件",
+   "claim_ids": [
+    "C008",
+    "C009",
+    "C010"
+   ]
+  },
+  {
+   "key": "bull",
+   "title": "核心看多论点",
+   "claim_ids": [
+    "C029",
+    "C030",
+    "C031",
+    "C032",
+    "C037",
+    "C038",
+    "C039"
+   ]
+  },
+  {
+   "key": "bear",
+   "title": "核心看空论点",
+   "claim_ids": [
+    "C011",
+    "C019",
+    "C022",
+    "C033",
+    "C034",
+    "C035",
+    "C036"
+   ]
+  },
+  {
+   "key": "falsification",
+   "title": "关键争议与证伪条件",
+   "claim_ids": [
+    "C040",
+    "C041",
+    "C042",
+    "C043"
+   ]
+  },
+  {
+   "key": "risk",
+   "title": "六维风险矩阵",
+   "claim_ids": [
+    "C044",
+    "C045",
+    "C046",
+    "C047",
+    "C048"
+   ]
+  }
+ ],
+ "claims": {
+  "C001": {
+   "claim_id": "C001",
+   "section": "financials",
+   "claim_type": "disclosed_fact",
+   "text": "2026Q1累计营业收入1291.31亿元，同比52.45%；归母净利润207.38亿元，同比48.52%。",
+   "evidence_ids": [
+    "E001",
+    "E002",
+    "E003",
+    "E004"
+   ],
+   "metric_ids": [
+    "m_300750_operating_revenue_2026Q1",
+    "m_300750_revenue_yoy_2026Q1",
+    "m_300750_net_profit_2026Q1",
+    "m_300750_net_profit_yoy_2026Q1"
+   ],
+   "produced_by": "fundamental",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C002": {
+   "claim_id": "C002",
+   "section": "financials",
+   "claim_type": "derived_metric",
+   "text": "2026Q1毛利率24.82%，净利率16.06%，年化ROE23.89%。",
+   "evidence_ids": [
+    "E005",
+    "E006",
+    "E007"
+   ],
+   "metric_ids": [
+    "m_300750_gross_margin_2026Q1",
+    "m_300750_net_margin_2026Q1",
+    "m_300750_roe_annualized_2026Q1"
+   ],
+   "produced_by": "fundamental",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C003": {
+   "claim_id": "C003",
+   "section": "financials",
+   "claim_type": "derived_metric",
+   "text": "2026Q1经营现金流/净利润为162.41%，经营现金流同比2.47%。",
+   "evidence_ids": [
+    "E008",
+    "E009"
+   ],
+   "metric_ids": [
+    "m_300750_ocf_to_net_profit_2026Q1",
+    "m_300750_ocf_yoy_2026Q1"
+   ],
+   "produced_by": "fundamental",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C004": {
+   "claim_id": "C004",
+   "section": "financials",
+   "claim_type": "model_inference",
+   "text": "推断：经营现金流/净利润为162.41%，利润具有较好的现金支撑。",
+   "evidence_ids": [
+    "E008"
+   ],
+   "metric_ids": [
+    "m_300750_ocf_to_net_profit_2026Q1"
+   ],
+   "produced_by": "fundamental",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C005": {
+   "claim_id": "C005",
+   "section": "financials",
+   "claim_type": "derived_metric",
+   "text": "2026Q1应收账款周转天数60.6天，存货周转天数115.1天。",
+   "evidence_ids": [
+    "E010",
+    "E011"
+   ],
+   "metric_ids": [
+    "m_300750_receivable_days_2026Q1",
+    "m_300750_inventory_days_2026Q1"
+   ],
+   "produced_by": "fundamental",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C006": {
+   "claim_id": "C006",
+   "section": "financials",
+   "claim_type": "derived_metric",
+   "text": "2026Q1单季营收环比-8.18%，单季归母净利润环比-10.49%。",
+   "evidence_ids": [
+    "E012",
+    "E013"
+   ],
+   "metric_ids": [
+    "m_300750_revenue_qoq_2026Q1",
+    "m_300750_net_profit_qoq_2026Q1"
+   ],
+   "produced_by": "fundamental",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C007": {
+   "claim_id": "C007",
+   "section": "financials",
+   "claim_type": "derived_metric",
+   "text": "2026Q1资产负债率62.32%，有息负债率11.83%。",
+   "evidence_ids": [
+    "E014",
+    "E015"
+   ],
+   "metric_ids": [
+    "m_300750_debt_to_assets_2026Q1",
+    "m_300750_interest_debt_ratio_2026Q1"
+   ],
+   "produced_by": "fundamental",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C008": {
+   "claim_id": "C008",
+   "section": "events",
+   "claim_type": "disclosed_fact",
+   "text": "2026-04-02公告《关于回购公司A股股份的进展公告》：1证券代码：300750证券简称：宁德时代公告编号：2026-029宁德时代新能源科技股份有限公司关于回购公司A 股股份的进展公告本公司及董事会全体成员保证信息披露的内容真实、准确、完整，没有虚假记载、误导性陈述或重大遗漏。",
+   "evidence_ids": [
+    "E016"
+   ],
+   "metric_ids": [],
+   "produced_by": "news",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C009": {
+   "claim_id": "C009",
+   "section": "events",
+   "claim_type": "disclosed_fact",
+   "text": "2026-04-03公告《关于变更部分A股募集资金用途后新签订募集资金三方监管协议的公告》：1证券代码：300750证券简称：宁德时代公告编号：2026-031宁德时代新能源科技股份有限公司关于变更部分A股募集资金用途后新签订募集资金三方监管协议的公告本公司及董事会全体成员保证信息披露的内容真实、准确、完整，没有虚假记载、误导性陈述或重大遗漏。",
+   "evidence_ids": [
+    "E017"
+   ],
+   "metric_ids": [],
+   "produced_by": "news",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C010": {
+   "claim_id": "C010",
+   "section": "events",
+   "claim_type": "disclosed_fact",
+   "text": "2026-04-07公告《关于A股股份回购结果暨股份变动的公告》：1证券代码：300750证券简称：宁德时代公告编号：2026-032宁德时代新能源科技股份有限公司关于A 股股份回购结果暨股份变动的公告本公司及董事会全体成员保证信息披露的内容真实、准确、完整，没有虚假记载、误导性陈述或重大遗漏。",
+   "evidence_ids": [
+    "E018"
+   ],
+   "metric_ids": [],
+   "produced_by": "news",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C011": {
+   "claim_id": "C011",
+   "section": "bear",
+   "claim_type": "disclosed_fact",
+   "text": "2026-04-30公告《关于2026年度第二期绿色科技创新债券发行完成的公告》：1证券代码：300750证券简称：宁德时代公告编号：2026-044宁德时代新能源科技股份有限公司关于2026 年度第二期绿色科技创新债券发行完成的公告本公司及董事会全体成员保证信息披露的内容真实、准确、完整，没有虚假记载、误导性陈述或重大遗漏。",
+   "evidence_ids": [
+    "E019"
+   ],
+   "metric_ids": [],
+   "produced_by": "news",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C012": {
+   "claim_id": "C012",
+   "section": "answer",
+   "claim_type": "disclosed_fact",
+   "text": "2026Q1合并口径累计营业收入为1291.31亿元。",
+   "evidence_ids": [
+    "E020"
+   ],
+   "metric_ids": [
+    "m_300750_operating_revenue_2026Q1"
+   ],
+   "produced_by": "fundamental",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C013": {
+   "claim_id": "C013",
+   "section": "answer",
+   "claim_type": "disclosed_fact",
+   "text": "2026Q1合并口径累计归属于母公司股东的净利润为207.38亿元。",
+   "evidence_ids": [
+    "E021"
+   ],
+   "metric_ids": [
+    "m_300750_net_profit_2026Q1"
+   ],
+   "produced_by": "fundamental",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C014": {
+   "claim_id": "C014",
+   "section": "answer",
+   "claim_type": "derived_metric",
+   "text": "2026Q1毛利率为24.82%。",
+   "evidence_ids": [
+    "E005"
+   ],
+   "metric_ids": [
+    "m_300750_gross_margin_2026Q1"
+   ],
+   "produced_by": "fundamental",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C015": {
+   "claim_id": "C015",
+   "section": "answer",
+   "claim_type": "derived_metric",
+   "text": "2026Q1净利率为16.06%。",
+   "evidence_ids": [
+    "E006"
+   ],
+   "metric_ids": [
+    "m_300750_net_margin_2026Q1"
+   ],
+   "produced_by": "fundamental",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C016": {
+   "claim_id": "C016",
+   "section": "answer",
+   "claim_type": "derived_metric",
+   "text": "2026Q1ROE(年化)为23.89%。",
+   "evidence_ids": [
+    "E007"
+   ],
+   "metric_ids": [
+    "m_300750_roe_annualized_2026Q1"
+   ],
+   "produced_by": "fundamental",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C017": {
+   "claim_id": "C017",
+   "section": "answer",
+   "claim_type": "derived_metric",
+   "text": "2026Q1资产负债率为62.32%。",
+   "evidence_ids": [
+    "E014"
+   ],
+   "metric_ids": [
+    "m_300750_debt_to_assets_2026Q1"
+   ],
+   "produced_by": "fundamental",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C018": {
+   "claim_id": "C018",
+   "section": "financials",
+   "claim_type": "derived_metric",
+   "text": "异常信号[INVENTORY_DAYS_DETERIORATION]：存货周转天数由87天升至115天。",
+   "evidence_ids": [
+    "E011",
+    "E022"
+   ],
+   "metric_ids": [
+    "m_300750_inventory_days_2026Q1",
+    "m_300750_inventory_days_2025Q1"
+   ],
+   "produced_by": "fundamental",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C019": {
+   "claim_id": "C019",
+   "section": "bear",
+   "claim_type": "disclosed_fact",
+   "text": "说明[INVENTORY_DAYS_DETERIORATION]：存货（单位：千元）显示，账面余额 存货跌价准备 账面价值 账面余额 存货跌价准备 账面价值；或合同履约成 或合同履约成；本减值准备 本减值准备（单位见原表）。",
+   "evidence_ids": [
+    "E023",
+    "E011",
+    "E022"
+   ],
+   "metric_ids": [
+    "m_300750_inventory_days_2026Q1",
+    "m_300750_inventory_days_2025Q1"
+   ],
+   "produced_by": "fundamental",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C020": {
+   "claim_id": "C020",
+   "section": "financials",
+   "claim_type": "disclosed_fact",
+   "text": "管理层讨论与分析披露：国内外新能源行业持续增长，公司新技术、新产品陆续落地，海外市场拓展加速，客户合作关系进一步深化，公司产品产销两旺。",
+   "evidence_ids": [
+    "E024"
+   ],
+   "metric_ids": [],
+   "produced_by": "fundamental",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C021": {
+   "claim_id": "C021",
+   "section": "valuation",
+   "claim_type": "derived_metric",
+   "text": "截至2026-05-06，PE-TTM为26.58倍，近3年历史分位91.67%，PB-LF为5.33倍；同行PE中位数19.66倍。",
+   "evidence_ids": [
+    "E025",
+    "E026",
+    "E027",
+    "E028"
+   ],
+   "metric_ids": [
+    "m_300750_pe_ttm_2026-05-06",
+    "m_300750_pe_percentile_3y_2026-05-06",
+    "m_300750_pb_lf_2026-05-06",
+    "m_300750_peer_pe_median_2026-05-06"
+   ],
+   "produced_by": "market",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C022": {
+   "claim_id": "C022",
+   "section": "bear",
+   "claim_type": "model_inference",
+   "text": "推断：估值处于近3年91.67%分位的偏高区间，对业绩不及预期的容忍度低。",
+   "evidence_ids": [
+    "E026"
+   ],
+   "metric_ids": [
+    "m_300750_pe_percentile_3y_2026-05-06"
+   ],
+   "produced_by": "market",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C023": {
+   "claim_id": "C023",
+   "section": "valuation",
+   "claim_type": "derived_metric",
+   "text": "EV/EBITDA为14.57倍，PS-TTM为4.48倍，PE近5年分位81.63%。",
+   "evidence_ids": [
+    "E029",
+    "E030",
+    "E031"
+   ],
+   "metric_ids": [
+    "m_300750_ev_ebitda_2026-05-06",
+    "m_300750_ps_ttm_2026-05-06",
+    "m_300750_pe_percentile_5y_2026-05-06"
+   ],
+   "produced_by": "market",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C024": {
+   "claim_id": "C024",
+   "section": "valuation",
+   "claim_type": "derived_metric",
+   "text": "近一年年化波动率36.22%，最大回撤-18.46%。",
+   "evidence_ids": [
+    "E032",
+    "E033"
+   ],
+   "metric_ids": [
+    "m_300750_volatility_1y_2026-05-06",
+    "m_300750_max_drawdown_1y_2026-05-06"
+   ],
+   "produced_by": "market",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C025": {
+   "claim_id": "C025",
+   "section": "answer",
+   "claim_type": "derived_metric",
+   "text": "市盈率TTM为26.58倍。",
+   "evidence_ids": [
+    "E025"
+   ],
+   "metric_ids": [
+    "m_300750_pe_ttm_2026-05-06"
+   ],
+   "produced_by": "market",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C026": {
+   "claim_id": "C026",
+   "section": "answer",
+   "claim_type": "derived_metric",
+   "text": "市净率LF为5.33倍。",
+   "evidence_ids": [
+    "E027"
+   ],
+   "metric_ids": [
+    "m_300750_pb_lf_2026-05-06"
+   ],
+   "produced_by": "market",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C027": {
+   "claim_id": "C027",
+   "section": "answer",
+   "claim_type": "derived_metric",
+   "text": "年化波动率为36.22%。",
+   "evidence_ids": [
+    "E032"
+   ],
+   "metric_ids": [
+    "m_300750_volatility_1y_2026-05-06"
+   ],
+   "produced_by": "market",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C028": {
+   "claim_id": "C028",
+   "section": "answer",
+   "claim_type": "derived_metric",
+   "text": "最大回撤(1年)为-18.46%。",
+   "evidence_ids": [
+    "E033"
+   ],
+   "metric_ids": [
+    "m_300750_max_drawdown_1y_2026-05-06"
+   ],
+   "produced_by": "market",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C029": {
+   "claim_id": "C029",
+   "section": "bull",
+   "claim_type": "model_inference",
+   "text": "看多：营收与净利润同比大幅增长，显示公司业务持续扩张（隐含假设：高增长趋势在未来能够持续）（依据：2026Q1 营收同比52.45%；2026Q1 净利润同比48.52%）",
+   "evidence_ids": [
+    "E002",
+    "E004"
+   ],
+   "metric_ids": [
+    "m_300750_revenue_yoy_2026Q1",
+    "m_300750_net_profit_yoy_2026Q1"
+   ],
+   "produced_by": "bull",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C030": {
+   "claim_id": "C030",
+   "section": "bull",
+   "claim_type": "model_inference",
+   "text": "看多：经营现金流显著优于净利润，反映盈利质量优异（隐含假设：现金流优势能够长期保持）（依据：2026Q1 经营现金流/净利润162.41%）",
+   "evidence_ids": [
+    "E008"
+   ],
+   "metric_ids": [
+    "m_300750_ocf_to_net_profit_2026Q1"
+   ],
+   "produced_by": "bull",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C031": {
+   "claim_id": "C031",
+   "section": "bull",
+   "claim_type": "model_inference",
+   "text": "看多：大规模回购计划彰显管理层对公司前景信心（隐含假设：回购资金充足且不会影响正常经营）",
+   "evidence_ids": [
+    "E016"
+   ],
+   "metric_ids": [],
+   "produced_by": "bull",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C032": {
+   "claim_id": "C032",
+   "section": "bull",
+   "claim_type": "model_inference",
+   "text": "看多：绿色债券发行显示公司在新能源领域的战略布局（隐含假设：募集资金将有效投入高回报项目）",
+   "evidence_ids": [
+    "E019"
+   ],
+   "metric_ids": [],
+   "produced_by": "bull",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C033": {
+   "claim_id": "C033",
+   "section": "bear",
+   "claim_type": "model_inference",
+   "text": "看空：存货周转天数显著恶化，显示库存积压风险上升（隐含假设：存货周转效率持续下降将导致资产减值压力）（依据：2026Q1 存货周转天数115.1天；2025Q1 存货周转天数86.7天）",
+   "evidence_ids": [
+    "E011",
+    "E022"
+   ],
+   "metric_ids": [
+    "m_300750_inventory_days_2026Q1",
+    "m_300750_inventory_days_2025Q1"
+   ],
+   "produced_by": "bear",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C034": {
+   "claim_id": "C034",
+   "section": "bear",
+   "claim_type": "model_inference",
+   "text": "看空：应收账款账龄结构恶化，三年以上款项占比提升（隐含假设：长账期应收款增加将影响现金流质量）",
+   "evidence_ids": [
+    "E036"
+   ],
+   "metric_ids": [],
+   "produced_by": "bear",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C035": {
+   "claim_id": "C035",
+   "section": "bear",
+   "claim_type": "model_inference",
+   "text": "看空：绿色债券发行规模庞大可能加重财务负担（隐含假设：债务融资扩张将推高财务成本）",
+   "evidence_ids": [
+    "E019"
+   ],
+   "metric_ids": [],
+   "produced_by": "bear",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C036": {
+   "claim_id": "C036",
+   "section": "bear",
+   "claim_type": "model_inference",
+   "text": "看空：行业竞争加剧可能侵蚀利润率（隐含假设：全球锂电产能过剩将导致价格战）",
+   "evidence_ids": [
+    "E034"
+   ],
+   "metric_ids": [],
+   "produced_by": "bear",
+   "status": "PARTIALLY_SUPPORTED",
+   "attempts": 0
+  },
+  "C037": {
+   "claim_id": "C037",
+   "section": "bull",
+   "claim_type": "model_inference",
+   "text": "回应：存货周转天数增加主要由于产能扩张和战略备货，而非库存积压，公司产销率保持高位",
+   "evidence_ids": [
+    "E024"
+   ],
+   "metric_ids": [],
+   "produced_by": "bull",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C038": {
+   "claim_id": "C038",
+   "section": "bull",
+   "claim_type": "model_inference",
+   "text": "回应：绿色债券募集资金用于研发投入和产能建设，将提升长期竞争力而非加重财务负担",
+   "evidence_ids": [
+    "E019"
+   ],
+   "metric_ids": [],
+   "produced_by": "bull",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C039": {
+   "claim_id": "C039",
+   "section": "bull",
+   "claim_type": "model_inference",
+   "text": "回应：公司技术领先优势和规模效应可抵御行业竞争，维持利润率稳定（依据：2026Q1 毛利率24.82%）",
+   "evidence_ids": [
+    "E005"
+   ],
+   "metric_ids": [
+    "m_300750_gross_margin_2026Q1"
+   ],
+   "produced_by": "bull",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C040": {
+   "claim_id": "C040",
+   "section": "falsification",
+   "claim_type": "model_inference",
+   "text": "若后续报告期毛利率跌破22.82%（当前24.82%），则“盈利能力稳定”的看多假设证伪。",
+   "evidence_ids": [
+    "E005",
+    "E038"
+   ],
+   "metric_ids": [
+    "m_300750_gross_margin_2026Q1",
+    "m_300750_threshold_gross_margin_2026Q1"
+   ],
+   "produced_by": "manager",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C041": {
+   "claim_id": "C041",
+   "section": "falsification",
+   "claim_type": "model_inference",
+   "text": "若经营现金流/净利润持续低于80.00%（当前162.41%），则“利润质量可靠”的假设证伪。",
+   "evidence_ids": [
+    "E008",
+    "E039"
+   ],
+   "metric_ids": [
+    "m_300750_ocf_to_net_profit_2026Q1",
+    "m_300750_threshold_ocf_to_net_profit_2026Q1"
+   ],
+   "produced_by": "manager",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C042": {
+   "claim_id": "C042",
+   "section": "falsification",
+   "claim_type": "model_inference",
+   "text": "若应收账款周转天数升至66.6天以上（当前60.6天），说明回款恶化，看多逻辑需下修。",
+   "evidence_ids": [
+    "E010",
+    "E040"
+   ],
+   "metric_ids": [
+    "m_300750_receivable_days_2026Q1",
+    "m_300750_threshold_receivable_days_2026Q1"
+   ],
+   "produced_by": "manager",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C043": {
+   "claim_id": "C043",
+   "section": "falsification",
+   "claim_type": "model_inference",
+   "text": "若有息负债率升至16.83%以上（当前11.83%），偿债风险假设需上调。",
+   "evidence_ids": [
+    "E015",
+    "E041"
+   ],
+   "metric_ids": [
+    "m_300750_interest_debt_ratio_2026Q1",
+    "m_300750_threshold_interest_debt_ratio_2026Q1"
+   ],
+   "produced_by": "manager",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C044": {
+   "claim_id": "C044",
+   "section": "risk",
+   "claim_type": "derived_metric",
+   "text": "财务质量风险1/5：经营现金流/净利润162.41%，高危异常0项",
+   "evidence_ids": [
+    "E008"
+   ],
+   "metric_ids": [
+    "m_300750_ocf_to_net_profit_2026Q1"
+   ],
+   "produced_by": "risk",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C045": {
+   "claim_id": "C045",
+   "section": "risk",
+   "claim_type": "derived_metric",
+   "text": "估值风险5/5：PE-TTM处于近3年91.67%分位",
+   "evidence_ids": [
+    "E026"
+   ],
+   "metric_ids": [
+    "m_300750_pe_percentile_3y_2026-05-06"
+   ],
+   "produced_by": "risk",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C046": {
+   "claim_id": "C046",
+   "section": "risk",
+   "claim_type": "derived_metric",
+   "text": "偿债与流动性风险2/5：资产负债率62.32%，有息负债率11.83%",
+   "evidence_ids": [
+    "E014",
+    "E015"
+   ],
+   "metric_ids": [
+    "m_300750_debt_to_assets_2026Q1",
+    "m_300750_interest_debt_ratio_2026Q1"
+   ],
+   "produced_by": "risk",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C047": {
+   "claim_id": "C047",
+   "section": "risk",
+   "claim_type": "derived_metric",
+   "text": "经营与行业风险1/5：营收同比52.45%，毛利率24.82%",
+   "evidence_ids": [
+    "E002",
+    "E005"
+   ],
+   "metric_ids": [
+    "m_300750_revenue_yoy_2026Q1",
+    "m_300750_gross_margin_2026Q1"
+   ],
+   "produced_by": "risk",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C048": {
+   "claim_id": "C048",
+   "section": "risk",
+   "claim_type": "derived_metric",
+   "text": "市场波动风险3/5：年化波动率36.22%，最大回撤-18.46%",
+   "evidence_ids": [
+    "E032",
+    "E033"
+   ],
+   "metric_ids": [
+    "m_300750_volatility_1y_2026-05-06",
+    "m_300750_max_drawdown_1y_2026-05-06"
+   ],
+   "produced_by": "risk",
+   "status": "VERIFIED",
+   "attempts": 0
+  }
+ },
+ "evidence": {
+  "E001": {
+   "evidence_id": "E001",
+   "kind": "fact",
+   "source_ref": "m_300750_operating_revenue_2026Q1",
+   "summary": "2026Q1 营业收入 = 1291.31亿元",
+   "excerpt": "formula: raw fact; inputs: fact_300750_20260331_operating_revenue_con_ey_f10_v1",
+   "available_at": "2026-04-16T09:30:00",
+   "metric_ids": [
+    "m_300750_operating_revenue_2026Q1"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E002": {
+   "evidence_id": "E002",
+   "kind": "metric",
+   "source_ref": "m_300750_revenue_yoy_2026Q1",
+   "summary": "2026Q1 营收同比 = 52.45%",
+   "excerpt": "formula: cum_t / cum_{t-1y} - 1; inputs: fact_300750_20260331_operating_revenue_con_ey_f10_v1, fact_300750_20250331_operating_revenue_con_ey_f10_v1",
+   "available_at": "2026-04-16T09:30:00",
+   "metric_ids": [
+    "m_300750_revenue_yoy_2026Q1"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E003": {
+   "evidence_id": "E003",
+   "kind": "fact",
+   "source_ref": "m_300750_net_profit_2026Q1",
+   "summary": "2026Q1 归属于母公司股东的净利润 = 207.38亿元",
+   "excerpt": "formula: raw fact; inputs: fact_300750_20260331_net_profit_con_ey_f10_v1",
+   "available_at": "2026-04-16T09:30:00",
+   "metric_ids": [
+    "m_300750_net_profit_2026Q1"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E004": {
+   "evidence_id": "E004",
+   "kind": "metric",
+   "source_ref": "m_300750_net_profit_yoy_2026Q1",
+   "summary": "2026Q1 净利润同比 = 48.52%",
+   "excerpt": "formula: cum_t / cum_{t-1y} - 1 (NA if base <= 0); inputs: fact_300750_20260331_net_profit_con_ey_f10_v1, fact_300750_20250331_net_profit_con_ey_f10_v1",
+   "available_at": "2026-04-16T09:30:00",
+   "metric_ids": [
+    "m_300750_net_profit_yoy_2026Q1"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E005": {
+   "evidence_id": "E005",
+   "kind": "metric",
+   "source_ref": "m_300750_gross_margin_2026Q1",
+   "summary": "2026Q1 毛利率 = 24.82%",
+   "excerpt": "formula: (operating_revenue - operating_cost) / operating_revenue; inputs: fact_300750_20260331_operating_revenue_con_ey_f10_v1, fact_300750_20260331_operating_cost_con_ey_f10_v1",
+   "available_at": "2026-04-16T09:30:00",
+   "metric_ids": [
+    "m_300750_gross_margin_2026Q1"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E006": {
+   "evidence_id": "E006",
+   "kind": "metric",
+   "source_ref": "m_300750_net_margin_2026Q1",
+   "summary": "2026Q1 净利率 = 16.06%",
+   "excerpt": "formula: net_profit / operating_revenue; inputs: fact_300750_20260331_net_profit_con_ey_f10_v1, fact_300750_20260331_operating_revenue_con_ey_f10_v1",
+   "available_at": "2026-04-16T09:30:00",
+   "metric_ids": [
+    "m_300750_net_margin_2026Q1"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E007": {
+   "evidence_id": "E007",
+   "kind": "metric",
+   "source_ref": "m_300750_roe_annualized_2026Q1",
+   "summary": "2026Q1 ROE(年化) = 23.89%",
+   "excerpt": "formula: net_profit * 4/n_quarters / avg(total_equity_begin, total_equity_end); inputs: fact_300750_20260331_net_profit_con_ey_f10_v1, fact_300750_20260331_parent_equity_con_ey_f10_v1, fact_300750_20251231_parent_equity_con_ey_f10_v1",
+   "available_at": "2026-04-16T09:30:00",
+   "metric_ids": [
+    "m_300750_roe_annualized_2026Q1"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E008": {
+   "evidence_id": "E008",
+   "kind": "metric",
+   "source_ref": "m_300750_ocf_to_net_profit_2026Q1",
+   "summary": "2026Q1 经营现金流/净利润 = 162.41%",
+   "excerpt": "formula: operating_cash_flow / net_profit; inputs: fact_300750_20260331_operating_cash_flow_con_ey_f10_v1, fact_300750_20260331_net_profit_con_ey_f10_v1",
+   "available_at": "2026-04-16T09:30:00",
+   "metric_ids": [
+    "m_300750_ocf_to_net_profit_2026Q1"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E009": {
+   "evidence_id": "E009",
+   "kind": "metric",
+   "source_ref": "m_300750_ocf_yoy_2026Q1",
+   "summary": "2026Q1 经营现金流同比 = 2.47%",
+   "excerpt": "formula: cum_t / cum_{t-1y} - 1 (NA if base <= 0); inputs: fact_300750_20260331_operating_cash_flow_con_ey_f10_v1, fact_300750_20250331_operating_cash_flow_con_ey_f10_v1",
+   "available_at": "2026-04-16T09:30:00",
+   "metric_ids": [
+    "m_300750_ocf_yoy_2026Q1"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E010": {
+   "evidence_id": "E010",
+   "kind": "metric",
+   "source_ref": "m_300750_receivable_days_2026Q1",
+   "summary": "2026Q1 应收账款周转天数 = 60.6天",
+   "excerpt": "formula: accounts_receivable / revenue_ttm * 365; inputs: fact_300750_20260331_accounts_receivable_con_ey_f10_v1, fact_300750_20260331_operating_revenue_con_ey_f10_v1, fact_300750_20251231_operating_revenue_con_ey_f10_v1, fact_300750_20250331_operating_revenue_con_ey_f10_v1",
+   "available_at": "2026-04-16T09:30:00",
+   "metric_ids": [
+    "m_300750_receivable_days_2026Q1"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E011": {
+   "evidence_id": "E011",
+   "kind": "metric",
+   "source_ref": "m_300750_inventory_days_2026Q1",
+   "summary": "2026Q1 存货周转天数 = 115.1天",
+   "excerpt": "formula: inventory / cost_ttm * 365; inputs: fact_300750_20260331_inventory_con_ey_f10_v1, fact_300750_20260331_operating_cost_con_ey_f10_v1, fact_300750_20251231_operating_cost_con_ey_f10_v1, fact_300750_20250331_operating_cost_con_ey_f10_v1",
+   "available_at": "2026-04-16T09:30:00",
+   "metric_ids": [
+    "m_300750_inventory_days_2026Q1"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E012": {
+   "evidence_id": "E012",
+   "kind": "metric",
+   "source_ref": "m_300750_revenue_qoq_2026Q1",
+   "summary": "2026Q1 营收环比 = -8.18%",
+   "excerpt": "formula: single_quarter_t / single_quarter_{t-1} - 1; inputs: m_300750_single_quarter_2026Q1_operating_revenue, m_300750_single_quarter_2025Q4_operating_revenue",
+   "available_at": "2026-04-16T09:30:00",
+   "metric_ids": [
+    "m_300750_revenue_qoq_2026Q1"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E013": {
+   "evidence_id": "E013",
+   "kind": "metric",
+   "source_ref": "m_300750_net_profit_qoq_2026Q1",
+   "summary": "2026Q1 净利润环比 = -10.49%",
+   "excerpt": "formula: single_quarter_t / single_quarter_{t-1} - 1 (NA if base <= 0); inputs: m_300750_single_quarter_2026Q1_net_profit, m_300750_single_quarter_2025Q4_net_profit",
+   "available_at": "2026-04-16T09:30:00",
+   "metric_ids": [
+    "m_300750_net_profit_qoq_2026Q1"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E014": {
+   "evidence_id": "E014",
+   "kind": "metric",
+   "source_ref": "m_300750_debt_to_assets_2026Q1",
+   "summary": "2026Q1 资产负债率 = 62.32%",
+   "excerpt": "formula: total_liabilities / total_assets; inputs: fact_300750_20260331_total_liabilities_con_ey_f10_v1, fact_300750_20260331_total_assets_con_ey_f10_v1",
+   "available_at": "2026-04-16T09:30:00",
+   "metric_ids": [
+    "m_300750_debt_to_assets_2026Q1"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E015": {
+   "evidence_id": "E015",
+   "kind": "metric",
+   "source_ref": "m_300750_interest_debt_ratio_2026Q1",
+   "summary": "2026Q1 有息负债率 = 11.83%",
+   "excerpt": "formula: interest_bearing_debt / total_assets; inputs: fact_300750_20260331_interest_bearing_debt_con_ey_f10_v1, fact_300750_20260331_total_assets_con_ey_f10_v1",
+   "available_at": "2026-04-16T09:30:00",
+   "metric_ids": [
+    "m_300750_interest_debt_ratio_2026Q1"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E016": {
+   "evidence_id": "E016",
+   "kind": "document",
+   "source_ref": "ann_300750_1225076794::s1",
+   "summary": "公告正文",
+   "excerpt": "[300750.SZ | 2026-04-02 | 关于回购公司A股股份的进展公告 > 公告正文 | - | - | - | p1-1]\n1证券代码：300750证券简称：宁德时代公告编号：2026-029宁德时代新能源科技股份有限公司关于回购公司A 股股份的进展公告本公司及董事会全体成员保证信息披露的内容真实、准确、完整，没有虚假记载、误导性陈述或重大遗漏。宁德时代新能源科技股份有限公司（以下简称“公司”）于2025年4月7日召开第四届董事会第三次会议和第四届监事会第三次会议，审议通过了《关于回购公司股份方案的议案》，同意公司使用不低于人民币40亿元（含本数）且不超过人民币80亿元（含本数）自有或自筹资金以集中竞价交易方式回购公司部分人民币普通股A股股份，用于实施股权激励计划或员工持股计划，回购期限为自公司董事会审议通过回购股份方案之日起12个月内。具体内容详见公司于2025年4月7日披露在巨潮资讯网（www.cninfo.com.cn）的《关于回购公司股份方案的公告暨回购股份报告书》（公告编号：2025-029）。根据《上市公司股份回购规则》《深圳证券交易所上市公司自律监管指引第9号——回购股份》等相关规定，公司应当在回购期间每个月的前三个交易日内披露截至上月末的回购进展情况。现将公司股份回购进展情况公告如下：一、回购公司股份的进展情况截至2026年3月31日，公司通过深圳证券交易所股票交易系统以集中竞价交易方式累计回购公司A股股份15,990,782股，占公司同日A股总股本的0.3628%，最高成交价为317.63元/股，最低成交价为231.50元/股，成交总金额为人民币4,385,504,687.90元（不含交易费用）。二、回购公司股份的合法合规性说明公司回购股份的时间、回购价格及集中竞价交易的委托时间段等均符合公司回购股份的方案及《深圳证券交易所上市公司自律监管指引第9号——回购股份》第十七条、第十八条的规定，具体说明如下：（一）公司未在下列期间回购股份：21、自可能对公司证券及其衍生品种交易价格产生重大影响的重大事项发生之日或者在决策过程中，至依法披露之日内；2、中国证监会和深圳证券交易所规定的其他情形。（二）公司以集中竞价交易方式回购股份，符合下列要求：1、委托价格不得为公司股票当日交易涨幅限制的价格；2、不得在深圳证券交易所开盘集合竞价、收盘集合竞价及股票价格无涨跌幅限制的交易日内进行股份回购的委托；3、中国证监会和深圳证券交易所规定的其他要求。三、回购公司股份的后续安排公司后续将根据市场情况在回购期限内继续实施本次回购计划，并根据相关规定及时履行信息披露义务，敬请广大投资者注意投资风险。特此公告。宁德时代新能源科技股份有限公司董事会2026年4月2日",
+   "available_at": "2026-04-03T09:30:00",
+   "metric_ids": [],
+   "document_id": "ann_300750_1225076794",
+   "page": "p1-1",
+   "produced_by": "news"
+  },
+  "E017": {
+   "evidence_id": "E017",
+   "kind": "document",
+   "source_ref": "ann_300750_1225080691::s1",
+   "summary": "公告正文",
+   "excerpt": "[300750.SZ | 2026-04-03 | 关于变更部分A股募集资金用途后新签订募集资金三方监管协议的公告 > 公告正文 | - | - | - | p1-1]\n…[300750.SZ | 2026-04-03 | 关于变更部分A股募集资金用途后新签订募集资金三方监管协议的公告 > 公告正文 | - | - | - | p1-1]\n1证券代码：300750证券简称：宁德时代公告编号：2026-031宁德时代新能源科技股份有限公司关于变更部分A股募集资金用途后新签订募集资金三方监管协议的公告本公司及董事会全体成员保证信息披露的内容真实、准确、完整，没有虚假记载、误导性陈述或重大遗漏。一、募集资金基本情况经中国证券监督管理委员会《关于同意宁德时代新能源科技股份有限公司向特定对象发行股票注册的批复》（证监许可〔2022〕901号）批准，公司向特定对象发行股票109,756,097股，每股面值人民币1.00元，发行价格为410.00元/股，募集资金总额为4,499,999.98万元，扣除各项发行费用12,988.66万元（不含增值税）后，实际募集资金净额为4,487,011.32万元。2022年6月21日，保荐人（主承销商）中信建投证券股份有限公司（以下简称“保荐人”或“中信建投证券”）已将扣除保荐费及承销费（含增值税）后的募集资金4,486,499.98万元划至公司指定账户。2022年6月21日，致同会计师事务所（特殊普通合伙）出具了《宁德时代新能源科技股份有限公司验资报告》（致同验字〔2022〕第351C000348号），对公司截至2022年6月21日的募集资金到账情况进行了审验确认。公司将上述募集资金全部存放于募集资金专户管理，并与保荐人、存放募集资金的商业银行签署了募集资金监管协议。二、本次《募集资金三方监管协议》的签订情况和募集资金专户的开立情况公司分别于2026 年3 月9 日、2026 年4 月3 日召开第四届董事会第十四次会议、2025 年年度股东会，审议通过了《关于变更部分A 股募集资金用途的议案》，同意公司将截至2026 年2 月28 日“广东瑞庆时代锂离子电池生产项目一期”尚未投入的募集资金480,000.00 万元（包含全部利息收入，具体金额以实际结转时募集资金专户资金余额为准）用于“时代新能厦门电池产业基地项目”（以下简称“本项目”），不足部分由公司根据项目建设实际需要以自有资金或自筹资2金投入。本项目的实施主体为公司全资子公司厦门时代新能动力科技有限公司（以下简称“时代新能”）。为规范公司募集资金管理和使用，保护投资者权益，根据《上市公司募集资金监管规则》《深圳证券交易所上市公司自律监管指引第2 号——创业板上市公司规范运作》等有关法律法规及公司《募集资金管理制度》的规定，公司及时代新能根据上述变更部分A 股募集资金用途的相关情况，分别开立了新的募集资金专项账户（以下简称“募集资金专户”），并与相关募集资金专户存储银行以及保荐人分别签署了《募集资金三方监管协议》，对募集资金的存储和使用进行专户管理。截至本公告披露日，本次新增的募集资金专户开立及存储情况如下：序号开户银行银行账号开户单位募集资金投资项目余额（元）1中信银行股份有限公司宁德分行8111301013101009318公司时代新能厦门电池产业基地项目0.002平安银行股份有限公司福州分行15000117106672公司0.00315000776570012时代新能0.00三、《募集资金三方监管协议》的主要内容公司、时代新能（单独或合",
+   "available_at": "2026-04-07T09:30:00",
+   "metric_ids": [],
+   "document_id": "ann_300750_1225080691",
+   "page": "p1-1",
+   "produced_by": "news"
+  },
+  "E018": {
+   "evidence_id": "E018",
+   "kind": "document",
+   "source_ref": "ann_300750_1225082511::s1",
+   "summary": "公告正文",
+   "excerpt": "[300750.SZ | 2026-04-07 | 关于A股股份回购结果暨股份变动的公告 > 公告正文 | - | - | - | p1-1]\n…[300750.SZ | 2026-04-07 | 关于A股股份回购结果暨股份变动的公告 > 公告正文 | - | - | - | p1-1]\n1证券代码：300750证券简称：宁德时代公告编号：2026-032宁德时代新能源科技股份有限公司关于A 股股份回购结果暨股份变动的公告本公司及董事会全体成员保证信息披露的内容真实、准确、完整，没有虚假记载、误导性陈述或重大遗漏。宁德时代新能源科技股份有限公司（以下简称“公司”）于2025年4月7日召开第四届董事会第三次会议，审议通过了《关于回购公司股份方案的议案》，同意公司使用不低于人民币40亿元（含本数）且不超过人民币80亿元（含本数）自有或自筹资金以集中竞价交易方式回购公司部分人民币普通股A股股份，用于实施股权激励计划或员工持股计划，回购价格上限为392.32元/股，回购期限为自公司董事会审议通过回购股份方案之日起12个月内。鉴于公司2024年年度权益分派及2025年中期分红已实施完毕，回购价格上限由392.32元/股调整为386.78元/股。具体内容详见公司分别于2025年4月7日、2025年4月15日、2025年8月13日披露在巨潮资讯网（http://www.cninfo.com.cn）的《关于回购公司股份方案的公告暨回购股份报告书》（公告编号：2025-029）、《2024年年度权益分派实施公告》（公告编号：2025-035）、《2025年中期分红A股实施公告》（公告编号：2025-066）。截至本公告披露日，公司本次回购股份期限已届满，且已使用的回购资金总额高于回购方案中规定的回购资金总额下限，本次回购股份方案实施完毕。根据《深圳证券交易所上市公司自律监管指引第9号——回购股份》相关规定，现将公司回购股份的实施结果公告如下：一、回购股份的具体实施情况（一）2025年4月25日，公司通过深圳证券交易所股票交易系统以集中竞价交易方式首次回购公司股份1,075,275股，占公司当时总股本的0.0244%，最高成交价为237.38 元/ 股，最低成交价为236.01 元/ 股，成交总金额为人民币254,677,939.51元（不含交易费用）。具体内容详见公司于2025年4月25日在巨潮资讯网（www.cninfo.com.cn）披露的《关于首次回购公司股份的公告》（公告编号：2025-037）。2（二）在回购股份实施期间，公司严格按照法律法规的相关要求，在每个月的前三个交易日公告截至上月末的回购进展情况，及时履行回购进展的信息披露义务。具体内容请详见公司于回购期限内每月在巨潮资讯网（www.cninfo.com.cn）披露的回购进展公告。（三）截至本公告披露日，公司通过深圳证券交易所股票交易系统以集中竞价交易方式累计回购公司A股股份15,990,782股，占公司当前A股总股本的0.3628%，最高成交价为317.63元/股，最低成交价为231.50元/股，成交总金额为人民币4,385,504,687.90元（不含交易费用）。截至本公告披露日，公司本次回购股份期限已届满，且已使用的回购资金总额高于回购方案中规定的回购资金总额下限，本次回购股份方案实施完毕。二、回购股份实施情况与回购股份方案不存在差异的说明本次公司实施股份回购的资金总额、回购价格、回购股份数量、回购实施期限等，与公司董事会审议通过的回购方",
+   "available_at": "2026-04-08T09:30:00",
+   "metric_ids": [],
+   "document_id": "ann_300750_1225082511",
+   "page": "p1-1",
+   "produced_by": "news"
+  },
+  "E019": {
+   "evidence_id": "E019",
+   "kind": "document",
+   "source_ref": "ann_300750_1225274805::s1",
+   "summary": "公告正文",
+   "excerpt": "[300750.SZ | 2026-04-30 | 关于2026年度第二期绿色科技创新债券发行完成的公告 > 公告正文 | - | - | - | p1-1]\n1证券代码：300750证券简称：宁德时代公告编号：2026-044宁德时代新能源科技股份有限公司关于2026 年度第二期绿色科技创新债券发行完成的公告本公司及董事会全体成员保证信息披露的内容真实、准确、完整，没有虚假记载、误导性陈述或重大遗漏。宁德时代新能源科技股份有限公司（以下简称“公司”）分别于2026年3月9日召开的第四届董事会第十四次会议及2026年4月3日召开的2025年年度股东会审议通过了《关于拟注册发行债券的议案》，同意公司注册发行不超过人民币400亿元（含400亿元），具体金额以公司最终注册的金额为准。2026年4月23日，公司收到中国银行间市场交易商协会出具的《接受注册通知书》（中市协注〔2026〕MTN339号），同意接受公司科技创新债券注册，注册基础品种为中期票据，注册金额为400亿元，注册额度自通知书落款之日起2年内有效，公司在注册有效期内可分期发行。2026年4月29日，公司成功发行了2026年度第二期绿色科技创新债券，发行总额为人民币50亿元，募集资金已于2026年4月30日到账。现将本次发行情况公告如下：债券名称宁德时代新能源科技股份有限公司2026 年度第二期绿色科技创新债券债券简称26 宁德时代MTN002(科创债)债券代码102681778发行总额人民币50 亿元发行价格100 元/百元面值债券期限3+2 年，附第3 年末发行人调整票面利率选择权和投资人回售选择权发行利率1.57%付息频率利息按年支付，到期一次性还本起息日2026 年4 月30 日兑付日2031 年4 月30 日信用评级主体/债项：AAA/无2信用评级机构联合资信评估股份有限公司簿记管理人招商银行股份有限公司主承销商招商银行股份有限公司联席主承销商中国工商银行股份有限公司、中国农业银行股份有限公司公司本次绿色科技创新债券发行的相关文件详见北京金融资产交易所网站（www.cfae.cn ）、中国货币网（www.chinamoney.com.cn ）和上海清算所网站（www.shclearing.com.cn）。特此公告。宁德时代新能源科技股份有限公司董事会2026年4月30日",
+   "available_at": "2026-05-06T09:30:00",
+   "metric_ids": [],
+   "document_id": "ann_300750_1225274805",
+   "page": "p1-1",
+   "produced_by": "news"
+  },
+  "E020": {
+   "evidence_id": "E020",
+   "kind": "fact",
+   "source_ref": "m_300750_operating_revenue_2026Q1",
+   "summary": "2026Q1 营业收入 = 1291.31亿元",
+   "excerpt": "formula: raw fact; inputs: fact_300750_20260331_operating_revenue_con_ey_f10_v1",
+   "available_at": "2026-04-16T09:30:00",
+   "metric_ids": [
+    "m_300750_operating_revenue_2026Q1"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E021": {
+   "evidence_id": "E021",
+   "kind": "fact",
+   "source_ref": "m_300750_net_profit_2026Q1",
+   "summary": "2026Q1 归属于母公司股东的净利润 = 207.38亿元",
+   "excerpt": "formula: raw fact; inputs: fact_300750_20260331_net_profit_con_ey_f10_v1",
+   "available_at": "2026-04-16T09:30:00",
+   "metric_ids": [
+    "m_300750_net_profit_2026Q1"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E022": {
+   "evidence_id": "E022",
+   "kind": "metric",
+   "source_ref": "m_300750_inventory_days_2025Q1",
+   "summary": "2025Q1 存货周转天数 = 86.7天",
+   "excerpt": "formula: inventory / cost_ttm * 365; inputs: fact_300750_20250331_inventory_con_ey_f10_v1, fact_300750_20250331_operating_cost_con_ey_f10_v1, fact_300750_20241231_operating_cost_con_ey_f10_v1, fact_300750_20240331_operating_cost_con_ey_f10_v1",
+   "available_at": "2025-04-15T09:30:00",
+   "metric_ids": [
+    "m_300750_inventory_days_2025Q1"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E023": {
+   "evidence_id": "E023",
+   "kind": "document",
+   "source_ref": "doc_300750_2025Q4::s13",
+   "summary": "存货（单位：千元）",
+   "excerpt": "[300750.SZ | 2025Q4 | 宁德时代（300750.SZ）2025年年度报告 > 财务报表附注 七、合并财务报表项目注释 > 存货（单位：千元） | 存货（单位：千元） | 合并 | 千元 | p172-173]\n…[300750.SZ | 2025Q4 | 宁德时代（300750.SZ）2025年年度报告 > 财务报表附注 七、合并财务报表项目注释 > 存货（单位：千元） | 存货（单位：千元） | 合并 | 千元 | p172-173]\n（1）存货分类单位：千元\n| 项目 |  |  | 期末余额 |  |  |  |  | 期初余额 |  |  |  |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n|  |  | 账面余额 |  |  | 存货跌价准备 | 账面价值 | 账面余额 |  |  | 存货跌价准备 | 账面价值 |\n|  |  |  |  |  | 或合同履约成 |  |  |  |  | 或合同履约成 |  |\n|  |  |  |  |  | 本减值准备 |  |  |  |  | 本减值准备 |  |\n|  | 原材料 |  | 13268735 | 1996339 |  | 11272396 | 10991607 |  | 1191496 |  | 9800111 |\n|  | 在产品 |  | 311958 | 10805 |  | 301153 | 613930 |  | 17225 |  | 596705 |\n|  | 库存商品 |  | 26077234 | 3462601 |  | 22614633 | 14339799 |  | 3492673 |  | 10847126 |\n|  | 周转材料 |  | 651058 | 45455 |  | 605603 | 435684 |  | 33396 |  | 402289 |\n|  | 合同履约成本 |  | 5331621 |  |  | 5331621 | 3684683 |  |  |  | 3684683 |\n|  | 发出商品 |  | 40147908 | 1473120 |  | 38674787 | 24654769 |  | 840908 |  | 23813861 |\n|  | 自制半成品 |  | 13032414 | 651858 |  | 12380556 | 7974293 |  | 450573 |  | 7523720 |\n|  | 委托加工物资 |  | 3421761 | 76270 |  | 3345491 | 3199951 |  | 32913 |  | 3167038 |\n|  | 合计 | 102242688 |  | 7716449 |  | 94526239 | 65894717 |  | 6059183 |  | 59835533 |\n（2）存货跌价准备和合同履约成本减值准备单位：千元\n| 项目 |  | 期初余额 |  | 本期增加金额 |  |  |  | 本期减少金额 |  |  | 期末余额 |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n|  |  |  |  | 计提 |  | 其他 |  | 转回或转销 |  | 其他 |  |\n|  | 原材料 | 1191496 | 2643333 |  | 218 |",
+   "available_at": "2026-03-10T09:30:00",
+   "metric_ids": [],
+   "document_id": "doc_300750_2025Q4",
+   "page": "p172-173",
+   "produced_by": "fundamental"
+  },
+  "E024": {
+   "evidence_id": "E024",
+   "kind": "document",
+   "source_ref": "doc_300750_2025Q4::s3",
+   "summary": "第三节 管理层讨论与分析",
+   "excerpt": "[300750.SZ | 2025Q4 | 宁德时代（300750.SZ）2025年年度报告 > 第三节 管理层讨论与分析 | 第三节 管理层讨论与分析 | - | - | p14-42]\n…|  | 321 |  | 96.9% |  | 748 |  |\n（3） 公司实物销售收入是否大于劳务收入是 □否\n|  | 行业分类 | 项目 |  | 单位 |  | 2025年 |  | 2024年 |  | 同比增减 |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n| 电池系统 |  | 销售量 | GWh |  | 661 |  | 475 |  | 39.16% |  |\n宁德时代新能源科技股份有限公司2025 年年度报告全文\n| 生产量 | GWh | 748 | 516 | 44.96% |\n| --- | --- | --- | --- | --- |\n| 库存量 | GWh | 186 | 106 | 75.47% |\n相关数据同比发生变动30%以上的原因说明适用 □不适用国内外新能源行业持续增长，公司新技术、新产品陆续落地，海外市场拓展加速，客户合作关系进一步深化，公司产品产销两旺。\n（4） 公司已签订的重大销售合同、重大采购合同截至本报告期的履行情况适用 □不适用已签订的重大销售合同截至本报告期的履行情况适用 □不适用单位：千元\n| 合同标的 | 对方当事人 | 合同总金额 | 本报告期履行金额 | 待履行金额 | 本期确认的销售收入金额 | 应收账款回款情况 | 是否正常履行 |  | 影响重 | 是否存在合同无法履行的重大风险 | 合同未正常履行的说明 |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n|  |  |  |  |  |  |  |  |  | 大合同 |  |  |\n|  |  |  |  |  |  |  |  |  | 履行的 |  |  |\n|  |  |  |  |  |  |  |  |  | 各项条 |  |  |\n|  |  |  |  |  |  |  |  |  | 件是否 |  |  |\n|  |  |  |  |  |  |  |  |  | 发生重 |  |  |\n|  |  |  |  |  |  |  |  |  | 大变化 |  |  |\n| 锂电池供应 | 客户A(1) | - | 58159202 | - | 58159202 | 正常回款 | 是 | 否 |  | 否 | 不适用 |\n注：\n基于双方保密协议约定，不便披露客户具体名称；\n该重大销售合同未明确约定合同总金额，最终销售金额以客户后续发出的订单方式确定。\n已签订的重大采购合同截至本报告期的履行情况□适用  不适用（5） 营业成本构成行业分类单位：千元\n| 行业分类 | 项目 | 2025年 |  |  |  | 2024年 |  |  | 同比增减 |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n|  |  | 金额 |  | 占营业成本比重 |  | 金额 |  | 占营业成本比重 |  |\n| 电池行业 | 直接材料 | 221152510 | 71.79% |  | 202723479 |  | 76.48% |  | -4.",
+   "available_at": "2026-03-10T09:30:00",
+   "metric_ids": [],
+   "document_id": "doc_300750_2025Q4",
+   "page": "p14-42",
+   "produced_by": "fundamental"
+  },
+  "E025": {
+   "evidence_id": "E025",
+   "kind": "metric",
+   "source_ref": "m_300750_pe_ttm_2026-05-06",
+   "summary": "2026-05-06 市盈率TTM = 26.58倍",
+   "excerpt": "formula: total_mv / net_profit_ttm (NA if <= 0); inputs: px_300750_2026-05-06, fact_300750_20260331_net_profit_con_ey_f10_v1, fact_300750_20251231_net_profit_con_ey_f10_v1, fact_300750_20250331_net_profit_con_ey_f10_v1",
+   "available_at": "2026-05-06T15:00:00",
+   "metric_ids": [
+    "m_300750_pe_ttm_2026-05-06"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "market"
+  },
+  "E026": {
+   "evidence_id": "E026",
+   "kind": "metric",
+   "source_ref": "m_300750_pe_percentile_3y_2026-05-06",
+   "summary": "2026-05-06 PE 3年分位 = 91.67%",
+   "excerpt": "formula: rank of today's PE among month-end PE over 3y; inputs: m_300750_pe_ttm_2026-05-06",
+   "available_at": "2026-05-06T15:00:00",
+   "metric_ids": [
+    "m_300750_pe_percentile_3y_2026-05-06"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "market"
+  },
+  "E027": {
+   "evidence_id": "E027",
+   "kind": "metric",
+   "source_ref": "m_300750_pb_lf_2026-05-06",
+   "summary": "2026-05-06 市净率LF = 5.33倍",
+   "excerpt": "formula: total_mv / total_equity_latest (NA if <= 0); inputs: px_300750_2026-05-06, fact_300750_20260331_total_equity_con_ey_f10_v1",
+   "available_at": "2026-05-06T15:00:00",
+   "metric_ids": [
+    "m_300750_pb_lf_2026-05-06"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "market"
+  },
+  "E028": {
+   "evidence_id": "E028",
+   "kind": "metric",
+   "source_ref": "m_300750_peer_pe_median_2026-05-06",
+   "summary": "2026-05-06 同行PE中位数 = 19.66倍",
+   "excerpt": "formula: median PE-TTM of same SW L2 peers (falls back to L1); inputs: ",
+   "available_at": "2026-05-06T15:00:00",
+   "metric_ids": [
+    "m_300750_peer_pe_median_2026-05-06"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "market"
+  },
+  "E029": {
+   "evidence_id": "E029",
+   "kind": "metric",
+   "source_ref": "m_300750_ev_ebitda_2026-05-06",
+   "summary": "2026-05-06 EV/EBITDA = 14.57倍",
+   "excerpt": "formula: (total_mv + interest_bearing_debt - cash) / (total_profit_ttm + interest_expense_ttm + d&a_ttm); inputs: px_300750_2026-05-06, fact_300750_20260331_interest_bearing_debt_con_ey_f10_v1, fact_300750_20260331_cash_con_ey_f10_v1, fact_300750_20260331_total_profit_con_ey_f10_v1",
+   "available_at": "2026-05-06T15:00:00",
+   "metric_ids": [
+    "m_300750_ev_ebitda_2026-05-06"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "market"
+  },
+  "E030": {
+   "evidence_id": "E030",
+   "kind": "metric",
+   "source_ref": "m_300750_ps_ttm_2026-05-06",
+   "summary": "2026-05-06 市销率TTM = 4.48倍",
+   "excerpt": "formula: total_mv / revenue_ttm; inputs: px_300750_2026-05-06, fact_300750_20260331_operating_revenue_con_ey_f10_v1, fact_300750_20251231_operating_revenue_con_ey_f10_v1, fact_300750_20250331_operating_revenue_con_ey_f10_v1",
+   "available_at": "2026-05-06T15:00:00",
+   "metric_ids": [
+    "m_300750_ps_ttm_2026-05-06"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "market"
+  },
+  "E031": {
+   "evidence_id": "E031",
+   "kind": "metric",
+   "source_ref": "m_300750_pe_percentile_5y_2026-05-06",
+   "summary": "2026-05-06 PE 5年分位 = 81.63%",
+   "excerpt": "formula: rank of today's PE among month-end PE over 5y (NA if < 48 months); inputs: m_300750_pe_ttm_2026-05-06",
+   "available_at": "2026-05-06T15:00:00",
+   "metric_ids": [
+    "m_300750_pe_percentile_5y_2026-05-06"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "market"
+  },
+  "E032": {
+   "evidence_id": "E032",
+   "kind": "metric",
+   "source_ref": "m_300750_volatility_1y_2026-05-06",
+   "summary": "2026-05-06 年化波动率 = 36.22%",
+   "excerpt": "formula: std(log returns 250d) * sqrt(252); inputs: px_300750_2025-04-22_2026-05-06",
+   "available_at": "2026-05-06T15:00:00",
+   "metric_ids": [
+    "m_300750_volatility_1y_2026-05-06"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "market"
+  },
+  "E033": {
+   "evidence_id": "E033",
+   "kind": "metric",
+   "source_ref": "m_300750_max_drawdown_1y_2026-05-06",
+   "summary": "2026-05-06 最大回撤(1年) = -18.46%",
+   "excerpt": "formula: min(close / cummax(close) - 1); inputs: px_300750_2025-04-22_2026-05-06",
+   "available_at": "2026-05-06T15:00:00",
+   "metric_ids": [
+    "m_300750_max_drawdown_1y_2026-05-06"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "market"
+  },
+  "E034": {
+   "evidence_id": "E034",
+   "kind": "document",
+   "source_ref": "doc_300750_2025Q2::s3",
+   "summary": "第三节 管理层讨论与分析",
+   "excerpt": "[300750.SZ | 2025Q2 | 宁德时代（300750.SZ）2025年半年度报告 > 第三节 管理层讨论与分析 | 第三节 管理层讨论与分析 | - | - | p9-31]\n一、报告期内公司所处行业情况1、公司行业分类公司主要从事动力电池、储能电池和电池回收利用产品的研发、生产和销售。根据国家统计局发布的《国民经济行业分类与代码》（GB/T 4754-2017），公司属于门类“C 制造业”中的大类“C38 电气机械和器材制造业”中的小类“C3841 锂离子电池制造”。\n2、行业发展状况及发展趋势为应对全球气候变化的挑战，推进可持续发展，多个国家提出推动清洁能源转型及构建绿色低碳经济的战略。根据净零倡议组织Net Zero Tracker 统计，目前全球已有220 个国家和地区制定并公布了碳减排国家自主贡献目标，重点关注电力、交通、工业等主要碳排放领域。高品质的锂电池凭借高能量密度、长循环寿命、良好稳定性及安全性等性能优势，作为核心蓄能载体，在低碳社会及能源转型中扮演重要的角色，相关产业近年来快速发展。\n（1）动力电池行业受益于新能源车在售车型增加、智能化加速、电池性能提升、充换电基础设施不断完善等因素，全球新能源车市场需求持续增长。根据SNE Research 数据，2025 年1-5 月全球新能源车销量为752.0 万辆，同比增长32.4%。国内市场，根据中国汽车工业协会数据，2025年1-6月中国新能源车销量为587.8万辆，其中新能源乘用车销量为552.4 万辆，同比增长34.3%，渗透率提升至50.4%；新能源商用车销量为35.4万辆，同比增长55.9%，渗透率提升至21.8%；海外市场，根据欧洲汽车制造商协会数据，2025 年1-6 月欧洲新能源乘用车销量为178.2 万辆，同比增长23.6%，渗透率达26.1%。新能源车销量增长带动动力电池需求持续增长，根据SNE Research 数据，2025 年1-5 月全球动力电池使用量为401.3GWh，同比增长38.5%。\n（2）储能行业在全球各国清洁能源转型目标推动下，风电光伏装机容量持续增长。其中，根据国家能源局数据，2025 年1-6 月中国风电光伏新增装机容量263.6GW，同比增长105.4%。随着风电光伏装机比例提升、电力系统灵活性要求提高、数据中心需求驱动、储能技术进步及系统成本下降，储能电池市场需求持续快速增长。国内市场，根据中关村储能产业技术联盟统计，2025 年1-6 月中国新型储能新增装机规模达42.6GWh，同比增长27.5%。根据市场研究机构Rho Motion 数据，2025 年1-6 月全球电池储能系统装机总量达86.7GWh，同比增长54%。\n宁德时代新能源科技股份有限公司2025 年半年度报告全文（3）电池材料及回收行业随着动力电池、储能电池市场的持续增长，电池材料的需求也相应增长。根据上海有色网数据，2025 年1-6 月中国三元与磷酸铁锂正极材料合计产量达192.3 万吨，同比增长61.1%。此外，随着早期装机的锂电池逐步进入退役阶段及回收体系的逐步完善，电池回收规模持续增长。根据上海钢联数据，2025 年1-6 月中国锂电池报废量达38.8 万吨，同比增长5.2%。\n3、公司行业地位公司是全球领先的动力电池和储能电池企业。在动力电池领域，根据SNE Research 数据，2025 年1-5 月公司动力电池使用量全球市占率为38.1%，较去年同期提升0.6 个百分点。在储能领域，根据鑫椤资讯数据，2025 年1-6 月，公司储能电池产",
+   "available_at": "2025-07-31T09:30:00",
+   "metric_ids": [],
+   "document_id": "doc_300750_2025Q2",
+   "page": "p9-31",
+   "produced_by": "bear"
+  },
+  "E036": {
+   "evidence_id": "E036",
+   "kind": "document",
+   "source_ref": "doc_300750_2025Q4::s24",
+   "summary": "应收账款（单位：千元）",
+   "excerpt": "[300750.SZ | 2025Q4 | 宁德时代（300750.SZ）2025年年度报告 > 财务报表附注 七、合并财务报表项目注释 > 应收账款（单位：千元） | 应收账款（单位：千元） | 合并 | 千元 | p223-226]\n（1）按账龄披露单位：千元\n| 账龄 |  | 期末账面余额 |  | 期初账面余额 |\n| --- | --- | --- | --- | --- |\n| 1年以内（含1年） | 75499876 |  | 60502327 |  |\n| 1至2年 | 1919389 |  | 7796458 |  |\n| 2至3年 | 5186544 |  | 3186737 |  |\n| 3年以上 | 4084926 |  | 740075 |  |\n| 合计 | 86690735 |  | 72225597 |  |\n（2）按坏账计提方法分类披露单位：千元\n| 类别 | 期末余额 |  |  | 期初余额 |  |  |\n| --- | --- | --- | --- | --- | --- | --- |\n|  | 账面余额 | 坏账准备 | 账面价值 | 账面余额 | 坏账准备 | 账面价值 |\n宁德时代新能源科技股份有限公司2025 年年度报告全文\n|  |  | 金额 | 比例（%） | 金额 |  | 计提 |  | 金额 | 比例（%） | 金额 |  | 计提 |  |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n|  |  |  |  |  |  | 比例 |  |  |  |  |  | 比例 |  |\n|  |  |  |  |  |  | （%） |  |  |  |  |  | （%） |  |\n|  | 按单 | 715663 | 0.83 | 715663 | 100.00 |  |  | 730184 | 1.01 | 730184 | 100.00 |  |  |\n|  | 项计 |  |  |  |  |  |  |  |  |  |  |  |  |\n|  | 提坏 |  |  |  |  |  |  |  |  |  |  |  |  |\n|  | 账准 |  |  |  |  |  |  |  |  |  |  |  |  |\n|  | 备的 |  |  |  |  |  |  |  |  |  |  |  |  |\n|  | 应收 |  |  |  |  |  |  |  |  |  |  |  |  |\n|  | 账款 |  |  |  |  |  |  |  |  |  |  |  |  |\n|  | 按组 | 85975071 | 99.17 | 1697330 | 1.97 |  | 84277741 | 71495413 | 98.99 | 1526352 | 2.13 |  | 69969060 |\n|  | 合计 |  |  |  |  |  |  |  |  |  |  |  |  |\n|  | 提坏 |  |  |  |  |  |  |  |  |  |  |  |  |\n|  | 账准 |  |  |  |  |  |  |  |  |  |  |  |  |\n|  | 备的 |  |  |  |  |  |  |  |  |  |  |  |  |\n|  | 应收 |  |  |  |  |  |  |  |  |  |  |  ",
+   "available_at": "2026-03-10T09:30:00",
+   "metric_ids": [],
+   "document_id": "doc_300750_2025Q4",
+   "page": "p223-226",
+   "produced_by": "bear"
+  },
+  "E038": {
+   "evidence_id": "E038",
+   "kind": "metric",
+   "source_ref": "m_300750_threshold_gross_margin_2026Q1",
+   "summary": "2026Q1 毛利率证伪阈值 = 22.82%",
+   "excerpt": "formula: gross_margin - 2pp; inputs: m_300750_gross_margin_2026Q1",
+   "available_at": "2026-04-16T09:30:00",
+   "metric_ids": [
+    "m_300750_threshold_gross_margin_2026Q1"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "manager"
+  },
+  "E039": {
+   "evidence_id": "E039",
+   "kind": "metric",
+   "source_ref": "m_300750_threshold_ocf_to_net_profit_2026Q1",
+   "summary": "2026Q1 现金流/净利润证伪阈值 = 80.00%",
+   "excerpt": "formula: 0.8; inputs: m_300750_ocf_to_net_profit_2026Q1",
+   "available_at": "2026-04-16T09:30:00",
+   "metric_ids": [
+    "m_300750_threshold_ocf_to_net_profit_2026Q1"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "manager"
+  },
+  "E040": {
+   "evidence_id": "E040",
+   "kind": "metric",
+   "source_ref": "m_300750_threshold_receivable_days_2026Q1",
+   "summary": "2026Q1 应收周转天数证伪阈值 = 66.6天",
+   "excerpt": "formula: receivable_days * 1.1; inputs: m_300750_receivable_days_2026Q1",
+   "available_at": "2026-04-16T09:30:00",
+   "metric_ids": [
+    "m_300750_threshold_receivable_days_2026Q1"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "manager"
+  },
+  "E041": {
+   "evidence_id": "E041",
+   "kind": "metric",
+   "source_ref": "m_300750_threshold_interest_debt_ratio_2026Q1",
+   "summary": "2026Q1 有息负债率证伪阈值 = 16.83%",
+   "excerpt": "formula: interest_debt_ratio + 5pp; inputs: m_300750_interest_debt_ratio_2026Q1",
+   "available_at": "2026-04-16T09:30:00",
+   "metric_ids": [
+    "m_300750_threshold_interest_debt_ratio_2026Q1"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "manager"
+  }
+ },
+ "metrics": {
+  "m_300750_debt_to_assets_2026Q1": {
+   "metric_id": "m_300750_debt_to_assets_2026Q1",
+   "ticker": "300750.SZ",
+   "metric": "debt_to_assets",
+   "value": 0.6232234044587863,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2026Q1",
+   "statement_scope": "consolidated",
+   "formula": "total_liabilities / total_assets",
+   "formula_version": "v1",
+   "input_ids": [
+    "fact_300750_20260331_total_liabilities_con_ey_f10_v1",
+    "fact_300750_20260331_total_assets_con_ey_f10_v1"
+   ],
+   "available_at": "2026-04-16T09:30:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {}
+  },
+  "m_300750_ev_ebitda_2026-05-06": {
+   "metric_id": "m_300750_ev_ebitda_2026-05-06",
+   "ticker": "300750.SZ",
+   "metric": "ev_ebitda",
+   "value": 14.572131550461949,
+   "unit": "x",
+   "status": "OK",
+   "period": "2026-05-06",
+   "statement_scope": "consolidated",
+   "formula": "(total_mv + interest_bearing_debt - cash) / (total_profit_ttm + interest_expense_ttm + d&a_ttm)",
+   "formula_version": "v1",
+   "input_ids": [
+    "px_300750_2026-05-06",
+    "fact_300750_20260331_interest_bearing_debt_con_ey_f10_v1",
+    "fact_300750_20260331_cash_con_ey_f10_v1",
+    "fact_300750_20260331_total_profit_con_ey_f10_v1",
+    "fact_300750_20251231_total_profit_con_ey_f10_v1",
+    "fact_300750_20250331_total_profit_con_ey_f10_v1",
+    "fact_300750_20260331_interest_expense_con_ey_f10_v1",
+    "fact_300750_20251231_interest_expense_con_ey_f10_v1",
+    "fact_300750_20250331_interest_expense_con_ey_f10_v1",
+    "fact_300750_20251231_depreciation_amortization_con_ey_f10_v1"
+   ],
+   "available_at": "2026-05-06T15:00:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {
+    "ev": 1871276222000.0,
+    "ebitda_ttm": 128414722000.0
+   }
+  },
+  "m_300750_gross_margin_2026Q1": {
+   "metric_id": "m_300750_gross_margin_2026Q1",
+   "ticker": "300750.SZ",
+   "metric": "gross_margin",
+   "value": 0.24815621985112007,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2026Q1",
+   "statement_scope": "consolidated",
+   "formula": "(operating_revenue - operating_cost) / operating_revenue",
+   "formula_version": "v1",
+   "input_ids": [
+    "fact_300750_20260331_operating_revenue_con_ey_f10_v1",
+    "fact_300750_20260331_operating_cost_con_ey_f10_v1"
+   ],
+   "available_at": "2026-04-16T09:30:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {}
+  },
+  "m_300750_interest_debt_ratio_2026Q1": {
+   "metric_id": "m_300750_interest_debt_ratio_2026Q1",
+   "ticker": "300750.SZ",
+   "metric": "interest_debt_ratio",
+   "value": 0.1183228790756792,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2026Q1",
+   "statement_scope": "consolidated",
+   "formula": "interest_bearing_debt / total_assets",
+   "formula_version": "v1",
+   "input_ids": [
+    "fact_300750_20260331_interest_bearing_debt_con_ey_f10_v1",
+    "fact_300750_20260331_total_assets_con_ey_f10_v1"
+   ],
+   "available_at": "2026-04-16T09:30:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {}
+  },
+  "m_300750_inventory_days_2025Q1": {
+   "metric_id": "m_300750_inventory_days_2025Q1",
+   "ticker": "300750.SZ",
+   "metric": "inventory_days",
+   "value": 86.70351762845691,
+   "unit": "days",
+   "status": "OK",
+   "period": "2025Q1",
+   "statement_scope": "consolidated",
+   "formula": "inventory / cost_ttm * 365",
+   "formula_version": "v1",
+   "input_ids": [
+    "fact_300750_20250331_inventory_con_ey_f10_v1",
+    "fact_300750_20250331_operating_cost_con_ey_f10_v1",
+    "fact_300750_20241231_operating_cost_con_ey_f10_v1",
+    "fact_300750_20240331_operating_cost_con_ey_f10_v1"
+   ],
+   "available_at": "2025-04-15T09:30:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {}
+  },
+  "m_300750_inventory_days_2026Q1": {
+   "metric_id": "m_300750_inventory_days_2026Q1",
+   "ticker": "300750.SZ",
+   "metric": "inventory_days",
+   "value": 115.10968675805037,
+   "unit": "days",
+   "status": "OK",
+   "period": "2026Q1",
+   "statement_scope": "consolidated",
+   "formula": "inventory / cost_ttm * 365",
+   "formula_version": "v1",
+   "input_ids": [
+    "fact_300750_20260331_inventory_con_ey_f10_v1",
+    "fact_300750_20260331_operating_cost_con_ey_f10_v1",
+    "fact_300750_20251231_operating_cost_con_ey_f10_v1",
+    "fact_300750_20250331_operating_cost_con_ey_f10_v1"
+   ],
+   "available_at": "2026-04-16T09:30:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {}
+  },
+  "m_300750_max_drawdown_1y_2026-05-06": {
+   "metric_id": "m_300750_max_drawdown_1y_2026-05-06",
+   "ticker": "300750.SZ",
+   "metric": "max_drawdown_1y",
+   "value": -0.18455245428296452,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2026-05-06",
+   "statement_scope": "consolidated",
+   "formula": "min(close / cummax(close) - 1)",
+   "formula_version": "v1",
+   "input_ids": [
+    "px_300750_2025-04-22_2026-05-06"
+   ],
+   "available_at": "2026-05-06T15:00:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {}
+  },
+  "m_300750_net_margin_2026Q1": {
+   "metric_id": "m_300750_net_margin_2026Q1",
+   "ticker": "300750.SZ",
+   "metric": "net_margin",
+   "value": 0.16059430667797372,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2026Q1",
+   "statement_scope": "consolidated",
+   "formula": "net_profit / operating_revenue",
+   "formula_version": "v1",
+   "input_ids": [
+    "fact_300750_20260331_net_profit_con_ey_f10_v1",
+    "fact_300750_20260331_operating_revenue_con_ey_f10_v1"
+   ],
+   "available_at": "2026-04-16T09:30:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {}
+  },
+  "m_300750_net_profit_2026Q1": {
+   "metric_id": "m_300750_net_profit_2026Q1",
+   "ticker": "300750.SZ",
+   "metric": "net_profit",
+   "value": 20737710000.0,
+   "unit": "CNY",
+   "status": "OK",
+   "period": "2026Q1",
+   "statement_scope": "consolidated",
+   "formula": "raw fact",
+   "formula_version": "v1",
+   "input_ids": [
+    "fact_300750_20260331_net_profit_con_ey_f10_v1"
+   ],
+   "available_at": "2026-04-16T09:30:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {
+    "cn": "归属于母公司股东的净利润",
+    "kind": "fact",
+    "revision_id": 1,
+    "source": "eastmoney_f10"
+   }
+  },
+  "m_300750_net_profit_qoq_2026Q1": {
+   "metric_id": "m_300750_net_profit_qoq_2026Q1",
+   "ticker": "300750.SZ",
+   "metric": "net_profit_qoq",
+   "value": -0.1048666144980227,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2026Q1",
+   "statement_scope": "consolidated",
+   "formula": "single_quarter_t / single_quarter_{t-1} - 1 (NA if base <= 0)",
+   "formula_version": "v1",
+   "input_ids": [
+    "m_300750_single_quarter_2026Q1_net_profit",
+    "m_300750_single_quarter_2025Q4_net_profit"
+   ],
+   "available_at": "2026-04-16T09:30:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {}
+  },
+  "m_300750_net_profit_yoy_2026Q1": {
+   "metric_id": "m_300750_net_profit_yoy_2026Q1",
+   "ticker": "300750.SZ",
+   "metric": "net_profit_yoy",
+   "value": 0.485237160697918,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2026Q1",
+   "statement_scope": "consolidated",
+   "formula": "cum_t / cum_{t-1y} - 1 (NA if base <= 0)",
+   "formula_version": "v1",
+   "input_ids": [
+    "fact_300750_20260331_net_profit_con_ey_f10_v1",
+    "fact_300750_20250331_net_profit_con_ey_f10_v1"
+   ],
+   "available_at": "2026-04-16T09:30:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {}
+  },
+  "m_300750_ocf_to_net_profit_2026Q1": {
+   "metric_id": "m_300750_ocf_to_net_profit_2026Q1",
+   "ticker": "300750.SZ",
+   "metric": "ocf_to_net_profit",
+   "value": 1.6241355482355573,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2026Q1",
+   "statement_scope": "consolidated",
+   "formula": "operating_cash_flow / net_profit",
+   "formula_version": "v1",
+   "input_ids": [
+    "fact_300750_20260331_operating_cash_flow_con_ey_f10_v1",
+    "fact_300750_20260331_net_profit_con_ey_f10_v1"
+   ],
+   "available_at": "2026-04-16T09:30:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {}
+  },
+  "m_300750_ocf_yoy_2026Q1": {
+   "metric_id": "m_300750_ocf_yoy_2026Q1",
+   "ticker": "300750.SZ",
+   "metric": "ocf_yoy",
+   "value": 0.024722789529119327,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2026Q1",
+   "statement_scope": "consolidated",
+   "formula": "cum_t / cum_{t-1y} - 1 (NA if base <= 0)",
+   "formula_version": "v1",
+   "input_ids": [
+    "fact_300750_20260331_operating_cash_flow_con_ey_f10_v1",
+    "fact_300750_20250331_operating_cash_flow_con_ey_f10_v1"
+   ],
+   "available_at": "2026-04-16T09:30:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {}
+  },
+  "m_300750_operating_revenue_2026Q1": {
+   "metric_id": "m_300750_operating_revenue_2026Q1",
+   "ticker": "300750.SZ",
+   "metric": "operating_revenue",
+   "value": 129131041000.0,
+   "unit": "CNY",
+   "status": "OK",
+   "period": "2026Q1",
+   "statement_scope": "consolidated",
+   "formula": "raw fact",
+   "formula_version": "v1",
+   "input_ids": [
+    "fact_300750_20260331_operating_revenue_con_ey_f10_v1"
+   ],
+   "available_at": "2026-04-16T09:30:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {
+    "cn": "营业收入",
+    "kind": "fact",
+    "revision_id": 1,
+    "source": "eastmoney_f10"
+   }
+  },
+  "m_300750_pb_lf_2026-05-06": {
+   "metric_id": "m_300750_pb_lf_2026-05-06",
+   "ticker": "300750.SZ",
+   "metric": "pb_lf",
+   "value": 5.325461733929857,
+   "unit": "x",
+   "status": "OK",
+   "period": "2026-05-06",
+   "statement_scope": "consolidated",
+   "formula": "total_mv / total_equity_latest (NA if <= 0)",
+   "formula_version": "v1",
+   "input_ids": [
+    "px_300750_2026-05-06",
+    "fact_300750_20260331_total_equity_con_ey_f10_v1"
+   ],
+   "available_at": "2026-05-06T15:00:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {}
+  },
+  "m_300750_pe_percentile_3y_2026-05-06": {
+   "metric_id": "m_300750_pe_percentile_3y_2026-05-06",
+   "ticker": "300750.SZ",
+   "metric": "pe_percentile_3y",
+   "value": 0.9166666666666666,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2026-05-06",
+   "statement_scope": "consolidated",
+   "formula": "rank of today's PE among month-end PE over 3y",
+   "formula_version": "v1",
+   "input_ids": [
+    "m_300750_pe_ttm_2026-05-06"
+   ],
+   "available_at": "2026-05-06T15:00:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {
+    "n_months": 36,
+    "min": 13.830038814932651,
+    "max": 31.40320111250552,
+    "median": 21.310389242737482
+   }
+  },
+  "m_300750_pe_percentile_5y_2026-05-06": {
+   "metric_id": "m_300750_pe_percentile_5y_2026-05-06",
+   "ticker": "300750.SZ",
+   "metric": "pe_percentile_5y",
+   "value": 0.8163265306122449,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2026-05-06",
+   "statement_scope": "consolidated",
+   "formula": "rank of today's PE among month-end PE over 5y (NA if < 48 months)",
+   "formula_version": "v1",
+   "input_ids": [
+    "m_300750_pe_ttm_2026-05-06"
+   ],
+   "available_at": "2026-05-06T15:00:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {
+    "n_months": 49,
+    "min": 13.830038814932651,
+    "max": 44.69935392300977,
+    "median": 21.94934832364601
+   }
+  },
+  "m_300750_pe_ttm_2026-05-06": {
+   "metric_id": "m_300750_pe_ttm_2026-05-06",
+   "ticker": "300750.SZ",
+   "metric": "pe_ttm",
+   "value": 26.583486663882546,
+   "unit": "x",
+   "status": "OK",
+   "period": "2026-05-06",
+   "statement_scope": "consolidated",
+   "formula": "total_mv / net_profit_ttm (NA if <= 0)",
+   "formula_version": "v1",
+   "input_ids": [
+    "px_300750_2026-05-06",
+    "fact_300750_20260331_net_profit_con_ey_f10_v1",
+    "fact_300750_20251231_net_profit_con_ey_f10_v1",
+    "fact_300750_20250331_net_profit_con_ey_f10_v1"
+   ],
+   "available_at": "2026-05-06T15:00:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {
+    "total_mv": 2099468980000.0,
+    "price_date": "2026-05-06"
+   }
+  },
+  "m_300750_peer_pe_median_2026-05-06": {
+   "metric_id": "m_300750_peer_pe_median_2026-05-06",
+   "ticker": "300750.SZ",
+   "metric": "peer_pe_median",
+   "value": 19.65855106435236,
+   "unit": "x",
+   "status": "OK",
+   "period": "2026-05-06",
+   "statement_scope": "consolidated",
+   "formula": "median PE-TTM of same SW L2 peers (falls back to L1)",
+   "formula_version": "v1",
+   "input_ids": [],
+   "available_at": "2026-05-06T15:00:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {
+    "peers": [
+     "990001.SZ",
+     "990006.SZ",
+     "300014.SZ"
+    ],
+    "peer_values": {
+     "990001.SZ": 14.435035561346123,
+     "990006.SZ": 19.65855106435236,
+     "300014.SZ": 35.00970350212189
+    }
+   }
+  },
+  "m_300750_ps_ttm_2026-05-06": {
+   "metric_id": "m_300750_ps_ttm_2026-05-06",
+   "ticker": "300750.SZ",
+   "metric": "ps_ttm",
+   "value": 4.4848154721417535,
+   "unit": "x",
+   "status": "OK",
+   "period": "2026-05-06",
+   "statement_scope": "consolidated",
+   "formula": "total_mv / revenue_ttm",
+   "formula_version": "v1",
+   "input_ids": [
+    "px_300750_2026-05-06",
+    "fact_300750_20260331_operating_revenue_con_ey_f10_v1",
+    "fact_300750_20251231_operating_revenue_con_ey_f10_v1",
+    "fact_300750_20250331_operating_revenue_con_ey_f10_v1"
+   ],
+   "available_at": "2026-05-06T15:00:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {}
+  },
+  "m_300750_receivable_days_2026Q1": {
+   "metric_id": "m_300750_receivable_days_2026Q1",
+   "ticker": "300750.SZ",
+   "metric": "receivable_days",
+   "value": 60.590624169204766,
+   "unit": "days",
+   "status": "OK",
+   "period": "2026Q1",
+   "statement_scope": "consolidated",
+   "formula": "accounts_receivable / revenue_ttm * 365",
+   "formula_version": "v1",
+   "input_ids": [
+    "fact_300750_20260331_accounts_receivable_con_ey_f10_v1",
+    "fact_300750_20260331_operating_revenue_con_ey_f10_v1",
+    "fact_300750_20251231_operating_revenue_con_ey_f10_v1",
+    "fact_300750_20250331_operating_revenue_con_ey_f10_v1"
+   ],
+   "available_at": "2026-04-16T09:30:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {}
+  },
+  "m_300750_revenue_qoq_2026Q1": {
+   "metric_id": "m_300750_revenue_qoq_2026Q1",
+   "ticker": "300750.SZ",
+   "metric": "revenue_qoq",
+   "value": -0.0817664688208044,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2026Q1",
+   "statement_scope": "consolidated",
+   "formula": "single_quarter_t / single_quarter_{t-1} - 1",
+   "formula_version": "v1",
+   "input_ids": [
+    "m_300750_single_quarter_2026Q1_operating_revenue",
+    "m_300750_single_quarter_2025Q4_operating_revenue"
+   ],
+   "available_at": "2026-04-16T09:30:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {}
+  },
+  "m_300750_revenue_yoy_2026Q1": {
+   "metric_id": "m_300750_revenue_yoy_2026Q1",
+   "ticker": "300750.SZ",
+   "metric": "revenue_yoy",
+   "value": 0.5244869554824236,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2026Q1",
+   "statement_scope": "consolidated",
+   "formula": "cum_t / cum_{t-1y} - 1",
+   "formula_version": "v1",
+   "input_ids": [
+    "fact_300750_20260331_operating_revenue_con_ey_f10_v1",
+    "fact_300750_20250331_operating_revenue_con_ey_f10_v1"
+   ],
+   "available_at": "2026-04-16T09:30:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {}
+  },
+  "m_300750_roe_annualized_2026Q1": {
+   "metric_id": "m_300750_roe_annualized_2026Q1",
+   "ticker": "300750.SZ",
+   "metric": "roe_annualized",
+   "value": 0.23892391658696077,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2026Q1",
+   "statement_scope": "consolidated",
+   "formula": "net_profit * 4/n_quarters / avg(total_equity_begin, total_equity_end)",
+   "formula_version": "v1",
+   "input_ids": [
+    "fact_300750_20260331_net_profit_con_ey_f10_v1",
+    "fact_300750_20260331_parent_equity_con_ey_f10_v1",
+    "fact_300750_20251231_parent_equity_con_ey_f10_v1"
+   ],
+   "available_at": "2026-04-16T09:30:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {}
+  },
+  "m_300750_threshold_gross_margin_2026Q1": {
+   "metric_id": "m_300750_threshold_gross_margin_2026Q1",
+   "ticker": "300750.SZ",
+   "metric": "threshold_gross_margin",
+   "value": 0.22815621985112008,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2026Q1",
+   "statement_scope": "consolidated",
+   "formula": "gross_margin - 2pp",
+   "formula_version": "v1",
+   "input_ids": [
+    "m_300750_gross_margin_2026Q1"
+   ],
+   "available_at": "2026-04-16T09:30:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {
+    "rule": "若后续报告期毛利率跌破{t}（当前{c}）"
+   }
+  },
+  "m_300750_threshold_interest_debt_ratio_2026Q1": {
+   "metric_id": "m_300750_threshold_interest_debt_ratio_2026Q1",
+   "ticker": "300750.SZ",
+   "metric": "threshold_interest_debt_ratio",
+   "value": 0.16832287907567922,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2026Q1",
+   "statement_scope": "consolidated",
+   "formula": "interest_debt_ratio + 5pp",
+   "formula_version": "v1",
+   "input_ids": [
+    "m_300750_interest_debt_ratio_2026Q1"
+   ],
+   "available_at": "2026-04-16T09:30:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {
+    "rule": "若有息负债率升至{t}以上（当前{c}）"
+   }
+  },
+  "m_300750_threshold_ocf_to_net_profit_2026Q1": {
+   "metric_id": "m_300750_threshold_ocf_to_net_profit_2026Q1",
+   "ticker": "300750.SZ",
+   "metric": "threshold_ocf_to_net_profit",
+   "value": 0.8,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2026Q1",
+   "statement_scope": "consolidated",
+   "formula": "0.8",
+   "formula_version": "v1",
+   "input_ids": [
+    "m_300750_ocf_to_net_profit_2026Q1"
+   ],
+   "available_at": "2026-04-16T09:30:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {
+    "rule": "若经营现金流/净利润持续低于{t}（当前{c}）"
+   }
+  },
+  "m_300750_threshold_receivable_days_2026Q1": {
+   "metric_id": "m_300750_threshold_receivable_days_2026Q1",
+   "ticker": "300750.SZ",
+   "metric": "threshold_receivable_days",
+   "value": 66.64968658612524,
+   "unit": "days",
+   "status": "OK",
+   "period": "2026Q1",
+   "statement_scope": "consolidated",
+   "formula": "receivable_days * 1.1",
+   "formula_version": "v1",
+   "input_ids": [
+    "m_300750_receivable_days_2026Q1"
+   ],
+   "available_at": "2026-04-16T09:30:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {
+    "rule": "若应收账款周转天数升至{t}以上（当前{c}）"
+   }
+  },
+  "m_300750_volatility_1y_2026-05-06": {
+   "metric_id": "m_300750_volatility_1y_2026-05-06",
+   "ticker": "300750.SZ",
+   "metric": "volatility_1y",
+   "value": 0.3622079000144893,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2026-05-06",
+   "statement_scope": "consolidated",
+   "formula": "std(log returns 250d) * sqrt(252)",
+   "formula_version": "v1",
+   "input_ids": [
+    "px_300750_2025-04-22_2026-05-06"
+   ],
+   "available_at": "2026-05-06T15:00:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {}
+  }
+ },
+ "answers": {
+  "A1": {
+   "ask": {
+    "ask_id": "A1",
+    "kind": "metric",
+    "metric": "operating_revenue",
+    "period": "2026Q1",
+    "scope": "consolidated",
+    "unit": null,
+    "topic": "营收情况"
+   },
+   "metric_id": "m_300750_operating_revenue_2026Q1",
+   "value": 129131041000.0,
+   "status": "OK",
+   "unit": "CNY",
+   "display": "1291.31亿元",
+   "claim_id": "C012"
+  },
+  "A2": {
+   "ask": {
+    "ask_id": "A2",
+    "kind": "metric",
+    "metric": "net_profit",
+    "period": "2026Q1",
+    "scope": "consolidated",
+    "unit": null,
+    "topic": "净利润情况"
+   },
+   "metric_id": "m_300750_net_profit_2026Q1",
+   "value": 20737710000.0,
+   "status": "OK",
+   "unit": "CNY",
+   "display": "207.38亿元",
+   "claim_id": "C013"
+  },
+  "A3": {
+   "ask": {
+    "ask_id": "A3",
+    "kind": "metric",
+    "metric": "gross_margin",
+    "period": "2026Q1",
+    "scope": "consolidated",
+    "unit": null,
+    "topic": "毛利率水平"
+   },
+   "metric_id": "m_300750_gross_margin_2026Q1",
+   "value": 0.24815621985112007,
+   "status": "OK",
+   "unit": "ratio",
+   "display": "24.82%",
+   "claim_id": "C014"
+  },
+  "A4": {
+   "ask": {
+    "ask_id": "A4",
+    "kind": "metric",
+    "metric": "net_margin",
+    "period": "2026Q1",
+    "scope": "consolidated",
+    "unit": null,
+    "topic": "净利率水平"
+   },
+   "metric_id": "m_300750_net_margin_2026Q1",
+   "value": 0.16059430667797372,
+   "status": "OK",
+   "unit": "ratio",
+   "display": "16.06%",
+   "claim_id": "C015"
+  },
+  "A5": {
+   "ask": {
+    "ask_id": "A5",
+    "kind": "metric",
+    "metric": "roe_annualized",
+    "period": "2026Q1",
+    "scope": "consolidated",
+    "unit": null,
+    "topic": "年化ROE"
+   },
+   "metric_id": "m_300750_roe_annualized_2026Q1",
+   "value": 0.23892391658696077,
+   "status": "OK",
+   "unit": "ratio",
+   "display": "23.89%",
+   "claim_id": "C016"
+  },
+  "A6": {
+   "ask": {
+    "ask_id": "A6",
+    "kind": "metric",
+    "metric": "debt_to_assets",
+    "period": "2026Q1",
+    "scope": "consolidated",
+    "unit": null,
+    "topic": "资产负债率"
+   },
+   "metric_id": "m_300750_debt_to_assets_2026Q1",
+   "value": 0.6232234044587863,
+   "status": "OK",
+   "unit": "ratio",
+   "display": "62.32%",
+   "claim_id": "C017"
+  },
+  "A7": {
+   "ask": {
+    "ask_id": "A7",
+    "kind": "metric",
+    "metric": "pe_ttm",
+    "period": "2026Q1",
+    "scope": "consolidated",
+    "unit": null,
+    "topic": "市盈率(TTM)"
+   },
+   "metric_id": "m_300750_pe_ttm_2026-05-06",
+   "value": 26.583486663882546,
+   "status": "OK",
+   "unit": "x",
+   "display": "26.58倍",
+   "claim_id": "C025"
+  },
+  "A8": {
+   "ask": {
+    "ask_id": "A8",
+    "kind": "metric",
+    "metric": "pb_lf",
+    "period": "2026Q1",
+    "scope": "consolidated",
+    "unit": null,
+    "topic": "市净率(LF)"
+   },
+   "metric_id": "m_300750_pb_lf_2026-05-06",
+   "value": 5.325461733929857,
+   "status": "OK",
+   "unit": "x",
+   "display": "5.33倍",
+   "claim_id": "C026"
+  },
+  "A9": {
+   "ask": {
+    "ask_id": "A9",
+    "kind": "metric",
+    "metric": "volatility_1y",
+    "period": "2026Q1",
+    "scope": "consolidated",
+    "unit": null,
+    "topic": "1年波动率"
+   },
+   "metric_id": "m_300750_volatility_1y_2026-05-06",
+   "value": 0.3622079000144893,
+   "status": "OK",
+   "unit": "ratio",
+   "display": "36.22%",
+   "claim_id": "C027"
+  },
+  "A10": {
+   "ask": {
+    "ask_id": "A10",
+    "kind": "metric",
+    "metric": "max_drawdown_1y",
+    "period": "2026Q1",
+    "scope": "consolidated",
+    "unit": null,
+    "topic": "1年最大回撤"
+   },
+   "metric_id": "m_300750_max_drawdown_1y_2026-05-06",
+   "value": -0.18455245428296452,
+   "status": "OK",
+   "unit": "ratio",
+   "display": "-18.46%",
+   "claim_id": "C028"
+  }
+ },
+ "open_questions": [],
+ "uncertainties": [],
+ "anomalies": [
+  {
+   "code": "INVENTORY_DAYS_DETERIORATION",
+   "severity": "MEDIUM",
+   "metric_ids": [
+    "m_300750_inventory_days_2026Q1",
+    "m_300750_inventory_days_2025Q1"
+   ],
+   "message": "存货周转天数由87天升至115天",
+   "suggested_query": "存货跌价准备 计提 可变现净值",
+   "section_type": "NOTES",
+   "claim_id": "C018",
+   "evidence_ids": [
+    "E011",
+    "E022"
+   ]
+  }
+ ],
+ "conflicts": [],
+ "debate": {
+  "rounds": [
+   {
+    "round": 1,
+    "bull": [
+     "C029",
+     "C030",
+     "C031",
+     "C032"
+    ],
+    "bear": [
+     "C011",
+     "C019",
+     "C022",
+     "C033",
+     "C034",
+     "C035",
+     "C036"
+    ],
+    "new_claims": [
+     "C029",
+     "C030",
+     "C031",
+     "C032",
+     "C033",
+     "C034",
+     "C035",
+     "C036"
+    ],
+    "new_evidence": [
+     "E034",
+     "E035",
+     "E036",
+     "E037"
+    ]
+   },
+   {
+    "round": 2,
+    "bull": [
+     "C029",
+     "C030",
+     "C031",
+     "C032",
+     "C037",
+     "C038",
+     "C039"
+    ],
+    "bear": [
+     "C011",
+     "C019",
+     "C022",
+     "C033",
+     "C034",
+     "C035",
+     "C036"
+    ],
+    "new_claims": [
+     "C037",
+     "C038",
+     "C039"
+    ],
+    "new_evidence": []
+   }
+  ],
+  "disagreements": [
+   {
+    "bull": "C029",
+    "bear": "C033",
+    "issue": "公司业绩增长是否可持续"
+   },
+   {
+    "bull": "C030",
+    "bear": "C034",
+    "issue": "现金流质量是否面临恶化风险"
+   },
+   {
+    "bull": "C032",
+    "bear": "C035",
+    "issue": "绿色债券发行是战略布局还是财务负担"
+   }
+  ],
+  "falsification": [
+   "C040",
+   "C041",
+   "C042",
+   "C043"
+  ],
+  "filtered": [],
+  "manager_summary": "核心分歧在于业绩持续性、现金流质量与债务策略，多空双方对公司基本面趋势判断存在根本差异",
+  "mode": "llm",
+  "targets": {
+   "C033": "C029",
+   "C034": "C030",
+   "C035": "C032",
+   "C037": "C033",
+   "C038": "C035",
+   "C039": "C036"
+  },
+  "concessions": [
+   "应收账款账龄结构确实有所恶化，需关注后续回款情况"
+  ]
+ },
+ "risk": {
+  "matrix": [
+   {
+    "dimension": "财务质量",
+    "score": 1,
+    "rationale": "经营现金流/净利润162.41%，高危异常0项",
+    "claim_id": "C044"
+   },
+   {
+    "dimension": "估值",
+    "score": 5,
+    "rationale": "PE-TTM处于近3年91.67%分位",
+    "claim_id": "C045"
+   },
+   {
+    "dimension": "偿债与流动性",
+    "score": 2,
+    "rationale": "资产负债率62.32%，有息负债率11.83%",
+    "claim_id": "C046"
+   },
+   {
+    "dimension": "经营与行业",
+    "score": 1,
+    "rationale": "营收同比52.45%，毛利率24.82%",
+    "claim_id": "C047"
+   },
+   {
+    "dimension": "治理与合规",
+    "score": 1,
+    "claim_id": null,
+    "rationale": "快照期内未见治理类负面公告"
+   },
+   {
+    "dimension": "市场波动",
+    "score": 3,
+    "rationale": "年化波动率36.22%，最大回撤-18.46%",
+    "claim_id": "C048"
+   }
+  ],
+  "dimensions": [
+   "财务质量",
+   "估值",
+   "偿债与流动性",
+   "经营与行业",
+   "治理与合规",
+   "市场波动"
+  ]
+ },
+ "timeline": [
+  {
+   "document_id": "ann_300750_1225076794",
+   "title": "关于回购公司A股股份的进展公告",
+   "published_at": "2026-04-02T19:32:27",
+   "available_at": "2026-04-03T09:30:00"
+  },
+  {
+   "document_id": "ann_300750_1225080691",
+   "title": "关于变更部分A股募集资金用途后新签订募集资金三方监管协议的公告",
+   "published_at": "2026-04-03T21:02:29",
+   "available_at": "2026-04-07T09:30:00"
+  },
+  {
+   "document_id": "ann_300750_1225082511",
+   "title": "关于A股股份回购结果暨股份变动的公告",
+   "published_at": "2026-04-07T18:53:56",
+   "available_at": "2026-04-08T09:30:00"
+  },
+  {
+   "document_id": "ann_300750_1225274805",
+   "title": "关于2026年度第二期绿色科技创新债券发行完成的公告",
+   "published_at": "2026-04-30T20:42:09",
+   "available_at": "2026-05-06T09:30:00"
+  }
+ ],
+ "charts": {
+  "quarterly": {
+   "title": {
+    "text": "单季营收/归母净利润(亿元)与毛利率"
+   },
+   "tooltip": {
+    "trigger": "axis"
+   },
+   "legend": {
+    "data": [
+     "营收",
+     "净利润",
+     "毛利率"
+    ]
+   },
+   "xAxis": {
+    "type": "category",
+    "data": [
+     "2024Q2",
+     "2024Q3",
+     "2024Q4",
+     "2025Q1",
+     "2025Q2",
+     "2025Q3",
+     "2025Q4",
+     "2026Q1"
+    ]
+   },
+   "yAxis": [
+    {
+     "type": "value",
+     "name": "亿元"
+    },
+    {
+     "type": "value",
+     "name": "%"
+    }
+   ],
+   "series": [
+    {
+     "name": "营收",
+     "type": "bar",
+     "data": [
+      869.96,
+      922.78,
+      1029.68,
+      847.05,
+      941.82,
+      1041.86,
+      1406.3,
+      1291.31
+     ]
+    },
+    {
+     "name": "净利润",
+     "type": "bar",
+     "data": [
+      123.55,
+      131.36,
+      147.44,
+      139.63,
+      165.23,
+      185.49,
+      231.67,
+      207.38
+     ]
+    },
+    {
+     "name": "毛利率",
+     "type": "line",
+     "yAxisIndex": 1,
+     "data": [
+      23.63,
+      27.72,
+      null,
+      24.41,
+      25.58,
+      25.8,
+      28.21,
+      24.82
+     ]
+    }
+   ]
+  },
+  "price": {
+   "title": {
+    "text": "近一年收盘价"
+   },
+   "tooltip": {
+    "trigger": "axis"
+   },
+   "xAxis": {
+    "type": "category",
+    "data": [
+     "2025-04-22",
+     "2025-04-23",
+     "2025-04-24",
+     "2025-04-25",
+     "2025-04-28",
+     "2025-04-29",
+     "2025-04-30",
+     "2025-05-06",
+     "2025-05-07",
+     "2025-05-08",
+     "2025-05-09",
+     "2025-05-12",
+     "2025-05-13",
+     "2025-05-14",
+     "2025-05-15",
+     "2025-05-16",
+     "2025-05-19",
+     "2025-05-20",
+     "2025-05-21",
+     "2025-05-22",
+     "2025-05-23",
+     "2025-05-26",
+     "2025-05-27",
+     "2025-05-28",
+     "2025-05-29",
+     "2025-05-30",
+     "2025-06-03",
+     "2025-06-04",
+     "2025-06-05",
+     "2025-06-06",
+     "2025-06-09",
+     "2025-06-10",
+     "2025-06-11",
+     "2025-06-12",
+     "2025-06-13",
+     "2025-06-16",
+     "2025-06-17",
+     "2025-06-18",
+     "2025-06-19",
+     "2025-06-20",
+     "2025-06-23",
+     "2025-06-24",
+     "2025-06-25",
+     "2025-06-26",
+     "2025-06-27",
+     "2025-06-30",
+     "2025-07-01",
+     "2025-07-02",
+     "2025-07-03",
+     "2025-07-04",
+     "2025-07-07",
+     "2025-07-08",
+     "2025-07-09",
+     "2025-07-10",
+     "2025-07-11",
+     "2025-07-14",
+     "2025-07-15",
+     "2025-07-16",
+     "2025-07-17",
+     "2025-07-18",
+     "2025-07-21",
+     "2025-07-22",
+     "2025-07-23",
+     "2025-07-24",
+     "2025-07-25",
+     "2025-07-28",
+     "2025-07-29",
+     "2025-07-30",
+     "2025-07-31",
+     "2025-08-01",
+     "2025-08-04",
+     "2025-08-05",
+     "2025-08-06",
+     "2025-08-07",
+     "2025-08-08",
+     "2025-08-11",
+     "2025-08-12",
+     "2025-08-13",
+     "2025-08-14",
+     "2025-08-15",
+     "2025-08-18",
+     "2025-08-19",
+     "2025-08-20",
+     "2025-08-21",
+     "2025-08-22",
+     "2025-08-25",
+     "2025-08-26",
+     "2025-08-27",
+     "2025-08-28",
+     "2025-08-29",
+     "2025-09-01",
+     "2025-09-02",
+     "2025-09-03",
+     "2025-09-04",
+     "2025-09-05",
+     "2025-09-08",
+     "2025-09-09",
+     "2025-09-10",
+     "2025-09-11",
+     "2025-09-12",
+     "2025-09-15",
+     "2025-09-16",
+     "2025-09-17",
+     "2025-09-18",
+     "2025-09-19",
+     "2025-09-22",
+     "2025-09-23",
+     "2025-09-24",
+     "2025-09-25",
+     "2025-09-26",
+     "2025-09-29",
+     "2025-09-30",
+     "2025-10-09",
+     "2025-10-10",
+     "2025-10-13",
+     "2025-10-14",
+     "2025-10-15",
+     "2025-10-16",
+     "2025-10-17",
+     "2025-10-20",
+     "2025-10-21",
+     "2025-10-22",
+     "2025-10-23",
+     "2025-10-24",
+     "2025-10-27",
+     "2025-10-28",
+     "2025-10-29",
+     "2025-10-30",
+     "2025-10-31",
+     "2025-11-03",
+     "2025-11-04",
+     "2025-11-05",
+     "2025-11-06",
+     "2025-11-07",
+     "2025-11-10",
+     "2025-11-11",
+     "2025-11-12",
+     "2025-11-13",
+     "2025-11-14",
+     "2025-11-17",
+     "2025-11-18",
+     "2025-11-19",
+     "2025-11-20",
+     "2025-11-21",
+     "2025-11-24",
+     "2025-11-25",
+     "2025-11-26",
+     "2025-11-27",
+     "2025-11-28",
+     "2025-12-01",
+     "2025-12-02",
+     "2025-12-03",
+     "2025-12-04",
+     "2025-12-05",
+     "2025-12-08",
+     "2025-12-09",
+     "2025-12-10",
+     "2025-12-11",
+     "2025-12-12",
+     "2025-12-15",
+     "2025-12-16",
+     "2025-12-17",
+     "2025-12-18",
+     "2025-12-19",
+     "2025-12-22",
+     "2025-12-23",
+     "2025-12-24",
+     "2025-12-25",
+     "2025-12-26",
+     "2025-12-29",
+     "2025-12-30",
+     "2025-12-31",
+     "2026-01-05",
+     "2026-01-06",
+     "2026-01-07",
+     "2026-01-08",
+     "2026-01-09",
+     "2026-01-12",
+     "2026-01-13",
+     "2026-01-14",
+     "2026-01-15",
+     "2026-01-16",
+     "2026-01-19",
+     "2026-01-20",
+     "2026-01-21",
+     "2026-01-22",
+     "2026-01-23",
+     "2026-01-26",
+     "2026-01-27",
+     "2026-01-28",
+     "2026-01-29",
+     "2026-01-30",
+     "2026-02-02",
+     "2026-02-03",
+     "2026-02-04",
+     "2026-02-05",
+     "2026-02-06",
+     "2026-02-09",
+     "2026-02-10",
+     "2026-02-11",
+     "2026-02-12",
+     "2026-02-13",
+     "2026-02-24",
+     "2026-02-25",
+     "2026-02-26",
+     "2026-02-27",
+     "2026-03-02",
+     "2026-03-03",
+     "2026-03-04",
+     "2026-03-05",
+     "2026-03-06",
+     "2026-03-09",
+     "2026-03-10",
+     "2026-03-11",
+     "2026-03-12",
+     "2026-03-13",
+     "2026-03-16",
+     "2026-03-17",
+     "2026-03-18",
+     "2026-03-19",
+     "2026-03-20",
+     "2026-03-23",
+     "2026-03-24",
+     "2026-03-25",
+     "2026-03-26",
+     "2026-03-27",
+     "2026-03-30",
+     "2026-03-31",
+     "2026-04-01",
+     "2026-04-02",
+     "2026-04-03",
+     "2026-04-07",
+     "2026-04-08",
+     "2026-04-09",
+     "2026-04-10",
+     "2026-04-13",
+     "2026-04-14",
+     "2026-04-15",
+     "2026-04-16",
+     "2026-04-17",
+     "2026-04-20",
+     "2026-04-21",
+     "2026-04-22",
+     "2026-04-23",
+     "2026-04-24",
+     "2026-04-27",
+     "2026-04-28",
+     "2026-04-29",
+     "2026-04-30",
+     "2026-05-06"
+    ]
+   },
+   "yAxis": {
+    "type": "value",
+    "scale": true
+   },
+   "series": [
+    {
+     "type": "line",
+     "showSymbol": false,
+     "data": [
+      230.69,
+      233.35,
+      236.87,
+      236.6,
+      234.85,
+      232.03,
+      231.5,
+      231.63,
+      238.61,
+      244.57,
+      248.27,
+      257.0,
+      258.77,
+      262.6,
+      260.18,
+      259.36,
+      260.0,
+      263.0,
+      274.08,
+      270.37,
+      266.99,
+      255.9,
+      253.99,
+      253.6,
+      251.85,
+      250.0,
+      251.15,
+      251.05,
+      251.5,
+      248.88,
+      245.58,
+      243.14,
+      250.5,
+      249.81,
+      248.2,
+      246.66,
+      246.26,
+      245.57,
+      242.1,
+      240.26,
+      239.61,
+      245.92,
+      254.9,
+      252.79,
+      250.99,
+      252.22,
+      251.5,
+      250.45,
+      262.59,
+      265.8,
+      260.89,
+      263.31,
+      270.8,
+      272.0,
+      271.5,
+      268.5,
+      267.75,
+      264.4,
+      265.5,
+      271.2,
+      279.66,
+      286.66,
+      287.02,
+      285.2,
+      282.8,
+      286.3,
+      291.82,
+      277.09,
+      264.62,
+      263.07,
+      266.48,
+      265.7,
+      265.0,
+      263.05,
+      263.48,
+      263.66,
+      263.25,
+      273.6,
+      279.89,
+      280.67,
+      283.0,
+      277.8,
+      279.2,
+      279.0,
+      287.18,
+      290.28,
+      289.5,
+      278.3,
+      277.41,
+      306.18,
+      304.0,
+      302.87,
+      309.0,
+      304.03,
+      325.11,
+      325.37,
+      320.0,
+      316.04,
+      322.55,
+      325.0,
+      354.7,
+      353.42,
+      377.1,
+      366.89,
+      368.49,
+      370.05,
+      368.15,
+      379.93,
+      392.85,
+      380.4,
+      397.37,
+      402.0,
+      409.89,
+      381.95,
+      374.5,
+      358.0,
+      369.3,
+      368.5,
+      358.14,
+      366.5,
+      375.9,
+      372.86,
+      376.45,
+      385.77,
+      386.18,
+      386.48,
+      400.0,
+      398.29,
+      388.77,
+      386.86,
+      378.95,
+      388.7,
+      394.68,
+      395.37,
+      384.51,
+      385.6,
+      386.38,
+      415.6,
+      404.12,
+      390.78,
+      385.0,
+      391.1,
+      379.39,
+      370.0,
+      370.55,
+      372.36,
+      372.82,
+      371.2,
+      373.2,
+      382.97,
+      380.08,
+      376.08,
+      383.35,
+      389.09,
+      392.5,
+      387.59,
+      382.38,
+      388.99,
+      391.8,
+      385.5,
+      378.41,
+      383.42,
+      372.0,
+      374.0,
+      371.84,
+      378.1,
+      375.6,
+      373.01,
+      374.43,
+      369.31,
+      369.2,
+      367.26,
+      377.5,
+      373.99,
+      371.01,
+      369.21,
+      369.23,
+      361.68,
+      359.0,
+      353.98,
+      353.75,
+      352.32,
+      348.9,
+      349.6,
+      349.81,
+      345.8,
+      347.0,
+      342.05,
+      339.4,
+      339.99,
+      341.89,
+      350.0,
+      348.98,
+      347.91,
+      365.03,
+      362.94,
+      369.11,
+      368.82,
+      364.97,
+      368.0,
+      375.87,
+      365.34,
+      361.95,
+      362.18,
+      346.0,
+      342.01,
+      340.22,
+      344.07,
+      338.9,
+      350.25,
+      354.77,
+      357.5,
+      376.3,
+      396.8,
+      395.5,
+      397.0,
+      408.4,
+      405.0,
+      402.02,
+      400.5,
+      413.0,
+      401.99,
+      396.99,
+      397.81,
+      402.5,
+      416.18,
+      413.0,
+      401.7,
+      405.71,
+      401.17,
+      386.46,
+      384.59,
+      391.3,
+      389.99,
+      416.0,
+      427.13,
+      430.79,
+      431.0,
+      453.98,
+      444.2,
+      432.5,
+      447.6,
+      436.35,
+      438.9,
+      444.9,
+      434.88,
+      427.67,
+      445.0,
+      436.0,
+      460.0
+     ]
+    }
+   ]
+  },
+  "valuation": {
+   "title": {
+    "text": "PE-TTM 历史分位与同行对比"
+   },
+   "tooltip": {},
+   "xAxis": {
+    "type": "category",
+    "data": [
+     "3年最低",
+     "3年中位",
+     "3年最高",
+     "当前",
+     "同行990001",
+     "同行990006",
+     "同行300014"
+    ]
+   },
+   "yAxis": {
+    "type": "value",
+    "name": "倍"
+   },
+   "series": [
+    {
+     "type": "bar",
+     "data": [
+      13.83,
+      21.31,
+      31.4,
+      26.58,
+      14.44,
+      19.66,
+      35.01
+     ]
+    }
+   ]
+  },
+  "risk_radar": {
+   "title": {
+    "text": "六维风险雷达(1低-5高)"
+   },
+   "tooltip": {},
+   "radar": {
+    "indicator": [
+     {
+      "name": "财务质量",
+      "max": 5
+     },
+     {
+      "name": "估值",
+      "max": 5
+     },
+     {
+      "name": "偿债与流动性",
+      "max": 5
+     },
+     {
+      "name": "经营与行业",
+      "max": 5
+     },
+     {
+      "name": "治理与合规",
+      "max": 5
+     },
+     {
+      "name": "市场波动",
+      "max": 5
+     }
+    ]
+   },
+   "series": [
+    {
+     "type": "radar",
+     "data": [
+      {
+       "value": [
+        1,
+        5,
+        2,
+        1,
+        1,
+        3
+       ],
+       "name": "风险"
+      }
+     ]
+    }
+   ]
+  }
+ },
+ "verification_log": [
+  {
+   "claim_id": "C001",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C002",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C003",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C004",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C005",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C006",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C007",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C008",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C009",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C010",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C011",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C012",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C013",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C014",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C015",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C016",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C017",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C018",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C019",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C020",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C021",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C022",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C023",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C024",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C025",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C026",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C027",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C028",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C029",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C030",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C031",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C032",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C033",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C034",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C035",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C036",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C037",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C038",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C039",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C040",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C041",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C042",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C043",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C044",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C045",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C046",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C047",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C048",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  }
+ ],
+ "judge_notes": {
+  "C004": {
+   "label": "SUPPORTED",
+   "reason": "The evidence directly shows the ratio of operating cash flow to net profit is 162.41%, supporting the claim about good cash support for profits."
+  },
+  "C008": {
+   "label": "SUPPORTED",
+   "reason": "The evidence matches the claim about the announcement regarding the progress of A-share repurchase."
+  },
+  "C009": {
+   "label": "SUPPORTED",
+   "reason": "The evidence matches the claim about the announcement regarding the change in use of A-share raised funds."
+  },
+  "C010": {
+   "label": "SUPPORTED",
+   "reason": "The evidence matches the claim about the announcement regarding the results of A-share repurchase and share changes."
+  },
+  "C011": {
+   "label": "SUPPORTED",
+   "reason": "The evidence matches the claim about the announcement regarding the completion of the second green technology innovation bond issuance in 2026."
+  },
+  "C019": {
+   "label": "SUPPORTED",
+   "reason": "The evidence provides the inventory details and days, supporting the claim about inventory deterioration."
+  },
+  "C020": {
+   "label": "SUPPORTED",
+   "reason": "The evidence from the management discussion and analysis supports the claim about industry growth and company performance."
+  },
+  "C022": {
+   "label": "SUPPORTED",
+   "reason": "The evidence shows the PE percentile at 91.67%, supporting the claim about high valuation."
+  },
+  "C029": {
+   "label": "SUPPORTED",
+   "reason": "The evidence shows significant year-over-year growth in revenue and net profit, supporting the claim about business expansion."
+  },
+  "C030": {
+   "label": "SUPPORTED",
+   "reason": "The evidence shows operating cash flow significantly better than net profit, supporting the claim about profit quality."
+  },
+  "C031": {
+   "label": "SUPPORTED",
+   "reason": "The evidence details the large-scale repurchase plan, supporting the claim about management confidence."
+  },
+  "C032": {
+   "label": "SUPPORTED",
+   "reason": "The evidence details the green bond issuance, supporting the claim about strategic layout in new energy."
+  },
+  "C033": {
+   "label": "SUPPORTED",
+   "reason": "The evidence shows an increase in inventory turnover days, supporting the claim about rising inventory risk."
+  },
+  "C034": {
+   "label": "SUPPORTED",
+   "reason": "The evidence shows deterioration in accounts receivable aging, supporting the claim about cash flow quality."
+  },
+  "C035": {
+   "label": "SUPPORTED",
+   "reason": "The evidence details the large-scale green bond issuance, supporting the claim about potential financial burden."
+  },
+  "C036": {
+   "label": "PARTIALLY_SUPPORTED",
+   "reason": "The evidence discusses industry competition but does not directly support the claim about potential price wars."
+  },
+  "C037": {
+   "label": "SUPPORTED",
+   "reason": "The evidence from management discussion supports the claim about inventory increase due to capacity expansion."
+  },
+  "C038": {
+   "label": "SUPPORTED",
+   "reason": "The evidence about green bond issuance supports the claim about funds being used for R&D and capacity building."
+  },
+  "C039": {
+   "label": "SUPPORTED",
+   "reason": "The evidence shows a stable gross margin, supporting the claim about maintaining profit margins."
+  },
+  "C040": {
+   "label": "SUPPORTED",
+   "reason": "The evidence provides the current gross margin and a threshold, supporting the claim about a potential falsification scenario."
+  },
+  "C041": {
+   "label": "SUPPORTED",
+   "reason": "The evidence provides the current cash flow to net profit ratio and a threshold, supporting the claim about a potential falsification scenario."
+  },
+  "C042": {
+   "label": "SUPPORTED",
+   "reason": "The evidence provides the current accounts receivable days and a threshold, supporting the claim about a potential deterioration scenario."
+  },
+  "C043": {
+   "label": "SUPPORTED",
+   "reason": "The evidence provides the current interest-bearing debt ratio and a threshold, supporting the claim about a potential risk scenario."
+  }
+ },
+ "executive_summary_source": "llm_unverified",
+ "plan": {
+  "plan_id": "run_20261111095222_9d6986-plan",
+  "subtasks": [
+   {
+    "task_id": "T1",
+    "agent": "fundamental",
+    "objective": "财务三表、盈利与现金流质量、异常检测",
+    "tool_budget": 12,
+    "depends_on": [],
+    "acceptance": "核心比率与增长指标全部由算子计算并入证据库",
+    "query": null,
+    "section_types": null,
+    "anomaly_code": null
+   },
+   {
+    "task_id": "T2",
+    "agent": "market",
+    "objective": "估值分位、同行估值、波动率与回撤",
+    "tool_budget": 8,
+    "depends_on": [],
+    "acceptance": "PE/PB/PS 与3年分位、同行中位数",
+    "query": null,
+    "section_types": null,
+    "anomaly_code": null
+   },
+   {
+    "task_id": "T3",
+    "agent": "news",
+    "objective": "公告与重大事项时间线",
+    "tool_budget": 6,
+    "depends_on": [],
+    "acceptance": "所有事件带 published_at/available_at",
+    "query": null,
+    "section_types": null,
+    "anomaly_code": null
+   }
+  ],
+  "asks": [
+   {
+    "ask_id": "A1",
+    "kind": "metric",
+    "metric": "operating_revenue",
+    "period": "2026Q1",
+    "scope": "consolidated",
+    "unit": null,
+    "topic": "营收情况"
+   },
+   {
+    "ask_id": "A2",
+    "kind": "metric",
+    "metric": "net_profit",
+    "period": "2026Q1",
+    "scope": "consolidated",
+    "unit": null,
+    "topic": "净利润情况"
+   },
+   {
+    "ask_id": "A3",
+    "kind": "metric",
+    "metric": "gross_margin",
+    "period": "2026Q1",
+    "scope": "consolidated",
+    "unit": null,
+    "topic": "毛利率水平"
+   },
+   {
+    "ask_id": "A4",
+    "kind": "metric",
+    "metric": "net_margin",
+    "period": "2026Q1",
+    "scope": "consolidated",
+    "unit": null,
+    "topic": "净利率水平"
+   },
+   {
+    "ask_id": "A5",
+    "kind": "metric",
+    "metric": "roe_annualized",
+    "period": "2026Q1",
+    "scope": "consolidated",
+    "unit": null,
+    "topic": "年化ROE"
+   },
+   {
+    "ask_id": "A6",
+    "kind": "metric",
+    "metric": "debt_to_assets",
+    "period": "2026Q1",
+    "scope": "consolidated",
+    "unit": null,
+    "topic": "资产负债率"
+   },
+   {
+    "ask_id": "A7",
+    "kind": "metric",
+    "metric": "pe_ttm",
+    "period": "2026Q1",
+    "scope": "consolidated",
+    "unit": null,
+    "topic": "市盈率(TTM)"
+   },
+   {
+    "ask_id": "A8",
+    "kind": "metric",
+    "metric": "pb_lf",
+    "period": "2026Q1",
+    "scope": "consolidated",
+    "unit": null,
+    "topic": "市净率(LF)"
+   },
+   {
+    "ask_id": "A9",
+    "kind": "metric",
+    "metric": "volatility_1y",
+    "period": "2026Q1",
+    "scope": "consolidated",
+    "unit": null,
+    "topic": "1年波动率"
+   },
+   {
+    "ask_id": "A10",
+    "kind": "metric",
+    "metric": "max_drawdown_1y",
+    "period": "2026Q1",
+    "scope": "consolidated",
+    "unit": null,
+    "topic": "1年最大回撤"
+   },
+   {
+    "ask_id": "A11",
+    "kind": "peer_compare",
+    "metric": "pe_ttm",
+    "period": "2026Q1",
+    "scope": "consolidated",
+    "unit": null,
+    "topic": "同业市盈率比较"
+   },
+   {
+    "ask_id": "A12",
+    "kind": "peer_compare",
+    "metric": "pb_lf",
+    "period": "2026Q1",
+    "scope": "consolidated",
+    "unit": null,
+    "topic": "同业市净率比较"
+   }
+  ],
+  "budget_tokens": 200000,
+  "rationale": "全面分析公司基本面、估值指标及风险因素，包含财务表现、盈利能力、估值水平和同业比较。"
+ },
+ "markdown": "# 宁德时代（300750.SZ）投资研究报告\n\n- 研究时点 as_of: `2026-05-06T15:00:00`  快照: `snap_202605061500_bbe62730`  架构: `B4`\n\n宁德时代（300750.SZ），申万行业 电力设备/电池，研究时点 2026-05-06 15:00:00。\n\n## 执行摘要\n公司营业收入与归母净利润同比显著增长，毛利率与净利率保持稳定，年化ROE表现良好。经营现金流显著优于净利润，显示盈利质量优异。存货周转天数有所上升，需关注库存管理效率。公司公告涉及股份回购、募集资金用途变更及绿色债券发行等事项。管理层表示新能源行业持续增长，公司产品产销两旺。当前估值处于历史较高分位，对业绩不及预期的容忍度较低。业务扩张与现金流优势构成主要看多因素。（模型生成的概括，未逐句核验；以下各节论断均已核验）\n\n## 问题直接回答\n- (事实) 2026Q1合并口径累计营业收入为1291.31亿元。 [Evidence #E020]\n- (事实) 2026Q1合并口径累计归属于母公司股东的净利润为207.38亿元。 [Evidence #E021]\n- (算子指标) 2026Q1毛利率为24.82%。 [Evidence #E005]\n- (算子指标) 2026Q1净利率为16.06%。 [Evidence #E006]\n- (算子指标) 2026Q1ROE(年化)为23.89%。 [Evidence #E007]\n- (算子指标) 2026Q1资产负债率为62.32%。 [Evidence #E014]\n- (算子指标) 市盈率TTM为26.58倍。 [Evidence #E025]\n- (算子指标) 市净率LF为5.33倍。 [Evidence #E027]\n- (算子指标) 年化波动率为36.22%。 [Evidence #E032]\n- (算子指标) 最大回撤(1年)为-18.46%。 [Evidence #E033]\n\n## 财务与经营质量\n- (事实) 2026Q1累计营业收入1291.31亿元，同比52.45%；归母净利润207.38亿元，同比48.52%。 [Evidence #E001] [Evidence #E002] [Evidence #E003] [Evidence #E004]\n- (算子指标) 2026Q1毛利率24.82%，净利率16.06%，年化ROE23.89%。 [Evidence #E005] [Evidence #E006] [Evidence #E007]\n- (算子指标) 2026Q1经营现金流/净利润为162.41%，经营现金流同比2.47%。 [Evidence #E008] [Evidence #E009]\n- (模型推断) 推断：经营现金流/净利润为162.41%，利润具有较好的现金支撑。 [Evidence #E008]\n- (算子指标) 2026Q1应收账款周转天数60.6天，存货周转天数115.1天。 [Evidence #E010] [Evidence #E011]\n- (算子指标) 2026Q1单季营收环比-8.18%，单季归母净利润环比-10.49%。 [Evidence #E012] [Evidence #E013]\n- (算子指标) 2026Q1资产负债率62.32%，有息负债率11.83%。 [Evidence #E014] [Evidence #E015]\n- (算子指标) 异常信号[INVENTORY_DAYS_DETERIORATION]：存货周转天数由87天升至115天。 [Evidence #E011] [Evidence #E022]\n- (事实) 管理层讨论与分析披露：国内外新能源行业持续增长，公司新技术、新产品陆续落地，海外市场拓展加速，客户合作关系进一步深化，公司产品产销两旺。 [Evidence #E024]\n\n## 估值与市场表现\n- (算子指标) 截至2026-05-06，PE-TTM为26.58倍，近3年历史分位91.67%，PB-LF为5.33倍；同行PE中位数19.66倍。 [Evidence #E025] [Evidence #E026] [Evidence #E027] [Evidence #E028]\n- (算子指标) EV/EBITDA为14.57倍，PS-TTM为4.48倍，PE近5年分位81.63%。 [Evidence #E029] [Evidence #E030] [Evidence #E031]\n- (算子指标) 近一年年化波动率36.22%，最大回撤-18.46%。 [Evidence #E032] [Evidence #E033]\n\n## 近期公告与事件\n- (事实) 2026-04-02公告《关于回购公司A股股份的进展公告》：1证券代码：300750证券简称：宁德时代公告编号：2026-029宁德时代新能源科技股份有限公司关于回购公司A 股股份的进展公告本公司及董事会全体成员保证信息披露的内容真实、准确、完整，没有虚假记载、误导性陈述或重大遗漏。 [Evidence #E016]\n- (事实) 2026-04-03公告《关于变更部分A股募集资金用途后新签订募集资金三方监管协议的公告》：1证券代码：300750证券简称：宁德时代公告编号：2026-031宁德时代新能源科技股份有限公司关于变更部分A股募集资金用途后新签订募集资金三方监管协议的公告本公司及董事会全体成员保证信息披露的内容真实、准确、完整，没有虚假记载、误导性陈述或重大遗漏。 [Evidence #E017]\n- (事实) 2026-04-07公告《关于A股股份回购结果暨股份变动的公告》：1证券代码：300750证券简称：宁德时代公告编号：2026-032宁德时代新能源科技股份有限公司关于A 股股份回购结果暨股份变动的公告本公司及董事会全体成员保证信息披露的内容真实、准确、完整，没有虚假记载、误导性陈述或重大遗漏。 [Evidence #E018]\n\n## 核心看多论点\n- (模型推断) 看多：营收与净利润同比大幅增长，显示公司业务持续扩张（隐含假设：高增长趋势在未来能够持续）（依据：2026Q1 营收同比52.45%；2026Q1 净利润同比48.52%） [Evidence #E002] [Evidence #E004]\n- (模型推断) 看多：经营现金流显著优于净利润，反映盈利质量优异（隐含假设：现金流优势能够长期保持）（依据：2026Q1 经营现金流/净利润162.41%） [Evidence #E008]\n- (模型推断) 看多：大规模回购计划彰显管理层对公司前景信心（隐含假设：回购资金充足且不会影响正常经营） [Evidence #E016]\n- (模型推断) 看多：绿色债券发行显示公司在新能源领域的战略布局（隐含假设：募集资金将有效投入高回报项目） [Evidence #E019]\n- (模型推断) 回应：存货周转天数增加主要由于产能扩张和战略备货，而非库存积压，公司产销率保持高位 [Evidence #E024]\n- (模型推断) 回应：绿色债券募集资金用于研发投入和产能建设，将提升长期竞争力而非加重财务负担 [Evidence #E019]\n- (模型推断) 回应：公司技术领先优势和规模效应可抵御行业竞争，维持利润率稳定（依据：2026Q1 毛利率24.82%） [Evidence #E005]\n\n## 核心看空论点\n- (事实) 2026-04-30公告《关于2026年度第二期绿色科技创新债券发行完成的公告》：1证券代码：300750证券简称：宁德时代公告编号：2026-044宁德时代新能源科技股份有限公司关于2026 年度第二期绿色科技创新债券发行完成的公告本公司及董事会全体成员保证信息披露的内容真实、准确、完整，没有虚假记载、误导性陈述或重大遗漏。 [Evidence #E019]\n- (事实) 说明[INVENTORY_DAYS_DETERIORATION]：存货（单位：千元）显示，账面余额 存货跌价准备 账面价值 账面余额 存货跌价准备 账面价值；或合同履约成 或合同履约成；本减值准备 本减值准备（单位见原表）。 [Evidence #E023] [Evidence #E011] [Evidence #E022]\n- (模型推断) 推断：估值处于近3年91.67%分位的偏高区间，对业绩不及预期的容忍度低。 [Evidence #E026]\n- (模型推断) 看空：存货周转天数显著恶化，显示库存积压风险上升（隐含假设：存货周转效率持续下降将导致资产减值压力）（依据：2026Q1 存货周转天数115.1天；2025Q1 存货周转天数86.7天） [Evidence #E011] [Evidence #E022]\n- (模型推断) 看空：应收账款账龄结构恶化，三年以上款项占比提升（隐含假设：长账期应收款增加将影响现金流质量） [Evidence #E036]\n- (模型推断) 看空：绿色债券发行规模庞大可能加重财务负担（隐含假设：债务融资扩张将推高财务成本） [Evidence #E019]\n- (模型推断) 看空：行业竞争加剧可能侵蚀利润率（隐含假设：全球锂电产能过剩将导致价格战） [Evidence #E034]\n\n## 关键争议与证伪条件\n- (模型推断) 若后续报告期毛利率跌破22.82%（当前24.82%），则“盈利能力稳定”的看多假设证伪。 [Evidence #E005] [Evidence #E038]\n- (模型推断) 若经营现金流/净利润持续低于80.00%（当前162.41%），则“利润质量可靠”的假设证伪。 [Evidence #E008] [Evidence #E039]\n- (模型推断) 若应收账款周转天数升至66.6天以上（当前60.6天），说明回款恶化，看多逻辑需下修。 [Evidence #E010] [Evidence #E040]\n- (模型推断) 若有息负债率升至16.83%以上（当前11.83%），偿债风险假设需上调。 [Evidence #E015] [Evidence #E041]\n\n## 六维风险矩阵\n- (算子指标) 财务质量风险1/5：经营现金流/净利润162.41%，高危异常0项 [Evidence #E008]\n- (算子指标) 估值风险5/5：PE-TTM处于近3年91.67%分位 [Evidence #E026]\n- (算子指标) 偿债与流动性风险2/5：资产负债率62.32%，有息负债率11.83% [Evidence #E014] [Evidence #E015]\n- (算子指标) 经营与行业风险1/5：营收同比52.45%，毛利率24.82% [Evidence #E002] [Evidence #E005]\n- (算子指标) 市场波动风险3/5：年化波动率36.22%，最大回撤-18.46% [Evidence #E032] [Evidence #E033]\n\n### 风险评分\n| 维度 | 评分(1-5) | 依据 |\n| --- | --- | --- |\n| 财务质量 | 1 | 经营现金流/净利润162.41%，高危异常0项 |\n| 估值 | 5 | PE-TTM处于近3年91.67%分位 |\n| 偿债与流动性 | 2 | 资产负债率62.32%，有息负债率11.83% |\n| 经营与行业 | 1 | 营收同比52.45%，毛利率24.82% |\n| 治理与合规 | 1 | 快照期内未见治理类负面公告 |\n| 市场波动 | 3 | 年化波动率36.22%，最大回撤-18.46% |\n\n## 数据局限与不确定性声明\n- 无\n\n## 引用\n\n- **E001** [fact] 2026Q1 营业收入 = 1291.31亿元 — `m_300750_operating_revenue_2026Q1` available_at=2026-04-16T09:30:00\n- **E002** [metric] 2026Q1 营收同比 = 52.45% — `m_300750_revenue_yoy_2026Q1` available_at=2026-04-16T09:30:00\n- **E003** [fact] 2026Q1 归属于母公司股东的净利润 = 207.38亿元 — `m_300750_net_profit_2026Q1` available_at=2026-04-16T09:30:00\n- **E004** [metric] 2026Q1 净利润同比 = 48.52% — `m_300750_net_profit_yoy_2026Q1` available_at=2026-04-16T09:30:00\n- **E005** [metric] 2026Q1 毛利率 = 24.82% — `m_300750_gross_margin_2026Q1` available_at=2026-04-16T09:30:00\n- **E006** [metric] 2026Q1 净利率 = 16.06% — `m_300750_net_margin_2026Q1` available_at=2026-04-16T09:30:00\n- **E007** [metric] 2026Q1 ROE(年化) = 23.89% — `m_300750_roe_annualized_2026Q1` available_at=2026-04-16T09:30:00\n- **E008** [metric] 2026Q1 经营现金流/净利润 = 162.41% — `m_300750_ocf_to_net_profit_2026Q1` available_at=2026-04-16T09:30:00\n- **E009** [metric] 2026Q1 经营现金流同比 = 2.47% — `m_300750_ocf_yoy_2026Q1` available_at=2026-04-16T09:30:00\n- **E010** [metric] 2026Q1 应收账款周转天数 = 60.6天 — `m_300750_receivable_days_2026Q1` available_at=2026-04-16T09:30:00\n- **E011** [metric] 2026Q1 存货周转天数 = 115.1天 — `m_300750_inventory_days_2026Q1` available_at=2026-04-16T09:30:00\n- **E012** [metric] 2026Q1 营收环比 = -8.18% — `m_300750_revenue_qoq_2026Q1` available_at=2026-04-16T09:30:00\n- **E013** [metric] 2026Q1 净利润环比 = -10.49% — `m_300750_net_profit_qoq_2026Q1` available_at=2026-04-16T09:30:00\n- **E014** [metric] 2026Q1 资产负债率 = 62.32% — `m_300750_debt_to_assets_2026Q1` available_at=2026-04-16T09:30:00\n- **E015** [metric] 2026Q1 有息负债率 = 11.83% — `m_300750_interest_debt_ratio_2026Q1` available_at=2026-04-16T09:30:00\n- **E016** [document] 公告正文 — `ann_300750_1225076794::s1` available_at=2026-04-03T09:30:00\n- **E017** [document] 公告正文 — `ann_300750_1225080691::s1` available_at=2026-04-07T09:30:00\n- **E018** [document] 公告正文 — `ann_300750_1225082511::s1` available_at=2026-04-08T09:30:00\n- **E019** [document] 公告正文 — `ann_300750_1225274805::s1` available_at=2026-05-06T09:30:00\n- **E020** [fact] 2026Q1 营业收入 = 1291.31亿元 — `m_300750_operating_revenue_2026Q1` available_at=2026-04-16T09:30:00\n- **E021** [fact] 2026Q1 归属于母公司股东的净利润 = 207.38亿元 — `m_300750_net_profit_2026Q1` available_at=2026-04-16T09:30:00\n- **E022** [metric] 2025Q1 存货周转天数 = 86.7天 — `m_300750_inventory_days_2025Q1` available_at=2025-04-15T09:30:00\n- **E023** [document] 存货（单位：千元） — `doc_300750_2025Q4::s13` available_at=2026-03-10T09:30:00\n- **E024** [document] 第三节 管理层讨论与分析 — `doc_300750_2025Q4::s3` available_at=2026-03-10T09:30:00\n- **E025** [metric] 2026-05-06 市盈率TTM = 26.58倍 — `m_300750_pe_ttm_2026-05-06` available_at=2026-05-06T15:00:00\n- **E026** [metric] 2026-05-06 PE 3年分位 = 91.67% — `m_300750_pe_percentile_3y_2026-05-06` available_at=2026-05-06T15:00:00\n- **E027** [metric] 2026-05-06 市净率LF = 5.33倍 — `m_300750_pb_lf_2026-05-06` available_at=2026-05-06T15:00:00\n- **E028** [metric] 2026-05-06 同行PE中位数 = 19.66倍 — `m_300750_peer_pe_median_2026-05-06` available_at=2026-05-06T15:00:00\n- **E029** [metric] 2026-05-06 EV/EBITDA = 14.57倍 — `m_300750_ev_ebitda_2026-05-06` available_at=2026-05-06T15:00:00\n- **E030** [metric] 2026-05-06 市销率TTM = 4.48倍 — `m_300750_ps_ttm_2026-05-06` available_at=2026-05-06T15:00:00\n- **E031** [metric] 2026-05-06 PE 5年分位 = 81.63% — `m_300750_pe_percentile_5y_2026-05-06` available_at=2026-05-06T15:00:00\n- **E032** [metric] 2026-05-06 年化波动率 = 36.22% — `m_300750_volatility_1y_2026-05-06` available_at=2026-05-06T15:00:00\n- **E033** [metric] 2026-05-06 最大回撤(1年) = -18.46% — `m_300750_max_drawdown_1y_2026-05-06` available_at=2026-05-06T15:00:00\n- **E034** [document] 第三节 管理层讨论与分析 — `doc_300750_2025Q2::s3` available_at=2025-07-31T09:30:00\n- **E036** [document] 应收账款（单位：千元） — `doc_300750_2025Q4::s24` available_at=2026-03-10T09:30:00\n- **E038** [metric] 2026Q1 毛利率证伪阈值 = 22.82% — `m_300750_threshold_gross_margin_2026Q1` available_at=2026-04-16T09:30:00\n- **E039** [metric] 2026Q1 现金流/净利润证伪阈值 = 80.00% — `m_300750_threshold_ocf_to_net_profit_2026Q1` available_at=2026-04-16T09:30:00\n- **E040** [metric] 2026Q1 应收周转天数证伪阈值 = 66.6天 — `m_300750_threshold_receivable_days_2026Q1` available_at=2026-04-16T09:30:00\n- **E041** [metric] 2026Q1 有息负债率证伪阈值 = 16.83% — `m_300750_threshold_interest_debt_ratio_2026Q1` available_at=2026-04-16T09:30:00\n",
+ "trace": [
+  {
+   "node": "planner",
+   "seq": 0,
+   "started_at": "2026-11-11T09:52:42.523289",
+   "tool_calls": [
+    {
+     "tool": "check_data_coverage",
+     "args": {
+      "ticker": "300750.SZ"
+     },
+     "error": null,
+     "result": "6 items"
+    },
+    {
+     "tool": "register_research_plan",
+     "args": {
+      "subtasks": [
+       "fundamental",
+       "market",
+       "news"
+      ],
+      "asks": 12
+     },
+     "error": null,
+     "result": null
+    }
+   ],
+   "llm_calls": [
+    {
+     "model": "deepseek-ai/DeepSeek-V3",
+     "tier": "strong",
+     "in": 534,
+     "out": 689,
+     "latency_ms": 30415.71470000781,
+     "online": true
+    }
+   ],
+   "input_tokens": 534,
+   "output_tokens": 689,
+   "anomaly_flags": [],
+   "summary": "3 subtasks, 12 asks (全面分析公司基本面、估值指标及风险因素，包含财务表现、盈利能力、估值水平和同业比较。)",
+   "status": "ok",
+   "latency_ms": 30440.284800017253
+  },
+  {
+   "node": "subgraph:fundamental:T1",
+   "seq": 1,
+   "started_at": "2026-11-11T09:53:12.966932",
+   "tool_calls": [
+    {
+     "tool": "get_financial_statements",
+     "args": {
+      "ticker": "300750.SZ",
+      "period": "2026Q1",
+      "scope": "consolidated"
+     },
+     "error": null,
+     "result": "13 items"
+    },
+    {
+     "tool": "calculate_financial_ratios",
+     "args": {
+      "ticker": "300750.SZ",
+      "period": "2026Q1"
+     },
+     "error": null,
+     "result": "9 items"
+    },
+    {
+     "tool": "calculate_growth_metrics",
+     "args": {
+      "ticker": "300750.SZ",
+      "period": "2026Q1"
+     },
+     "error": null,
+     "result": "6 items"
+    },
+    {
+     "tool": "get_financial_statements",
+     "args": {
+      "ticker": "300750.SZ",
+      "metric": "operating_revenue",
+      "period": "2026Q1",
+      "scope": "consolidated"
+     },
+     "error": null,
+     "result": "metric_id='m_300750_operating_revenue_2026Q1' ticker='300750.SZ' metric='operating_revenue' value=129131041000.0 unit='C"
+    },
+    {
+     "tool": "get_financial_statements",
+     "args": {
+      "ticker": "300750.SZ",
+      "metric": "net_profit",
+      "period": "2026Q1",
+      "scope": "consolidated"
+     },
+     "error": null,
+     "result": "metric_id='m_300750_net_profit_2026Q1' ticker='300750.SZ' metric='net_profit' value=20737710000.0 unit='CNY' status='OK'"
+    },
+    {
+     "tool": "detect_financial_anomalies",
+     "args": {
+      "ticker": "300750.SZ",
+      "period": "2026Q1"
+     },
+     "error": null,
+     "result": "1 items"
+    },
+    {
+     "tool": "retrieval_grader",
+     "args": {
+      "query": "存货跌价准备 计提 可变现净值"
+     },
+     "error": null,
+     "result": "SUFFICIENT after 1 attempt(s)"
+    },
+    {
+     "tool": "retrieve_document_evidence",
+     "args": {
+      "query": "存货跌价准备 计提 可变现净值",
+      "sections": [
+       "NOTES"
+      ]
+     },
+     "error": null,
+     "result": "4 items"
+    },
+    {
+     "tool": "retrieval_grader",
+     "args": {
+      "query": "营业收入 净利润 毛利率 经营活动现金流量净额 变动 原因 管理层讨论"
+     },
+     "error": null,
+     "result": "SUFFICIENT after 1 attempt(s)"
+    },
+    {
+     "tool": "retrieve_document_evidence",
+     "args": {
+      "query": "营业收入 净利润 毛利率 经营活动现金流量净额 变动 原因 管理层讨论",
+      "sections": [
+       "MDA"
+      ]
+     },
+     "error": null,
+     "result": "3 items"
+    }
+   ],
+   "llm_calls": [
+    {
+     "model": "deepseek-ai/DeepSeek-V3",
+     "tier": "strong",
+     "in": 1078,
+     "out": 102,
+     "latency_ms": 6379.694400005974,
+     "online": true
+    }
+   ],
+   "input_tokens": 1078,
+   "output_tokens": 102,
+   "anomaly_flags": [
+    "INVENTORY_DAYS_DETERIORATION"
+   ],
+   "summary": "16 claims, 20 evidence, scratch=2 private notes",
+   "status": "ok",
+   "latency_ms": 6608.49849996157
+  },
+  {
+   "node": "subgraph:market:T2",
+   "seq": 2,
+   "started_at": "2026-11-11T09:53:12.967931",
+   "tool_calls": [
+    {
+     "tool": "calculate_valuation_metrics",
+     "args": {
+      "ticker": "300750.SZ"
+     },
+     "error": null,
+     "result": "6 items"
+    },
+    {
+     "tool": "get_industry_peers",
+     "args": {
+      "ticker": "300750.SZ"
+     },
+     "error": null,
+     "result": "metric_id='m_300750_peer_pe_median_2026-05-06' ticker='300750.SZ' metric='peer_pe_median' value=19.65855106435236 unit='"
+    },
+    {
+     "tool": "calculate_risk_metrics",
+     "args": {
+      "ticker": "300750.SZ"
+     },
+     "error": null,
+     "result": "2 items"
+    },
+    {
+     "tool": "get_price_history",
+     "args": {
+      "ticker": "300750.SZ",
+      "days": 250
+     },
+     "error": null,
+     "result": "250 items"
+    },
+    {
+     "tool": "calculate_valuation_metrics",
+     "args": {
+      "ticker": "300750.SZ"
+     },
+     "error": null,
+     "result": "6 items"
+    },
+    {
+     "tool": "calculate_risk_metrics",
+     "args": {
+      "ticker": "300750.SZ"
+     },
+     "error": null,
+     "result": "2 items"
+    }
+   ],
+   "llm_calls": [
+    {
+     "model": "Qwen/Qwen2.5-7B-Instruct",
+     "tier": "light",
+     "in": 468,
+     "out": 115,
+     "latency_ms": 5622.629099991173,
+     "online": true
+    }
+   ],
+   "input_tokens": 468,
+   "output_tokens": 115,
+   "anomaly_flags": [],
+   "summary": "8 claims, 9 evidence, scratch=1 private notes",
+   "status": "ok",
+   "latency_ms": 5989.429700013716
+  },
+  {
+   "node": "subgraph:news:T3",
+   "seq": 3,
+   "started_at": "2026-11-11T09:53:12.970929",
+   "tool_calls": [
+    {
+     "tool": "get_company_announcements",
+     "args": {
+      "ticker": "300750.SZ"
+     },
+     "error": null,
+     "result": "4 items"
+    },
+    {
+     "tool": "build_event_timeline",
+     "args": {
+      "n": 4
+     },
+     "error": null,
+     "result": "4 items"
+    },
+    {
+     "tool": "retrieve_document_evidence",
+     "args": {
+      "query": "关于回购公司A股股份的进展公告",
+      "sections": null
+     },
+     "error": null,
+     "result": "1 items"
+    },
+    {
+     "tool": "retrieve_document_evidence",
+     "args": {
+      "query": "关于变更部分A股募集资金用途后新签订募集资金三方监管协议的公告",
+      "sections": null
+     },
+     "error": null,
+     "result": "1 items"
+    },
+    {
+     "tool": "retrieve_document_evidence",
+     "args": {
+      "query": "关于A股股份回购结果暨股份变动的公告",
+      "sections": null
+     },
+     "error": null,
+     "result": "1 items"
+    },
+    {
+     "tool": "retrieve_document_evidence",
+     "args": {
+      "query": "关于2026年度第二期绿色科技创新债券发行完成的公告",
+      "sections": null
+     },
+     "error": null,
+     "result": "1 items"
+    }
+   ],
+   "llm_calls": [
+    {
+     "model": "Qwen/Qwen2.5-7B-Instruct",
+     "tier": "light",
+     "in": 837,
+     "out": 46,
+     "latency_ms": 1865.4321000212803,
+     "online": true
+    }
+   ],
+   "input_tokens": 837,
+   "output_tokens": 46,
+   "anomaly_flags": [],
+   "summary": "4 claims, 4 evidence, scratch=1 private notes",
+   "status": "ok",
+   "latency_ms": 2010.2798000443727
+  },
+  {
+   "node": "gather",
+   "seq": 4,
+   "started_at": "2026-11-11T09:53:19.577050",
+   "tool_calls": [],
+   "llm_calls": [],
+   "input_tokens": 0,
+   "output_tokens": 0,
+   "anomaly_flags": [],
+   "summary": "3 subtask summaries; anomalies=['INVENTORY_DAYS_DETERIORATION']",
+   "status": "ok",
+   "latency_ms": 0.012500036973506212
+  },
+  {
+   "node": "debate",
+   "seq": 5,
+   "started_at": "2026-11-11T09:53:19.578659",
+   "tool_calls": [
+    {
+     "tool": "retrieval_grader",
+     "args": {
+      "query": "客户集中度"
+     },
+     "error": null,
+     "result": "SUFFICIENT after 1 attempt(s)"
+    },
+    {
+     "tool": "retrieve_document_evidence",
+     "args": {
+      "query": "客户集中度",
+      "sections": null
+     },
+     "error": null,
+     "result": "2 items"
+    },
+    {
+     "tool": "retrieval_grader",
+     "args": {
+      "query": "应收账款账龄"
+     },
+     "error": null,
+     "result": "SUFFICIENT after 1 attempt(s)"
+    },
+    {
+     "tool": "retrieve_document_evidence",
+     "args": {
+      "query": "应收账款账龄",
+      "sections": [
+       "NOTES"
+      ]
+     },
+     "error": null,
+     "result": "2 items"
+    }
+   ],
+   "llm_calls": [
+    {
+     "model": "context",
+     "tier": "strong",
+     "in": 241,
+     "out": 0,
+     "latency_ms": 0.0,
+     "online": false
+    },
+    {
+     "model": "deepseek-ai/DeepSeek-V3",
+     "tier": "strong",
+     "in": 2216,
+     "out": 188,
+     "latency_ms": 8583.729100006167,
+     "online": true
+    },
+    {
+     "model": "deepseek-ai/DeepSeek-V3",
+     "tier": "strong",
+     "in": 396,
+     "out": 146,
+     "latency_ms": 6311.592000012752,
+     "online": true
+    },
+    {
+     "model": "deepseek-ai/DeepSeek-V3",
+     "tier": "strong",
+     "in": 4368,
+     "out": 226,
+     "latency_ms": 10196.141699969303,
+     "online": true
+    },
+    {
+     "model": "deepseek-ai/DeepSeek-V3",
+     "tier": "strong",
+     "in": 3284,
+     "out": 175,
+     "latency_ms": 10360.42370001087,
+     "online": true
+    },
+    {
+     "model": "deepseek-ai/DeepSeek-V3",
+     "tier": "strong",
+     "in": 934,
+     "out": 138,
+     "latency_ms": 9642.962500045542,
+     "online": true
+    }
+   ],
+   "input_tokens": 11439,
+   "output_tokens": 873,
+   "anomaly_flags": [],
+   "summary": "2 round(s), 4 falsification criteria",
+   "status": "ok",
+   "latency_ms": 45130.76519995229
+  },
+  {
+   "node": "risk",
+   "seq": 6,
+   "started_at": "2026-11-11T09:54:04.710187",
+   "tool_calls": [
+    {
+     "tool": "calculate_risk_metrics",
+     "args": {
+      "ticker": "300750.SZ"
+     },
+     "error": null,
+     "result": "2 items"
+    },
+    {
+     "tool": "evaluate_risk_rules",
+     "args": {
+      "ticker": "300750.SZ",
+      "dimensions": [
+       "财务质量",
+       "估值",
+       "偿债与流动性",
+       "经营与行业",
+       "治理与合规",
+       "市场波动"
+      ]
+     },
+     "error": null,
+     "result": null
+    }
+   ],
+   "llm_calls": [
+    {
+     "model": "context",
+     "tier": "strong",
+     "in": 241,
+     "out": 0,
+     "latency_ms": 0.0,
+     "online": false
+    }
+   ],
+   "input_tokens": 241,
+   "output_tokens": 0,
+   "anomaly_flags": [],
+   "summary": "财务质量=1; 估值=5; 偿债与流动性=2; 经营与行业=1; 治理与合规=1; 市场波动=3",
+   "status": "ok",
+   "latency_ms": 51.26850004307926
+  },
+  {
+   "node": "verifier",
+   "seq": 7,
+   "started_at": "2026-11-11T09:54:04.762645",
+   "tool_calls": [
+    {
+     "tool": "run_deterministic_validators",
+     "args": {
+      "claims": 48
+     },
+     "error": null,
+     "result": "0 failure(s) in 39177.0ms"
+    }
+   ],
+   "llm_calls": [
+    {
+     "model": "context",
+     "tier": "strong",
+     "in": 241,
+     "out": 0,
+     "latency_ms": 0.0,
+     "online": false
+    },
+    {
+     "model": "deepseek-ai/DeepSeek-V3",
+     "tier": "strong",
+     "in": 7209,
+     "out": 1084,
+     "latency_ms": 39173.53610001737,
+     "online": true
+    }
+   ],
+   "input_tokens": 7450,
+   "output_tokens": 1084,
+   "anomaly_flags": [],
+   "summary": "failures=[] downgraded=0",
+   "status": "ok",
+   "latency_ms": 39177.07550001796
+  },
+  {
+   "node": "report",
+   "seq": 8,
+   "started_at": "2026-11-11T09:54:43.940971",
+   "tool_calls": [],
+   "llm_calls": [
+    {
+     "model": "context",
+     "tier": "strong",
+     "in": 241,
+     "out": 0,
+     "latency_ms": 0.0,
+     "online": false
+    },
+    {
+     "model": "deepseek-ai/DeepSeek-V3",
+     "tier": "strong",
+     "in": 1029,
+     "out": 112,
+     "latency_ms": 5701.500600029249,
+     "online": true
+    }
+   ],
+   "input_tokens": 1270,
+   "output_tokens": 112,
+   "anomaly_flags": [],
+   "summary": "48 claims in report",
+   "status": "ok",
+   "latency_ms": 5704.933000029996
+  }
+ ],
+ "totals": {
+  "input_tokens": 23317,
+  "output_tokens": 3021,
+  "tool_calls": 31,
+  "redundant_tool_calls": 3,
+  "nodes": 9,
+  "llm_calls": 11,
+  "llm_calls_failed": 0,
+  "llm_tokens": 25374,
+  "latency_ms": 127158.95529999398,
+  "cost_cny": 0.064976,
+  "llm_online": true
+ },
+ "status": "done"
+}

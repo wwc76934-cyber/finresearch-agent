@@ -1,0 +1,3873 @@
+{
+ "run_id": "run_20261111095704_b7a39f",
+ "architecture": "B4",
+ "ticker": "000333.SZ",
+ "name": "美的集团",
+ "as_of": "2026-05-06T15:00:00",
+ "snapshot_id": "snap_202605061500_570f4437",
+ "question": "全面研究公司基本面、估值与风险，形成包含多空审议与证伪条件的研究报告",
+ "overview": "美的集团（000333.SZ），申万行业 家用电器/白色家电，研究时点 2026-05-06 15:00:00。",
+ "executive_summary": "公司营业收入与净利润同比小幅增长，毛利率与净利率保持稳定，年化ROE处于行业领先水平。经营现金流充沛，利润质量优异，但增速有所放缓。季度业绩环比显著改善，显示经营拐点可能显现。估值处于历史中高位，反映市场对其龙头地位的认可，但面临均值回归压力。家电行业库存量因季节性因素增加，需关注后续消化情况。",
+ "sections": [
+  {
+   "key": "overview",
+   "title": "公司与行业概况",
+   "claim_ids": []
+  },
+  {
+   "key": "answer",
+   "title": "问题直接回答",
+   "claim_ids": [
+    "C008",
+    "C009",
+    "C010",
+    "C011",
+    "C012",
+    "C013",
+    "C019",
+    "C020",
+    "C021",
+    "C022"
+   ]
+  },
+  {
+   "key": "financials",
+   "title": "财务与经营质量",
+   "claim_ids": [
+    "C001",
+    "C002",
+    "C003",
+    "C004",
+    "C005",
+    "C006",
+    "C007",
+    "C014"
+   ]
+  },
+  {
+   "key": "valuation",
+   "title": "估值与市场表现",
+   "claim_ids": [
+    "C015",
+    "C017",
+    "C018"
+   ]
+  },
+  {
+   "key": "bull",
+   "title": "核心看多论点",
+   "claim_ids": [
+    "C023",
+    "C024",
+    "C025",
+    "C026",
+    "C031",
+    "C032",
+    "C033"
+   ]
+  },
+  {
+   "key": "bear",
+   "title": "核心看空论点",
+   "claim_ids": [
+    "C016",
+    "C027",
+    "C028",
+    "C029",
+    "C030"
+   ]
+  },
+  {
+   "key": "falsification",
+   "title": "关键争议与证伪条件",
+   "claim_ids": [
+    "C034",
+    "C035",
+    "C036",
+    "C037"
+   ]
+  },
+  {
+   "key": "risk",
+   "title": "六维风险矩阵",
+   "claim_ids": [
+    "C038",
+    "C039",
+    "C040",
+    "C041",
+    "C042"
+   ]
+  }
+ ],
+ "claims": {
+  "C001": {
+   "claim_id": "C001",
+   "section": "financials",
+   "claim_type": "disclosed_fact",
+   "text": "2026Q1累计营业收入1310.99亿元，同比2.55%；归母净利润126.75亿元，同比2.03%。",
+   "evidence_ids": [
+    "E001",
+    "E002",
+    "E003",
+    "E004"
+   ],
+   "metric_ids": [
+    "m_000333_operating_revenue_2026Q1",
+    "m_000333_revenue_yoy_2026Q1",
+    "m_000333_net_profit_2026Q1",
+    "m_000333_net_profit_yoy_2026Q1"
+   ],
+   "produced_by": "fundamental",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C002": {
+   "claim_id": "C002",
+   "section": "financials",
+   "claim_type": "derived_metric",
+   "text": "2026Q1毛利率25.57%，净利率9.67%，年化ROE22.26%。",
+   "evidence_ids": [
+    "E005",
+    "E006",
+    "E007"
+   ],
+   "metric_ids": [
+    "m_000333_gross_margin_2026Q1",
+    "m_000333_net_margin_2026Q1",
+    "m_000333_roe_annualized_2026Q1"
+   ],
+   "produced_by": "fundamental",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C003": {
+   "claim_id": "C003",
+   "section": "financials",
+   "claim_type": "derived_metric",
+   "text": "2026Q1经营现金流/净利润为114.63%，经营现金流同比1.45%。",
+   "evidence_ids": [
+    "E008",
+    "E009"
+   ],
+   "metric_ids": [
+    "m_000333_ocf_to_net_profit_2026Q1",
+    "m_000333_ocf_yoy_2026Q1"
+   ],
+   "produced_by": "fundamental",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C004": {
+   "claim_id": "C004",
+   "section": "financials",
+   "claim_type": "model_inference",
+   "text": "推断：经营现金流/净利润为114.63%，利润具有较好的现金支撑。",
+   "evidence_ids": [
+    "E008"
+   ],
+   "metric_ids": [
+    "m_000333_ocf_to_net_profit_2026Q1"
+   ],
+   "produced_by": "fundamental",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C005": {
+   "claim_id": "C005",
+   "section": "financials",
+   "claim_type": "derived_metric",
+   "text": "2026Q1应收账款周转天数41.7天，存货周转天数62.4天。",
+   "evidence_ids": [
+    "E010",
+    "E011"
+   ],
+   "metric_ids": [
+    "m_000333_receivable_days_2026Q1",
+    "m_000333_inventory_days_2026Q1"
+   ],
+   "produced_by": "fundamental",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C006": {
+   "claim_id": "C006",
+   "section": "financials",
+   "claim_type": "derived_metric",
+   "text": "2026Q1单季营收环比40.37%，单季归母净利润环比109.08%。",
+   "evidence_ids": [
+    "E012",
+    "E013"
+   ],
+   "metric_ids": [
+    "m_000333_revenue_qoq_2026Q1",
+    "m_000333_net_profit_qoq_2026Q1"
+   ],
+   "produced_by": "fundamental",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C007": {
+   "claim_id": "C007",
+   "section": "financials",
+   "claim_type": "derived_metric",
+   "text": "2026Q1资产负债率60.02%，有息负债率9.16%。",
+   "evidence_ids": [
+    "E014",
+    "E015"
+   ],
+   "metric_ids": [
+    "m_000333_debt_to_assets_2026Q1",
+    "m_000333_interest_debt_ratio_2026Q1"
+   ],
+   "produced_by": "fundamental",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C008": {
+   "claim_id": "C008",
+   "section": "answer",
+   "claim_type": "disclosed_fact",
+   "text": "2026Q1合并口径累计营业收入为1310.99亿元。",
+   "evidence_ids": [
+    "E016"
+   ],
+   "metric_ids": [
+    "m_000333_operating_revenue_2026Q1"
+   ],
+   "produced_by": "fundamental",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C009": {
+   "claim_id": "C009",
+   "section": "answer",
+   "claim_type": "disclosed_fact",
+   "text": "2026Q1合并口径累计归属于母公司股东的净利润为126.75亿元。",
+   "evidence_ids": [
+    "E017"
+   ],
+   "metric_ids": [
+    "m_000333_net_profit_2026Q1"
+   ],
+   "produced_by": "fundamental",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C010": {
+   "claim_id": "C010",
+   "section": "answer",
+   "claim_type": "derived_metric",
+   "text": "2026Q1毛利率为25.57%。",
+   "evidence_ids": [
+    "E005"
+   ],
+   "metric_ids": [
+    "m_000333_gross_margin_2026Q1"
+   ],
+   "produced_by": "fundamental",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C011": {
+   "claim_id": "C011",
+   "section": "answer",
+   "claim_type": "derived_metric",
+   "text": "2026Q1净利率为9.67%。",
+   "evidence_ids": [
+    "E006"
+   ],
+   "metric_ids": [
+    "m_000333_net_margin_2026Q1"
+   ],
+   "produced_by": "fundamental",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C012": {
+   "claim_id": "C012",
+   "section": "answer",
+   "claim_type": "derived_metric",
+   "text": "2026Q1ROE(年化)为22.26%。",
+   "evidence_ids": [
+    "E007"
+   ],
+   "metric_ids": [
+    "m_000333_roe_annualized_2026Q1"
+   ],
+   "produced_by": "fundamental",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C013": {
+   "claim_id": "C013",
+   "section": "answer",
+   "claim_type": "derived_metric",
+   "text": "2026Q1资产负债率为60.02%。",
+   "evidence_ids": [
+    "E014"
+   ],
+   "metric_ids": [
+    "m_000333_debt_to_assets_2026Q1"
+   ],
+   "produced_by": "fundamental",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C014": {
+   "claim_id": "C014",
+   "section": "financials",
+   "claim_type": "disclosed_fact",
+   "text": "管理层讨论与分析披露：公司家电行业库存量2024 年度同比增幅为42.15%，主要系2024 年底临近春节假期提前备货所致。",
+   "evidence_ids": [
+    "E018"
+   ],
+   "metric_ids": [],
+   "produced_by": "fundamental",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C015": {
+   "claim_id": "C015",
+   "section": "valuation",
+   "claim_type": "derived_metric",
+   "text": "截至2026-05-06，PE-TTM为13.84倍，近3年历史分位72.22%，PB-LF为2.49倍；同行PE中位数7.67倍。",
+   "evidence_ids": [
+    "E019",
+    "E020",
+    "E021",
+    "E022"
+   ],
+   "metric_ids": [
+    "m_000333_pe_ttm_2026-05-06",
+    "m_000333_pe_percentile_3y_2026-05-06",
+    "m_000333_pb_lf_2026-05-06",
+    "m_000333_peer_pe_median_2026-05-06"
+   ],
+   "produced_by": "market",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C016": {
+   "claim_id": "C016",
+   "section": "bear",
+   "claim_type": "model_inference",
+   "text": "推断：估值处于近3年72.22%分位的偏高区间，对业绩不及预期的容忍度低。",
+   "evidence_ids": [
+    "E020"
+   ],
+   "metric_ids": [
+    "m_000333_pe_percentile_3y_2026-05-06"
+   ],
+   "produced_by": "market",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C017": {
+   "claim_id": "C017",
+   "section": "valuation",
+   "claim_type": "derived_metric",
+   "text": "EV/EBITDA为8.89倍，PS-TTM为1.33倍，PE近5年分位77.08%。",
+   "evidence_ids": [
+    "E023",
+    "E024",
+    "E025"
+   ],
+   "metric_ids": [
+    "m_000333_ev_ebitda_2026-05-06",
+    "m_000333_ps_ttm_2026-05-06",
+    "m_000333_pe_percentile_5y_2026-05-06"
+   ],
+   "produced_by": "market",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C018": {
+   "claim_id": "C018",
+   "section": "valuation",
+   "claim_type": "derived_metric",
+   "text": "近一年年化波动率17.56%，最大回撤-12.32%。",
+   "evidence_ids": [
+    "E026",
+    "E027"
+   ],
+   "metric_ids": [
+    "m_000333_volatility_1y_2026-05-06",
+    "m_000333_max_drawdown_1y_2026-05-06"
+   ],
+   "produced_by": "market",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C019": {
+   "claim_id": "C019",
+   "section": "answer",
+   "claim_type": "derived_metric",
+   "text": "市盈率TTM为13.84倍。",
+   "evidence_ids": [
+    "E019"
+   ],
+   "metric_ids": [
+    "m_000333_pe_ttm_2026-05-06"
+   ],
+   "produced_by": "market",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C020": {
+   "claim_id": "C020",
+   "section": "answer",
+   "claim_type": "derived_metric",
+   "text": "市净率LF为2.49倍。",
+   "evidence_ids": [
+    "E021"
+   ],
+   "metric_ids": [
+    "m_000333_pb_lf_2026-05-06"
+   ],
+   "produced_by": "market",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C021": {
+   "claim_id": "C021",
+   "section": "answer",
+   "claim_type": "derived_metric",
+   "text": "年化波动率为17.56%。",
+   "evidence_ids": [
+    "E026"
+   ],
+   "metric_ids": [
+    "m_000333_volatility_1y_2026-05-06"
+   ],
+   "produced_by": "market",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C022": {
+   "claim_id": "C022",
+   "section": "answer",
+   "claim_type": "derived_metric",
+   "text": "最大回撤(1年)为-12.32%。",
+   "evidence_ids": [
+    "E027"
+   ],
+   "metric_ids": [
+    "m_000333_max_drawdown_1y_2026-05-06"
+   ],
+   "produced_by": "market",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C023": {
+   "claim_id": "C023",
+   "section": "bull",
+   "claim_type": "model_inference",
+   "text": "看多：美的集团经营现金流充沛，利润质量优异（隐含假设：经营现金流与净利润的比值持续保持健康水平）（依据：2026Q1 经营现金流/净利润114.63%）",
+   "evidence_ids": [
+    "E008"
+   ],
+   "metric_ids": [
+    "m_000333_ocf_to_net_profit_2026Q1"
+   ],
+   "produced_by": "bull",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C024": {
+   "claim_id": "C024",
+   "section": "bull",
+   "claim_type": "model_inference",
+   "text": "看多：公司盈利能力稳定，ROE处于行业领先水平（隐含假设：高ROE能够持续且不会被行业竞争削弱）（依据：2026Q1 ROE(年化)22.26%）",
+   "evidence_ids": [
+    "E007"
+   ],
+   "metric_ids": [
+    "m_000333_roe_annualized_2026Q1"
+   ],
+   "produced_by": "bull",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C025": {
+   "claim_id": "C025",
+   "section": "bull",
+   "claim_type": "model_inference",
+   "text": "看多：季度业绩环比大幅改善，显示经营拐点已现（隐含假设：环比增长趋势能够延续而非季节性波动）（依据：2026Q1 营收环比40.37%；2026Q1 净利润环比109.08%）",
+   "evidence_ids": [
+    "E012",
+    "E013"
+   ],
+   "metric_ids": [
+    "m_000333_revenue_qoq_2026Q1",
+    "m_000333_net_profit_qoq_2026Q1"
+   ],
+   "produced_by": "bull",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C026": {
+   "claim_id": "C026",
+   "section": "bull",
+   "claim_type": "model_inference",
+   "text": "看多：估值处于历史中高位，反映市场对其龙头地位的认可（隐含假设：市场愿意持续给予估值溢价而非均值回归）（依据：2026-05-06 PE 3年分位72.22%；2026-05-06 PE 5年分位77.08%）",
+   "evidence_ids": [
+    "E020",
+    "E025"
+   ],
+   "metric_ids": [
+    "m_000333_pe_percentile_3y_2026-05-06",
+    "m_000333_pe_percentile_5y_2026-05-06"
+   ],
+   "produced_by": "bull",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C027": {
+   "claim_id": "C027",
+   "section": "bear",
+   "claim_type": "model_inference",
+   "text": "看空：经营现金流增速显著放缓，利润质量存疑（隐含假设：现金流增速放缓可能反映回款能力下降或利润含金量降低）（依据：2026Q1 经营现金流同比1.45%）",
+   "evidence_ids": [
+    "E009"
+   ],
+   "metric_ids": [
+    "m_000333_ocf_yoy_2026Q1"
+   ],
+   "produced_by": "bear",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C028": {
+   "claim_id": "C028",
+   "section": "bear",
+   "claim_type": "model_inference",
+   "text": "看空：高ROE面临业务多元化挑战，协同效应待验证（隐含假设：ToB与ToC业务并重可能导致资源分散而非互补）",
+   "evidence_ids": [
+    "E028",
+    "E029"
+   ],
+   "metric_ids": [],
+   "produced_by": "bear",
+   "status": "PARTIALLY_SUPPORTED",
+   "attempts": 0
+  },
+  "C029": {
+   "claim_id": "C029",
+   "section": "bear",
+   "claim_type": "model_inference",
+   "text": "看空：环比高增长含季节性扰动，持续性存疑（隐含假设：家电行业传统旺季效应可能扭曲真实增长趋势）",
+   "evidence_ids": [
+    "E018"
+   ],
+   "metric_ids": [],
+   "produced_by": "bear",
+   "status": "PARTIALLY_SUPPORTED",
+   "attempts": 0
+  },
+  "C030": {
+   "claim_id": "C030",
+   "section": "bear",
+   "claim_type": "model_inference",
+   "text": "看空：估值溢价隐含过度乐观预期，均值回归压力大（隐含假设：市场可能高估多元化业务估值而忽视整合风险）（依据：2026-05-06 同行PE中位数7.67倍；2026-05-06 PE 5年分位77.08%）",
+   "evidence_ids": [
+    "E022",
+    "E025"
+   ],
+   "metric_ids": [
+    "m_000333_peer_pe_median_2026-05-06",
+    "m_000333_pe_percentile_5y_2026-05-06"
+   ],
+   "produced_by": "bear",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C031": {
+   "claim_id": "C031",
+   "section": "bull",
+   "claim_type": "model_inference",
+   "text": "回应：经营现金流与净利润比率健康，显示利润质量良好（依据：2026Q1 经营现金流/净利润114.63%）",
+   "evidence_ids": [
+    "E008"
+   ],
+   "metric_ids": [
+    "m_000333_ocf_to_net_profit_2026Q1"
+   ],
+   "produced_by": "bull",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C032": {
+   "claim_id": "C032",
+   "section": "bull",
+   "claim_type": "model_inference",
+   "text": "回应：ToB与ToC业务协同效应已在新能源领域显现",
+   "evidence_ids": [
+    "E029"
+   ],
+   "metric_ids": [],
+   "produced_by": "bull",
+   "status": "PARTIALLY_SUPPORTED",
+   "attempts": 0
+  },
+  "C033": {
+   "claim_id": "C033",
+   "section": "bull",
+   "claim_type": "model_inference",
+   "text": "回应：环比高增长伴随销量提升，反映真实需求而非单纯季节性",
+   "evidence_ids": [
+    "E018"
+   ],
+   "metric_ids": [],
+   "produced_by": "bull",
+   "status": "PARTIALLY_SUPPORTED",
+   "attempts": 0
+  },
+  "C034": {
+   "claim_id": "C034",
+   "section": "falsification",
+   "claim_type": "model_inference",
+   "text": "若后续报告期毛利率跌破23.57%（当前25.57%），则“盈利能力稳定”的看多假设证伪。",
+   "evidence_ids": [
+    "E005",
+    "E031"
+   ],
+   "metric_ids": [
+    "m_000333_gross_margin_2026Q1",
+    "m_000333_threshold_gross_margin_2026Q1"
+   ],
+   "produced_by": "manager",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C035": {
+   "claim_id": "C035",
+   "section": "falsification",
+   "claim_type": "model_inference",
+   "text": "若经营现金流/净利润持续低于80.00%（当前114.63%），则“利润质量可靠”的假设证伪。",
+   "evidence_ids": [
+    "E008",
+    "E032"
+   ],
+   "metric_ids": [
+    "m_000333_ocf_to_net_profit_2026Q1",
+    "m_000333_threshold_ocf_to_net_profit_2026Q1"
+   ],
+   "produced_by": "manager",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C036": {
+   "claim_id": "C036",
+   "section": "falsification",
+   "claim_type": "model_inference",
+   "text": "若应收账款周转天数升至46.7天以上（当前41.7天），说明回款恶化，看多逻辑需下修。",
+   "evidence_ids": [
+    "E010",
+    "E033"
+   ],
+   "metric_ids": [
+    "m_000333_receivable_days_2026Q1",
+    "m_000333_threshold_receivable_days_2026Q1"
+   ],
+   "produced_by": "manager",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C037": {
+   "claim_id": "C037",
+   "section": "falsification",
+   "claim_type": "model_inference",
+   "text": "若有息负债率升至14.16%以上（当前9.16%），偿债风险假设需上调。",
+   "evidence_ids": [
+    "E015",
+    "E034"
+   ],
+   "metric_ids": [
+    "m_000333_interest_debt_ratio_2026Q1",
+    "m_000333_threshold_interest_debt_ratio_2026Q1"
+   ],
+   "produced_by": "manager",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C038": {
+   "claim_id": "C038",
+   "section": "risk",
+   "claim_type": "derived_metric",
+   "text": "财务质量风险2/5：经营现金流/净利润114.63%，高危异常0项",
+   "evidence_ids": [
+    "E008"
+   ],
+   "metric_ids": [
+    "m_000333_ocf_to_net_profit_2026Q1"
+   ],
+   "produced_by": "risk",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C039": {
+   "claim_id": "C039",
+   "section": "risk",
+   "claim_type": "derived_metric",
+   "text": "估值风险4/5：PE-TTM处于近3年72.22%分位",
+   "evidence_ids": [
+    "E020"
+   ],
+   "metric_ids": [
+    "m_000333_pe_percentile_3y_2026-05-06"
+   ],
+   "produced_by": "risk",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C040": {
+   "claim_id": "C040",
+   "section": "risk",
+   "claim_type": "derived_metric",
+   "text": "偿债与流动性风险1/5：资产负债率60.02%，有息负债率9.16%",
+   "evidence_ids": [
+    "E014",
+    "E015"
+   ],
+   "metric_ids": [
+    "m_000333_debt_to_assets_2026Q1",
+    "m_000333_interest_debt_ratio_2026Q1"
+   ],
+   "produced_by": "risk",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C041": {
+   "claim_id": "C041",
+   "section": "risk",
+   "claim_type": "derived_metric",
+   "text": "经营与行业风险3/5：营收同比2.55%，毛利率25.57%",
+   "evidence_ids": [
+    "E002",
+    "E005"
+   ],
+   "metric_ids": [
+    "m_000333_revenue_yoy_2026Q1",
+    "m_000333_gross_margin_2026Q1"
+   ],
+   "produced_by": "risk",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C042": {
+   "claim_id": "C042",
+   "section": "risk",
+   "claim_type": "derived_metric",
+   "text": "市场波动风险1/5：年化波动率17.56%，最大回撤-12.32%",
+   "evidence_ids": [
+    "E026",
+    "E027"
+   ],
+   "metric_ids": [
+    "m_000333_volatility_1y_2026-05-06",
+    "m_000333_max_drawdown_1y_2026-05-06"
+   ],
+   "produced_by": "risk",
+   "status": "VERIFIED",
+   "attempts": 0
+  }
+ },
+ "evidence": {
+  "E001": {
+   "evidence_id": "E001",
+   "kind": "fact",
+   "source_ref": "m_000333_operating_revenue_2026Q1",
+   "summary": "2026Q1 营业收入 = 1310.99亿元",
+   "excerpt": "formula: raw fact; inputs: fact_000333_20260331_operating_revenue_con_ey_f10_v1",
+   "available_at": "2026-04-30T09:30:00",
+   "metric_ids": [
+    "m_000333_operating_revenue_2026Q1"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E002": {
+   "evidence_id": "E002",
+   "kind": "metric",
+   "source_ref": "m_000333_revenue_yoy_2026Q1",
+   "summary": "2026Q1 营收同比 = 2.55%",
+   "excerpt": "formula: cum_t / cum_{t-1y} - 1; inputs: fact_000333_20260331_operating_revenue_con_ey_f10_v1, fact_000333_20250331_operating_revenue_con_ey_f10_v1",
+   "available_at": "2026-04-30T09:30:00",
+   "metric_ids": [
+    "m_000333_revenue_yoy_2026Q1"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E003": {
+   "evidence_id": "E003",
+   "kind": "fact",
+   "source_ref": "m_000333_net_profit_2026Q1",
+   "summary": "2026Q1 归属于母公司股东的净利润 = 126.75亿元",
+   "excerpt": "formula: raw fact; inputs: fact_000333_20260331_net_profit_con_ey_f10_v1",
+   "available_at": "2026-04-30T09:30:00",
+   "metric_ids": [
+    "m_000333_net_profit_2026Q1"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E004": {
+   "evidence_id": "E004",
+   "kind": "metric",
+   "source_ref": "m_000333_net_profit_yoy_2026Q1",
+   "summary": "2026Q1 净利润同比 = 2.03%",
+   "excerpt": "formula: cum_t / cum_{t-1y} - 1 (NA if base <= 0); inputs: fact_000333_20260331_net_profit_con_ey_f10_v1, fact_000333_20250331_net_profit_con_ey_f10_v1",
+   "available_at": "2026-04-30T09:30:00",
+   "metric_ids": [
+    "m_000333_net_profit_yoy_2026Q1"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E005": {
+   "evidence_id": "E005",
+   "kind": "metric",
+   "source_ref": "m_000333_gross_margin_2026Q1",
+   "summary": "2026Q1 毛利率 = 25.57%",
+   "excerpt": "formula: (operating_revenue - operating_cost) / operating_revenue; inputs: fact_000333_20260331_operating_revenue_con_ey_f10_v1, fact_000333_20260331_operating_cost_con_ey_f10_v1",
+   "available_at": "2026-04-30T09:30:00",
+   "metric_ids": [
+    "m_000333_gross_margin_2026Q1"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E006": {
+   "evidence_id": "E006",
+   "kind": "metric",
+   "source_ref": "m_000333_net_margin_2026Q1",
+   "summary": "2026Q1 净利率 = 9.67%",
+   "excerpt": "formula: net_profit / operating_revenue; inputs: fact_000333_20260331_net_profit_con_ey_f10_v1, fact_000333_20260331_operating_revenue_con_ey_f10_v1",
+   "available_at": "2026-04-30T09:30:00",
+   "metric_ids": [
+    "m_000333_net_margin_2026Q1"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E007": {
+   "evidence_id": "E007",
+   "kind": "metric",
+   "source_ref": "m_000333_roe_annualized_2026Q1",
+   "summary": "2026Q1 ROE(年化) = 22.26%",
+   "excerpt": "formula: net_profit * 4/n_quarters / avg(total_equity_begin, total_equity_end); inputs: fact_000333_20260331_net_profit_con_ey_f10_v1, fact_000333_20260331_parent_equity_con_ey_f10_v1, fact_000333_20251231_parent_equity_con_ey_f10_v1",
+   "available_at": "2026-04-30T09:30:00",
+   "metric_ids": [
+    "m_000333_roe_annualized_2026Q1"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E008": {
+   "evidence_id": "E008",
+   "kind": "metric",
+   "source_ref": "m_000333_ocf_to_net_profit_2026Q1",
+   "summary": "2026Q1 经营现金流/净利润 = 114.63%",
+   "excerpt": "formula: operating_cash_flow / net_profit; inputs: fact_000333_20260331_operating_cash_flow_con_ey_f10_v1, fact_000333_20260331_net_profit_con_ey_f10_v1",
+   "available_at": "2026-04-30T09:30:00",
+   "metric_ids": [
+    "m_000333_ocf_to_net_profit_2026Q1"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E009": {
+   "evidence_id": "E009",
+   "kind": "metric",
+   "source_ref": "m_000333_ocf_yoy_2026Q1",
+   "summary": "2026Q1 经营现金流同比 = 1.45%",
+   "excerpt": "formula: cum_t / cum_{t-1y} - 1 (NA if base <= 0); inputs: fact_000333_20260331_operating_cash_flow_con_ey_f10_v1, fact_000333_20250331_operating_cash_flow_con_ey_f10_v1",
+   "available_at": "2026-04-30T09:30:00",
+   "metric_ids": [
+    "m_000333_ocf_yoy_2026Q1"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E010": {
+   "evidence_id": "E010",
+   "kind": "metric",
+   "source_ref": "m_000333_receivable_days_2026Q1",
+   "summary": "2026Q1 应收账款周转天数 = 41.7天",
+   "excerpt": "formula: accounts_receivable / revenue_ttm * 365; inputs: fact_000333_20260331_accounts_receivable_con_ey_f10_v1, fact_000333_20260331_operating_revenue_con_ey_f10_v1, fact_000333_20251231_operating_revenue_con_ey_f10_v1, fact_000333_20250331_operating_revenue_con_ey_f10_v1",
+   "available_at": "2026-04-30T09:30:00",
+   "metric_ids": [
+    "m_000333_receivable_days_2026Q1"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E011": {
+   "evidence_id": "E011",
+   "kind": "metric",
+   "source_ref": "m_000333_inventory_days_2026Q1",
+   "summary": "2026Q1 存货周转天数 = 62.4天",
+   "excerpt": "formula: inventory / cost_ttm * 365; inputs: fact_000333_20260331_inventory_con_ey_f10_v1, fact_000333_20260331_operating_cost_con_ey_f10_v1, fact_000333_20251231_operating_cost_con_ey_f10_v1, fact_000333_20250331_operating_cost_con_ey_f10_v1",
+   "available_at": "2026-04-30T09:30:00",
+   "metric_ids": [
+    "m_000333_inventory_days_2026Q1"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E012": {
+   "evidence_id": "E012",
+   "kind": "metric",
+   "source_ref": "m_000333_revenue_qoq_2026Q1",
+   "summary": "2026Q1 营收环比 = 40.37%",
+   "excerpt": "formula: single_quarter_t / single_quarter_{t-1} - 1; inputs: m_000333_single_quarter_2026Q1_operating_revenue, m_000333_single_quarter_2025Q4_operating_revenue",
+   "available_at": "2026-04-30T09:30:00",
+   "metric_ids": [
+    "m_000333_revenue_qoq_2026Q1"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E013": {
+   "evidence_id": "E013",
+   "kind": "metric",
+   "source_ref": "m_000333_net_profit_qoq_2026Q1",
+   "summary": "2026Q1 净利润环比 = 109.08%",
+   "excerpt": "formula: single_quarter_t / single_quarter_{t-1} - 1 (NA if base <= 0); inputs: m_000333_single_quarter_2026Q1_net_profit, m_000333_single_quarter_2025Q4_net_profit",
+   "available_at": "2026-04-30T09:30:00",
+   "metric_ids": [
+    "m_000333_net_profit_qoq_2026Q1"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E014": {
+   "evidence_id": "E014",
+   "kind": "metric",
+   "source_ref": "m_000333_debt_to_assets_2026Q1",
+   "summary": "2026Q1 资产负债率 = 60.02%",
+   "excerpt": "formula: total_liabilities / total_assets; inputs: fact_000333_20260331_total_liabilities_con_ey_f10_v1, fact_000333_20260331_total_assets_con_ey_f10_v1",
+   "available_at": "2026-04-30T09:30:00",
+   "metric_ids": [
+    "m_000333_debt_to_assets_2026Q1"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E015": {
+   "evidence_id": "E015",
+   "kind": "metric",
+   "source_ref": "m_000333_interest_debt_ratio_2026Q1",
+   "summary": "2026Q1 有息负债率 = 9.16%",
+   "excerpt": "formula: interest_bearing_debt / total_assets; inputs: fact_000333_20260331_interest_bearing_debt_con_ey_f10_v1, fact_000333_20260331_total_assets_con_ey_f10_v1",
+   "available_at": "2026-04-30T09:30:00",
+   "metric_ids": [
+    "m_000333_interest_debt_ratio_2026Q1"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E016": {
+   "evidence_id": "E016",
+   "kind": "fact",
+   "source_ref": "m_000333_operating_revenue_2026Q1",
+   "summary": "2026Q1 营业收入 = 1310.99亿元",
+   "excerpt": "formula: raw fact; inputs: fact_000333_20260331_operating_revenue_con_ey_f10_v1",
+   "available_at": "2026-04-30T09:30:00",
+   "metric_ids": [
+    "m_000333_operating_revenue_2026Q1"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E017": {
+   "evidence_id": "E017",
+   "kind": "fact",
+   "source_ref": "m_000333_net_profit_2026Q1",
+   "summary": "2026Q1 归属于母公司股东的净利润 = 126.75亿元",
+   "excerpt": "formula: raw fact; inputs: fact_000333_20260331_net_profit_con_ey_f10_v1",
+   "available_at": "2026-04-30T09:30:00",
+   "metric_ids": [
+    "m_000333_net_profit_2026Q1"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E018": {
+   "evidence_id": "E018",
+   "kind": "document",
+   "source_ref": "doc_000333_2024Q4::s3",
+   "summary": "第三节 管理层讨论与分析",
+   "excerpt": "[000333.SZ | 2024Q4 | 美的集团（000333.SZ）2024年年度报告 > 第三节 管理层讨论与分析 | 第三节 管理层讨论与分析 | - | - | p12-68]\n…径调整后的主营业务数据□ 适用 √ 不适用（3） 公司实物销售收入是否大于劳务收入√ 是 □ 否\n|  | 行业分类 | 项目 |  | 单位 |  | 2024年 |  | 2023年 |  | 同比增减 |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n| 家用电器行业 |  | 销售量 | 万台/套 |  | 65181.90 |  | 59716.31 |  | 9.15% |  |\n|  |  | 生产量 | 万台/套 |  | 64167.59 |  | 58094.73 |  | 10.45% |  |\n|  |  | 库存量 | 万台/套 |  | 13150.96 |  | 9251.29 |  | 42.15% |  |\n相关数据同比发生变动30%以上的原因说明√ 适用 □ 不适用公司家电行业库存量2024 年度同比增幅为42.15%，主要系2024 年底临近春节假期提前备货所致。\n（4） 公司已签订的重大销售合同、重大采购合同截至本报告期的履行情况□ 适用 √ 不适用（5） 营业成本构成单位：千元\n|  |  | 2024年 |  | 2023年（经重列） |  |  |\n| --- | --- | --- | --- | --- | --- | --- |\n| 行业分类 | 项目 |  |  |  |  | 同比增减 |\n|  |  | 金额 | 占营业成本比重 | 金额 | 占营业成本比重 |  |\n|  | 原材料 | 186393419 | 82.01% | 175242843 | 82.24% | 6.36% |\n|  | 人工工资 | 13882146 | 6.11% | 13676011 | 6.42% | 1.51% |\n| 家用电器行业 |  |  |  |  |  |  |\n|  | 折旧 | 3708779 | 1.63% | 3521545 | 1.65% | 5.32% |\n|  | 能源 | 3057265 | 1.35% | 2886391 | 1.35% | 5.92% |\n（6） 报告期内合并范围是否发生变动√ 是 □ 否本年度合并范围的变更详见财务报告附注五。本年度通过新设纳入合并范围的子公司详见附注五(2)(a)；本年度不再纳入合并范围的子公司详见附注五(2)(b)。\n（7） 公司报告期内业务、产品或服务发生重大变化或调整有关情况□ 适用 √ 不适用（8） 主要销售客户和主要供应商情况公司主要销售客户情况\n| 前五名客户合计销售金额（千元） | 55535262 |\n| --- | --- |\n| 前五名客户合计销售金额占年度销售总额比例 | 13.64% |\n| 前五名客户销售额中关联方销售额占年度销售总额比例 | 0% |\n公司前5 大客户资料\n| 序号 |  | 客户名称 |  | 销售额（千元） |  | 占年度销售总额比例 |\n| --- | --- | --- | --- | --- | --- | --- |\n| 1 | 第一名 |  | 33482226 |  | 8.22% |  |\n| 2 | 第二名 |  | 7449308 |  | 1.83% |  |\n| 3 | 第三名 | ",
+   "available_at": "2025-03-31T09:30:00",
+   "metric_ids": [],
+   "document_id": "doc_000333_2024Q4",
+   "page": "p12-68",
+   "produced_by": "fundamental"
+  },
+  "E019": {
+   "evidence_id": "E019",
+   "kind": "metric",
+   "source_ref": "m_000333_pe_ttm_2026-05-06",
+   "summary": "2026-05-06 市盈率TTM = 13.84倍",
+   "excerpt": "formula: total_mv / net_profit_ttm (NA if <= 0); inputs: px_000333_2026-05-06, fact_000333_20260331_net_profit_con_ey_f10_v1, fact_000333_20251231_net_profit_con_ey_f10_v1, fact_000333_20250331_net_profit_con_ey_f10_v1",
+   "available_at": "2026-05-06T15:00:00",
+   "metric_ids": [
+    "m_000333_pe_ttm_2026-05-06"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "market"
+  },
+  "E020": {
+   "evidence_id": "E020",
+   "kind": "metric",
+   "source_ref": "m_000333_pe_percentile_3y_2026-05-06",
+   "summary": "2026-05-06 PE 3年分位 = 72.22%",
+   "excerpt": "formula: rank of today's PE among month-end PE over 3y; inputs: m_000333_pe_ttm_2026-05-06",
+   "available_at": "2026-05-06T15:00:00",
+   "metric_ids": [
+    "m_000333_pe_percentile_3y_2026-05-06"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "market"
+  },
+  "E021": {
+   "evidence_id": "E021",
+   "kind": "metric",
+   "source_ref": "m_000333_pb_lf_2026-05-06",
+   "summary": "2026-05-06 市净率LF = 2.49倍",
+   "excerpt": "formula: total_mv / total_equity_latest (NA if <= 0); inputs: px_000333_2026-05-06, fact_000333_20260331_total_equity_con_ey_f10_v1",
+   "available_at": "2026-05-06T15:00:00",
+   "metric_ids": [
+    "m_000333_pb_lf_2026-05-06"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "market"
+  },
+  "E022": {
+   "evidence_id": "E022",
+   "kind": "metric",
+   "source_ref": "m_000333_peer_pe_median_2026-05-06",
+   "summary": "2026-05-06 同行PE中位数 = 7.67倍",
+   "excerpt": "formula: median PE-TTM of same SW L2 peers (falls back to L1); inputs: ",
+   "available_at": "2026-05-06T15:00:00",
+   "metric_ids": [
+    "m_000333_peer_pe_median_2026-05-06"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "market"
+  },
+  "E023": {
+   "evidence_id": "E023",
+   "kind": "metric",
+   "source_ref": "m_000333_ev_ebitda_2026-05-06",
+   "summary": "2026-05-06 EV/EBITDA = 8.89倍",
+   "excerpt": "formula: (total_mv + interest_bearing_debt - cash) / (total_profit_ttm + interest_expense_ttm + d&a_ttm); inputs: px_000333_2026-05-06, fact_000333_20260331_interest_bearing_debt_con_ey_f10_v1, fact_000333_20260331_cash_con_ey_f10_v1, fact_000333_20260331_total_profit_con_ey_f10_v1",
+   "available_at": "2026-05-06T15:00:00",
+   "metric_ids": [
+    "m_000333_ev_ebitda_2026-05-06"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "market"
+  },
+  "E024": {
+   "evidence_id": "E024",
+   "kind": "metric",
+   "source_ref": "m_000333_ps_ttm_2026-05-06",
+   "summary": "2026-05-06 市销率TTM = 1.33倍",
+   "excerpt": "formula: total_mv / revenue_ttm; inputs: px_000333_2026-05-06, fact_000333_20260331_operating_revenue_con_ey_f10_v1, fact_000333_20251231_operating_revenue_con_ey_f10_v1, fact_000333_20250331_operating_revenue_con_ey_f10_v1",
+   "available_at": "2026-05-06T15:00:00",
+   "metric_ids": [
+    "m_000333_ps_ttm_2026-05-06"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "market"
+  },
+  "E025": {
+   "evidence_id": "E025",
+   "kind": "metric",
+   "source_ref": "m_000333_pe_percentile_5y_2026-05-06",
+   "summary": "2026-05-06 PE 5年分位 = 77.08%",
+   "excerpt": "formula: rank of today's PE among month-end PE over 5y (NA if < 48 months); inputs: m_000333_pe_ttm_2026-05-06",
+   "available_at": "2026-05-06T15:00:00",
+   "metric_ids": [
+    "m_000333_pe_percentile_5y_2026-05-06"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "market"
+  },
+  "E026": {
+   "evidence_id": "E026",
+   "kind": "metric",
+   "source_ref": "m_000333_volatility_1y_2026-05-06",
+   "summary": "2026-05-06 年化波动率 = 17.56%",
+   "excerpt": "formula: std(log returns 250d) * sqrt(252); inputs: px_000333_2025-04-22_2026-05-06",
+   "available_at": "2026-05-06T15:00:00",
+   "metric_ids": [
+    "m_000333_volatility_1y_2026-05-06"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "market"
+  },
+  "E027": {
+   "evidence_id": "E027",
+   "kind": "metric",
+   "source_ref": "m_000333_max_drawdown_1y_2026-05-06",
+   "summary": "2026-05-06 最大回撤(1年) = -12.32%",
+   "excerpt": "formula: min(close / cummax(close) - 1); inputs: px_000333_2025-04-22_2026-05-06",
+   "available_at": "2026-05-06T15:00:00",
+   "metric_ids": [
+    "m_000333_max_drawdown_1y_2026-05-06"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "market"
+  },
+  "E028": {
+   "evidence_id": "E028",
+   "kind": "document",
+   "source_ref": "doc_000333_2024Q2::s3",
+   "summary": "第三节 管理层讨论与分析",
+   "excerpt": "[000333.SZ | 2024Q2 | 美的集团（000333.SZ）2024年半年度报告 > 第三节 管理层讨论与分析 | 第三节 管理层讨论与分析 | - | - | p9-52]\n一、报告期内公司所处行业情况（一）主要产品与业务概述美的是一家覆盖智能家居、新能源及工业技术、智能建筑科技、机器人与自动化及其他创新业务的领先的全球化科技集团，已建立ToC 与ToB 并重发展的业务矩阵，既可为消费者提供各类智能家居的产品与服务，也可为企业客户提供多元化的商业及工业解决方案。其中，美的智能家居业务主要覆盖智慧家电、智慧家居及周边相关产业和生态链，面向终端用户的智能化场景搭建，用户运营和数据价值发掘，致力于为终端用户提供最佳体验的全屋智能家居及服务；美的新能源及工业技术业务以科技为核心驱动力，聚合“绿色能源”与“工业核心部件”领域的核心科技力量，拥有美芝、威灵、科陆电子、合康、高创、美仁、MOTINOVA、美垦、东芝、日业等多个品牌，产品覆盖压缩机、电机、芯片、阀、减速机、汽车部件、运动控制及自动化、高低压变频器、储能和散热部件等高精密核心部件产品，为全球泛工业客户提供绿色、高效、智慧的产品和技术解决方案；美的智能建筑科技业务主要涉及楼宇产品、服务及相关产业，以iBUILDING 美的楼宇数字化服务平台为核心，业务覆盖暖通、电梯、能源、楼宇控制等，产品包括多联机组、大型冷水机组、单元机、机房空调、扶梯、直梯、货梯等以及楼宇自控软件和建筑弱电集成解决方案，利用“楼宇设备设施+数字化技术+产业生态布局”，打通建筑的交通流、信息流、体验流、能源流，以数字化和低碳化技术为楼宇赋能，共建可持续的智慧空间；美的机器人与自动化业务主要围绕未来工厂相关领域，提供包括工业机器人、物流自动化系统及传输系统解决方案，以及面向医疗、娱乐、新消费领域的相关解决方案等；其他创新业务主要包括为客户提供端到端数智化供应链解决方案的安得智联，依托美擎工业互联网平台为智能制造及产业互联提供工业软件及数字化咨询服务的美云智数，专注于照明及智能前装电气产品研发、生产、销售于一体的美智光电，致力于医学影像技术创新并为临床提供优质医学影像产品和服务的万东医疗等。\n美的坚守“科技尽善，生活尽美”的企业愿景，将“联动人与万物，启迪美的世界”作为使命，秉持“敢知未来——志存高远、客户至上、变革创新、包容共协、务实奋进”的价值观，恪守“高质量发展与卓越运营”的经营管理规范，整合全球资源，推动技术创新，每年为全球超过4 亿用户及各领域的重要客户与战略合作伙伴提供满意的产品和服务，致力创造美好生活。面对数字互联网时代对产品和服务的更高要求，美的持续推动“科技领先、用户直达、数智驱动、全球突破”四大战略主轴，打造新时代的美的。其中，通过构建研发规模优势，加大对核心、前沿技术的布局和投入，实现科技领先；通过与用户直接联系互动，重塑产品服务及业务模式，实现用户直达；通过全面数字化全面智能化，内部提升效率和外部紧抓用户，实现数智驱动；通过在重点区域寻求市场、渠道和商业模式等维度突破，服务全球用户，实现全球突破。\n美的是一家全球运营的公司，业务与客户遍及全球。迄今，美的在全球拥有超过400家子公司、33个研发中心和43 个主要制造基地，员工超过19 万人，业务遍及200 多个国家和地区。在海外设有17 个研\n发中心和22 个主要制造基地，遍布十多个国家。\n（二）行业地位2024 年8 月，《财富》发布世界500 强榜单，美的集团位居第277 位，连续9 年跻身世界500 强企业行列，美的还入选2024 年《财富",
+   "available_at": "2024-08-20T09:30:00",
+   "metric_ids": [],
+   "document_id": "doc_000333_2024Q2",
+   "page": "p9-52",
+   "produced_by": "bear"
+  },
+  "E029": {
+   "evidence_id": "E029",
+   "kind": "document",
+   "source_ref": "doc_000333_2025Q2::s3",
+   "summary": "第三节 管理层讨论与分析",
+   "excerpt": "[000333.SZ | 2025Q2 | 美的集团（000333.SZ）2025年半年度报告 > 第三节 管理层讨论与分析 | 第三节 管理层讨论与分析 | - | - | p10-63]\n一、报告期内公司从事的主要业务（一）主要产品与业务概述美的是一家覆盖智能家居、新能源及工业技术、智能建筑科技、机器人与自动化、健康医疗、智慧物流等业务的全球领先的科技集团，已建立ToC 与ToB 并重发展的业务矩阵，既可为消费者提供各类智能家居的产品与服务，也可为企业客户提供多元化的商业及工业解决方案。其中，美的智能家居业务主要覆盖智慧家电、智慧家居及周边相关产业和生态链，围绕面向终端用户的智能化场景搭建、用户运营和数据价值发掘，致力于为终端用户提供最佳体验的全屋智能家居及服务；美的新能源及工业技术业务以科技为核心驱动力，聚焦新能源业务，以及暖通家电、新能源汽车、机器人等领域的核心部件，拥有美芝、威灵、美仁、合康新能、科陆、高创等多个品牌，产品覆盖压缩机、电机、芯片、阀/泵、新能源汽车部件、机器人部件、光伏、储能等产品，致力于用领先的科技、领先的品质、领先的服务，为全球客户提供绿色、高效、智慧的产品与技术解决方案；美的智能建筑科技业务主要涉及楼宇产品、服务及相关产业，以iBUILDING 美的楼宇数字化服务平台为核心，业务覆盖暖通、电梯、能源、楼宇控制等，产品包括多联机组、大型冷水机组、单元机、机房空调、扶梯、直梯、货梯等以及楼宇自控软件和建筑弱电集成解决方案，利用“楼宇设备设施+数字化技术+产业生态布局”，打通建筑的交通流、信息流、体验流、能源流，以数字化和低碳化技术为楼宇赋能，共建可持续的智慧空间；美的机器人与自动化业务主要围绕未来工厂相关领域，提供包括工业机器人、物流自动化系统及传输系统解决方案，以及面向医疗、娱乐、新消费领域的相关解决方案等；美的医疗业务包括在健康医疗领域致力于医学影像技术创新并为临床提供优质医学影像产品和服务的万东医疗等；智慧物流领域的安得智联持续致力于为客户提供端到端数智化供应链解决方案。\n美的坚守“科技尽善，生活尽美”的企业愿景，将“联动人与万物，启迪美的世界”作为使命，秉持“敢知未来——志存高远、客户至上、变革创新、包容共协、务实奋进”的价值观，恪守“高质量发展与卓越运营”的经营管理规范，整合全球资源，推动技术创新，每年为全球超过5 亿用户及各领域的重要客户与战略合作伙伴提供满意的产品和服务，致力创造美好生活。面对数字互联网时代对产品和服务的更高要求，美的持续推动“科技领先、用户直达、数智驱动、全球突破”四大战略主轴，打造新时代的美的。其中，通过构建研发规模优势，加大对核心、前沿技术的布局和投入，实现科技领先；通过与用户直接联系互动，重塑产品服务及业务模式，实现用户直达；通过全面数字化全面智能化，内部提升效率和外部紧抓用户，实现数智驱动；通过在重点区域寻求市场、渠道和商业模式等维度突破，服务全\n美的集团股份有限公司2025 年半年度报告全文球用户，实现全球突破。\n美的是一家全球运营的公司，业务与客户遍及全球。迄今，美的在全球拥有超过400家子公司、38个研发中心和63 个主要制造基地，员工超过19 万人，业务遍及200 多个国家和地区。在海外设有22 个研发中心和41 个主要制造基地，遍布十多个国家。\n（二）行业地位2025 年7 月，《财富》发布世界500 强榜单，美的集团位居第246 位，大幅跃升31 位，连续10 年跻身世界500 强企业行列；2025 年5 月，美的集团凭借在ESG 管理体系的持续完善、管理水平的不断提",
+   "available_at": "2025-09-01T09:30:00",
+   "metric_ids": [],
+   "document_id": "doc_000333_2025Q2",
+   "page": "p10-63",
+   "produced_by": "bear"
+  },
+  "E031": {
+   "evidence_id": "E031",
+   "kind": "metric",
+   "source_ref": "m_000333_threshold_gross_margin_2026Q1",
+   "summary": "2026Q1 毛利率证伪阈值 = 23.57%",
+   "excerpt": "formula: gross_margin - 2pp; inputs: m_000333_gross_margin_2026Q1",
+   "available_at": "2026-04-30T09:30:00",
+   "metric_ids": [
+    "m_000333_threshold_gross_margin_2026Q1"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "manager"
+  },
+  "E032": {
+   "evidence_id": "E032",
+   "kind": "metric",
+   "source_ref": "m_000333_threshold_ocf_to_net_profit_2026Q1",
+   "summary": "2026Q1 现金流/净利润证伪阈值 = 80.00%",
+   "excerpt": "formula: 0.8; inputs: m_000333_ocf_to_net_profit_2026Q1",
+   "available_at": "2026-04-30T09:30:00",
+   "metric_ids": [
+    "m_000333_threshold_ocf_to_net_profit_2026Q1"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "manager"
+  },
+  "E033": {
+   "evidence_id": "E033",
+   "kind": "metric",
+   "source_ref": "m_000333_threshold_receivable_days_2026Q1",
+   "summary": "2026Q1 应收周转天数证伪阈值 = 46.7天",
+   "excerpt": "formula: receivable_days * 1.1; inputs: m_000333_receivable_days_2026Q1",
+   "available_at": "2026-04-30T09:30:00",
+   "metric_ids": [
+    "m_000333_threshold_receivable_days_2026Q1"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "manager"
+  },
+  "E034": {
+   "evidence_id": "E034",
+   "kind": "metric",
+   "source_ref": "m_000333_threshold_interest_debt_ratio_2026Q1",
+   "summary": "2026Q1 有息负债率证伪阈值 = 14.16%",
+   "excerpt": "formula: interest_debt_ratio + 5pp; inputs: m_000333_interest_debt_ratio_2026Q1",
+   "available_at": "2026-04-30T09:30:00",
+   "metric_ids": [
+    "m_000333_threshold_interest_debt_ratio_2026Q1"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "manager"
+  }
+ },
+ "metrics": {
+  "m_000333_debt_to_assets_2026Q1": {
+   "metric_id": "m_000333_debt_to_assets_2026Q1",
+   "ticker": "000333.SZ",
+   "metric": "debt_to_assets",
+   "value": 0.6001816268890731,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2026Q1",
+   "statement_scope": "consolidated",
+   "formula": "total_liabilities / total_assets",
+   "formula_version": "v1",
+   "input_ids": [
+    "fact_000333_20260331_total_liabilities_con_ey_f10_v1",
+    "fact_000333_20260331_total_assets_con_ey_f10_v1"
+   ],
+   "available_at": "2026-04-30T09:30:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {}
+  },
+  "m_000333_ev_ebitda_2026-05-06": {
+   "metric_id": "m_000333_ev_ebitda_2026-05-06",
+   "ticker": "000333.SZ",
+   "metric": "ev_ebitda",
+   "value": 8.886429670171607,
+   "unit": "x",
+   "status": "OK",
+   "period": "2026-05-06",
+   "statement_scope": "consolidated",
+   "formula": "(total_mv + interest_bearing_debt - cash) / (total_profit_ttm + interest_expense_ttm + d&a_ttm)",
+   "formula_version": "v1",
+   "input_ids": [
+    "px_000333_2026-05-06",
+    "fact_000333_20260331_interest_bearing_debt_con_ey_f10_v1",
+    "fact_000333_20260331_cash_con_ey_f10_v1",
+    "fact_000333_20260331_total_profit_con_ey_f10_v1",
+    "fact_000333_20251231_total_profit_con_ey_f10_v1",
+    "fact_000333_20250331_total_profit_con_ey_f10_v1",
+    "fact_000333_20260331_interest_expense_con_ey_f10_v1",
+    "fact_000333_20251231_interest_expense_con_ey_f10_v1",
+    "fact_000333_20250331_interest_expense_con_ey_f10_v1",
+    "fact_000333_20251231_depreciation_amortization_con_ey_f10_v1"
+   ],
+   "available_at": "2026-05-06T15:00:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {
+    "ev": 573765528002.69,
+    "ebitda_ttm": 64566485000.0
+   }
+  },
+  "m_000333_gross_margin_2026Q1": {
+   "metric_id": "m_000333_gross_margin_2026Q1",
+   "ticker": "000333.SZ",
+   "metric": "gross_margin",
+   "value": 0.25571131762115445,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2026Q1",
+   "statement_scope": "consolidated",
+   "formula": "(operating_revenue - operating_cost) / operating_revenue",
+   "formula_version": "v1",
+   "input_ids": [
+    "fact_000333_20260331_operating_revenue_con_ey_f10_v1",
+    "fact_000333_20260331_operating_cost_con_ey_f10_v1"
+   ],
+   "available_at": "2026-04-30T09:30:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {}
+  },
+  "m_000333_interest_debt_ratio_2026Q1": {
+   "metric_id": "m_000333_interest_debt_ratio_2026Q1",
+   "ticker": "000333.SZ",
+   "metric": "interest_debt_ratio",
+   "value": 0.09163017861632468,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2026Q1",
+   "statement_scope": "consolidated",
+   "formula": "interest_bearing_debt / total_assets",
+   "formula_version": "v1",
+   "input_ids": [
+    "fact_000333_20260331_interest_bearing_debt_con_ey_f10_v1",
+    "fact_000333_20260331_total_assets_con_ey_f10_v1"
+   ],
+   "available_at": "2026-04-30T09:30:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {}
+  },
+  "m_000333_inventory_days_2026Q1": {
+   "metric_id": "m_000333_inventory_days_2026Q1",
+   "ticker": "000333.SZ",
+   "metric": "inventory_days",
+   "value": 62.396048924180064,
+   "unit": "days",
+   "status": "OK",
+   "period": "2026Q1",
+   "statement_scope": "consolidated",
+   "formula": "inventory / cost_ttm * 365",
+   "formula_version": "v1",
+   "input_ids": [
+    "fact_000333_20260331_inventory_con_ey_f10_v1",
+    "fact_000333_20260331_operating_cost_con_ey_f10_v1",
+    "fact_000333_20251231_operating_cost_con_ey_f10_v1",
+    "fact_000333_20250331_operating_cost_con_ey_f10_v1"
+   ],
+   "available_at": "2026-04-30T09:30:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {}
+  },
+  "m_000333_max_drawdown_1y_2026-05-06": {
+   "metric_id": "m_000333_max_drawdown_1y_2026-05-06",
+   "ticker": "000333.SZ",
+   "metric": "max_drawdown_1y",
+   "value": -0.12319104949531812,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2026-05-06",
+   "statement_scope": "consolidated",
+   "formula": "min(close / cummax(close) - 1)",
+   "formula_version": "v1",
+   "input_ids": [
+    "px_000333_2025-04-22_2026-05-06"
+   ],
+   "available_at": "2026-05-06T15:00:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {}
+  },
+  "m_000333_net_margin_2026Q1": {
+   "metric_id": "m_000333_net_margin_2026Q1",
+   "ticker": "000333.SZ",
+   "metric": "net_margin",
+   "value": 0.09667956716029334,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2026Q1",
+   "statement_scope": "consolidated",
+   "formula": "net_profit / operating_revenue",
+   "formula_version": "v1",
+   "input_ids": [
+    "fact_000333_20260331_net_profit_con_ey_f10_v1",
+    "fact_000333_20260331_operating_revenue_con_ey_f10_v1"
+   ],
+   "available_at": "2026-04-30T09:30:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {}
+  },
+  "m_000333_net_profit_2026Q1": {
+   "metric_id": "m_000333_net_profit_2026Q1",
+   "ticker": "000333.SZ",
+   "metric": "net_profit",
+   "value": 12674556000.0,
+   "unit": "CNY",
+   "status": "OK",
+   "period": "2026Q1",
+   "statement_scope": "consolidated",
+   "formula": "raw fact",
+   "formula_version": "v1",
+   "input_ids": [
+    "fact_000333_20260331_net_profit_con_ey_f10_v1"
+   ],
+   "available_at": "2026-04-30T09:30:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {
+    "cn": "归属于母公司股东的净利润",
+    "kind": "fact",
+    "revision_id": 1,
+    "source": "eastmoney_f10"
+   }
+  },
+  "m_000333_net_profit_qoq_2026Q1": {
+   "metric_id": "m_000333_net_profit_qoq_2026Q1",
+   "ticker": "000333.SZ",
+   "metric": "net_profit_qoq",
+   "value": 1.0908111938776925,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2026Q1",
+   "statement_scope": "consolidated",
+   "formula": "single_quarter_t / single_quarter_{t-1} - 1 (NA if base <= 0)",
+   "formula_version": "v1",
+   "input_ids": [
+    "m_000333_single_quarter_2026Q1_net_profit",
+    "m_000333_single_quarter_2025Q4_net_profit"
+   ],
+   "available_at": "2026-04-30T09:30:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {}
+  },
+  "m_000333_net_profit_yoy_2026Q1": {
+   "metric_id": "m_000333_net_profit_yoy_2026Q1",
+   "ticker": "000333.SZ",
+   "metric": "net_profit_yoy",
+   "value": 0.020312209568118744,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2026Q1",
+   "statement_scope": "consolidated",
+   "formula": "cum_t / cum_{t-1y} - 1 (NA if base <= 0)",
+   "formula_version": "v1",
+   "input_ids": [
+    "fact_000333_20260331_net_profit_con_ey_f10_v1",
+    "fact_000333_20250331_net_profit_con_ey_f10_v1"
+   ],
+   "available_at": "2026-04-30T09:30:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {}
+  },
+  "m_000333_ocf_to_net_profit_2026Q1": {
+   "metric_id": "m_000333_ocf_to_net_profit_2026Q1",
+   "ticker": "000333.SZ",
+   "metric": "ocf_to_net_profit",
+   "value": 1.1463253624032275,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2026Q1",
+   "statement_scope": "consolidated",
+   "formula": "operating_cash_flow / net_profit",
+   "formula_version": "v1",
+   "input_ids": [
+    "fact_000333_20260331_operating_cash_flow_con_ey_f10_v1",
+    "fact_000333_20260331_net_profit_con_ey_f10_v1"
+   ],
+   "available_at": "2026-04-30T09:30:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {}
+  },
+  "m_000333_ocf_yoy_2026Q1": {
+   "metric_id": "m_000333_ocf_yoy_2026Q1",
+   "ticker": "000333.SZ",
+   "metric": "ocf_yoy",
+   "value": 0.014537913917550771,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2026Q1",
+   "statement_scope": "consolidated",
+   "formula": "cum_t / cum_{t-1y} - 1 (NA if base <= 0)",
+   "formula_version": "v1",
+   "input_ids": [
+    "fact_000333_20260331_operating_cash_flow_con_ey_f10_v1",
+    "fact_000333_20250331_operating_cash_flow_con_ey_f10_v1"
+   ],
+   "available_at": "2026-04-30T09:30:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {}
+  },
+  "m_000333_operating_revenue_2026Q1": {
+   "metric_id": "m_000333_operating_revenue_2026Q1",
+   "ticker": "000333.SZ",
+   "metric": "operating_revenue",
+   "value": 131098601000.0,
+   "unit": "CNY",
+   "status": "OK",
+   "period": "2026Q1",
+   "statement_scope": "consolidated",
+   "formula": "raw fact",
+   "formula_version": "v1",
+   "input_ids": [
+    "fact_000333_20260331_operating_revenue_con_ey_f10_v1"
+   ],
+   "available_at": "2026-04-30T09:30:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {
+    "cn": "营业收入",
+    "kind": "fact",
+    "revision_id": 1,
+    "source": "eastmoney_f10"
+   }
+  },
+  "m_000333_pb_lf_2026-05-06": {
+   "metric_id": "m_000333_pb_lf_2026-05-06",
+   "ticker": "000333.SZ",
+   "metric": "pb_lf",
+   "value": 2.491870606653495,
+   "unit": "x",
+   "status": "OK",
+   "period": "2026-05-06",
+   "statement_scope": "consolidated",
+   "formula": "total_mv / total_equity_latest (NA if <= 0)",
+   "formula_version": "v1",
+   "input_ids": [
+    "px_000333_2026-05-06",
+    "fact_000333_20260331_total_equity_con_ey_f10_v1"
+   ],
+   "available_at": "2026-05-06T15:00:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {}
+  },
+  "m_000333_pe_percentile_3y_2026-05-06": {
+   "metric_id": "m_000333_pe_percentile_3y_2026-05-06",
+   "ticker": "000333.SZ",
+   "metric": "pe_percentile_3y",
+   "value": 0.7222222222222222,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2026-05-06",
+   "statement_scope": "consolidated",
+   "formula": "rank of today's PE among month-end PE over 3y",
+   "formula_version": "v1",
+   "input_ids": [
+    "m_000333_pe_ttm_2026-05-06"
+   ],
+   "available_at": "2026-05-06T15:00:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {
+    "n_months": 36,
+    "min": 11.075247177058905,
+    "max": 15.59511248821497,
+    "median": 13.402567532361278
+   }
+  },
+  "m_000333_pe_percentile_5y_2026-05-06": {
+   "metric_id": "m_000333_pe_percentile_5y_2026-05-06",
+   "ticker": "000333.SZ",
+   "metric": "pe_percentile_5y",
+   "value": 0.7708333333333334,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2026-05-06",
+   "statement_scope": "consolidated",
+   "formula": "rank of today's PE among month-end PE over 5y (NA if < 48 months)",
+   "formula_version": "v1",
+   "input_ids": [
+    "m_000333_pe_ttm_2026-05-06"
+   ],
+   "available_at": "2026-05-06T15:00:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {
+    "n_months": 48,
+    "min": 9.50684099569117,
+    "max": 15.59511248821497,
+    "median": 13.16183787255171
+   }
+  },
+  "m_000333_pe_ttm_2026-05-06": {
+   "metric_id": "m_000333_pe_ttm_2026-05-06",
+   "ticker": "000333.SZ",
+   "metric": "pe_ttm",
+   "value": 13.83798409218649,
+   "unit": "x",
+   "status": "OK",
+   "period": "2026-05-06",
+   "statement_scope": "consolidated",
+   "formula": "total_mv / net_profit_ttm (NA if <= 0)",
+   "formula_version": "v1",
+   "input_ids": [
+    "px_000333_2026-05-06",
+    "fact_000333_20260331_net_profit_con_ey_f10_v1",
+    "fact_000333_20251231_net_profit_con_ey_f10_v1",
+    "fact_000333_20250331_net_profit_con_ey_f10_v1"
+   ],
+   "available_at": "2026-05-06T15:00:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {
+    "total_mv": 611607540002.69,
+    "price_date": "2026-05-06"
+   }
+  },
+  "m_000333_peer_pe_median_2026-05-06": {
+   "metric_id": "m_000333_peer_pe_median_2026-05-06",
+   "ticker": "000333.SZ",
+   "metric": "peer_pe_median",
+   "value": 7.6686087503948945,
+   "unit": "x",
+   "status": "OK",
+   "period": "2026-05-06",
+   "statement_scope": "consolidated",
+   "formula": "median PE-TTM of same SW L2 peers (falls back to L1)",
+   "formula_version": "v1",
+   "input_ids": [],
+   "available_at": "2026-05-06T15:00:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {
+    "peers": [
+     "000651.SZ"
+    ],
+    "peer_values": {
+     "000651.SZ": 7.6686087503948945
+    }
+   }
+  },
+  "m_000333_ps_ttm_2026-05-06": {
+   "metric_id": "m_000333_ps_ttm_2026-05-06",
+   "ticker": "000333.SZ",
+   "metric": "ps_ttm",
+   "value": 1.3304151600745966,
+   "unit": "x",
+   "status": "OK",
+   "period": "2026-05-06",
+   "statement_scope": "consolidated",
+   "formula": "total_mv / revenue_ttm",
+   "formula_version": "v1",
+   "input_ids": [
+    "px_000333_2026-05-06",
+    "fact_000333_20260331_operating_revenue_con_ey_f10_v1",
+    "fact_000333_20251231_operating_revenue_con_ey_f10_v1",
+    "fact_000333_20250331_operating_revenue_con_ey_f10_v1"
+   ],
+   "available_at": "2026-05-06T15:00:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {}
+  },
+  "m_000333_receivable_days_2026Q1": {
+   "metric_id": "m_000333_receivable_days_2026Q1",
+   "ticker": "000333.SZ",
+   "metric": "receivable_days",
+   "value": 41.71300444164806,
+   "unit": "days",
+   "status": "OK",
+   "period": "2026Q1",
+   "statement_scope": "consolidated",
+   "formula": "accounts_receivable / revenue_ttm * 365",
+   "formula_version": "v1",
+   "input_ids": [
+    "fact_000333_20260331_accounts_receivable_con_ey_f10_v1",
+    "fact_000333_20260331_operating_revenue_con_ey_f10_v1",
+    "fact_000333_20251231_operating_revenue_con_ey_f10_v1",
+    "fact_000333_20250331_operating_revenue_con_ey_f10_v1"
+   ],
+   "available_at": "2026-04-30T09:30:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {}
+  },
+  "m_000333_revenue_qoq_2026Q1": {
+   "metric_id": "m_000333_revenue_qoq_2026Q1",
+   "ticker": "000333.SZ",
+   "metric": "revenue_qoq",
+   "value": 0.4037007235292518,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2026Q1",
+   "statement_scope": "consolidated",
+   "formula": "single_quarter_t / single_quarter_{t-1} - 1",
+   "formula_version": "v1",
+   "input_ids": [
+    "m_000333_single_quarter_2026Q1_operating_revenue",
+    "m_000333_single_quarter_2025Q4_operating_revenue"
+   ],
+   "available_at": "2026-04-30T09:30:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {}
+  },
+  "m_000333_revenue_yoy_2026Q1": {
+   "metric_id": "m_000333_revenue_yoy_2026Q1",
+   "ticker": "000333.SZ",
+   "metric": "revenue_yoy",
+   "value": 0.02550141022420016,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2026Q1",
+   "statement_scope": "consolidated",
+   "formula": "cum_t / cum_{t-1y} - 1",
+   "formula_version": "v1",
+   "input_ids": [
+    "fact_000333_20260331_operating_revenue_con_ey_f10_v1",
+    "fact_000333_20250331_operating_revenue_con_ey_f10_v1"
+   ],
+   "available_at": "2026-04-30T09:30:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {}
+  },
+  "m_000333_roe_annualized_2026Q1": {
+   "metric_id": "m_000333_roe_annualized_2026Q1",
+   "ticker": "000333.SZ",
+   "metric": "roe_annualized",
+   "value": 0.22259053880544175,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2026Q1",
+   "statement_scope": "consolidated",
+   "formula": "net_profit * 4/n_quarters / avg(total_equity_begin, total_equity_end)",
+   "formula_version": "v1",
+   "input_ids": [
+    "fact_000333_20260331_net_profit_con_ey_f10_v1",
+    "fact_000333_20260331_parent_equity_con_ey_f10_v1",
+    "fact_000333_20251231_parent_equity_con_ey_f10_v1"
+   ],
+   "available_at": "2026-04-30T09:30:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {}
+  },
+  "m_000333_threshold_gross_margin_2026Q1": {
+   "metric_id": "m_000333_threshold_gross_margin_2026Q1",
+   "ticker": "000333.SZ",
+   "metric": "threshold_gross_margin",
+   "value": 0.23571131762115446,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2026Q1",
+   "statement_scope": "consolidated",
+   "formula": "gross_margin - 2pp",
+   "formula_version": "v1",
+   "input_ids": [
+    "m_000333_gross_margin_2026Q1"
+   ],
+   "available_at": "2026-04-30T09:30:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {
+    "rule": "若后续报告期毛利率跌破{t}（当前{c}）"
+   }
+  },
+  "m_000333_threshold_interest_debt_ratio_2026Q1": {
+   "metric_id": "m_000333_threshold_interest_debt_ratio_2026Q1",
+   "ticker": "000333.SZ",
+   "metric": "threshold_interest_debt_ratio",
+   "value": 0.14163017861632468,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2026Q1",
+   "statement_scope": "consolidated",
+   "formula": "interest_debt_ratio + 5pp",
+   "formula_version": "v1",
+   "input_ids": [
+    "m_000333_interest_debt_ratio_2026Q1"
+   ],
+   "available_at": "2026-04-30T09:30:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {
+    "rule": "若有息负债率升至{t}以上（当前{c}）"
+   }
+  },
+  "m_000333_threshold_ocf_to_net_profit_2026Q1": {
+   "metric_id": "m_000333_threshold_ocf_to_net_profit_2026Q1",
+   "ticker": "000333.SZ",
+   "metric": "threshold_ocf_to_net_profit",
+   "value": 0.8,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2026Q1",
+   "statement_scope": "consolidated",
+   "formula": "0.8",
+   "formula_version": "v1",
+   "input_ids": [
+    "m_000333_ocf_to_net_profit_2026Q1"
+   ],
+   "available_at": "2026-04-30T09:30:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {
+    "rule": "若经营现金流/净利润持续低于{t}（当前{c}）"
+   }
+  },
+  "m_000333_threshold_receivable_days_2026Q1": {
+   "metric_id": "m_000333_threshold_receivable_days_2026Q1",
+   "ticker": "000333.SZ",
+   "metric": "threshold_receivable_days",
+   "value": 46.71300444164806,
+   "unit": "days",
+   "status": "OK",
+   "period": "2026Q1",
+   "statement_scope": "consolidated",
+   "formula": "receivable_days * 1.1",
+   "formula_version": "v1",
+   "input_ids": [
+    "m_000333_receivable_days_2026Q1"
+   ],
+   "available_at": "2026-04-30T09:30:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {
+    "rule": "若应收账款周转天数升至{t}以上（当前{c}）"
+   }
+  },
+  "m_000333_volatility_1y_2026-05-06": {
+   "metric_id": "m_000333_volatility_1y_2026-05-06",
+   "ticker": "000333.SZ",
+   "metric": "volatility_1y",
+   "value": 0.17555288654486764,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2026-05-06",
+   "statement_scope": "consolidated",
+   "formula": "std(log returns 250d) * sqrt(252)",
+   "formula_version": "v1",
+   "input_ids": [
+    "px_000333_2025-04-22_2026-05-06"
+   ],
+   "available_at": "2026-05-06T15:00:00",
+   "as_of": "2026-05-06T15:00:00",
+   "extra": {}
+  }
+ },
+ "answers": {
+  "A1": {
+   "ask": {
+    "ask_id": "A1",
+    "kind": "metric",
+    "metric": "operating_revenue",
+    "period": "2026Q1",
+    "scope": "consolidated",
+    "unit": null,
+    "topic": "营业收入"
+   },
+   "metric_id": "m_000333_operating_revenue_2026Q1",
+   "value": 131098601000.0,
+   "status": "OK",
+   "unit": "CNY",
+   "display": "1310.99亿元",
+   "claim_id": "C008"
+  },
+  "A2": {
+   "ask": {
+    "ask_id": "A2",
+    "kind": "metric",
+    "metric": "net_profit",
+    "period": "2026Q1",
+    "scope": "consolidated",
+    "unit": null,
+    "topic": "净利润"
+   },
+   "metric_id": "m_000333_net_profit_2026Q1",
+   "value": 12674556000.0,
+   "status": "OK",
+   "unit": "CNY",
+   "display": "126.75亿元",
+   "claim_id": "C009"
+  },
+  "A3": {
+   "ask": {
+    "ask_id": "A3",
+    "kind": "metric",
+    "metric": "gross_margin",
+    "period": "2026Q1",
+    "scope": "consolidated",
+    "unit": null,
+    "topic": "毛利率"
+   },
+   "metric_id": "m_000333_gross_margin_2026Q1",
+   "value": 0.25571131762115445,
+   "status": "OK",
+   "unit": "ratio",
+   "display": "25.57%",
+   "claim_id": "C010"
+  },
+  "A4": {
+   "ask": {
+    "ask_id": "A4",
+    "kind": "metric",
+    "metric": "net_margin",
+    "period": "2026Q1",
+    "scope": "consolidated",
+    "unit": null,
+    "topic": "净利率"
+   },
+   "metric_id": "m_000333_net_margin_2026Q1",
+   "value": 0.09667956716029334,
+   "status": "OK",
+   "unit": "ratio",
+   "display": "9.67%",
+   "claim_id": "C011"
+  },
+  "A5": {
+   "ask": {
+    "ask_id": "A5",
+    "kind": "metric",
+    "metric": "roe_annualized",
+    "period": "2026Q1",
+    "scope": "consolidated",
+    "unit": null,
+    "topic": "年化ROE"
+   },
+   "metric_id": "m_000333_roe_annualized_2026Q1",
+   "value": 0.22259053880544175,
+   "status": "OK",
+   "unit": "ratio",
+   "display": "22.26%",
+   "claim_id": "C012"
+  },
+  "A6": {
+   "ask": {
+    "ask_id": "A6",
+    "kind": "metric",
+    "metric": "debt_to_assets",
+    "period": "2026Q1",
+    "scope": "consolidated",
+    "unit": null,
+    "topic": "资产负债率"
+   },
+   "metric_id": "m_000333_debt_to_assets_2026Q1",
+   "value": 0.6001816268890731,
+   "status": "OK",
+   "unit": "ratio",
+   "display": "60.02%",
+   "claim_id": "C013"
+  },
+  "A7": {
+   "ask": {
+    "ask_id": "A7",
+    "kind": "metric",
+    "metric": "pe_ttm",
+    "period": "2026Q1",
+    "scope": "consolidated",
+    "unit": null,
+    "topic": "市盈率(TTM)"
+   },
+   "metric_id": "m_000333_pe_ttm_2026-05-06",
+   "value": 13.83798409218649,
+   "status": "OK",
+   "unit": "x",
+   "display": "13.84倍",
+   "claim_id": "C019"
+  },
+  "A8": {
+   "ask": {
+    "ask_id": "A8",
+    "kind": "metric",
+    "metric": "pb_lf",
+    "period": "2026Q1",
+    "scope": "consolidated",
+    "unit": null,
+    "topic": "市净率(LF)"
+   },
+   "metric_id": "m_000333_pb_lf_2026-05-06",
+   "value": 2.491870606653495,
+   "status": "OK",
+   "unit": "x",
+   "display": "2.49倍",
+   "claim_id": "C020"
+  },
+  "A9": {
+   "ask": {
+    "ask_id": "A9",
+    "kind": "metric",
+    "metric": "volatility_1y",
+    "period": "2026Q1",
+    "scope": "consolidated",
+    "unit": null,
+    "topic": "1年波动率"
+   },
+   "metric_id": "m_000333_volatility_1y_2026-05-06",
+   "value": 0.17555288654486764,
+   "status": "OK",
+   "unit": "ratio",
+   "display": "17.56%",
+   "claim_id": "C021"
+  },
+  "A10": {
+   "ask": {
+    "ask_id": "A10",
+    "kind": "metric",
+    "metric": "max_drawdown_1y",
+    "period": "2026Q1",
+    "scope": "consolidated",
+    "unit": null,
+    "topic": "1年最大回撤"
+   },
+   "metric_id": "m_000333_max_drawdown_1y_2026-05-06",
+   "value": -0.12319104949531812,
+   "status": "OK",
+   "unit": "ratio",
+   "display": "-12.32%",
+   "claim_id": "C022"
+  }
+ },
+ "open_questions": [],
+ "uncertainties": [],
+ "anomalies": [],
+ "conflicts": [],
+ "debate": {
+  "rounds": [
+   {
+    "round": 1,
+    "bull": [
+     "C023",
+     "C024",
+     "C025",
+     "C026"
+    ],
+    "bear": [
+     "C016",
+     "C027",
+     "C028",
+     "C029",
+     "C030"
+    ],
+    "new_claims": [
+     "C023",
+     "C024",
+     "C025",
+     "C026",
+     "C027",
+     "C028",
+     "C029",
+     "C030"
+    ],
+    "new_evidence": [
+     "E028",
+     "E029",
+     "E030"
+    ]
+   },
+   {
+    "round": 2,
+    "bull": [
+     "C023",
+     "C024",
+     "C025",
+     "C026",
+     "C031",
+     "C032",
+     "C033"
+    ],
+    "bear": [
+     "C016",
+     "C027",
+     "C028",
+     "C029",
+     "C030"
+    ],
+    "new_claims": [
+     "C031",
+     "C032",
+     "C033"
+    ],
+    "new_evidence": []
+   }
+  ],
+  "disagreements": [
+   {
+    "bull": "C023",
+    "bear": "C027",
+    "issue": "经营现金流是否真实反映利润质量"
+   },
+   {
+    "bull": "C024",
+    "bear": "C028",
+    "issue": "高ROE能否在业务多元化中持续"
+   },
+   {
+    "bull": "C025",
+    "bear": "C029",
+    "issue": "环比增长是趋势性改善还是季节性波动"
+   }
+  ],
+  "falsification": [
+   "C034",
+   "C035",
+   "C036",
+   "C037"
+  ],
+  "filtered": [],
+  "manager_summary": "多空双方围绕现金流质量、业务协同性和增长持续性展开博弈，核心矛盾在于当前财务指标反映的是真实竞争力还是短期波动。",
+  "mode": "llm",
+  "targets": {
+   "C027": "C023",
+   "C028": "C024",
+   "C029": "C025",
+   "C030": "C026",
+   "C031": "C027",
+   "C032": "C028",
+   "C033": "C029"
+  },
+  "concessions": [
+   "当前估值确实高于行业中枢，需关注后续业务整合效果对估值的支撑"
+  ]
+ },
+ "risk": {
+  "matrix": [
+   {
+    "dimension": "财务质量",
+    "score": 2,
+    "rationale": "经营现金流/净利润114.63%，高危异常0项",
+    "claim_id": "C038"
+   },
+   {
+    "dimension": "估值",
+    "score": 4,
+    "rationale": "PE-TTM处于近3年72.22%分位",
+    "claim_id": "C039"
+   },
+   {
+    "dimension": "偿债与流动性",
+    "score": 1,
+    "rationale": "资产负债率60.02%，有息负债率9.16%",
+    "claim_id": "C040"
+   },
+   {
+    "dimension": "经营与行业",
+    "score": 3,
+    "rationale": "营收同比2.55%，毛利率25.57%",
+    "claim_id": "C041"
+   },
+   {
+    "dimension": "治理与合规",
+    "score": 1,
+    "claim_id": null,
+    "rationale": "快照期内未见治理类负面公告"
+   },
+   {
+    "dimension": "市场波动",
+    "score": 1,
+    "rationale": "年化波动率17.56%，最大回撤-12.32%",
+    "claim_id": "C042"
+   }
+  ],
+  "dimensions": [
+   "财务质量",
+   "估值",
+   "偿债与流动性",
+   "经营与行业",
+   "治理与合规",
+   "市场波动"
+  ]
+ },
+ "timeline": [],
+ "charts": {
+  "quarterly": {
+   "title": {
+    "text": "单季营收/归母净利润(亿元)与毛利率"
+   },
+   "tooltip": {
+    "trigger": "axis"
+   },
+   "legend": {
+    "data": [
+     "营收",
+     "净利润",
+     "毛利率"
+    ]
+   },
+   "xAxis": {
+    "type": "category",
+    "data": [
+     "2024Q2",
+     "2024Q3",
+     "2024Q4",
+     "2025Q1",
+     "2025Q2",
+     "2025Q3",
+     "2025Q4",
+     "2026Q1"
+    ]
+   },
+   "yAxis": [
+    {
+     "type": "value",
+     "name": "亿元"
+    },
+    {
+     "type": "value",
+     "name": "%"
+    }
+   ],
+   "series": [
+    {
+     "name": "营收",
+     "type": "bar",
+     "data": [
+      1111.72,
+      1017.01,
+      881.75,
+      1278.39,
+      1232.85,
+      1119.33,
+      933.95,
+      1310.99
+     ]
+    },
+    {
+     "name": "净利润",
+     "type": "bar",
+     "data": [
+      118.04,
+      108.95,
+      68.38,
+      124.22,
+      135.91,
+      118.7,
+      60.62,
+      126.75
+     ]
+    },
+    {
+     "name": "毛利率",
+     "type": "line",
+     "yAxisIndex": 1,
+     "data": [
+      26.26,
+      25.25,
+      27.78,
+      25.45,
+      25.8,
+      26.44,
+      28.4,
+      25.57
+     ]
+    }
+   ]
+  },
+  "price": {
+   "title": {
+    "text": "近一年收盘价"
+   },
+   "tooltip": {
+    "trigger": "axis"
+   },
+   "xAxis": {
+    "type": "category",
+    "data": [
+     "2025-04-22",
+     "2025-04-23",
+     "2025-04-24",
+     "2025-04-25",
+     "2025-04-28",
+     "2025-04-29",
+     "2025-04-30",
+     "2025-05-06",
+     "2025-05-07",
+     "2025-05-08",
+     "2025-05-09",
+     "2025-05-12",
+     "2025-05-13",
+     "2025-05-14",
+     "2025-05-15",
+     "2025-05-16",
+     "2025-05-19",
+     "2025-05-20",
+     "2025-05-21",
+     "2025-05-22",
+     "2025-05-23",
+     "2025-05-26",
+     "2025-05-27",
+     "2025-05-28",
+     "2025-05-29",
+     "2025-05-30",
+     "2025-06-03",
+     "2025-06-04",
+     "2025-06-05",
+     "2025-06-06",
+     "2025-06-09",
+     "2025-06-10",
+     "2025-06-11",
+     "2025-06-12",
+     "2025-06-13",
+     "2025-06-16",
+     "2025-06-17",
+     "2025-06-18",
+     "2025-06-19",
+     "2025-06-20",
+     "2025-06-23",
+     "2025-06-24",
+     "2025-06-25",
+     "2025-06-26",
+     "2025-06-27",
+     "2025-06-30",
+     "2025-07-01",
+     "2025-07-02",
+     "2025-07-03",
+     "2025-07-04",
+     "2025-07-07",
+     "2025-07-08",
+     "2025-07-09",
+     "2025-07-10",
+     "2025-07-11",
+     "2025-07-14",
+     "2025-07-15",
+     "2025-07-16",
+     "2025-07-17",
+     "2025-07-18",
+     "2025-07-21",
+     "2025-07-22",
+     "2025-07-23",
+     "2025-07-24",
+     "2025-07-25",
+     "2025-07-28",
+     "2025-07-29",
+     "2025-07-30",
+     "2025-07-31",
+     "2025-08-01",
+     "2025-08-04",
+     "2025-08-05",
+     "2025-08-06",
+     "2025-08-07",
+     "2025-08-08",
+     "2025-08-11",
+     "2025-08-12",
+     "2025-08-13",
+     "2025-08-14",
+     "2025-08-15",
+     "2025-08-18",
+     "2025-08-19",
+     "2025-08-20",
+     "2025-08-21",
+     "2025-08-22",
+     "2025-08-25",
+     "2025-08-26",
+     "2025-08-27",
+     "2025-08-28",
+     "2025-08-29",
+     "2025-09-01",
+     "2025-09-02",
+     "2025-09-03",
+     "2025-09-04",
+     "2025-09-05",
+     "2025-09-08",
+     "2025-09-09",
+     "2025-09-10",
+     "2025-09-11",
+     "2025-09-12",
+     "2025-09-15",
+     "2025-09-16",
+     "2025-09-17",
+     "2025-09-18",
+     "2025-09-19",
+     "2025-09-22",
+     "2025-09-23",
+     "2025-09-24",
+     "2025-09-25",
+     "2025-09-26",
+     "2025-09-29",
+     "2025-09-30",
+     "2025-10-09",
+     "2025-10-10",
+     "2025-10-13",
+     "2025-10-14",
+     "2025-10-15",
+     "2025-10-16",
+     "2025-10-17",
+     "2025-10-20",
+     "2025-10-21",
+     "2025-10-22",
+     "2025-10-23",
+     "2025-10-24",
+     "2025-10-27",
+     "2025-10-28",
+     "2025-10-29",
+     "2025-10-30",
+     "2025-10-31",
+     "2025-11-03",
+     "2025-11-04",
+     "2025-11-05",
+     "2025-11-06",
+     "2025-11-07",
+     "2025-11-10",
+     "2025-11-11",
+     "2025-11-12",
+     "2025-11-13",
+     "2025-11-14",
+     "2025-11-17",
+     "2025-11-18",
+     "2025-11-19",
+     "2025-11-20",
+     "2025-11-21",
+     "2025-11-24",
+     "2025-11-25",
+     "2025-11-26",
+     "2025-11-27",
+     "2025-11-28",
+     "2025-12-01",
+     "2025-12-02",
+     "2025-12-03",
+     "2025-12-04",
+     "2025-12-05",
+     "2025-12-08",
+     "2025-12-09",
+     "2025-12-10",
+     "2025-12-11",
+     "2025-12-12",
+     "2025-12-15",
+     "2025-12-16",
+     "2025-12-17",
+     "2025-12-18",
+     "2025-12-19",
+     "2025-12-22",
+     "2025-12-23",
+     "2025-12-24",
+     "2025-12-25",
+     "2025-12-26",
+     "2025-12-29",
+     "2025-12-30",
+     "2025-12-31",
+     "2026-01-05",
+     "2026-01-06",
+     "2026-01-07",
+     "2026-01-08",
+     "2026-01-09",
+     "2026-01-12",
+     "2026-01-13",
+     "2026-01-14",
+     "2026-01-15",
+     "2026-01-16",
+     "2026-01-19",
+     "2026-01-20",
+     "2026-01-21",
+     "2026-01-22",
+     "2026-01-23",
+     "2026-01-26",
+     "2026-01-27",
+     "2026-01-28",
+     "2026-01-29",
+     "2026-01-30",
+     "2026-02-02",
+     "2026-02-03",
+     "2026-02-04",
+     "2026-02-05",
+     "2026-02-06",
+     "2026-02-09",
+     "2026-02-10",
+     "2026-02-11",
+     "2026-02-12",
+     "2026-02-13",
+     "2026-02-24",
+     "2026-02-25",
+     "2026-02-26",
+     "2026-02-27",
+     "2026-03-02",
+     "2026-03-03",
+     "2026-03-04",
+     "2026-03-05",
+     "2026-03-06",
+     "2026-03-09",
+     "2026-03-10",
+     "2026-03-11",
+     "2026-03-12",
+     "2026-03-13",
+     "2026-03-16",
+     "2026-03-17",
+     "2026-03-18",
+     "2026-03-19",
+     "2026-03-20",
+     "2026-03-23",
+     "2026-03-24",
+     "2026-03-25",
+     "2026-03-26",
+     "2026-03-27",
+     "2026-03-30",
+     "2026-03-31",
+     "2026-04-01",
+     "2026-04-02",
+     "2026-04-03",
+     "2026-04-07",
+     "2026-04-08",
+     "2026-04-09",
+     "2026-04-10",
+     "2026-04-13",
+     "2026-04-14",
+     "2026-04-15",
+     "2026-04-16",
+     "2026-04-17",
+     "2026-04-20",
+     "2026-04-21",
+     "2026-04-22",
+     "2026-04-23",
+     "2026-04-24",
+     "2026-04-27",
+     "2026-04-28",
+     "2026-04-29",
+     "2026-04-30",
+     "2026-05-06"
+    ]
+   },
+   "yAxis": {
+    "type": "value",
+    "scale": true
+   },
+   "series": [
+    {
+     "type": "line",
+     "showSymbol": false,
+     "data": [
+      71.72,
+      71.85,
+      72.95,
+      72.75,
+      73.23,
+      74.2,
+      73.62,
+      74.05,
+      74.36,
+      75.0,
+      75.8,
+      76.58,
+      77.11,
+      77.09,
+      76.5,
+      76.6,
+      77.58,
+      78.67,
+      78.8,
+      79.36,
+      78.89,
+      78.27,
+      78.48,
+      79.32,
+      78.98,
+      79.06,
+      75.91,
+      75.56,
+      75.25,
+      75.7,
+      75.4,
+      75.05,
+      75.49,
+      72.2,
+      71.48,
+      71.26,
+      72.06,
+      72.1,
+      71.33,
+      72.38,
+      71.72,
+      72.8,
+      73.18,
+      73.1,
+      72.28,
+      72.2,
+      72.11,
+      72.5,
+      72.89,
+      73.48,
+      72.55,
+      72.22,
+      71.8,
+      71.68,
+      72.48,
+      73.1,
+      73.21,
+      72.89,
+      72.63,
+      72.83,
+      72.55,
+      73.19,
+      73.5,
+      73.51,
+      72.76,
+      71.94,
+      71.24,
+      72.11,
+      70.19,
+      70.79,
+      70.94,
+      71.38,
+      71.7,
+      71.48,
+      71.58,
+      71.76,
+      71.93,
+      71.82,
+      72.33,
+      72.3,
+      71.84,
+      72.68,
+      72.22,
+      71.92,
+      72.09,
+      73.52,
+      73.8,
+      72.71,
+      73.5,
+      73.71,
+      74.03,
+      76.16,
+      75.62,
+      75.59,
+      76.22,
+      77.03,
+      77.18,
+      77.02,
+      77.02,
+      75.57,
+      75.17,
+      74.46,
+      74.35,
+      73.74,
+      74.35,
+      73.26,
+      73.53,
+      74.1,
+      72.84,
+      74.2,
+      73.73,
+      72.66,
+      72.63,
+      72.83,
+      71.81,
+      72.6,
+      72.92,
+      73.18,
+      72.8,
+      72.87,
+      72.91,
+      73.88,
+      74.89,
+      74.61,
+      74.88,
+      74.41,
+      74.4,
+      75.3,
+      76.4,
+      75.39,
+      75.16,
+      75.94,
+      77.03,
+      76.2,
+      77.33,
+      77.23,
+      79.49,
+      79.6,
+      79.23,
+      78.42,
+      77.4,
+      77.4,
+      77.94,
+      78.75,
+      78.56,
+      78.7,
+      79.8,
+      79.8,
+      79.86,
+      80.0,
+      81.56,
+      82.17,
+      81.89,
+      82.23,
+      81.81,
+      80.2,
+      80.07,
+      79.3,
+      79.32,
+      80.41,
+      79.96,
+      80.47,
+      79.83,
+      79.45,
+      79.16,
+      79.65,
+      78.8,
+      78.59,
+      78.87,
+      78.41,
+      78.85,
+      78.15,
+      78.68,
+      78.84,
+      79.37,
+      79.03,
+      79.77,
+      78.62,
+      76.2,
+      77.15,
+      77.22,
+      77.31,
+      77.62,
+      79.0,
+      77.78,
+      77.49,
+      76.78,
+      76.35,
+      76.1,
+      75.34,
+      77.88,
+      77.59,
+      77.85,
+      77.91,
+      79.81,
+      80.45,
+      79.54,
+      79.16,
+      80.19,
+      79.69,
+      79.8,
+      79.05,
+      79.52,
+      79.7,
+      79.25,
+      78.64,
+      77.45,
+      76.56,
+      76.16,
+      76.27,
+      76.52,
+      75.41,
+      76.6,
+      77.39,
+      77.4,
+      76.86,
+      76.64,
+      76.6,
+      77.06,
+      76.0,
+      75.12,
+      73.37,
+      74.23,
+      74.8,
+      74.32,
+      74.78,
+      72.1,
+      76.35,
+      76.84,
+      77.37,
+      76.35,
+      76.12,
+      76.73,
+      76.52,
+      76.41,
+      75.78,
+      76.55,
+      77.49,
+      77.9,
+      78.65,
+      79.58,
+      79.5,
+      79.3,
+      79.85,
+      79.66,
+      79.5,
+      80.45,
+      81.31,
+      81.1,
+      80.44
+     ]
+    }
+   ]
+  },
+  "valuation": {
+   "title": {
+    "text": "PE-TTM 历史分位与同行对比"
+   },
+   "tooltip": {},
+   "xAxis": {
+    "type": "category",
+    "data": [
+     "3年最低",
+     "3年中位",
+     "3年最高",
+     "当前",
+     "同行000651"
+    ]
+   },
+   "yAxis": {
+    "type": "value",
+    "name": "倍"
+   },
+   "series": [
+    {
+     "type": "bar",
+     "data": [
+      11.08,
+      13.4,
+      15.6,
+      13.84,
+      7.67
+     ]
+    }
+   ]
+  },
+  "risk_radar": {
+   "title": {
+    "text": "六维风险雷达(1低-5高)"
+   },
+   "tooltip": {},
+   "radar": {
+    "indicator": [
+     {
+      "name": "财务质量",
+      "max": 5
+     },
+     {
+      "name": "估值",
+      "max": 5
+     },
+     {
+      "name": "偿债与流动性",
+      "max": 5
+     },
+     {
+      "name": "经营与行业",
+      "max": 5
+     },
+     {
+      "name": "治理与合规",
+      "max": 5
+     },
+     {
+      "name": "市场波动",
+      "max": 5
+     }
+    ]
+   },
+   "series": [
+    {
+     "type": "radar",
+     "data": [
+      {
+       "value": [
+        2,
+        4,
+        1,
+        3,
+        1,
+        1
+       ],
+       "name": "风险"
+      }
+     ]
+    }
+   ]
+  }
+ },
+ "verification_log": [
+  {
+   "claim_id": "C001",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C002",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C003",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C004",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C005",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C006",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C007",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C008",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C009",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C010",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C011",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C012",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C013",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C014",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C015",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C016",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C017",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C018",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C019",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C020",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C021",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C022",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C023",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C024",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C025",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C026",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C027",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C028",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C029",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C030",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C031",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C032",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C033",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C034",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C035",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C036",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C037",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C038",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C039",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C040",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C041",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C042",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  }
+ ],
+ "judge_notes": {
+  "C004": {
+   "label": "SUPPORTED",
+   "reason": "The evidence directly shows the ratio of operating cash flow to net profit is 114.63%, supporting the claim about good cash support for profits."
+  },
+  "C014": {
+   "label": "SUPPORTED",
+   "reason": "The evidence from the management discussion and analysis section confirms the 42.15% increase in inventory due to pre-holiday stockpiling."
+  },
+  "C016": {
+   "label": "SUPPORTED",
+   "reason": "The evidence shows the PE is at the 72.22% percentile over 3 years, supporting the claim about high valuation and low tolerance for underperformance."
+  },
+  "C023": {
+   "label": "SUPPORTED",
+   "reason": "The evidence supports the claim about strong operating cash flow relative to net profit, though it does not address the implicit assumption of sustainability."
+  },
+  "C024": {
+   "label": "SUPPORTED",
+   "reason": "The evidence supports the claim about high ROE, though it does not address the implicit assumption about sustainability or industry competition."
+  },
+  "C025": {
+   "label": "SUPPORTED",
+   "reason": "The evidence shows significant quarter-over-quarter growth in revenue and net profit, supporting the claim about operational improvement, though it does not address the implicit assumption about trend continuation."
+  },
+  "C026": {
+   "label": "SUPPORTED",
+   "reason": "The evidence supports the claim about high valuation percentiles, though it does not address the implicit assumption about market willingness to sustain premium valuation."
+  },
+  "C027": {
+   "label": "SUPPORTED",
+   "reason": "The evidence shows a sharp slowdown in operating cash flow growth, supporting the claim about potential concerns over profit quality."
+  },
+  "C028": {
+   "label": "PARTIALLY_SUPPORTED",
+   "reason": "The evidence describes the company's diversified business model but does not directly support the claim about challenges to high ROE or the implicit assumption about resource dispersion."
+  },
+  "C029": {
+   "label": "PARTIALLY_SUPPORTED",
+   "reason": "The evidence mentions seasonal factors affecting inventory but does not directly support the claim about the sustainability of high growth rates."
+  },
+  "C030": {
+   "label": "SUPPORTED",
+   "reason": "The evidence supports the claim about high valuation percentiles and peer comparison, though it does not address the implicit assumption about market overestimation."
+  },
+  "C031": {
+   "label": "SUPPORTED",
+   "reason": "The evidence directly supports the claim about the healthy ratio of operating cash flow to net profit."
+  },
+  "C032": {
+   "label": "PARTIALLY_SUPPORTED",
+   "reason": "The evidence describes the company's business segments but does not directly support the claim about proven synergies in the new energy sector."
+  },
+  "C033": {
+   "label": "PARTIALLY_SUPPORTED",
+   "reason": "The evidence shows sales growth but does not directly support the claim about the growth being driven by real demand rather than seasonality."
+  },
+  "C034": {
+   "label": "SUPPORTED",
+   "reason": "The evidence provides current and threshold gross margin figures, supporting the claim about the condition under which the 'stable profitability' assumption would be disproven."
+  },
+  "C035": {
+   "label": "SUPPORTED",
+   "reason": "The evidence provides current and threshold ratios, supporting the claim about the condition under which the 'reliable profit quality' assumption would be disproven."
+  },
+  "C036": {
+   "label": "SUPPORTED",
+   "reason": "The evidence provides current and threshold days sales outstanding, supporting the claim about the condition under which the bullish logic would need revision."
+  },
+  "C037": {
+   "label": "SUPPORTED",
+   "reason": "The evidence provides current and threshold debt ratios, supporting the claim about the condition under which debt risk assumptions would need adjustment."
+  }
+ },
+ "executive_summary_source": "llm_unverified",
+ "plan": {
+  "plan_id": "run_20261111095704_b7a39f-plan",
+  "subtasks": [
+   {
+    "task_id": "T1",
+    "agent": "fundamental",
+    "objective": "财务三表、盈利与现金流质量、异常检测",
+    "tool_budget": 12,
+    "depends_on": [],
+    "acceptance": "核心比率与增长指标全部由算子计算并入证据库",
+    "query": null,
+    "section_types": null,
+    "anomaly_code": null
+   },
+   {
+    "task_id": "T2",
+    "agent": "market",
+    "objective": "估值分位、同行估值、波动率与回撤",
+    "tool_budget": 8,
+    "depends_on": [],
+    "acceptance": "PE/PB/PS 与3年分位、同行中位数",
+    "query": null,
+    "section_types": null,
+    "anomaly_code": null
+   },
+   {
+    "task_id": "T3",
+    "agent": "news",
+    "objective": "公告与重大事项时间线",
+    "tool_budget": 6,
+    "depends_on": [],
+    "acceptance": "所有事件带 published_at/available_at",
+    "query": null,
+    "section_types": null,
+    "anomaly_code": null
+   }
+  ],
+  "asks": [
+   {
+    "ask_id": "A1",
+    "kind": "metric",
+    "metric": "operating_revenue",
+    "period": "2026Q1",
+    "scope": "consolidated",
+    "unit": null,
+    "topic": "营业收入"
+   },
+   {
+    "ask_id": "A2",
+    "kind": "metric",
+    "metric": "net_profit",
+    "period": "2026Q1",
+    "scope": "consolidated",
+    "unit": null,
+    "topic": "净利润"
+   },
+   {
+    "ask_id": "A3",
+    "kind": "metric",
+    "metric": "gross_margin",
+    "period": "2026Q1",
+    "scope": "consolidated",
+    "unit": null,
+    "topic": "毛利率"
+   },
+   {
+    "ask_id": "A4",
+    "kind": "metric",
+    "metric": "net_margin",
+    "period": "2026Q1",
+    "scope": "consolidated",
+    "unit": null,
+    "topic": "净利率"
+   },
+   {
+    "ask_id": "A5",
+    "kind": "metric",
+    "metric": "roe_annualized",
+    "period": "2026Q1",
+    "scope": "consolidated",
+    "unit": null,
+    "topic": "年化ROE"
+   },
+   {
+    "ask_id": "A6",
+    "kind": "metric",
+    "metric": "debt_to_assets",
+    "period": "2026Q1",
+    "scope": "consolidated",
+    "unit": null,
+    "topic": "资产负债率"
+   },
+   {
+    "ask_id": "A7",
+    "kind": "metric",
+    "metric": "pe_ttm",
+    "period": "2026Q1",
+    "scope": "consolidated",
+    "unit": null,
+    "topic": "市盈率(TTM)"
+   },
+   {
+    "ask_id": "A8",
+    "kind": "metric",
+    "metric": "pb_lf",
+    "period": "2026Q1",
+    "scope": "consolidated",
+    "unit": null,
+    "topic": "市净率(LF)"
+   },
+   {
+    "ask_id": "A9",
+    "kind": "metric",
+    "metric": "volatility_1y",
+    "period": "2026Q1",
+    "scope": "consolidated",
+    "unit": null,
+    "topic": "1年波动率"
+   },
+   {
+    "ask_id": "A10",
+    "kind": "metric",
+    "metric": "max_drawdown_1y",
+    "period": "2026Q1",
+    "scope": "consolidated",
+    "unit": null,
+    "topic": "1年最大回撤"
+   }
+  ],
+  "budget_tokens": 200000,
+  "rationale": "全面分析公司基本面、估值与风险，需涵盖盈利能力、财务健康、估值水平和风险指标。"
+ },
+ "markdown": "# 美的集团（000333.SZ）投资研究报告\n\n- 研究时点 as_of: `2026-05-06T15:00:00`  快照: `snap_202605061500_570f4437`  架构: `B4`\n\n美的集团（000333.SZ），申万行业 家用电器/白色家电，研究时点 2026-05-06 15:00:00。\n\n## 执行摘要\n公司营业收入与净利润同比小幅增长，毛利率与净利率保持稳定，年化ROE处于行业领先水平。经营现金流充沛，利润质量优异，但增速有所放缓。季度业绩环比显著改善，显示经营拐点可能显现。估值处于历史中高位，反映市场对其龙头地位的认可，但面临均值回归压力。家电行业库存量因季节性因素增加，需关注后续消化情况。（模型生成的概括，未逐句核验；以下各节论断均已核验）\n\n## 问题直接回答\n- (事实) 2026Q1合并口径累计营业收入为1310.99亿元。 [Evidence #E016]\n- (事实) 2026Q1合并口径累计归属于母公司股东的净利润为126.75亿元。 [Evidence #E017]\n- (算子指标) 2026Q1毛利率为25.57%。 [Evidence #E005]\n- (算子指标) 2026Q1净利率为9.67%。 [Evidence #E006]\n- (算子指标) 2026Q1ROE(年化)为22.26%。 [Evidence #E007]\n- (算子指标) 2026Q1资产负债率为60.02%。 [Evidence #E014]\n- (算子指标) 市盈率TTM为13.84倍。 [Evidence #E019]\n- (算子指标) 市净率LF为2.49倍。 [Evidence #E021]\n- (算子指标) 年化波动率为17.56%。 [Evidence #E026]\n- (算子指标) 最大回撤(1年)为-12.32%。 [Evidence #E027]\n\n## 财务与经营质量\n- (事实) 2026Q1累计营业收入1310.99亿元，同比2.55%；归母净利润126.75亿元，同比2.03%。 [Evidence #E001] [Evidence #E002] [Evidence #E003] [Evidence #E004]\n- (算子指标) 2026Q1毛利率25.57%，净利率9.67%，年化ROE22.26%。 [Evidence #E005] [Evidence #E006] [Evidence #E007]\n- (算子指标) 2026Q1经营现金流/净利润为114.63%，经营现金流同比1.45%。 [Evidence #E008] [Evidence #E009]\n- (模型推断) 推断：经营现金流/净利润为114.63%，利润具有较好的现金支撑。 [Evidence #E008]\n- (算子指标) 2026Q1应收账款周转天数41.7天，存货周转天数62.4天。 [Evidence #E010] [Evidence #E011]\n- (算子指标) 2026Q1单季营收环比40.37%，单季归母净利润环比109.08%。 [Evidence #E012] [Evidence #E013]\n- (算子指标) 2026Q1资产负债率60.02%，有息负债率9.16%。 [Evidence #E014] [Evidence #E015]\n- (事实) 管理层讨论与分析披露：公司家电行业库存量2024 年度同比增幅为42.15%，主要系2024 年底临近春节假期提前备货所致。 [Evidence #E018]\n\n## 估值与市场表现\n- (算子指标) 截至2026-05-06，PE-TTM为13.84倍，近3年历史分位72.22%，PB-LF为2.49倍；同行PE中位数7.67倍。 [Evidence #E019] [Evidence #E020] [Evidence #E021] [Evidence #E022]\n- (算子指标) EV/EBITDA为8.89倍，PS-TTM为1.33倍，PE近5年分位77.08%。 [Evidence #E023] [Evidence #E024] [Evidence #E025]\n- (算子指标) 近一年年化波动率17.56%，最大回撤-12.32%。 [Evidence #E026] [Evidence #E027]\n\n## 核心看多论点\n- (模型推断) 看多：美的集团经营现金流充沛，利润质量优异（隐含假设：经营现金流与净利润的比值持续保持健康水平）（依据：2026Q1 经营现金流/净利润114.63%） [Evidence #E008]\n- (模型推断) 看多：公司盈利能力稳定，ROE处于行业领先水平（隐含假设：高ROE能够持续且不会被行业竞争削弱）（依据：2026Q1 ROE(年化)22.26%） [Evidence #E007]\n- (模型推断) 看多：季度业绩环比大幅改善，显示经营拐点已现（隐含假设：环比增长趋势能够延续而非季节性波动）（依据：2026Q1 营收环比40.37%；2026Q1 净利润环比109.08%） [Evidence #E012] [Evidence #E013]\n- (模型推断) 看多：估值处于历史中高位，反映市场对其龙头地位的认可（隐含假设：市场愿意持续给予估值溢价而非均值回归）（依据：2026-05-06 PE 3年分位72.22%；2026-05-06 PE 5年分位77.08%） [Evidence #E020] [Evidence #E025]\n- (模型推断) 回应：经营现金流与净利润比率健康，显示利润质量良好（依据：2026Q1 经营现金流/净利润114.63%） [Evidence #E008]\n- (模型推断) 回应：ToB与ToC业务协同效应已在新能源领域显现 [Evidence #E029]\n- (模型推断) 回应：环比高增长伴随销量提升，反映真实需求而非单纯季节性 [Evidence #E018]\n\n## 核心看空论点\n- (模型推断) 推断：估值处于近3年72.22%分位的偏高区间，对业绩不及预期的容忍度低。 [Evidence #E020]\n- (模型推断) 看空：经营现金流增速显著放缓，利润质量存疑（隐含假设：现金流增速放缓可能反映回款能力下降或利润含金量降低）（依据：2026Q1 经营现金流同比1.45%） [Evidence #E009]\n- (模型推断) 看空：高ROE面临业务多元化挑战，协同效应待验证（隐含假设：ToB与ToC业务并重可能导致资源分散而非互补） [Evidence #E028] [Evidence #E029]\n- (模型推断) 看空：环比高增长含季节性扰动，持续性存疑（隐含假设：家电行业传统旺季效应可能扭曲真实增长趋势） [Evidence #E018]\n- (模型推断) 看空：估值溢价隐含过度乐观预期，均值回归压力大（隐含假设：市场可能高估多元化业务估值而忽视整合风险）（依据：2026-05-06 同行PE中位数7.67倍；2026-05-06 PE 5年分位77.08%） [Evidence #E022] [Evidence #E025]\n\n## 关键争议与证伪条件\n- (模型推断) 若后续报告期毛利率跌破23.57%（当前25.57%），则“盈利能力稳定”的看多假设证伪。 [Evidence #E005] [Evidence #E031]\n- (模型推断) 若经营现金流/净利润持续低于80.00%（当前114.63%），则“利润质量可靠”的假设证伪。 [Evidence #E008] [Evidence #E032]\n- (模型推断) 若应收账款周转天数升至46.7天以上（当前41.7天），说明回款恶化，看多逻辑需下修。 [Evidence #E010] [Evidence #E033]\n- (模型推断) 若有息负债率升至14.16%以上（当前9.16%），偿债风险假设需上调。 [Evidence #E015] [Evidence #E034]\n\n## 六维风险矩阵\n- (算子指标) 财务质量风险2/5：经营现金流/净利润114.63%，高危异常0项 [Evidence #E008]\n- (算子指标) 估值风险4/5：PE-TTM处于近3年72.22%分位 [Evidence #E020]\n- (算子指标) 偿债与流动性风险1/5：资产负债率60.02%，有息负债率9.16% [Evidence #E014] [Evidence #E015]\n- (算子指标) 经营与行业风险3/5：营收同比2.55%，毛利率25.57% [Evidence #E002] [Evidence #E005]\n- (算子指标) 市场波动风险1/5：年化波动率17.56%，最大回撤-12.32% [Evidence #E026] [Evidence #E027]\n\n### 风险评分\n| 维度 | 评分(1-5) | 依据 |\n| --- | --- | --- |\n| 财务质量 | 2 | 经营现金流/净利润114.63%，高危异常0项 |\n| 估值 | 4 | PE-TTM处于近3年72.22%分位 |\n| 偿债与流动性 | 1 | 资产负债率60.02%，有息负债率9.16% |\n| 经营与行业 | 3 | 营收同比2.55%，毛利率25.57% |\n| 治理与合规 | 1 | 快照期内未见治理类负面公告 |\n| 市场波动 | 1 | 年化波动率17.56%，最大回撤-12.32% |\n\n## 数据局限与不确定性声明\n- 无\n\n## 引用\n\n- **E001** [fact] 2026Q1 营业收入 = 1310.99亿元 — `m_000333_operating_revenue_2026Q1` available_at=2026-04-30T09:30:00\n- **E002** [metric] 2026Q1 营收同比 = 2.55% — `m_000333_revenue_yoy_2026Q1` available_at=2026-04-30T09:30:00\n- **E003** [fact] 2026Q1 归属于母公司股东的净利润 = 126.75亿元 — `m_000333_net_profit_2026Q1` available_at=2026-04-30T09:30:00\n- **E004** [metric] 2026Q1 净利润同比 = 2.03% — `m_000333_net_profit_yoy_2026Q1` available_at=2026-04-30T09:30:00\n- **E005** [metric] 2026Q1 毛利率 = 25.57% — `m_000333_gross_margin_2026Q1` available_at=2026-04-30T09:30:00\n- **E006** [metric] 2026Q1 净利率 = 9.67% — `m_000333_net_margin_2026Q1` available_at=2026-04-30T09:30:00\n- **E007** [metric] 2026Q1 ROE(年化) = 22.26% — `m_000333_roe_annualized_2026Q1` available_at=2026-04-30T09:30:00\n- **E008** [metric] 2026Q1 经营现金流/净利润 = 114.63% — `m_000333_ocf_to_net_profit_2026Q1` available_at=2026-04-30T09:30:00\n- **E009** [metric] 2026Q1 经营现金流同比 = 1.45% — `m_000333_ocf_yoy_2026Q1` available_at=2026-04-30T09:30:00\n- **E010** [metric] 2026Q1 应收账款周转天数 = 41.7天 — `m_000333_receivable_days_2026Q1` available_at=2026-04-30T09:30:00\n- **E011** [metric] 2026Q1 存货周转天数 = 62.4天 — `m_000333_inventory_days_2026Q1` available_at=2026-04-30T09:30:00\n- **E012** [metric] 2026Q1 营收环比 = 40.37% — `m_000333_revenue_qoq_2026Q1` available_at=2026-04-30T09:30:00\n- **E013** [metric] 2026Q1 净利润环比 = 109.08% — `m_000333_net_profit_qoq_2026Q1` available_at=2026-04-30T09:30:00\n- **E014** [metric] 2026Q1 资产负债率 = 60.02% — `m_000333_debt_to_assets_2026Q1` available_at=2026-04-30T09:30:00\n- **E015** [metric] 2026Q1 有息负债率 = 9.16% — `m_000333_interest_debt_ratio_2026Q1` available_at=2026-04-30T09:30:00\n- **E016** [fact] 2026Q1 营业收入 = 1310.99亿元 — `m_000333_operating_revenue_2026Q1` available_at=2026-04-30T09:30:00\n- **E017** [fact] 2026Q1 归属于母公司股东的净利润 = 126.75亿元 — `m_000333_net_profit_2026Q1` available_at=2026-04-30T09:30:00\n- **E018** [document] 第三节 管理层讨论与分析 — `doc_000333_2024Q4::s3` available_at=2025-03-31T09:30:00\n- **E019** [metric] 2026-05-06 市盈率TTM = 13.84倍 — `m_000333_pe_ttm_2026-05-06` available_at=2026-05-06T15:00:00\n- **E020** [metric] 2026-05-06 PE 3年分位 = 72.22% — `m_000333_pe_percentile_3y_2026-05-06` available_at=2026-05-06T15:00:00\n- **E021** [metric] 2026-05-06 市净率LF = 2.49倍 — `m_000333_pb_lf_2026-05-06` available_at=2026-05-06T15:00:00\n- **E022** [metric] 2026-05-06 同行PE中位数 = 7.67倍 — `m_000333_peer_pe_median_2026-05-06` available_at=2026-05-06T15:00:00\n- **E023** [metric] 2026-05-06 EV/EBITDA = 8.89倍 — `m_000333_ev_ebitda_2026-05-06` available_at=2026-05-06T15:00:00\n- **E024** [metric] 2026-05-06 市销率TTM = 1.33倍 — `m_000333_ps_ttm_2026-05-06` available_at=2026-05-06T15:00:00\n- **E025** [metric] 2026-05-06 PE 5年分位 = 77.08% — `m_000333_pe_percentile_5y_2026-05-06` available_at=2026-05-06T15:00:00\n- **E026** [metric] 2026-05-06 年化波动率 = 17.56% — `m_000333_volatility_1y_2026-05-06` available_at=2026-05-06T15:00:00\n- **E027** [metric] 2026-05-06 最大回撤(1年) = -12.32% — `m_000333_max_drawdown_1y_2026-05-06` available_at=2026-05-06T15:00:00\n- **E028** [document] 第三节 管理层讨论与分析 — `doc_000333_2024Q2::s3` available_at=2024-08-20T09:30:00\n- **E029** [document] 第三节 管理层讨论与分析 — `doc_000333_2025Q2::s3` available_at=2025-09-01T09:30:00\n- **E031** [metric] 2026Q1 毛利率证伪阈值 = 23.57% — `m_000333_threshold_gross_margin_2026Q1` available_at=2026-04-30T09:30:00\n- **E032** [metric] 2026Q1 现金流/净利润证伪阈值 = 80.00% — `m_000333_threshold_ocf_to_net_profit_2026Q1` available_at=2026-04-30T09:30:00\n- **E033** [metric] 2026Q1 应收周转天数证伪阈值 = 46.7天 — `m_000333_threshold_receivable_days_2026Q1` available_at=2026-04-30T09:30:00\n- **E034** [metric] 2026Q1 有息负债率证伪阈值 = 14.16% — `m_000333_threshold_interest_debt_ratio_2026Q1` available_at=2026-04-30T09:30:00\n",
+ "trace": [
+  {
+   "node": "planner",
+   "seq": 0,
+   "started_at": "2026-11-11T09:57:22.493196",
+   "tool_calls": [
+    {
+     "tool": "check_data_coverage",
+     "args": {
+      "ticker": "000333.SZ"
+     },
+     "error": null,
+     "result": "6 items"
+    },
+    {
+     "tool": "register_research_plan",
+     "args": {
+      "subtasks": [
+       "fundamental",
+       "market",
+       "news"
+      ],
+      "asks": 10
+     },
+     "error": null,
+     "result": null
+    }
+   ],
+   "llm_calls": [
+    {
+     "model": "deepseek-ai/DeepSeek-V3",
+     "tier": "strong",
+     "in": 534,
+     "out": 528,
+     "latency_ms": 20827.99810002325,
+     "online": true
+    }
+   ],
+   "input_tokens": 534,
+   "output_tokens": 528,
+   "anomaly_flags": [],
+   "summary": "3 subtasks, 10 asks (全面分析公司基本面、估值与风险，需涵盖盈利能力、财务健康、估值水平和风险指标。)",
+   "status": "ok",
+   "latency_ms": 20854.394100024365
+  },
+  {
+   "node": "subgraph:fundamental:T1",
+   "seq": 1,
+   "started_at": "2026-11-11T09:57:43.350364",
+   "tool_calls": [
+    {
+     "tool": "get_financial_statements",
+     "args": {
+      "ticker": "000333.SZ",
+      "period": "2026Q1",
+      "scope": "consolidated"
+     },
+     "error": null,
+     "result": "13 items"
+    },
+    {
+     "tool": "calculate_financial_ratios",
+     "args": {
+      "ticker": "000333.SZ",
+      "period": "2026Q1"
+     },
+     "error": null,
+     "result": "9 items"
+    },
+    {
+     "tool": "calculate_growth_metrics",
+     "args": {
+      "ticker": "000333.SZ",
+      "period": "2026Q1"
+     },
+     "error": null,
+     "result": "6 items"
+    },
+    {
+     "tool": "get_financial_statements",
+     "args": {
+      "ticker": "000333.SZ",
+      "metric": "operating_revenue",
+      "period": "2026Q1",
+      "scope": "consolidated"
+     },
+     "error": null,
+     "result": "metric_id='m_000333_operating_revenue_2026Q1' ticker='000333.SZ' metric='operating_revenue' value=131098601000.0 unit='C"
+    },
+    {
+     "tool": "get_financial_statements",
+     "args": {
+      "ticker": "000333.SZ",
+      "metric": "net_profit",
+      "period": "2026Q1",
+      "scope": "consolidated"
+     },
+     "error": null,
+     "result": "metric_id='m_000333_net_profit_2026Q1' ticker='000333.SZ' metric='net_profit' value=12674556000.0 unit='CNY' status='OK'"
+    },
+    {
+     "tool": "detect_financial_anomalies",
+     "args": {
+      "ticker": "000333.SZ",
+      "period": "2026Q1"
+     },
+     "error": null,
+     "result": "0 items"
+    },
+    {
+     "tool": "retrieval_grader",
+     "args": {
+      "query": "营业收入 净利润 毛利率 经营活动现金流量净额 变动 原因 管理层讨论"
+     },
+     "error": null,
+     "result": "SUFFICIENT after 1 attempt(s)"
+    },
+    {
+     "tool": "retrieve_document_evidence",
+     "args": {
+      "query": "营业收入 净利润 毛利率 经营活动现金流量净额 变动 原因 管理层讨论",
+      "sections": [
+       "MDA"
+      ]
+     },
+     "error": null,
+     "result": "3 items"
+    }
+   ],
+   "llm_calls": [
+    {
+     "model": "deepseek-ai/DeepSeek-V3",
+     "tier": "strong",
+     "in": 976,
+     "out": 102,
+     "latency_ms": 6140.301899984479,
+     "online": true
+    }
+   ],
+   "input_tokens": 976,
+   "output_tokens": 102,
+   "anomaly_flags": [],
+   "summary": "14 claims, 18 evidence, scratch=2 private notes",
+   "status": "ok",
+   "latency_ms": 6418.7615000410005
+  },
+  {
+   "node": "subgraph:market:T2",
+   "seq": 2,
+   "started_at": "2026-11-11T09:57:43.350912",
+   "tool_calls": [
+    {
+     "tool": "calculate_valuation_metrics",
+     "args": {
+      "ticker": "000333.SZ"
+     },
+     "error": null,
+     "result": "6 items"
+    },
+    {
+     "tool": "get_industry_peers",
+     "args": {
+      "ticker": "000333.SZ"
+     },
+     "error": null,
+     "result": "metric_id='m_000333_peer_pe_median_2026-05-06' ticker='000333.SZ' metric='peer_pe_median' value=7.6686087503948945 unit="
+    },
+    {
+     "tool": "calculate_risk_metrics",
+     "args": {
+      "ticker": "000333.SZ"
+     },
+     "error": null,
+     "result": "2 items"
+    },
+    {
+     "tool": "get_price_history",
+     "args": {
+      "ticker": "000333.SZ",
+      "days": 250
+     },
+     "error": null,
+     "result": "250 items"
+    },
+    {
+     "tool": "calculate_valuation_metrics",
+     "args": {
+      "ticker": "000333.SZ"
+     },
+     "error": null,
+     "result": "6 items"
+    },
+    {
+     "tool": "calculate_risk_metrics",
+     "args": {
+      "ticker": "000333.SZ"
+     },
+     "error": null,
+     "result": "2 items"
+    }
+   ],
+   "llm_calls": [
+    {
+     "model": "Qwen/Qwen2.5-7B-Instruct",
+     "tier": "light",
+     "in": 465,
+     "out": 105,
+     "latency_ms": 8237.932399963029,
+     "online": true
+    }
+   ],
+   "input_tokens": 465,
+   "output_tokens": 105,
+   "anomaly_flags": [],
+   "summary": "8 claims, 9 evidence, scratch=1 private notes",
+   "status": "ok",
+   "latency_ms": 8570.584500033874
+  },
+  {
+   "node": "subgraph:news:T3",
+   "seq": 3,
+   "started_at": "2026-11-11T09:57:43.351453",
+   "tool_calls": [
+    {
+     "tool": "get_company_announcements",
+     "args": {
+      "ticker": "000333.SZ"
+     },
+     "error": null,
+     "result": "0 items"
+    },
+    {
+     "tool": "build_event_timeline",
+     "args": {
+      "n": 0
+     },
+     "error": null,
+     "result": "0 items"
+    }
+   ],
+   "llm_calls": [
+    {
+     "model": "Qwen/Qwen2.5-7B-Instruct",
+     "tier": "light",
+     "in": 45,
+     "out": 4,
+     "latency_ms": 624.1770000196993,
+     "online": true
+    }
+   ],
+   "input_tokens": 45,
+   "output_tokens": 4,
+   "anomaly_flags": [],
+   "summary": "0 claims, 0 evidence, scratch=1 private notes",
+   "status": "ok",
+   "latency_ms": 712.0931999525055
+  },
+  {
+   "node": "gather",
+   "seq": 4,
+   "started_at": "2026-11-11T09:57:51.922029",
+   "tool_calls": [],
+   "llm_calls": [],
+   "input_tokens": 0,
+   "output_tokens": 0,
+   "anomaly_flags": [],
+   "summary": "3 subtask summaries; anomalies=[]",
+   "status": "ok",
+   "latency_ms": 0.007399998139590025
+  },
+  {
+   "node": "debate",
+   "seq": 5,
+   "started_at": "2026-11-11T09:57:51.923693",
+   "tool_calls": [
+    {
+     "tool": "retrieval_grader",
+     "args": {
+      "query": "经营现金流 净利润 比值 波动"
+     },
+     "error": null,
+     "result": "SUFFICIENT after 1 attempt(s)"
+    },
+    {
+     "tool": "retrieve_document_evidence",
+     "args": {
+      "query": "经营现金流 净利润 比值 波动",
+      "sections": null
+     },
+     "error": null,
+     "result": "2 items"
+    },
+    {
+     "tool": "retrieval_grader",
+     "args": {
+      "query": "ROE 下降 竞争 压力"
+     },
+     "error": null,
+     "result": "SUFFICIENT after 1 attempt(s)"
+    },
+    {
+     "tool": "retrieve_document_evidence",
+     "args": {
+      "query": "ROE 下降 竞争 压力",
+      "sections": null
+     },
+     "error": null,
+     "result": "2 items"
+    }
+   ],
+   "llm_calls": [
+    {
+     "model": "context",
+     "tier": "strong",
+     "in": 183,
+     "out": 0,
+     "latency_ms": 0.0,
+     "online": false
+    },
+    {
+     "model": "deepseek-ai/DeepSeek-V3",
+     "tier": "strong",
+     "in": 1242,
+     "out": 206,
+     "latency_ms": 9264.711600029841,
+     "online": true
+    },
+    {
+     "model": "deepseek-ai/DeepSeek-V3",
+     "tier": "strong",
+     "in": 464,
+     "out": 165,
+     "latency_ms": 7013.611400034279,
+     "online": true
+    },
+    {
+     "model": "deepseek-ai/DeepSeek-V3",
+     "tier": "strong",
+     "in": 2863,
+     "out": 250,
+     "latency_ms": 10702.808599977288,
+     "online": true
+    },
+    {
+     "model": "deepseek-ai/DeepSeek-V3",
+     "tier": "strong",
+     "in": 2152,
+     "out": 158,
+     "latency_ms": 7760.131800023373,
+     "online": true
+    },
+    {
+     "model": "deepseek-ai/DeepSeek-V3",
+     "tier": "strong",
+     "in": 824,
+     "out": 150,
+     "latency_ms": 6845.87509999983,
+     "online": true
+    }
+   ],
+   "input_tokens": 7728,
+   "output_tokens": 929,
+   "anomaly_flags": [],
+   "summary": "2 round(s), 4 falsification criteria",
+   "status": "ok",
+   "latency_ms": 41651.14190004533
+  },
+  {
+   "node": "risk",
+   "seq": 6,
+   "started_at": "2026-11-11T09:58:33.575392",
+   "tool_calls": [
+    {
+     "tool": "calculate_risk_metrics",
+     "args": {
+      "ticker": "000333.SZ"
+     },
+     "error": null,
+     "result": "2 items"
+    },
+    {
+     "tool": "evaluate_risk_rules",
+     "args": {
+      "ticker": "000333.SZ",
+      "dimensions": [
+       "财务质量",
+       "估值",
+       "偿债与流动性",
+       "经营与行业",
+       "治理与合规",
+       "市场波动"
+      ]
+     },
+     "error": null,
+     "result": null
+    }
+   ],
+   "llm_calls": [
+    {
+     "model": "context",
+     "tier": "strong",
+     "in": 183,
+     "out": 0,
+     "latency_ms": 0.0,
+     "online": false
+    }
+   ],
+   "input_tokens": 183,
+   "output_tokens": 0,
+   "anomaly_flags": [],
+   "summary": "财务质量=2; 估值=4; 偿债与流动性=1; 经营与行业=3; 治理与合规=1; 市场波动=1",
+   "status": "ok",
+   "latency_ms": 62.262199993710965
+  },
+  {
+   "node": "verifier",
+   "seq": 7,
+   "started_at": "2026-11-11T09:58:33.639734",
+   "tool_calls": [
+    {
+     "tool": "run_deterministic_validators",
+     "args": {
+      "claims": 42
+     },
+     "error": null,
+     "result": "0 failure(s) in 33706.5ms"
+    }
+   ],
+   "llm_calls": [
+    {
+     "model": "context",
+     "tier": "strong",
+     "in": 183,
+     "out": 0,
+     "latency_ms": 0.0,
+     "online": false
+    },
+    {
+     "model": "deepseek-ai/DeepSeek-V3",
+     "tier": "strong",
+     "in": 4768,
+     "out": 984,
+     "latency_ms": 33702.91980000911,
+     "online": true
+    }
+   ],
+   "input_tokens": 4951,
+   "output_tokens": 984,
+   "anomaly_flags": [],
+   "summary": "failures=[] downgraded=0",
+   "status": "ok",
+   "latency_ms": 33706.70040004188
+  },
+  {
+   "node": "report",
+   "seq": 8,
+   "started_at": "2026-11-11T09:59:07.347938",
+   "tool_calls": [],
+   "llm_calls": [
+    {
+     "model": "context",
+     "tier": "strong",
+     "in": 183,
+     "out": 0,
+     "latency_ms": 0.0,
+     "online": false
+    },
+    {
+     "model": "deepseek-ai/DeepSeek-V3",
+     "tier": "strong",
+     "in": 891,
+     "out": 92,
+     "latency_ms": 5680.9315999853425,
+     "online": true
+    }
+   ],
+   "input_tokens": 1074,
+   "output_tokens": 92,
+   "anomaly_flags": [],
+   "summary": "42 claims in report",
+   "status": "ok",
+   "latency_ms": 5684.5599000225775
+  }
+ ],
+ "totals": {
+  "input_tokens": 15956,
+  "output_tokens": 2744,
+  "tool_calls": 25,
+  "redundant_tool_calls": 3,
+  "nodes": 9,
+  "llm_calls": 11,
+  "llm_calls_failed": 0,
+  "llm_tokens": 17968,
+  "latency_ms": 110576.95919997059,
+  "cost_cny": 0.050508,
+  "llm_online": true
+ },
+ "status": "done"
+}

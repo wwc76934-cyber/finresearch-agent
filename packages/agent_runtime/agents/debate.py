@@ -224,7 +224,9 @@ def _falsification(ctx: RunContext, log: dict) -> None:
         cur = get(metric)
         if not cur:
             continue
-        tv = 0.8 if metric == "ocf_to_net_profit" else (cur.value * adj if metric == "receivable_days" else cur.value + adj)
+        tv = 0.8 if metric == "ocf_to_net_profit" else (
+            # +10% alone is meaningless for tiny values (0.1 day -> 0.11 day renders as "0.1 above 0.1")
+            max(cur.value * adj, cur.value + 5) if metric == "receivable_days" else cur.value + adj)
         th = ctx.calc._record(ctx.ticker, f"threshold_{metric}", label, tv, cur.unit, [cur], extra={"rule": tmpl.split("，")[0]})
         render = lambda tmpl=tmpl, th=th, cur=cur: tmpl.format(t=fmt(th), c=fmt(cur))
         ev_c, ev_t = ctx.evidence_from_metric(cur, "manager"), ctx.evidence_from_metric(th, "manager")

@@ -15,7 +15,9 @@ from ..llm import call_json
 from ..state import Claim, UncertaintyStatement, VerificationFailure
 
 STRIP = [r"\d{4}-\d{2}-\d{2}", r"\d{4}Q[1-4]", r"\d{4}年(\d{1,2}月(\d{1,2}日)?)?", r"\d{1,2}月\d{1,2}日",
-         r"\b[CE]\d{3}\b", r"\d{6}\.(SZ|SH|BJ)", r"近\d+年", r"\d/5", r"\d+项", r"前[一二三四五]名", r"第\d+", r"\d+-\d+月",
+         r"\b[CE]\d{3}\b", r"\d{6}\.(SZ|SH|BJ)", r"近\d+年",
+         r"\d+\s*年分位", r"[(（]\d+\s*年[)）]",   # window inside a metric name: "PE 3年分位", "最大回撤(1年)"
+         r"\d/5", r"\d+项", r"前[一二三四五]名", r"第\d+", r"\d+-\d+月",
          r"[A-Z_]{4,}", r"p\d+-\d+", r"\b[a-z]+_[0-9A-Za-z_]+"]
 NUM = re.compile(r"[-+]?\d+(?:,\d{3})*(?:\.\d+)?\s*(%|亿元|万元|元|天|倍)?")
 UNIT_SCALE = {"%": ("ratio", 0.01), "亿元": ("CNY", 1e8), "万元": ("CNY", 1e4), "元": ("CNY", 1.0),

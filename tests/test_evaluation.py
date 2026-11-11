@@ -42,3 +42,24 @@ def test_blind_template_builds():
     pit = next(t for t in tasks if t["task_id"] == "B000")
     assert pit["expected"]["numbers"][0]["period"] == "2025Q1"  # H1 report not yet usable at 21:00
     assert {t["category"] for t in tasks} == {"blind_metric", "refusal_trap", "anomaly_attribution"}
+
+
+def test_routine_related_party_filings_are_not_signals():
+    from data_platform.calculators import ROUTINE_RPT_RE
+    assert ROUTINE_RPT_RE.search("关于预计2026年度日常关联交易的公告")
+    assert ROUTINE_RPT_RE.search("关于贵州茅台酒股份有限公司涉及财务公司关联交易的存款、贷款等金融业务的专项说明")
+    assert ROUTINE_RPT_RE.search("关联交易管理办法")
+    assert not ROUTINE_RPT_RE.search("关于重大关联交易的公告")
+    assert not ROUTINE_RPT_RE.search("关于拟向员工持股平台转让控股子公司部分股权暨关联交易的公告")
+
+
+def test_announcement_boilerplate_is_stripped():
+    from agent_runtime.agents.collectors import _strip_boilerplate
+    s = ("1证券代码：600519公告编号：临2026-003关于回购股份实施进展的公告本公司董事会及全体董事保证本公告内容不存在任何虚假记载，"
+         "并对其内容的真实性、准确性和完整性承担法律责任。重要内容提示：累计已回购金额801,023,304.38元，回购价格区间1,322.60元/股")
+    assert _strip_boilerplate(s).startswith("累计已回购金额")
+
+
+def test_metric_name_windows_are_not_numbers():
+    from agent_runtime.agents.verifier import extract_numbers
+    assert [n[1] for n in extract_numbers("2026-05-06 PE 3年分位71.43%；最大回撤(1年)为-19.04%")] == [71.43, -19.04]

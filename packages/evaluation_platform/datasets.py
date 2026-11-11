@@ -285,7 +285,9 @@ def oracle_anomalies(o: Oracle, t: str, as_of: datetime) -> list[str]:
         out.append("PROFIT_OCF_DIVERGENCE")
     ar, ar0 = v("accounts_receivable"), v("accounts_receivable", ya)
     ry, _ = o.yoy(t, "operating_revenue", pe, as_of)
-    if ar and ar0 and ry is not None and ar0 > 0 and (ar / ar0 - 1) - ry > 0.3:
+    rev_ttm = o.ttm(t, "operating_revenue", pe, as_of)
+    material = not rev_ttm or ar is None or ar / rev_ttm >= 0.01   # receivables at least 1% of TTM revenue
+    if ar and ar0 and ry is not None and ar0 > 0 and (ar / ar0 - 1) - ry > 0.3 and material:
         out.append("AR_OUTPACE_REVENUE")
     cost_ttm, cost_ttm0 = o.ttm(t, "operating_cost", pe, as_of), o.ttm(t, "operating_cost", ya, as_of)
     inv, inv0 = v("inventory"), v("inventory", ya)
@@ -314,7 +316,8 @@ def oracle_anomalies(o: Oracle, t: str, as_of: datetime) -> list[str]:
         out.append("INTEREST_DEBT_JUMP")
     titles = o.docs[(o.docs.ticker == t) & (o.docs.doc_type == "announcement")
                     & (o.docs.available_at <= pd.Timestamp(as_of))].title.tolist()
-    if any(k in x for x in titles for k in ("关联交易", "会计估计变更", "会计差错")):
+    routine = ("日常关联交易", "财务公司", "管理制度", "管理办法", "决策制度", "交易制度", "交易办法")
+    if any(k in x for x in titles if not any(r in x for r in routine) for k in ("关联交易", "会计估计变更", "会计差错")):
         out.append("RELATED_PARTY_OR_POLICY_CHANGE")
     return out
 

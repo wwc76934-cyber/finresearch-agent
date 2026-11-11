@@ -6,6 +6,7 @@ status code for economically meaningless cases. Lineage edges are recorded.
 from __future__ import annotations
 
 import math
+import re
 from datetime import date, datetime, timedelta
 from statistics import median, pstdev
 from typing import Literal, Optional
@@ -19,6 +20,8 @@ from .schema import MetricRecord, StatementScope
 from .serving import PITDataService, label_to_end, period_label
 
 CUM_MONTH = {3: 1, 6: 2, 9: 3, 12: 4}
+# routine related-party filings (annual budget, finance-company deposits, internal rules): not a signal
+ROUTINE_RPT_RE = re.compile(r"日常关联交易|财务公司|(制度|办法)(（|$)|管理制度|管理办法")
 
 
 class AnomalyFlag(BaseModel):
@@ -325,7 +328,10 @@ class FinancialCalculator:
                                      message=f"净利润同比{npy:+.1%}而经营现金流同比{ocfy:+.1%}",
                                      suggested_query="经营活动现金流量净额 下降 主要系 回款 原因", section_type="MDA"))
         ary, revy = v(r, "receivable_yoy"), v(r, "revenue_yoy")
-        if ary is not None and revy is not None and ary - revy > 0.3:
+        rdays = v(r, "receivable_days")
+        # materiality floor: receivables under 1% of TTM revenue (< 3.65 days, e.g. Moutai's 0.1 day)
+        # double on a tiny base without saying anything about collection quality
+        if ary is not None and revy is not None and ary - revy > 0.3 and (rdays is None or rdays >= 3.65):
             flags.append(AnomalyFlag(code="AR_OUTPACE_REVENUE", severity="HIGH" if ary - revy > 0.5 else "MEDIUM",
                                      metric_ids=[r["receivable_yoy"].metric_id, r["revenue_yoy"].metric_id],
                                      message=f"应收账款同比{ary:+.1%}显著高于营收同比{revy:+.1%}",
@@ -380,6 +386,11 @@ class FinancialCalculator:
                                      message=f"有息负债率由{idr0:.1%}升至{idr:.1%}",
                                      suggested_query="银行借款 债券 有息负债 融资", section_type="ANNOUNCEMENT"))
         for doc_id, text in announcements:
+            # PRD 2.2 rule 7 is about *major* related-party deals or accounting changes. Routine annual
+            # related-party budgets, finance-company deposit statements and internal policy documents
+            # are filed by almost every large A-share company and are not a signal.
+            if ROUTINE_RPT_RE.search(text):
+                continue
             if any(k in text for k in ("关联交易", "会计估计变更", "会计差错")):
                 flags.append(AnomalyFlag(code="RELATED_PARTY_OR_POLICY_CHANGE", severity="MEDIUM", metric_ids=[],
                                          message=f"公告《{text}》涉及关联交易或会计变更", section_type="ANNOUNCEMENT",
