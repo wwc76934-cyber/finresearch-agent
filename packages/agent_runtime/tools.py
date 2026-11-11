@@ -93,7 +93,7 @@ def single_quarter(ctx: RunContext, metric: str, period: date) -> MetricRecord:
 def detect_financial_anomalies(ctx: RunContext, period: date) -> list[AnomalyFlag]:
     anns = [(d.document_id, d.title) for d in ctx.svc.documents(ctx.ticker, "announcement")]
     return call_with_recovery(ctx, "detect_financial_anomalies", {"ticker": ctx.ticker, "period": period_label(period)},
-                              lambda: ctx.calc.detect_anomalies(ctx.ticker, period, anns))
+                              lambda: ctx.calc.detect_anomalies(ctx.ticker, period, anns, mode=ctx.config.anomaly_mode))
 
 
 def calculate_valuation_metrics(ctx: RunContext) -> dict[str, MetricRecord]:

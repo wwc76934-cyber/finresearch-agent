@@ -31,6 +31,10 @@ class AnomalyFlag(BaseModel):
     message: str
     suggested_query: str
     section_type: str = "NOTES"
+    category: str = "rule"                    # "statistical" | "rule" | "semantic"
+    statistical_z: Optional[float] = None     # vs the company's own history
+    peer_z: Optional[float] = None            # vs peers in the same period
+    evidence_quote: str = ""                  # semantic flags: the sentence that triggered it
 
 
 def prev_quarter_end(d: date) -> Optional[date]:
@@ -316,7 +320,24 @@ class FinancialCalculator:
                 "max_drawdown_1y": self._record(ticker, "max_drawdown_1y", lbl, mdd, "ratio", [ref])}
 
     # ---------- anomaly detection (7 rules) ----------
-    def detect_anomalies(self, ticker: str, pe: date, announcements: list[tuple[str, str]] = ()) -> list[AnomalyFlag]:
+    def detect_anomalies(self, ticker: str, pe: date, announcements: list[tuple[str, str]] = (),
+                         mode: str = "statistical") -> list[AnomalyFlag]:
+        """mode="statistical": year-over-year signals scored against the company's own history and its peers
+        (anomaly_stats.py). mode="rules": the original fixed cut-offs, kept so the two can be compared."""
+        if mode == "rules":
+            return self.detect_rule_anomalies(ticker, pe, announcements)
+        from . import anomaly_stats
+
+        flags = anomaly_stats.detect(self, ticker, pe)
+        for doc_id, text in announcements:      # rule 7 is document based, not numeric
+            if not ROUTINE_RPT_RE.search(text) and any(k in text for k in ("关联交易", "会计估计变更", "会计差错")):
+                flags.append(AnomalyFlag(code="RELATED_PARTY_OR_POLICY_CHANGE", severity="MEDIUM", metric_ids=[],
+                                         message=f"公告《{text}》涉及关联交易或会计变更", section_type="ANNOUNCEMENT",
+                                         suggested_query="关联交易 会计差错更正 会计估计变更", category="rule"))
+                break
+        return flags
+
+    def detect_rule_anomalies(self, ticker: str, pe: date, announcements: list[tuple[str, str]] = ()) -> list[AnomalyFlag]:
         r = {**self.ratios(ticker, pe), **self.growth(ticker, pe)}
         r_prev = self.ratios(ticker, year_ago(pe))
         flags: list[AnomalyFlag] = []

@@ -297,6 +297,33 @@ def f_anomalies(s: SubState) -> dict:
     return {"anomalies": out, "claim_ids": ids}
 
 
+def f_probe(s: SubState) -> dict:
+    """Semantic anomaly probe: qualitative red flags from notes and announcements (online only)."""
+    from . import semantic_probe
+
+    ctx = _ctx(s)
+    if ctx.factor_only or not ctx.config.semantic_probe:
+        return {}
+    ids, out = [], []
+    for fl in semantic_probe.probe(ctx):
+        ev = ctx.evidence_from_hit(fl["hit"], "fundamental", focus=fl["quote"])
+        cl = ctx.add_claim("bear" if fl["severity"] == "HIGH" else "financials", "disclosed_fact",
+                           f"语义探针[{fl['code']}]：{fl['quote']}", [ev], "fundamental")
+        d = {"code": fl["code"], "severity": fl["severity"], "category": "semantic", "message": fl["quote"],
+             "metric_ids": [], "suggested_query": semantic_probe_query(fl["category"]), "section_type": "NOTES",
+             "claim_id": cl.claim_id, "evidence_ids": cl.evidence_ids, "evidence_quote": fl["quote"]}
+        ctx.anomalies.setdefault(fl["code"], d)
+        out.append(d)
+        ids.append(cl.claim_id)
+    return {"anomalies": out, "claim_ids": ids}
+
+
+def semantic_probe_query(category: str) -> str:
+    from .semantic_probe import PROBES
+
+    return next((q for c, _, q in PROBES if c == category), "")
+
+
 EXPLAIN_LINE = re.compile(r"[^。\n]*(主要系|所致|原因)[^。\n]*。")
 RULE_TEXT = re.compile(r"应(当)?说明|解释性公告|信息披露编报规则")
 CHECKBOX = re.compile(r"^.*适用[\s□√]*不适用\s*")   # form heading "……原因说明√适用□不适用" before the real text
@@ -488,7 +515,7 @@ def _compile(steps: list[tuple[str, Callable]]):
 
 SUBGRAPHS = {
     "fundamental": _compile([("fetch", f_fetch), ("compute", f_compute), ("asks", f_asks), ("anomalies", f_anomalies),
-                             ("explain", f_explain), ("summarize", f_summarize)]),
+                             ("probe", f_probe), ("explain", f_explain), ("summarize", f_summarize)]),
     "market": _compile([("valuation", m_valuation), ("summarize", f_summarize)]),
     "news": _compile([("events", n_events), ("summarize", f_summarize)]),
     "investigate": _compile([("investigate", i_investigate)]),
