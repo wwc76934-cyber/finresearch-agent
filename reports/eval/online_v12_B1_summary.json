@@ -1,0 +1,46 @@
+{
+ "aggregate": {
+  "n": 60,
+  "pass_rate": 0.13333333333333333,
+  "numerical_accuracy": 0.0,
+  "numerical_accuracy_n": 42,
+  "citation_validity": 1.0,
+  "citation_validity_n": 3,
+  "support_rate": 0.5,
+  "support_rate_n": 3,
+  "pit_violation": 0.016666666666666666,
+  "pit_violation_n": 60,
+  "anomaly_recall": 0.375,
+  "anomaly_recall_n": 16,
+  "refusal": 1.0,
+  "refusal_n": 7,
+  "conflict_handling": null,
+  "conflict_handling_n": 0,
+  "recovery": null,
+  "recovery_n": 0,
+  "rubric": 0.36,
+  "rubric_n": 15,
+  "redundant_tool_rate": 0.0,
+  "first_pass_plan_valid": 1.0,
+  "latency_p50_ms": 6767.594999999346,
+  "latency_p95_ms": 49554.29048000087,
+  "tokens_mean": 1374.2166666666667,
+  "cost_cny_mean": 0.002105333333333333,
+  "errors": {
+   "DATA_MISSING": 40,
+   "RETRIEVAL_MISS": 9,
+   "SCOPE_CONFUSION": 0,
+   "TOOL_ERROR": 0,
+   "HALLUCINATION": 2,
+   "PIT_VIOLATION": 1
+  },
+  "pass_by_category": {
+   "deep_research": 0.06666666666666667,
+   "anomaly_attribution": 0,
+   "events_peers": 0,
+   "blind_metric": 0,
+   "refusal_trap": 1
+  }
+ },
+ "total_cost_cny": 0.12632
+}

@@ -13,6 +13,7 @@ numbers are as trustworthy as everywhere else. It has no Verifier, no debate and
 from __future__ import annotations
 
 import json
+import re
 from datetime import date
 
 from data_platform.catalog import cn_name
@@ -89,8 +90,19 @@ def run_tool(ctx: RunContext, name: str, args: dict) -> tuple[str, list]:
         evs = [ctx.evidence_from_hit(h, "react") for h in hits]
         return "\n".join(f"[{e.summary}] {e.excerpt[:600]}" for e in evs) or "未检索到相关片段", evs
     if name == "list_announcements":
+        # title, date and the opening of the body for the latest few: enough to decide what matters. The multi-agent
+        # News subgraph reads the same bodies, so the single agent is not handicapped on information.
         docs = tools.get_company_announcements(ctx)
-        return "；".join(f"{d.published_at.date()} {d.title[:40]}" for d in docs[-12:]) or "无公告", []
+        evs, lines = [], []
+        for d in docs[-6:]:
+            hits = tools.retrieve_document_evidence(ctx, d.title, doc_ids=[d.document_id], top_k=1)
+            if hits:
+                ev = ctx.evidence_from_hit(hits[0], "react")
+                evs.append(ev)
+                body = (hits[0].parent or hits[0].chunk).text.split("\n")[-1]
+                lines.append(f"{d.published_at.date()}《{d.title[:40]}》{body[:160]}")
+        older = [f"{d.published_at.date()} {d.title[:30]}" for d in docs[:-6][-6:]]
+        return ("\n".join(lines) + ("\n更早：" + "；".join(older) if older else "")) or "无公告", evs
     return f"未知工具 {name}", []
 
 
@@ -151,6 +163,12 @@ def react(ctx: RunContext, asks) -> bool:
     for c in final.get("claims") or []:
         evs = [e for oid in c.get("sources") or [] if oid in obs for e in obs[oid].evidence]
         uniq = list({e.evidence_id: e for e in evs}.values())
+        text = str(c.get("text", ""))
+        if not uniq and re.match(r"^(无法|不能|未能|没有|暂无|缺乏|未找到|找不到)", text.strip()):
+            # "I cannot answer X" is a statement about the answer, not a factual claim; it goes where every other
+            # architecture puts it, in open_questions, instead of being scored as an uncited claim.
+            ctx.open_questions.append({"topic": text[:80], "reason": "代理说明无法回答"})
+            continue
         ctx.add_claim(c.get("section") if c.get("section") in SEC else "financials", TYPE.get(c.get("type"), "disclosed_fact"),
                       str(c.get("text", ""))[:300], uniq, "react")
     allev = [e for o in obs.values() for e in o.evidence]
