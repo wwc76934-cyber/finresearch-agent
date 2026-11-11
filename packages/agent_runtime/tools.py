@@ -2,6 +2,7 @@
 returned number is a MetricRecord produced by deterministic code."""
 from __future__ import annotations
 
+import time
 from datetime import date
 from typing import Optional
 
@@ -23,9 +24,10 @@ def _call(ctx: RunContext, name: str, args: dict, fn):
         fault["remaining"] -= 1
         ctx.tracer.tool(name, args, error="ToolError: injected upstream timeout")
         raise ToolError(f"{name}: injected upstream timeout")
+    t0 = time.perf_counter()
     out = fn()
     summary = (f"{len(out)} items" if isinstance(out, (list, dict)) else str(out)[:120]) if out is not None else "None"
-    ctx.tracer.tool(name, args, result=summary)
+    ctx.tracer.tool(name, args, result=summary, latency_ms=(time.perf_counter() - t0) * 1000)
     return out
 
 

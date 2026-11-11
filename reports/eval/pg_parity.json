@@ -1,0 +1,29 @@
+{
+ "n_queries": 126,
+ "modes": {
+  "dense": {
+   "identical_top5_order": 0.7857142857142857,
+   "identical_top5_set": 0.7857142857142857,
+   "recall@5_pgvector": 0.9841269841269841,
+   "recall@5_memory": 0.9841269841269841,
+   "ms_per_query_pgvector": 20.6,
+   "ms_per_query_memory": 4.9
+  },
+  "hybrid": {
+   "identical_top5_order": 0.9047619047619048,
+   "identical_top5_set": 0.9047619047619048,
+   "recall@5_pgvector": 1.0,
+   "recall@5_memory": 1.0,
+   "ms_per_query_pgvector": 30.8,
+   "ms_per_query_memory": 17.1
+  },
+  "hybrid+rerank": {
+   "identical_top5_order": 0.9841269841269841,
+   "identical_top5_set": 0.9841269841269841,
+   "recall@5_pgvector": 1.0,
+   "recall@5_memory": 1.0,
+   "ms_per_query_pgvector": 32.9,
+   "ms_per_query_memory": 19.0
+  }
+ }
+}

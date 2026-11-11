@@ -1,0 +1,12 @@
+.git
+.venv
+.env
+.pytest_cache
+**/__pycache__
+**/node_modules
+data/raw_cache
+data/*.db
+apps/web_react/node_modules
+reports/eval/*.partial.jsonl
+reports/eval/exp_*.json
+reports/cases/*.pdf

@@ -288,6 +288,14 @@ def finalize(ctx: RunContext, rep: dict, started: datetime, latency_ms: float, p
     totals["llm_calls_failed"] = sum(1 for c in llm_calls if not c.get("online"))
     totals["llm_tokens"] = sum(c["in"] + c["out"] for c in llm_calls if c.get("online"))
     rep["totals"] = {**totals, "latency_ms": latency_ms, "cost_cny": cost, "llm_online": ctx.llm.online}
+    kept = {c for sec in rep["sections"] for c in sec["claim_ids"]}
+    ctx.tracer.close(ticker=ctx.ticker, as_of_date=ctx.as_of.isoformat(), snapshot_id=ctx.snapshot_id,
+                     architecture_tier=ctx.config.name, latency_ms=round(latency_ms, 2), cost_cny=cost,
+                     **{"gen_ai.usage.prompt_tokens": totals["input_tokens"],
+                        "gen_ai.usage.completion_tokens": totals["output_tokens"]},
+                     pit_compliant=all(ctx.evidence[e].available_at <= ctx.as_of for cid in kept if cid in ctx.claims
+                                       for e in ctx.claims[cid].evidence_ids if e in ctx.evidence),
+                     anomaly_flags=sorted(ctx.anomalies))
     if persist:
         ctx.lineage.flush()
         ctx.tracer.persist(ctx.db_url)

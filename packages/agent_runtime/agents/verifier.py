@@ -165,6 +165,10 @@ def verify(ctx: RunContext) -> list[VerificationFailure]:
             if label in ("CONTRADICTED", "UNSUPPORTED"):
                 fails = [VerificationFailure(claim_id=c.claim_id, tier=2, error_type=label, target_agent=c.produced_by,
                                              fix_instruction="weaken or remove the inference")]
+        ctx.tracer.span_event("verifier.check", {
+            "claim_id": c.claim_id, "claim_type": c.claim_type, "passed": not fails, "tier2_label": label,
+            "errors": [f.error_type for f in fails], "attempt": c.attempts,
+            "pit_compliant": not any(f.error_type == "PIT_VIOLATION" for f in fails)})
         for f in fails:
             ctx.verification_log.append({**f.model_dump(), "attempt": c.attempts, "passed": False, "circuit_broken": False})
         if not fails:

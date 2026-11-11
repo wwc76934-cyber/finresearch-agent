@@ -79,7 +79,9 @@ class FinancialFactRow(Base):
     revision_id: Mapped[int] = mapped_column(Integer, default=1)
     is_restated: Mapped[bool] = mapped_column(Boolean, default=False)
     pit_unsafe: Mapped[bool] = mapped_column(Boolean, default=False)
-    __table_args__ = (Index("ix_facts_pit", "ticker", "metric", "period_end", "available_at"),)
+    __table_args__ = (Index("ix_facts_pit", "ticker", "metric", "period_end", "available_at"),
+                      # PRD v1.2 3.1: the point-in-time lookup "latest revision visible at t"
+                      Index("idx_facts_ticker_pit", "ticker", "metric", "available_at", "revision_id"))
 
 
 class DataSnapshotRow(Base):
@@ -238,10 +240,23 @@ class EvalTaskResultRow(Base):
     error_category: Mapped[Optional[str]] = mapped_column(String(32), nullable=True)
 
 
+DEFAULT_PG_URL = "postgresql+psycopg://finresearch:finresearch@localhost:5432/finresearch"
+
+
+def storage_backend() -> str:
+    """STORAGE_BACKEND=postgres|sqlite. An explicit DATABASE_URL wins; otherwise sqlite (no services needed)."""
+    url = os.environ.get("DATABASE_URL")
+    if url:
+        return "sqlite" if url.startswith("sqlite") else "postgres"
+    return os.environ.get("STORAGE_BACKEND", "sqlite").lower()
+
+
 def database_url() -> str:
     url = os.environ.get("DATABASE_URL")
     if url:
         return url
+    if storage_backend() == "postgres":
+        return DEFAULT_PG_URL
     path = ROOT / "data" / "finresearch.db"
     path.parent.mkdir(parents=True, exist_ok=True)
     return f"sqlite:///{path.as_posix()}"
@@ -253,6 +268,8 @@ def get_engine(url: Optional[str] = None):
     kwargs: dict[str, Any] = {"future": True}
     if url.startswith("sqlite"):
         kwargs["connect_args"] = {"check_same_thread": False}
+    else:
+        kwargs.update(pool_pre_ping=True, pool_size=8, max_overflow=8)
     engine = create_engine(url, **kwargs)
     Base.metadata.create_all(engine)
     return engine

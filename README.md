@@ -48,11 +48,23 @@ node scripts/record_demo.mjs http://127.0.0.1:8000 reports/demo   # 需本机 Ch
 
 在 `.env` 设置 `LLM_BASE_URL`、`LLM_API_KEY`、`LLM_MODEL_STRONG`（任意 OpenAI 兼容接口）。不设置时全部 Agent 走确定性模板路径，结果可复现。无论哪种模式，财务数字都只来自确定性算子。
 
-### Docker（PostgreSQL 16）
+### Docker（PostgreSQL 16 + pgvector + OpenTelemetry）
+
+三个开关，默认都不需要任何服务（单元测试和 CI 用默认值）：
+
+| 变量 | 默认 | 生产值 | 作用 |
+|---|---|---|---|
+| `STORAGE_BACKEND` | `sqlite` | `postgres` | 关系库。显式的 `DATABASE_URL` 优先 |
+| `VECTOR_BACKEND` | `memory` | `pgvector` | 稠密检索：`halfvec(2048)` + HNSW，元数据预过滤（ticker、`available_at`、口径、章节）在 SQL 里完成，再与内存 BM25 做 RRF |
+| `TRACING_BACKEND` | `json` | `otel` | 额外产出 OpenTelemetry span（`research_run` → `langgraph.node.*` → `tool.call.*` / `llm.completion.*` / `verifier.check`）。设了 `OTEL_EXPORTER_OTLP_ENDPOINT` 就发到该地址，否则留在内存 |
 
 ```bash
-cp .env.example .env    # 设置 POSTGRES_PASSWORD
-docker compose up --build   # http://127.0.0.1:8000
+cp .env.example .env
+docker compose up -d db                          # 只起数据库（pgvector/pgvector:pg16）
+STORAGE_BACKEND=postgres VECTOR_BACKEND=pgvector python scripts/bootstrap.py   # 入库 + 写向量
+docker compose up -d --build                     # 数据库 + API + 前端，http://127.0.0.1:8000
+docker compose --profile observability up -d     # 加 Phoenix，http://127.0.0.1:6006
+python scripts/check_pg_parity.py                # pgvector 与内存检索对照 → reports/eval/pg_parity.json
 ```
 
 ## 目录

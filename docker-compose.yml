@@ -1,23 +1,44 @@
+# Production-style stack: PostgreSQL 16 + pgvector, the API (which also serves the web UI), and optional
+# OpenTelemetry tracing UI (Arize Phoenix).
+#
+#   docker compose up -d db                        # just the database, for local development
+#   docker compose up -d --build                   # database + API + web UI on http://127.0.0.1:8000
+#   docker compose --profile observability up -d   # adds Phoenix on http://127.0.0.1:6006 and sends traces to it
+#
+# Without Docker the project still runs on SQLite + an in-memory index (STORAGE_BACKEND=sqlite, VECTOR_BACKEND=memory).
 services:
   db:
-    image: postgres:16
+    image: pgvector/pgvector:pg16
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-finresearch}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-finresearch}   # local default; the port below is bound to loopback only
       POSTGRES_DB: finresearch
     ports: ["127.0.0.1:5432:5432"]
-    volumes: [pgdata:/var/lib/postgresql/data]
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./docker/initdb:/docker-entrypoint-initdb.d:ro     # CREATE EXTENSION vector
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-finresearch}"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-finresearch} -d finresearch"]
       interval: 5s
-      retries: 10
+      retries: 12
+
+  phoenix:                  # OTLP collector + trace UI
+    image: arizephoenix/phoenix:latest
+    profiles: ["observability"]
+    ports: ["127.0.0.1:6006:6006"]
+
   api:
     build: .
-    env_file: .env
+    env_file: [.env]
     environment:
-      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-finresearch}:${POSTGRES_PASSWORD}@db:5432/finresearch
+      STORAGE_BACKEND: postgres
+      VECTOR_BACKEND: pgvector
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-finresearch}:${POSTGRES_PASSWORD:-finresearch}@db:5432/finresearch
+      TRACING_BACKEND: ${TRACING_BACKEND:-json}
+      OTEL_EXPORTER_OTLP_ENDPOINT: ${OTEL_EXPORTER_OTLP_ENDPOINT:-}
     ports: ["127.0.0.1:8000:8000"]   # inside the container uvicorn listens on 0.0.0.0; the host side stays on localhost
     depends_on:
       db: {condition: service_healthy}
+
 volumes:
   pgdata:

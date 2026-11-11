@@ -118,15 +118,32 @@ class Hit:
 
 class Retriever:
     def __init__(self, chunks: list[Chunk], encoder: Optional[DenseEncoder] = None,
-                 reranker: Optional[Reranker] = None):
+                 reranker: Optional[Reranker] = None, vector_store=None):
         self.children = [c for c in chunks if c.level == "child"]
         self.parents = {c.chunk_id: c for c in chunks if c.level == "parent"}
         self.tokens = [tokenize(c.text) for c in self.children]
         self.bm25 = BM25(self.tokens)
         self.encoder = encoder or HashingDenseEncoder()
         self.encoder.fit([c.text for c in self.children])
-        self.emb = self.encoder.encode([c.text for c in self.children]) if self.children else np.zeros((0, 1))
+        self.vector_store = vector_store          # PgVectorStore: dense search runs in the database
+        self._pos = {c.chunk_id: i for i, c in enumerate(self.children)}
+        # with a vector store the matrix is not needed in memory
+        self.emb = (np.zeros((0, 1)) if vector_store is not None or not self.children
+                    else self.encoder.encode([c.text for c in self.children]))
         self.reranker = reranker or LexicalCrossReranker()
+
+    def embeddings(self) -> np.ndarray:
+        """The in-memory matrix (also used to fill the vector store)."""
+        return self.encoder.encode([c.text for c in self.children])
+
+    def _dense_top(self, query: str, idx: list[int], pool: int, flt: dict) -> list[tuple[int, float]]:
+        """Top `pool` (child index, cosine) by dense similarity among the pre-filtered candidates."""
+        qv = self.encoder.encode([query])[0]
+        if self.vector_store is not None:
+            rows = self.vector_store.search(qv, pool, **flt)
+            return [(self._pos[cid], s) for cid, s in rows if cid in self._pos]
+        sd = self.emb[idx] @ qv
+        return [(idx[j], float(sd[j])) for j in np.argsort(-sd)[:pool]]
 
     def _filter(self, ticker: Optional[str], as_of: Optional[datetime], scope: Optional[str],
                 section_types: Optional[list[str]], doc_ids: Optional[list[str]]) -> list[int]:
@@ -154,22 +171,24 @@ class Retriever:
             return []
         qt = tokenize(query)
         pool = max(top_k * 4, 20)
+        flt = {"ticker": ticker, "as_of": as_of, "scope": scope, "section_types": section_types, "doc_ids": doc_ids}
         if mode in ("bm25", "dense"):
             if mode == "bm25":
                 s = self.bm25.scores(qt, idx)
+                top = np.argsort(-s)[:pool]
+                ranked = [(idx[j], float(s[j])) for j in top]
             else:
-                s = self.emb[idx] @ self.encoder.encode([query])[0]
-            top = np.argsort(-s)[:pool]
-            order = [idx[j] for j in top]
-            fused = {idx[j]: float(s[j]) for j in top}
+                ranked = self._dense_top(query, idx, pool, flt)
+            order = [i for i, _ in ranked]
+            fused = dict(ranked)
         else:  # hybrid RRF
             sb = self.bm25.scores(qt, idx)
-            qv = self.encoder.encode([query])[0]
-            sd = self.emb[idx] @ qv
+            bm25_rank = [idx[j] for j in np.argsort(-sb)[:pool]]
+            dense_rank = [i for i, _ in self._dense_top(query, idx, pool, flt)]
             fused = {}
-            for scores in (sb, sd):
-                for rank, j in enumerate(np.argsort(-scores)[:pool]):
-                    fused[idx[j]] = fused.get(idx[j], 0.0) + 1.0 / (60 + rank + 1)
+            for ranking in (bm25_rank, dense_rank):
+                for rank, i in enumerate(ranking):
+                    fused[i] = fused.get(i, 0.0) + 1.0 / (60 + rank + 1)
             order = sorted(fused, key=lambda i: -fused[i])[:pool]
         cands = [self.children[i] for i in order]
         if rerank and mode == "hybrid":
