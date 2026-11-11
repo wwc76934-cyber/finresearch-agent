@@ -1,0 +1,28 @@
+{
+ "dataset": "blind2",
+ "sealed_at": "2026-11-11T17:09:53",
+ "git_head_before_tuning": "bf8d9b3156231a327da9a4793533e8f6be385c20",
+ "source_sha256": "17523b4627c772d7b5a6d26de2d2b6bf682f33fa3a41dda34ed396fd851a1008",
+ "tasks_sha256": "a67b340c370b7b909587b40987dbed956d36edc356854483608988a0a7da5b91",
+ "n": 30,
+ "by_type": {
+  "metric": 12,
+  "anomaly": 6,
+  "refuse": 7,
+  "open": 5
+ },
+ "by_ticker": {
+  "300750.SZ": 4,
+  "600519.SH": 4,
+  "002594.SZ": 3,
+  "000333.SZ": 4,
+  "300014.SZ": 3,
+  "000858.SZ": 4,
+  "601012.SH": 4,
+  "000651.SZ": 4
+ },
+ "authors": [
+  "blind-agent-2"
+ ],
+ "rule": "First-run score on this set is the blind score. Any detector/threshold/prompt change made after seeing results on it makes later runs a development score, not a blind score."
+}

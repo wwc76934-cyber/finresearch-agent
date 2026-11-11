@@ -97,6 +97,14 @@ def numerical_accuracy(task: dict, rep: dict) -> Optional[dict]:
     details, ok = [], 0
     for exp in nums:
         got = find_reported(rep, exp)
+        if got is None and exp["value"] is not None:
+            # Architecture-neutral fallback: a kept sentence that states the true number (unit-aware, at its own
+            # displayed precision) counts, even without a MetricRecord. Without this, systems that write numbers
+            # in prose (B0, B1) were scored "missing" even when right, which hid their real error rate.
+            if any(_states_value(c["text"], exp) for c in kept_claims(rep)):
+                ok += 1
+                details.append({"key": exp["key"], "result": "ok", "via": "prose", "expected": exp["value"]})
+                continue
         if got is None:
             details.append({"key": exp["key"], "result": "missing"})
             continue

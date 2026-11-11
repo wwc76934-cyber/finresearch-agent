@@ -19,7 +19,7 @@ from evaluation_platform.error_analysis import classify  # noqa: E402
 if __name__ == "__main__":
     name = sys.argv[1]
     part = ROOT / "reports" / "eval" / f"{name}.partial.jsonl"
-    tasks = {t["task_id"]: t for t in load_tasks()}
+    tasks = {t["task_id"]: t for t in load_tasks(("golden", "blind", "chaos", "lab", "quant"))}
     out = []
     rubric_fn = evaluators.EVALUATORS.pop("rubric")
     try:

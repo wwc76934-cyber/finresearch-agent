@@ -41,7 +41,7 @@ def truth(o: Oracle, t: str, m: str, pe: date, as_of: datetime, scope: str):
     return (v, "OK") if v is not None else (None, "INSUFFICIENT_DATA")
 
 
-def build(src: Path) -> list[dict]:
+def build(src: Path, dataset: str = "blind") -> list[dict]:
     o, out, errors = Oracle(), [], []
     for i, line in enumerate(src.read_text(encoding="utf-8").splitlines(), 1):
         if not line.strip():
@@ -87,7 +87,7 @@ def build(src: Path) -> list[dict]:
             expected["must_refuse"] = True
         else:
             expected["rubric"] = True
-        out.append({"task_id": q["id"], "dataset": "blind", "category": TYPE_TO_CAT[q["type"]], "trap_type": q["type"],
+        out.append({"task_id": q["id"], "dataset": dataset, "category": TYPE_TO_CAT[q["type"]], "trap_type": q["type"],
                     "ticker": q["ticker"], "as_of": as_of.isoformat(), "question": q["question"],
                     "mode": "deep" if q["type"] in ("open", "anomaly") else "fast", "fault_injection": {},
                     "expected": expected, "author": q["author"], "notes": q.get("notes", "")})
@@ -98,11 +98,13 @@ def build(src: Path) -> list[dict]:
 
 
 if __name__ == "__main__":
+    # python scripts/build_blind.py [source.jsonl] [dataset]   dataset "blind" (default) or e.g. "blind2"
     src = Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT / "benchmarks" / "blind" / "blind_v1.jsonl"
+    dataset = sys.argv[2] if len(sys.argv) > 2 else "blind"
     if not src.exists():
         sys.exit(f"{src} not found; copy benchmarks/blind/blind_template.jsonl and write your questions")
-    tasks = build(src)
+    tasks = build(src, dataset)
     TASK_DIR.mkdir(parents=True, exist_ok=True)
-    (TASK_DIR / "blind_v1.jsonl").write_text("\n".join(json.dumps(t, ensure_ascii=False) for t in tasks) + "\n",
-                                             encoding="utf-8")
-    print(f"{len(tasks)} blind task(s) -> {TASK_DIR / 'blind_v1.jsonl'}")
+    out = TASK_DIR / f"{dataset}_v1.jsonl"
+    out.write_text("\n".join(json.dumps(t, ensure_ascii=False) for t in tasks) + "\n", encoding="utf-8")
+    print(f"{len(tasks)} {dataset} task(s) -> {out}")

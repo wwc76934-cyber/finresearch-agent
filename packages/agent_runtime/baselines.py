@@ -6,6 +6,7 @@ B2 Single ReAct agent: one agent, shared context, fixed tool budget, no verifier
 """
 from __future__ import annotations
 
+import json
 import re
 import time
 from datetime import datetime
@@ -65,16 +66,60 @@ METRIC_CN = {"operating_revenue": "营业收入", "net_profit": "归属于母公
              "operating_cash_flow": "经营活动产生的现金流量净额", "accounts_receivable": "应收账款", "inventory": "存货"}
 
 
+def _b1_llm_answer(ctx: RunContext, asks, evs) -> bool:
+    """Classic Naive RAG: paste the five raw chunks into one prompt and let the model read the numbers and do the
+    arithmetic itself. No calculator, no unit anchors, no as_of filter, no refusal logic of its own."""
+    from data_platform.catalog import cn_name
+
+    wanted = [{"ask_id": a.ask_id, "metric": a.metric, "name": cn_name(a.metric.split(":")[-1]), "period": a.period}
+              for a in asks if a.kind == "metric" and a.metric]
+    sys_p = ("你是金融分析师。只根据给出的检索片段回答问题。若片段里找不到答案，can_answer 填 false。"
+             '输出JSON {"can_answer":true,"answer":"一两句话","values":{"<ask_id>":数值}}。'
+             "values 的数值：金额用“元”，比率/增速用小数（如 0.123 表示 12.3%），倍数用倍。需要计算时自己计算。")
+    user = json.dumps({"question": ctx.request.question, "as_of": ctx.as_of.isoformat(), "wanted": wanted,
+                       "chunks": [e.excerpt[:1500] for e in evs]}, ensure_ascii=False)
+    d = call_json(ctx.llm, ctx.tracer, "naive", sys_p, user, "strong", validate=lambda d: isinstance(d.get("values", {}), dict))
+    if not d:
+        return False
+    if d.get("can_answer") is False:
+        ctx.open_questions.append({"topic": ctx.request.question[:60], "reason": "模型在检索片段中找不到答案"})
+        return True
+    for a in asks:
+        raw = (d.get("values") or {}).get(a.ask_id)
+        if a.kind != "metric" or not a.metric or not isinstance(raw, (int, float)):
+            continue
+        unit = ("ratio" if a.metric.endswith(("_yoy", "_qoq", "margin", "ocf_to_net_profit")) or a.metric == "gross_margin"
+                else "x" if a.metric in ("pe_ttm", "pb_lf", "ev_ebitda") else "CNY")
+        rec = MetricRecord(metric_id=f"m_naive_{a.ask_id}", ticker=ctx.ticker, metric=a.metric, value=float(raw), unit=unit,
+                           period=a.period or "?", statement_scope=StatementScope.CONSOLIDATED, formula="read by the model from chunks",
+                           input_ids=[evs[0].source_ref] if evs else [], available_at=evs[0].available_at if evs else ctx.as_of,
+                           as_of=ctx.as_of)
+        ctx.calc.store[rec.metric_id] = rec
+        ctx.answers[a.ask_id] = {"ask": a.model_dump(), "metric_id": rec.metric_id, "value": rec.value, "status": "OK",
+                                 "unit": unit, "display": fmt(rec)}
+        if evs:
+            ctx.add_claim("answer", "disclosed_fact", f"{cn_name(a.metric.split(':')[-1])}约为{fmt(rec)}", [evs[0]], "naive")
+    if d.get("answer") and evs:
+        ctx.add_claim("financials", "disclosed_fact", str(d["answer"])[:200], [evs[0]], "naive")
+    return True
+
+
 @_wrap
 def b1_naive(ctx: RunContext) -> dict:
     with ctx.tracer.node("naive_rag") as span:
         retr = get_retriever(ctx.db_url, naive=True)
-        hits = retr.search(ctx.request.question + " " + ctx.ticker, ticker=None, as_of=None, mode="bm25", top_k=5,
+        # PRD v1.2 1.3: standard Top-5 dense retrieval over fixed-length chunks. The company is known from the request, so
+        # the search is limited to it; there is NO as_of / scope / section filter, no table anchors and no calculator.
+        hits = retr.search(ctx.request.question, ticker=ctx.ticker, as_of=None, mode="dense", top_k=5,
                            rerank=False, return_parents=False)
-        ctx.tracer.tool("retrieve", {"query": ctx.request.question, "filters": "none"}, result=f"{len(hits)} chunks")
+        ctx.tracer.tool("retrieve", {"query": ctx.request.question, "filters": f"ticker={ctx.ticker} only"},
+                        result=f"{len(hits)} chunks")
         evs = [ctx.evidence_from_hit(h, "naive") for h in hits]
         ctx.tracer.llm("naive", LLMResult(None, estimate_tokens("".join(e.excerpt for e in evs)), 0, 0, "context"), "strong")
         asks = planner.rule_asks(ctx.request.question, None)
+        if ctx.llm.online and _b1_llm_answer(ctx, asks, evs):
+            span["summary"] = f"{len(hits)} chunks -> one LLM call reading raw text, {len(ctx.answers)} answers"
+            return {}
         for a in asks:
             if a.kind == "unanswerable":
                 continue  # naive pipelines do not know when to refuse
