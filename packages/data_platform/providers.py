@@ -143,6 +143,7 @@ class YahooPrices:
             "period2": int(end.replace(tzinfo=timezone.utc).timestamp()), "interval": "1d", "events": "div,splits"})
         res = body["chart"]["result"][0]
         q = res["indicators"]["quote"][0]
+        adj = ((res["indicators"].get("adjclose") or [{}])[0]).get("adjclose")
         out = []
         for i, ts in enumerate(res.get("timestamp") or []):
             if q["close"][i] is None:
@@ -150,5 +151,7 @@ class YahooPrices:
             d = (datetime.fromtimestamp(ts, tz=timezone.utc).replace(tzinfo=None)
                  + (datetime(2000, 1, 1, 8) - datetime(2000, 1, 1))).date()
             out.append({"date": d, "open": q["open"][i], "high": q["high"][i], "low": q["low"][i],
-                        "close": q["close"][i], "volume": q["volume"][i] or 0})
+                        "close": q["close"][i], "volume": q["volume"][i] or 0,
+                        # split- and dividend-adjusted close, needed for forward returns across ex-dividend dates
+                        "adj_close": adj[i] if adj and adj[i] is not None else q["close"][i]})
         return out

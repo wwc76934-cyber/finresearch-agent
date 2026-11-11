@@ -145,7 +145,7 @@ def fan_out_replan(state: GraphState):
 
 def node_debate(state: GraphState) -> dict:
     ctx = get_context(state["run_id"])
-    if not ctx.config.debate:
+    if not ctx.config.debate or ctx.factor_only:
         return {"debate": {}}
     with ctx.tracer.node("debate") as span:
         _account(ctx, "debate", state)
@@ -156,7 +156,7 @@ def node_debate(state: GraphState) -> dict:
 
 def node_risk(state: GraphState) -> dict:
     ctx = get_context(state["run_id"])
-    if not ctx.config.risk_agent:
+    if not ctx.config.risk_agent or ctx.factor_only:
         return {"risk": {}}
     with ctx.tracer.node("risk") as span:
         _account(ctx, "risk", state)

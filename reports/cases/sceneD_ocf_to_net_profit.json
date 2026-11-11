@@ -1,0 +1,1300 @@
+{
+ "run_id": "run_20261111164824_728cf3",
+ "architecture": "B4",
+ "ticker": "300750.SZ",
+ "name": "宁德时代",
+ "as_of": "2025-12-31T15:00:00",
+ "snapshot_id": "snap_202512311500_1c082b71",
+ "question": "在过去2年新能源和大消费两个板块的样本公司中，经营现金流与净利润比值（盈利现金保障）越高，下一季度（60个交易日）的收益是否越好？请做三分组横截面因子检验。",
+ "overview": "研究型因子检验（场景D），研究时点 2025-12-31 15:00:00。样本池为 benchmarks/factor_panel 的24家A股，财务数据按公告次日可见，收益窗口在研究时点前结束。结果只描述样本期内的统计关系。",
+ "executive_summary": "",
+ "sections": [
+  {
+   "key": "overview",
+   "title": "公司与行业概况",
+   "claim_ids": []
+  },
+  {
+   "key": "answer",
+   "title": "问题直接回答",
+   "claim_ids": [
+    "C001",
+    "C002",
+    "C003"
+   ]
+  },
+  {
+   "key": "quant",
+   "title": "因子检验结论",
+   "claim_ids": [
+    "C004"
+   ]
+  }
+ ],
+ "claims": {
+  "C001": {
+   "claim_id": "C001",
+   "section": "answer",
+   "claim_type": "derived_metric",
+   "text": "盈利现金保障倍数(OCF/净利润,TTM)（越高越好）在全部样本池的横截面检验：8个季度截面，每个截面约20家公司，持有60个交易日；RankIC均值0.1687，IC均值-0.0140，RankIC_IR为0.4867。",
+   "evidence_ids": [
+    "E001",
+    "E002",
+    "E003",
+    "E004",
+    "E005",
+    "E006"
+   ],
+   "metric_ids": [
+    "m_300750_factor_n_cs_2025-12-31_ocf_to_net_profit_all",
+    "m_300750_factor_n_stocks_2025-12-31_ocf_to_net_profit_all",
+    "m_300750_factor_horizon_days_2025-12-31_ocf_to_net_profit_all",
+    "m_300750_factor_rank_ic_mean_2025-12-31_ocf_to_net_profit_all",
+    "m_300750_factor_ic_mean_2025-12-31_ocf_to_net_profit_all",
+    "m_300750_factor_rank_ic_ir_2025-12-31_ocf_to_net_profit_all"
+   ],
+   "produced_by": "fundamental",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C002": {
+   "claim_id": "C002",
+   "section": "answer",
+   "claim_type": "derived_metric",
+   "text": "RankIC序列的t统计量为1.3767，双侧p值为0.2110。",
+   "evidence_ids": [
+    "E007",
+    "E008"
+   ],
+   "metric_ids": [
+    "m_300750_factor_rank_ic_t_2025-12-31_ocf_to_net_profit_all",
+    "m_300750_factor_rank_ic_p_2025-12-31_ocf_to_net_profit_all"
+   ],
+   "produced_by": "fundamental",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C003": {
+   "claim_id": "C003",
+   "section": "answer",
+   "claim_type": "derived_metric",
+   "text": "分3组（因子值从低到高）平均后续收益：最低组-1.98%，中间组-0.66%，最高组1.90%；最高组减最低组每期3.88%，累计27.90%，最大回撤-22.43%。",
+   "evidence_ids": [
+    "E009",
+    "E010",
+    "E011",
+    "E012",
+    "E013",
+    "E014",
+    "E015"
+   ],
+   "metric_ids": [
+    "m_300750_factor_quantiles_2025-12-31_ocf_to_net_profit_all",
+    "m_300750_factor_group_return_2025-12-31_ocf_to_net_profit_all_g1",
+    "m_300750_factor_group_return_2025-12-31_ocf_to_net_profit_all_g2",
+    "m_300750_factor_group_return_2025-12-31_ocf_to_net_profit_all_g3",
+    "m_300750_factor_ls_mean_2025-12-31_ocf_to_net_profit_all",
+    "m_300750_factor_ls_cum_2025-12-31_ocf_to_net_profit_all",
+    "m_300750_factor_ls_mdd_2025-12-31_ocf_to_net_profit_all"
+   ],
+   "produced_by": "fundamental",
+   "status": "VERIFIED",
+   "attempts": 0
+  },
+  "C004": {
+   "claim_id": "C004",
+   "section": "quant",
+   "claim_type": "model_inference",
+   "text": "推断：RankIC的p值为0.2110，未达到常规显著性水平；在该样本池和样本期内，没有足够证据说明该因子能预测后续收益，RankIC均值0.1687可能只是随机波动。",
+   "evidence_ids": [
+    "E004",
+    "E008",
+    "E001"
+   ],
+   "metric_ids": [
+    "m_300750_factor_rank_ic_mean_2025-12-31_ocf_to_net_profit_all",
+    "m_300750_factor_rank_ic_p_2025-12-31_ocf_to_net_profit_all",
+    "m_300750_factor_n_cs_2025-12-31_ocf_to_net_profit_all"
+   ],
+   "produced_by": "fundamental",
+   "status": "VERIFIED",
+   "attempts": 0
+  }
+ },
+ "evidence": {
+  "E001": {
+   "evidence_id": "E001",
+   "kind": "metric",
+   "source_ref": "m_300750_factor_n_cs_2025-12-31_ocf_to_net_profit_all",
+   "summary": "2025-12-31 截面个数 = 8",
+   "excerpt": "formula: number of usable quarterly cross-sections; inputs: factor_panel:ocf_to_net_profit:all:h60:q3",
+   "available_at": "2025-12-31T15:00:00",
+   "metric_ids": [
+    "m_300750_factor_n_cs_2025-12-31_ocf_to_net_profit_all"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E002": {
+   "evidence_id": "E002",
+   "kind": "metric",
+   "source_ref": "m_300750_factor_n_stocks_2025-12-31_ocf_to_net_profit_all",
+   "summary": "2025-12-31 每截面公司数(中位数) = 20",
+   "excerpt": "formula: median number of companies with a valid factor and forward return; inputs: factor_panel:ocf_to_net_profit:all:h60:q3",
+   "available_at": "2025-12-31T15:00:00",
+   "metric_ids": [
+    "m_300750_factor_n_stocks_2025-12-31_ocf_to_net_profit_all"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E003": {
+   "evidence_id": "E003",
+   "kind": "metric",
+   "source_ref": "m_300750_factor_horizon_days_2025-12-31_ocf_to_net_profit_all",
+   "summary": "2025-12-31 持有交易日数 = 60",
+   "excerpt": "formula: forward_horizon_days parameter; inputs: factor_panel:ocf_to_net_profit:all:h60:q3",
+   "available_at": "2025-12-31T15:00:00",
+   "metric_ids": [
+    "m_300750_factor_horizon_days_2025-12-31_ocf_to_net_profit_all"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E004": {
+   "evidence_id": "E004",
+   "kind": "metric",
+   "source_ref": "m_300750_factor_rank_ic_mean_2025-12-31_ocf_to_net_profit_all",
+   "summary": "2025-12-31 因子RankIC均值 = 0.1687",
+   "excerpt": "formula: mean over quarterly cross-sections of spearman(factor, forward_return); inputs: factor_panel:ocf_to_net_profit:all:h60:q3",
+   "available_at": "2025-12-31T15:00:00",
+   "metric_ids": [
+    "m_300750_factor_rank_ic_mean_2025-12-31_ocf_to_net_profit_all"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E005": {
+   "evidence_id": "E005",
+   "kind": "metric",
+   "source_ref": "m_300750_factor_ic_mean_2025-12-31_ocf_to_net_profit_all",
+   "summary": "2025-12-31 因子IC均值 = -0.0140",
+   "excerpt": "formula: mean over quarterly cross-sections of pearson(factor, forward_return); inputs: factor_panel:ocf_to_net_profit:all:h60:q3",
+   "available_at": "2025-12-31T15:00:00",
+   "metric_ids": [
+    "m_300750_factor_ic_mean_2025-12-31_ocf_to_net_profit_all"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E006": {
+   "evidence_id": "E006",
+   "kind": "metric",
+   "source_ref": "m_300750_factor_rank_ic_ir_2025-12-31_ocf_to_net_profit_all",
+   "summary": "2025-12-31 RankIC_IR = 0.4867",
+   "excerpt": "formula: mean(RankIC) / std(RankIC); inputs: factor_panel:ocf_to_net_profit:all:h60:q3",
+   "available_at": "2025-12-31T15:00:00",
+   "metric_ids": [
+    "m_300750_factor_rank_ic_ir_2025-12-31_ocf_to_net_profit_all"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E007": {
+   "evidence_id": "E007",
+   "kind": "metric",
+   "source_ref": "m_300750_factor_rank_ic_t_2025-12-31_ocf_to_net_profit_all",
+   "summary": "2025-12-31 RankIC的t统计量 = 1.3767",
+   "excerpt": "formula: one-sample t-test of RankIC series against 0; inputs: factor_panel:ocf_to_net_profit:all:h60:q3",
+   "available_at": "2025-12-31T15:00:00",
+   "metric_ids": [
+    "m_300750_factor_rank_ic_t_2025-12-31_ocf_to_net_profit_all"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E008": {
+   "evidence_id": "E008",
+   "kind": "metric",
+   "source_ref": "m_300750_factor_rank_ic_p_2025-12-31_ocf_to_net_profit_all",
+   "summary": "2025-12-31 RankIC的p值 = 0.2110",
+   "excerpt": "formula: two-sided p-value of that t-test; inputs: factor_panel:ocf_to_net_profit:all:h60:q3",
+   "available_at": "2025-12-31T15:00:00",
+   "metric_ids": [
+    "m_300750_factor_rank_ic_p_2025-12-31_ocf_to_net_profit_all"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E009": {
+   "evidence_id": "E009",
+   "kind": "metric",
+   "source_ref": "m_300750_factor_quantiles_2025-12-31_ocf_to_net_profit_all",
+   "summary": "2025-12-31 分组数 = 3",
+   "excerpt": "formula: quantiles parameter; inputs: factor_panel:ocf_to_net_profit:all:h60:q3",
+   "available_at": "2025-12-31T15:00:00",
+   "metric_ids": [
+    "m_300750_factor_quantiles_2025-12-31_ocf_to_net_profit_all"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E010": {
+   "evidence_id": "E010",
+   "kind": "metric",
+   "source_ref": "m_300750_factor_group_return_2025-12-31_ocf_to_net_profit_all_g1",
+   "summary": "2025-12-31 分组平均后续收益 = -1.98%",
+   "excerpt": "formula: mean forward return of the group, averaged over cross-sections; inputs: factor_panel:ocf_to_net_profit:all:h60:q3",
+   "available_at": "2025-12-31T15:00:00",
+   "metric_ids": [
+    "m_300750_factor_group_return_2025-12-31_ocf_to_net_profit_all_g1"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E011": {
+   "evidence_id": "E011",
+   "kind": "metric",
+   "source_ref": "m_300750_factor_group_return_2025-12-31_ocf_to_net_profit_all_g2",
+   "summary": "2025-12-31 分组平均后续收益 = -0.66%",
+   "excerpt": "formula: mean forward return of the group, averaged over cross-sections; inputs: factor_panel:ocf_to_net_profit:all:h60:q3",
+   "available_at": "2025-12-31T15:00:00",
+   "metric_ids": [
+    "m_300750_factor_group_return_2025-12-31_ocf_to_net_profit_all_g2"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E012": {
+   "evidence_id": "E012",
+   "kind": "metric",
+   "source_ref": "m_300750_factor_group_return_2025-12-31_ocf_to_net_profit_all_g3",
+   "summary": "2025-12-31 分组平均后续收益 = 1.90%",
+   "excerpt": "formula: mean forward return of the group, averaged over cross-sections; inputs: factor_panel:ocf_to_net_profit:all:h60:q3",
+   "available_at": "2025-12-31T15:00:00",
+   "metric_ids": [
+    "m_300750_factor_group_return_2025-12-31_ocf_to_net_profit_all_g3"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E013": {
+   "evidence_id": "E013",
+   "kind": "metric",
+   "source_ref": "m_300750_factor_ls_mean_2025-12-31_ocf_to_net_profit_all",
+   "summary": "2025-12-31 最高组减最低组每期收益 = 3.88%",
+   "excerpt": "formula: mean(top group return - bottom group return); inputs: factor_panel:ocf_to_net_profit:all:h60:q3",
+   "available_at": "2025-12-31T15:00:00",
+   "metric_ids": [
+    "m_300750_factor_ls_mean_2025-12-31_ocf_to_net_profit_all"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E014": {
+   "evidence_id": "E014",
+   "kind": "metric",
+   "source_ref": "m_300750_factor_ls_cum_2025-12-31_ocf_to_net_profit_all",
+   "summary": "2025-12-31 多空组合累计收益 = 27.90%",
+   "excerpt": "formula: prod(1 + long_short_k) - 1; inputs: factor_panel:ocf_to_net_profit:all:h60:q3",
+   "available_at": "2025-12-31T15:00:00",
+   "metric_ids": [
+    "m_300750_factor_ls_cum_2025-12-31_ocf_to_net_profit_all"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  },
+  "E015": {
+   "evidence_id": "E015",
+   "kind": "metric",
+   "source_ref": "m_300750_factor_ls_mdd_2025-12-31_ocf_to_net_profit_all",
+   "summary": "2025-12-31 多空组合最大回撤 = -22.43%",
+   "excerpt": "formula: min(nav / running_peak - 1); inputs: factor_panel:ocf_to_net_profit:all:h60:q3",
+   "available_at": "2025-12-31T15:00:00",
+   "metric_ids": [
+    "m_300750_factor_ls_mdd_2025-12-31_ocf_to_net_profit_all"
+   ],
+   "document_id": null,
+   "page": null,
+   "produced_by": "fundamental"
+  }
+ },
+ "metrics": {
+  "m_300750_factor_group_return_2025-12-31_ocf_to_net_profit_all_g1": {
+   "metric_id": "m_300750_factor_group_return_2025-12-31_ocf_to_net_profit_all_g1",
+   "ticker": "300750.SZ",
+   "metric": "factor_group_return",
+   "value": -0.01981618332505596,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2025-12-31",
+   "statement_scope": "consolidated",
+   "formula": "mean forward return of the group, averaged over cross-sections",
+   "formula_version": "v1",
+   "input_ids": [
+    "factor_panel:ocf_to_net_profit:all:h60:q3"
+   ],
+   "available_at": "2025-12-31T15:00:00",
+   "as_of": "2025-12-31T15:00:00",
+   "extra": {
+    "cn": "分组平均后续收益",
+    "factor": "ocf_to_net_profit",
+    "universe": "all",
+    "horizon_days": 60,
+    "group": "最低组"
+   }
+  },
+  "m_300750_factor_group_return_2025-12-31_ocf_to_net_profit_all_g2": {
+   "metric_id": "m_300750_factor_group_return_2025-12-31_ocf_to_net_profit_all_g2",
+   "ticker": "300750.SZ",
+   "metric": "factor_group_return",
+   "value": -0.006630616774313237,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2025-12-31",
+   "statement_scope": "consolidated",
+   "formula": "mean forward return of the group, averaged over cross-sections",
+   "formula_version": "v1",
+   "input_ids": [
+    "factor_panel:ocf_to_net_profit:all:h60:q3"
+   ],
+   "available_at": "2025-12-31T15:00:00",
+   "as_of": "2025-12-31T15:00:00",
+   "extra": {
+    "cn": "分组平均后续收益",
+    "factor": "ocf_to_net_profit",
+    "universe": "all",
+    "horizon_days": 60,
+    "group": "中间组"
+   }
+  },
+  "m_300750_factor_group_return_2025-12-31_ocf_to_net_profit_all_g3": {
+   "metric_id": "m_300750_factor_group_return_2025-12-31_ocf_to_net_profit_all_g3",
+   "ticker": "300750.SZ",
+   "metric": "factor_group_return",
+   "value": 0.018971547383543896,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2025-12-31",
+   "statement_scope": "consolidated",
+   "formula": "mean forward return of the group, averaged over cross-sections",
+   "formula_version": "v1",
+   "input_ids": [
+    "factor_panel:ocf_to_net_profit:all:h60:q3"
+   ],
+   "available_at": "2025-12-31T15:00:00",
+   "as_of": "2025-12-31T15:00:00",
+   "extra": {
+    "cn": "分组平均后续收益",
+    "factor": "ocf_to_net_profit",
+    "universe": "all",
+    "horizon_days": 60,
+    "group": "最高组"
+   }
+  },
+  "m_300750_factor_horizon_days_2025-12-31_ocf_to_net_profit_all": {
+   "metric_id": "m_300750_factor_horizon_days_2025-12-31_ocf_to_net_profit_all",
+   "ticker": "300750.SZ",
+   "metric": "factor_horizon_days",
+   "value": 60.0,
+   "unit": "count",
+   "status": "OK",
+   "period": "2025-12-31",
+   "statement_scope": "consolidated",
+   "formula": "forward_horizon_days parameter",
+   "formula_version": "v1",
+   "input_ids": [
+    "factor_panel:ocf_to_net_profit:all:h60:q3"
+   ],
+   "available_at": "2025-12-31T15:00:00",
+   "as_of": "2025-12-31T15:00:00",
+   "extra": {
+    "cn": "持有交易日数",
+    "factor": "ocf_to_net_profit",
+    "universe": "all",
+    "horizon_days": 60
+   }
+  },
+  "m_300750_factor_ic_mean_2025-12-31_ocf_to_net_profit_all": {
+   "metric_id": "m_300750_factor_ic_mean_2025-12-31_ocf_to_net_profit_all",
+   "ticker": "300750.SZ",
+   "metric": "factor_ic_mean",
+   "value": -0.0139667310119935,
+   "unit": "ic",
+   "status": "OK",
+   "period": "2025-12-31",
+   "statement_scope": "consolidated",
+   "formula": "mean over quarterly cross-sections of pearson(factor, forward_return)",
+   "formula_version": "v1",
+   "input_ids": [
+    "factor_panel:ocf_to_net_profit:all:h60:q3"
+   ],
+   "available_at": "2025-12-31T15:00:00",
+   "as_of": "2025-12-31T15:00:00",
+   "extra": {
+    "cn": "因子IC均值",
+    "factor": "ocf_to_net_profit",
+    "universe": "all",
+    "horizon_days": 60
+   }
+  },
+  "m_300750_factor_ls_cum_2025-12-31_ocf_to_net_profit_all": {
+   "metric_id": "m_300750_factor_ls_cum_2025-12-31_ocf_to_net_profit_all",
+   "ticker": "300750.SZ",
+   "metric": "factor_ls_cum",
+   "value": 0.2789606690803752,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2025-12-31",
+   "statement_scope": "consolidated",
+   "formula": "prod(1 + long_short_k) - 1",
+   "formula_version": "v1",
+   "input_ids": [
+    "factor_panel:ocf_to_net_profit:all:h60:q3"
+   ],
+   "available_at": "2025-12-31T15:00:00",
+   "as_of": "2025-12-31T15:00:00",
+   "extra": {
+    "cn": "多空组合累计收益",
+    "factor": "ocf_to_net_profit",
+    "universe": "all",
+    "horizon_days": 60
+   }
+  },
+  "m_300750_factor_ls_mdd_2025-12-31_ocf_to_net_profit_all": {
+   "metric_id": "m_300750_factor_ls_mdd_2025-12-31_ocf_to_net_profit_all",
+   "ticker": "300750.SZ",
+   "metric": "factor_ls_mdd",
+   "value": -0.22428165343747763,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2025-12-31",
+   "statement_scope": "consolidated",
+   "formula": "min(nav / running_peak - 1)",
+   "formula_version": "v1",
+   "input_ids": [
+    "factor_panel:ocf_to_net_profit:all:h60:q3"
+   ],
+   "available_at": "2025-12-31T15:00:00",
+   "as_of": "2025-12-31T15:00:00",
+   "extra": {
+    "cn": "多空组合最大回撤",
+    "factor": "ocf_to_net_profit",
+    "universe": "all",
+    "horizon_days": 60
+   }
+  },
+  "m_300750_factor_ls_mean_2025-12-31_ocf_to_net_profit_all": {
+   "metric_id": "m_300750_factor_ls_mean_2025-12-31_ocf_to_net_profit_all",
+   "ticker": "300750.SZ",
+   "metric": "factor_ls_mean",
+   "value": 0.03878773070859985,
+   "unit": "ratio",
+   "status": "OK",
+   "period": "2025-12-31",
+   "statement_scope": "consolidated",
+   "formula": "mean(top group return - bottom group return)",
+   "formula_version": "v1",
+   "input_ids": [
+    "factor_panel:ocf_to_net_profit:all:h60:q3"
+   ],
+   "available_at": "2025-12-31T15:00:00",
+   "as_of": "2025-12-31T15:00:00",
+   "extra": {
+    "cn": "最高组减最低组每期收益",
+    "factor": "ocf_to_net_profit",
+    "universe": "all",
+    "horizon_days": 60
+   }
+  },
+  "m_300750_factor_n_cs_2025-12-31_ocf_to_net_profit_all": {
+   "metric_id": "m_300750_factor_n_cs_2025-12-31_ocf_to_net_profit_all",
+   "ticker": "300750.SZ",
+   "metric": "factor_n_cs",
+   "value": 8.0,
+   "unit": "count",
+   "status": "OK",
+   "period": "2025-12-31",
+   "statement_scope": "consolidated",
+   "formula": "number of usable quarterly cross-sections",
+   "formula_version": "v1",
+   "input_ids": [
+    "factor_panel:ocf_to_net_profit:all:h60:q3"
+   ],
+   "available_at": "2025-12-31T15:00:00",
+   "as_of": "2025-12-31T15:00:00",
+   "extra": {
+    "cn": "截面个数",
+    "factor": "ocf_to_net_profit",
+    "universe": "all",
+    "horizon_days": 60
+   }
+  },
+  "m_300750_factor_n_stocks_2025-12-31_ocf_to_net_profit_all": {
+   "metric_id": "m_300750_factor_n_stocks_2025-12-31_ocf_to_net_profit_all",
+   "ticker": "300750.SZ",
+   "metric": "factor_n_stocks",
+   "value": 20.0,
+   "unit": "count",
+   "status": "OK",
+   "period": "2025-12-31",
+   "statement_scope": "consolidated",
+   "formula": "median number of companies with a valid factor and forward return",
+   "formula_version": "v1",
+   "input_ids": [
+    "factor_panel:ocf_to_net_profit:all:h60:q3"
+   ],
+   "available_at": "2025-12-31T15:00:00",
+   "as_of": "2025-12-31T15:00:00",
+   "extra": {
+    "cn": "每截面公司数(中位数)",
+    "factor": "ocf_to_net_profit",
+    "universe": "all",
+    "horizon_days": 60
+   }
+  },
+  "m_300750_factor_quantiles_2025-12-31_ocf_to_net_profit_all": {
+   "metric_id": "m_300750_factor_quantiles_2025-12-31_ocf_to_net_profit_all",
+   "ticker": "300750.SZ",
+   "metric": "factor_quantiles",
+   "value": 3.0,
+   "unit": "count",
+   "status": "OK",
+   "period": "2025-12-31",
+   "statement_scope": "consolidated",
+   "formula": "quantiles parameter",
+   "formula_version": "v1",
+   "input_ids": [
+    "factor_panel:ocf_to_net_profit:all:h60:q3"
+   ],
+   "available_at": "2025-12-31T15:00:00",
+   "as_of": "2025-12-31T15:00:00",
+   "extra": {
+    "cn": "分组数",
+    "factor": "ocf_to_net_profit",
+    "universe": "all",
+    "horizon_days": 60
+   }
+  },
+  "m_300750_factor_rank_ic_ir_2025-12-31_ocf_to_net_profit_all": {
+   "metric_id": "m_300750_factor_rank_ic_ir_2025-12-31_ocf_to_net_profit_all",
+   "ticker": "300750.SZ",
+   "metric": "factor_rank_ic_ir",
+   "value": 0.48674438210623605,
+   "unit": "ic",
+   "status": "OK",
+   "period": "2025-12-31",
+   "statement_scope": "consolidated",
+   "formula": "mean(RankIC) / std(RankIC)",
+   "formula_version": "v1",
+   "input_ids": [
+    "factor_panel:ocf_to_net_profit:all:h60:q3"
+   ],
+   "available_at": "2025-12-31T15:00:00",
+   "as_of": "2025-12-31T15:00:00",
+   "extra": {
+    "cn": "RankIC_IR",
+    "factor": "ocf_to_net_profit",
+    "universe": "all",
+    "horizon_days": 60
+   }
+  },
+  "m_300750_factor_rank_ic_mean_2025-12-31_ocf_to_net_profit_all": {
+   "metric_id": "m_300750_factor_rank_ic_mean_2025-12-31_ocf_to_net_profit_all",
+   "ticker": "300750.SZ",
+   "metric": "factor_rank_ic_mean",
+   "value": 0.1687381497221314,
+   "unit": "ic",
+   "status": "OK",
+   "period": "2025-12-31",
+   "statement_scope": "consolidated",
+   "formula": "mean over quarterly cross-sections of spearman(factor, forward_return)",
+   "formula_version": "v1",
+   "input_ids": [
+    "factor_panel:ocf_to_net_profit:all:h60:q3"
+   ],
+   "available_at": "2025-12-31T15:00:00",
+   "as_of": "2025-12-31T15:00:00",
+   "extra": {
+    "cn": "因子RankIC均值",
+    "factor": "ocf_to_net_profit",
+    "universe": "all",
+    "horizon_days": 60
+   }
+  },
+  "m_300750_factor_rank_ic_p_2025-12-31_ocf_to_net_profit_all": {
+   "metric_id": "m_300750_factor_rank_ic_p_2025-12-31_ocf_to_net_profit_all",
+   "ticker": "300750.SZ",
+   "metric": "factor_rank_ic_p",
+   "value": 0.2110161904206553,
+   "unit": "stat",
+   "status": "OK",
+   "period": "2025-12-31",
+   "statement_scope": "consolidated",
+   "formula": "two-sided p-value of that t-test",
+   "formula_version": "v1",
+   "input_ids": [
+    "factor_panel:ocf_to_net_profit:all:h60:q3"
+   ],
+   "available_at": "2025-12-31T15:00:00",
+   "as_of": "2025-12-31T15:00:00",
+   "extra": {
+    "cn": "RankIC的p值",
+    "factor": "ocf_to_net_profit",
+    "universe": "all",
+    "horizon_days": 60
+   }
+  },
+  "m_300750_factor_rank_ic_t_2025-12-31_ocf_to_net_profit_all": {
+   "metric_id": "m_300750_factor_rank_ic_t_2025-12-31_ocf_to_net_profit_all",
+   "ticker": "300750.SZ",
+   "metric": "factor_rank_ic_t",
+   "value": 1.3767210131671022,
+   "unit": "stat",
+   "status": "OK",
+   "period": "2025-12-31",
+   "statement_scope": "consolidated",
+   "formula": "one-sample t-test of RankIC series against 0",
+   "formula_version": "v1",
+   "input_ids": [
+    "factor_panel:ocf_to_net_profit:all:h60:q3"
+   ],
+   "available_at": "2025-12-31T15:00:00",
+   "as_of": "2025-12-31T15:00:00",
+   "extra": {
+    "cn": "RankIC的t统计量",
+    "factor": "ocf_to_net_profit",
+    "universe": "all",
+    "horizon_days": 60
+   }
+  }
+ },
+ "answers": {
+  "A1": {
+   "ask": {
+    "ask_id": "A1",
+    "kind": "factor_test",
+    "metric": null,
+    "period": null,
+    "scope": "consolidated",
+    "unit": null,
+    "topic": "在过去2年新能源和大消费两个板块的样本公司中，经营现金流与净利润比值（盈利现金保障）越高，下一季度（60个交易日）的收益是否越好？请做三分组横截面因子检验。",
+    "params": {
+     "factor_name": "ocf_to_net_profit",
+     "universe": "all",
+     "forward_horizon_days": 60,
+     "lookback_quarters": 8,
+     "quantiles": 3
+    }
+   },
+   "metric_id": "m_300750_factor_rank_ic_mean_2025-12-31_ocf_to_net_profit_all",
+   "value": 0.1687381497221314,
+   "status": "OK",
+   "unit": "ic",
+   "display": "0.1687",
+   "claim_id": "C001"
+  }
+ },
+ "open_questions": [
+  {
+   "ask_id": "A1",
+   "topic": "样本局限[SURVIVORSHIP]：样本池全是今天仍在上市的公司，退市或被剔除的公司不在其中，质量类因子的结果偏乐观。",
+   "reason": "因子检验方法局限"
+  }
+ ],
+ "uncertainties": [],
+ "anomalies": [],
+ "conflicts": [],
+ "debate": {},
+ "risk": {},
+ "timeline": [],
+ "charts": {
+  "factor_rank_ic_0": {
+   "title": {
+    "text": "ocf_to_net_profit 横截面 RankIC（all）"
+   },
+   "tooltip": {
+    "trigger": "axis"
+   },
+   "xAxis": {
+    "type": "category",
+    "data": [
+     "2023-12-29",
+     "2024-03-29",
+     "2024-06-28",
+     "2024-09-30",
+     "2024-12-31",
+     "2025-03-31",
+     "2025-06-30",
+     "2025-09-30"
+    ]
+   },
+   "yAxis": {
+    "type": "value",
+    "name": "RankIC"
+   },
+   "series": [
+    {
+     "type": "bar",
+     "data": [
+      0.5722,
+      0.6983,
+      0.1261,
+      0.409,
+      -0.1489,
+      -0.0962,
+      -0.1982,
+      -0.0123
+     ],
+     "markLine": {
+      "data": [
+       {
+        "type": "average",
+        "name": "均值"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  "factor_nav_0": {
+   "title": {
+    "text": "分组与多空累计净值"
+   },
+   "tooltip": {
+    "trigger": "axis"
+   },
+   "legend": {
+    "data": [
+     "long_short",
+     "G1",
+     "G2",
+     "G3"
+    ]
+   },
+   "xAxis": {
+    "type": "category",
+    "data": [
+     "start",
+     "2023-12-29",
+     "2024-03-29",
+     "2024-06-28",
+     "2024-09-30",
+     "2024-12-31",
+     "2025-03-31",
+     "2025-06-30",
+     "2025-09-30"
+    ]
+   },
+   "yAxis": {
+    "type": "value",
+    "scale": true
+   },
+   "series": [
+    {
+     "name": "long_short",
+     "type": "line",
+     "data": [
+      1.0,
+      1.2044,
+      1.4799,
+      1.5062,
+      1.6487,
+      1.594,
+      1.5637,
+      1.2858,
+      1.279
+     ]
+    },
+    {
+     "name": "G1",
+     "type": "line",
+     "data": [
+      1.0,
+      0.9256,
+      0.722,
+      0.6916,
+      0.6086,
+      0.6282,
+      0.5994,
+      0.8233,
+      0.7723
+     ]
+    },
+    {
+     "name": "G2",
+     "type": "line",
+     "data": [
+      1.0,
+      1.0414,
+      0.9454,
+      0.9152,
+      0.8734,
+      0.8399,
+      0.8056,
+      0.9349,
+      0.9293
+     ]
+    },
+    {
+     "name": "G3",
+     "type": "line",
+     "data": [
+      1.0,
+      1.13,
+      1.14,
+      1.1122,
+      1.084,
+      1.0829,
+      1.0127,
+      1.211,
+      1.1295
+     ]
+    }
+   ]
+  }
+ },
+ "verification_log": [
+  {
+   "claim_id": "C001",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C002",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C003",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  },
+  {
+   "claim_id": "C004",
+   "tier": 2,
+   "passed": true,
+   "error_type": null,
+   "attempt": 0,
+   "circuit_broken": false
+  }
+ ],
+ "judge_notes": {},
+ "executive_summary_source": "template",
+ "plan": {
+  "plan_id": "run_20261111164824_728cf3-plan",
+  "subtasks": [
+   {
+    "task_id": "T1",
+    "agent": "fundamental",
+    "objective": "横截面因子检验（IC/RankIC/分组/多空）",
+    "tool_budget": 2,
+    "depends_on": [],
+    "acceptance": "所有统计量由 evaluate_factor_hypothesis 算子计算并入证据库",
+    "query": null,
+    "section_types": null,
+    "anomaly_code": null
+   }
+  ],
+  "asks": [
+   {
+    "ask_id": "A1",
+    "kind": "factor_test",
+    "metric": null,
+    "period": null,
+    "scope": "consolidated",
+    "unit": null,
+    "topic": "在过去2年新能源和大消费两个板块的样本公司中，经营现金流与净利润比值（盈利现金保障）越高，下一季度（60个交易日）的收益是否越好？请做三分组横截面因子检验。",
+    "params": {
+     "factor_name": "ocf_to_net_profit",
+     "universe": "all",
+     "forward_horizon_days": 60,
+     "lookback_quarters": 8,
+     "quantiles": 3
+    }
+   }
+  ],
+  "budget_tokens": 200000,
+  "rationale": "scenario D: factor test (rule parse)"
+ },
+ "scenario": "factor_test",
+ "factor_reports": [
+  {
+   "factor": "ocf_to_net_profit",
+   "universe": "all",
+   "as_of_date": "2025-12-31",
+   "lookback_quarters": 8,
+   "forward_horizon_days": 60,
+   "quantiles": 3,
+   "higher_is_better": true,
+   "n_cross_sections": 8,
+   "n_stocks_median": 20,
+   "ic_mean": -0.0139667310119935,
+   "ic_std": 0.4267226086029227,
+   "ic_ir": -0.03273023442024824,
+   "ic_t_stat": -0.09257508283353152,
+   "ic_p_value": 0.9288349158858291,
+   "rank_ic_mean": 0.1687381497221314,
+   "rank_ic_std": 0.3466668664812712,
+   "rank_ic_ir": 0.48674438210623605,
+   "rank_ic_t_stat": 1.3767210131671022,
+   "rank_ic_p_value": 0.2110161904206553,
+   "rank_ic_positive_share": 0.5,
+   "group_mean_returns": [
+    -0.01981618332505596,
+    -0.006630616774313237,
+    0.018971547383543896
+   ],
+   "long_short_mean_return": 0.03878773070859985,
+   "long_short_cum_return": 0.2789606690803752,
+   "long_short_max_drawdown": -0.22428165343747763,
+   "top_cum_excess_vs_universe": 0.1813840287462556,
+   "significant_5pct": false,
+   "cross_sections": [
+    {
+     "date": "2023-12-29",
+     "n": 24,
+     "ic": 0.3104875301494457,
+     "rank_ic": 0.5721739130434782,
+     "report_period": "2023Q3",
+     "group_returns": [
+      -0.07437740029909436,
+      0.04138294973419905,
+      0.13004922766939803
+     ],
+     "universe_return": 0.03235159236816757
+    },
+    {
+     "date": "2024-03-29",
+     "n": 24,
+     "ic": 0.6994030347807101,
+     "rank_ic": 0.6982608695652174,
+     "report_period": "2023Q3",
+     "group_returns": [
+      -0.21993463145606026,
+      -0.09217054990941007,
+      0.008765013525256701
+     ],
+     "universe_return": -0.1011133892800712
+    },
+    {
+     "date": "2024-06-28",
+     "n": 24,
+     "ic": 0.05919484196362896,
+     "rank_ic": 0.12608695652173912,
+     "report_period": "2024Q1",
+     "group_returns": [
+      -0.04212011424251949,
+      -0.03192211392975691,
+      -0.024339759190581817
+     ],
+     "universe_return": -0.03279399578761941
+    },
+    {
+     "date": "2024-09-30",
+     "n": 20,
+     "ic": 0.17648526252904323,
+     "rank_ic": 0.4090225563909774,
+     "report_period": "2024Q2",
+     "group_returns": [
+      -0.12001242503310773,
+      -0.04565806720136683,
+      -0.025368223765704894
+     ],
+     "universe_return": -0.06559513941177755
+    },
+    {
+     "date": "2024-12-31",
+     "n": 20,
+     "ic": -0.07403701259470861,
+     "rank_ic": -0.14887218045112782,
+     "report_period": "2024Q3",
+     "group_returns": [
+      0.03217090580492447,
+      -0.03839418247038105,
+      -0.001043445515754397
+     ],
+     "universe_return": -0.002491180487636124
+    },
+    {
+     "date": "2025-03-31",
+     "n": 20,
+     "ic": -0.6645608924588391,
+     "rank_ic": -0.09624060150375939,
+     "report_period": "2024Q3",
+     "group_returns": [
+      -0.045820163495993015,
+      -0.04081156261217359,
+      -0.06480728279207522
+     ],
+     "universe_return": -0.04976328897548088
+    },
+    {
+     "date": "2025-06-30",
+     "n": 19,
+     "ic": -0.4028040034850222,
+     "rank_ic": -0.19824561403508772,
+     "report_period": "2025Q1",
+     "group_returns": [
+      0.373532498142072,
+      0.16049157693770447,
+      0.19580513373387287
+     ],
+     "universe_return": 0.2501319868959983
+    },
+    {
+     "date": "2025-09-30",
+     "n": 19,
+     "ic": -0.2159026089802059,
+     "rank_ic": -0.012280701754385965,
+     "report_period": "2025Q2",
+     "group_returns": [
+      -0.06196813602066934,
+      -0.005962984743320965,
+      -0.06728828459606011
+     ],
+     "universe_return": -0.045962345693735356
+    }
+   ],
+   "nav": [
+    {
+     "date": "start",
+     "long_short": 1.0,
+     "G1": 1.0,
+     "G2": 1.0,
+     "G3": 1.0
+    },
+    {
+     "date": "2023-12-29",
+     "long_short": 1.2044266279684923,
+     "G1": 0.9256225997009057,
+     "G2": 1.041382949734199,
+     "G3": 1.130049227669398
+    },
+    {
+     "date": "2024-03-29",
+     "long_short": 1.4798785701909314,
+     "G1": 0.7220461343682866,
+     "G2": 0.9453981105909144,
+     "G3": 1.139954124434126
+    },
+    {
+     "date": "2024-06-28",
+     "long_short": 1.5061913366026802,
+     "G1": 0.6916334687003247,
+     "G2": 0.9152190043956543,
+     "G3": 1.1122079155570888
+    },
+    {
+     "date": "2024-09-30",
+     "long_short": 1.6487436126113229,
+     "G1": 0.6086288588875387,
+     "G2": 0.8734318735889895,
+     "G3": 1.0839931762812482
+    },
+    {
+     "date": "2024-12-31",
+     "long_short": 1.593981663024325,
+     "G1": 0.6282090005769684,
+     "G2": 0.8398971708589671,
+     "G3": 1.0828620884623492
+    },
+    {
+     "date": "2025-03-31",
+     "long_short": 1.5637165430327147,
+     "G1": 0.5994243614608773,
+     "G2": 0.805619654882669,
+     "G3": 1.0126847388705524
+    },
+    {
+     "date": "2025-06-30",
+     "long_short": 1.2858013231580099,
+     "G1": 0.8233288406445751,
+     "G2": 0.9349148237067977,
+     "G3": 1.2109736095953532
+    },
+    {
+     "date": "2025-09-30",
+     "long_short": 1.2789606690803752,
+     "G1": 0.7723086870577721,
+     "G2": 0.9293399408767294,
+     "G3": 1.1294892727145829
+    }
+   ],
+   "warnings": [
+    {
+     "code": "SURVIVORSHIP",
+     "message": "样本池全是今天仍在上市的公司，退市或被剔除的公司不在其中，质量类因子的结果偏乐观。"
+    }
+   ],
+   "summary": "盈利现金保障倍数(OCF/净利润,TTM)（越高越好）在all样本池、8个季度截面、持有60个交易日：RankIC均值+0.169，t=1.38，p=0.211，未达到5%显著水平；最高组减最低组每期+3.88%，累计+27.90%。"
+  }
+ ],
+ "markdown": "# 研究型因子检验报告\n\n- 研究时点 as_of: `2025-12-31T15:00:00`  快照: `snap_202512311500_1c082b71`  架构: `B4`\n\n研究型因子检验（场景D），研究时点 2025-12-31 15:00:00。样本池为 benchmarks/factor_panel 的24家A股，财务数据按公告次日可见，收益窗口在研究时点前结束。结果只描述样本期内的统计关系。\n\n## 问题直接回答\n- (算子指标) 盈利现金保障倍数(OCF/净利润,TTM)（越高越好）在全部样本池的横截面检验：8个季度截面，每个截面约20家公司，持有60个交易日；RankIC均值0.1687，IC均值-0.0140，RankIC_IR为0.4867。 [Evidence #E001] [Evidence #E002] [Evidence #E003] [Evidence #E004] [Evidence #E005] [Evidence #E006]\n- (算子指标) RankIC序列的t统计量为1.3767，双侧p值为0.2110。 [Evidence #E007] [Evidence #E008]\n- (算子指标) 分3组（因子值从低到高）平均后续收益：最低组-1.98%，中间组-0.66%，最高组1.90%；最高组减最低组每期3.88%，累计27.90%，最大回撤-22.43%。 [Evidence #E009] [Evidence #E010] [Evidence #E011] [Evidence #E012] [Evidence #E013] [Evidence #E014] [Evidence #E015]\n\n## 因子检验结论\n- (模型推断) 推断：RankIC的p值为0.2110，未达到常规显著性水平；在该样本池和样本期内，没有足够证据说明该因子能预测后续收益，RankIC均值0.1687可能只是随机波动。 [Evidence #E004] [Evidence #E008] [Evidence #E001]\n\n## 数据局限与不确定性声明\n- 待解答：样本局限[SURVIVORSHIP]：样本池全是今天仍在上市的公司，退市或被剔除的公司不在其中，质量类因子的结果偏乐观。（因子检验方法局限）\n\n## 引用\n\n- **E001** [metric] 2025-12-31 截面个数 = 8 — `m_300750_factor_n_cs_2025-12-31_ocf_to_net_profit_all` available_at=2025-12-31T15:00:00\n- **E002** [metric] 2025-12-31 每截面公司数(中位数) = 20 — `m_300750_factor_n_stocks_2025-12-31_ocf_to_net_profit_all` available_at=2025-12-31T15:00:00\n- **E003** [metric] 2025-12-31 持有交易日数 = 60 — `m_300750_factor_horizon_days_2025-12-31_ocf_to_net_profit_all` available_at=2025-12-31T15:00:00\n- **E004** [metric] 2025-12-31 因子RankIC均值 = 0.1687 — `m_300750_factor_rank_ic_mean_2025-12-31_ocf_to_net_profit_all` available_at=2025-12-31T15:00:00\n- **E005** [metric] 2025-12-31 因子IC均值 = -0.0140 — `m_300750_factor_ic_mean_2025-12-31_ocf_to_net_profit_all` available_at=2025-12-31T15:00:00\n- **E006** [metric] 2025-12-31 RankIC_IR = 0.4867 — `m_300750_factor_rank_ic_ir_2025-12-31_ocf_to_net_profit_all` available_at=2025-12-31T15:00:00\n- **E007** [metric] 2025-12-31 RankIC的t统计量 = 1.3767 — `m_300750_factor_rank_ic_t_2025-12-31_ocf_to_net_profit_all` available_at=2025-12-31T15:00:00\n- **E008** [metric] 2025-12-31 RankIC的p值 = 0.2110 — `m_300750_factor_rank_ic_p_2025-12-31_ocf_to_net_profit_all` available_at=2025-12-31T15:00:00\n- **E009** [metric] 2025-12-31 分组数 = 3 — `m_300750_factor_quantiles_2025-12-31_ocf_to_net_profit_all` available_at=2025-12-31T15:00:00\n- **E010** [metric] 2025-12-31 分组平均后续收益 = -1.98% — `m_300750_factor_group_return_2025-12-31_ocf_to_net_profit_all_g1` available_at=2025-12-31T15:00:00\n- **E011** [metric] 2025-12-31 分组平均后续收益 = -0.66% — `m_300750_factor_group_return_2025-12-31_ocf_to_net_profit_all_g2` available_at=2025-12-31T15:00:00\n- **E012** [metric] 2025-12-31 分组平均后续收益 = 1.90% — `m_300750_factor_group_return_2025-12-31_ocf_to_net_profit_all_g3` available_at=2025-12-31T15:00:00\n- **E013** [metric] 2025-12-31 最高组减最低组每期收益 = 3.88% — `m_300750_factor_ls_mean_2025-12-31_ocf_to_net_profit_all` available_at=2025-12-31T15:00:00\n- **E014** [metric] 2025-12-31 多空组合累计收益 = 27.90% — `m_300750_factor_ls_cum_2025-12-31_ocf_to_net_profit_all` available_at=2025-12-31T15:00:00\n- **E015** [metric] 2025-12-31 多空组合最大回撤 = -22.43% — `m_300750_factor_ls_mdd_2025-12-31_ocf_to_net_profit_all` available_at=2025-12-31T15:00:00\n",
+ "trace": [
+  {
+   "node": "planner",
+   "seq": 0,
+   "started_at": "2026-11-11T16:48:41.559951",
+   "tool_calls": [
+    {
+     "tool": "register_research_plan",
+     "args": {
+      "subtasks": [
+       "fundamental"
+      ],
+      "asks": 1,
+      "scenario": "factor_test"
+     },
+     "error": null,
+     "result": null
+    }
+   ],
+   "llm_calls": [],
+   "input_tokens": 0,
+   "output_tokens": 0,
+   "anomaly_flags": [],
+   "summary": "1 subtasks, 1 asks (scenario D: factor test (rule parse))",
+   "status": "ok",
+   "latency_ms": 1.5941000001475913
+  },
+  {
+   "node": "subgraph:fundamental:T1",
+   "seq": 1,
+   "started_at": "2026-11-11T16:48:41.562958",
+   "tool_calls": [
+    {
+     "tool": "evaluate_factor_hypothesis",
+     "args": {
+      "factor_name": "ocf_to_net_profit",
+      "universe": "all",
+      "forward_horizon_days": 60,
+      "lookback_quarters": 8,
+      "quantiles": 3,
+      "as_of_date": "2025-12-31"
+     },
+     "error": null,
+     "result": "factor='ocf_to_net_profit' universe='all' as_of_date='2025-12-31' lookback_quarters=8 forward_horizon_days=60 quantiles="
+    }
+   ],
+   "llm_calls": [],
+   "input_tokens": 0,
+   "output_tokens": 0,
+   "anomaly_flags": [],
+   "summary": "4 claims, 15 evidence, scratch=0 private notes",
+   "status": "ok",
+   "latency_ms": 2531.3645000005636
+  },
+  {
+   "node": "gather",
+   "seq": 2,
+   "started_at": "2026-11-11T16:48:44.096352",
+   "tool_calls": [],
+   "llm_calls": [],
+   "input_tokens": 0,
+   "output_tokens": 0,
+   "anomaly_flags": [],
+   "summary": "1 subtask summaries; anomalies=[]",
+   "status": "ok",
+   "latency_ms": 0.007800001185387373
+  },
+  {
+   "node": "verifier",
+   "seq": 3,
+   "started_at": "2026-11-11T16:48:44.099478",
+   "tool_calls": [
+    {
+     "tool": "run_deterministic_validators",
+     "args": {
+      "claims": 4
+     },
+     "error": null,
+     "result": "0 failure(s) in 1.3ms"
+    }
+   ],
+   "llm_calls": [
+    {
+     "model": "context",
+     "tier": "strong",
+     "in": 99,
+     "out": 0,
+     "latency_ms": 0.0,
+     "online": false
+    }
+   ],
+   "input_tokens": 99,
+   "output_tokens": 0,
+   "anomaly_flags": [],
+   "summary": "failures=[] downgraded=0",
+   "status": "ok",
+   "latency_ms": 1.3870000002498273
+  },
+  {
+   "node": "report",
+   "seq": 4,
+   "started_at": "2026-11-11T16:48:44.102513",
+   "tool_calls": [],
+   "llm_calls": [
+    {
+     "model": "context",
+     "tier": "strong",
+     "in": 99,
+     "out": 0,
+     "latency_ms": 0.0,
+     "online": false
+    },
+    {
+     "model": "offline-strong",
+     "tier": "strong",
+     "in": 182,
+     "out": 0,
+     "latency_ms": 0.0,
+     "online": false
+    }
+   ],
+   "input_tokens": 281,
+   "output_tokens": 0,
+   "anomaly_flags": [],
+   "summary": "4 claims in report",
+   "status": "ok",
+   "latency_ms": 2.6354000001447275
+  }
+ ],
+ "totals": {
+  "input_tokens": 380,
+  "output_tokens": 0,
+  "tool_calls": 3,
+  "redundant_tool_calls": 0,
+  "nodes": 5,
+  "llm_calls": 1,
+  "llm_calls_failed": 1,
+  "llm_tokens": 0,
+  "latency_ms": 2573.4276000002865,
+  "cost_cny": 0,
+  "llm_online": false
+ },
+ "status": "done"
+}

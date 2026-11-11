@@ -84,9 +84,10 @@ def write_markdown(cmp: dict, rag: dict, exp_id: str) -> str:
 
 
 def by_dataset(results: list[dict], archs: list[str]) -> str:
-    sets = ["golden", "blind", "chaos", "lab"]
+    sets = ["golden", "blind", "chaos", "lab", "quant"]
     L = ["## 0. 按数据集通过率", "", "golden = 8 家真实 A 股（Tier-A 30 题）；blind = 独立出题人在真实数据上出的 30 题；"
-         "chaos = 虚构实验室公司上的故障注入 50 题；lab = 虚构实验室公司上的旧版 30 题。", "",
+         "chaos = 虚构实验室公司上的故障注入 50 题；lab = 虚构实验室公司上的旧版 30 题；"
+         "quant = 场景 D 因子检验 10 题（24 家真实 A 股面板，答案来自独立 Oracle）。", "",
          "| 架构 | " + " | ".join(sets) + " | 合计 |", "|---|" + "---|" * (len(sets) + 1)]
     for a in archs:
         rs = [r for r in results if r["architecture"] == a]
@@ -104,7 +105,7 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--quick", action="store_true")
     ap.add_argument("--repeats", type=int, default=1)
-    ap.add_argument("--datasets", default="golden,blind,chaos,lab")
+    ap.add_argument("--datasets", default="golden,blind,chaos,lab,quant")
     a = ap.parse_args()
     os.environ["LLM_OFFLINE"] = "1"   # this script is the offline matrix; online runs use run_online_eval.py
     print(write_tasks())

@@ -368,20 +368,68 @@ def build_real_golden(o: Oracle) -> list[dict]:
     return rows
 
 
+def build_quant_tasks() -> list[dict]:
+    """Scenario D (PRD 2.4): 10 factor-validation tasks. Truth comes from quant_oracle (independent of the tool)."""
+    from .quant_oracle import factor_stats
+
+    rows: list[dict] = []
+    nominal = "300750.SZ"
+
+    def stats_numbers(as_of: str, st: dict) -> list[dict]:
+        keys = [("n_cs", "factor_n_cs"), ("rank_ic_mean", "factor_rank_ic_mean"), ("ic_mean", "factor_ic_mean"),
+                ("rank_ic_t", "factor_rank_ic_t"), ("rank_ic_p", "factor_rank_ic_p"), ("ls_cum", "factor_ls_cum")]
+        return [num(k, m, as_of, st[k]) for k, m in keys if k in st]
+
+    def add(cat, as_of, question, expected, trap="none"):
+        rows.append({"task_id": f"Q{len(rows) + 1:03d}", "dataset": "quant", "category": cat, "trap_type": trap,
+                     "ticker": nominal, "as_of": f"{as_of}T15:00:00", "question": question, "mode": "deep",
+                     "fault_injection": {}, "expected": expected})
+
+    normal = [
+        ("ocf_to_net_profit", "all", "在过去2年新能源和大消费两个板块的样本公司中，经营现金流与净利润比值（盈利现金保障）越高，"
+                                      "下一季度（60个交易日）的收益是否越好？请做三分组横截面因子检验。"),
+        ("roe_ttm", "all", "在过去2年新能源和大消费样本公司里，ROE因子是否具有预测下一季度（60个交易日）收益的能力？请做三分组横截面检验。"),
+        ("gross_margin_yoy_delta", "all", "过去2年新能源和大消费样本里，毛利率同比变动因子对下一季度（60个交易日）收益的RankIC表现如何？三分组。"),
+        ("accruals_to_assets", "all", "过去2年新能源和大消费样本里，应计项目占总资产比越低盈利质量越高，这个因子能否预测下一季度（60个交易日）收益？三分组。"),
+        ("receivable_turnover_yoy", "all", "过去2年新能源和大消费样本里，应收账款周转率同比变动因子是否有预测下一季度（60个交易日）收益的IC？三分组。"),
+        ("pe_ttm_inverse", "all", "过去2年新能源和大消费样本里，盈利收益率（市盈率倒数）因子对下一季度（60个交易日）收益的分组表现如何？三分组。"),
+    ]
+    for fac, uni, q in normal:
+        st = factor_stats(fac, uni, "2025-12-31", 8, 60, 3)
+        add("factor_test", "2025-12-31", q, {"numbers": stats_numbers("2025-12-31", st), "factor": fac, "universe": uni})
+    # as-of discipline: asked at 2024-06-30 only the cross-sections whose 60-day window ended by then may be used
+    st = factor_stats("ocf_to_net_profit", "consumer", "2024-06-30", 8, 60, 3)
+    add("factor_test", "2024-06-30", "站在2024年6月30日，大消费板块里经营现金流与净利润比值因子，过去2年对下一季度（60个交易日）收益的"
+                                    "横截面RankIC如何？三分组。",
+        {"numbers": stats_numbers("2024-06-30", st), "factor": "ocf_to_net_profit", "universe": "consumer",
+         "note": "only cross-sections whose forward window ends by as_of are usable"}, trap="as_of_discipline")
+    st = factor_stats("roe_ttm", "new_energy", "2025-12-31", 3, 20, 3)
+    add("factor_sample_warning", "2025-12-31", "新能源板块里ROE因子过去3个季度对下一月（20个交易日）收益的RankIC如何？三分组。",
+        {"numbers": stats_numbers("2025-12-31", st), "factor": "roe_ttm", "universe": "new_energy",
+         "warnings": ["FEW_CROSS_SECTIONS", "SMALL_GROUPS", "SMALL_UNIVERSE"]}, trap="small_sample")
+    add("factor_pit_trap", "2025-12-31", "在2024年3月31日这个截面，用2024年一季报的经营现金流与净利润比值因子，对新能源板块做回测，看下一季度收益。",
+        {"must_refuse": True, "pit": "2024Q1 report filed after 2024-03-31"}, trap="pit_future_report")
+    add("factor_pit_trap", "2025-12-31", "在2023年9月30日这个截面，用2023年三季报的ROE因子，对大消费板块做回测，看下一季度收益。",
+        {"must_refuse": True, "pit": "2023Q3 report filed after 2023-09-30"}, trap="pit_future_report")
+    return rows
+
+
 def write_tasks() -> dict:
     lab, chaos = build_tasks()
     golden = build_real_golden(Oracle())
+    quant = build_quant_tasks()
     TASK_DIR.mkdir(parents=True, exist_ok=True)
-    for name, rows in (("lab_v1.jsonl", lab), ("golden_v1.jsonl", golden), ("chaos_v1.jsonl", chaos)):
+    for name, rows in (("lab_v1.jsonl", lab), ("golden_v1.jsonl", golden), ("chaos_v1.jsonl", chaos),
+                       ("quant_v1.jsonl", quant)):
         with open(TASK_DIR / name, "w", encoding="utf-8") as f:
             for r in rows:
                 f.write(json.dumps(r, ensure_ascii=False, default=str) + "\n")
     with get_session_factory()() as s:
-        for r in lab + golden + chaos:
+        for r in lab + golden + chaos + quant:
             s.merge(BenchmarkTaskRow(task_id=r["task_id"], dataset=r["dataset"], version=VERSION, snapshot_id=None,
                                      trap_type=r["category"], payload=json.loads(json.dumps(r, default=str))))
         s.commit()
-    return {"golden_real": len(golden), "chaos": len(chaos), "lab": len(lab)}
+    return {"golden_real": len(golden), "chaos": len(chaos), "lab": len(lab), "quant": len(quant)}
 
 
 def load_tasks(datasets=("golden", "chaos"), path: Path = TASK_DIR) -> list[dict]:

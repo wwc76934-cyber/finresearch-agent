@@ -127,3 +127,35 @@ Baostock（登录无响应）与 GitHub `noblechang/a-share-data`（仅行情、
 | 990006.SZ | 演示储能系统 | 重大关联交易公告 |
 
 行情价格锚定于各日期已知的 TTM 净利润 × 目标 PE（亏损时为 0.6 倍净资产），叠加均值回复噪声，因此估值指标在经济上合理。
+
+## 9. 因子面板与场景 D（`benchmarks/factor_panel/`，`data_platform/factors.py`）
+
+独立于 `real_snapshot`：新增的 16 家公司没有原文 PDF，放进 `real_snapshot` 会改变原 8 家的同行中位数和 golden 真值。面板包含原 8 家加 16 家（新能源 12、大消费 12），共 24 家，财务从 2020Q1 起，日线从 2021-12 起，带复权收盘价。
+
+| 文件 | 内容 |
+|---|---|
+| `securities.csv` | 代码、名称、申万行业、`universe`（`new_energy` / `consumer`） |
+| `financial_facts.csv` | 累计口径流量项与时点项，含 `published_at`、`available_at`、`revision_id` |
+| `market_prices.csv` | 不复权收盘价 `close`、复权收盘价 `adj_close`（收益用复权价） |
+| `manifest.json` | 构建时间、条数、生存者偏差说明 |
+
+**时点规则（比 `real_snapshot` 更保守）**
+
+1. `published_at` 取东方财富 `NOTICE_DATE`（只有日期）。时刻未知，所以 `available_at` 是**下一个交易日 09:30**。
+2. `UPDATE_DATE` 几乎恒等于公告日加一年（次年报告重发上年同期数），**不是重述信号**，不用来隐藏数据。
+3. 重述只在已核对的地方处理：原 8 家中 PDF 与数据商不一致的 11 个期间，PDF 原值为 `revision_id=1`（公告日可见），数据商新值为 `revision_id=2`（更新日可见）。
+4. **已知局限**：新增 16 家没有 PDF 核对。某期若在首次披露后被重述，面板可能从公告日起就带着重述后的数字。原 8 家 216 个期间中有 11 个被重述，可作量级参考。
+5. 样本池全是今天仍在上市的公司（生存者偏差），质量类因子的结果偏乐观。每次检验都会带 `SURVIVORSHIP` 警告。
+
+**`evaluate_factor_hypothesis()` 的约束**
+
+| 规则 | 实现 |
+|---|---|
+| 截面 | 每个日历季末的最后一个交易日，15:00 收盘 |
+| 因子只用截面时点已公开的财报 | `available_at <= t` 的最新 `revision_id`；2024-03-31 能看到的最新报告是 2023 年的，看不到 2024Q1 |
+| 收益窗口不越过 `as_of_date` | `t + 持有交易日数` 必须不晚于 `as_of_date`，否则这个截面不用 |
+| 强行读未来 | `report_period=` 指定尚未公开的报告，或 `cross_section_dates_override` 晚于 `as_of_date`，抛 `PITViolationError`；`as_of_date` 超出面板价格范围抛 `PanelCoverageError` |
+| 统计 | 每个截面 Pearson IC、Spearman RankIC；跨截面均值、IC_IR、单样本 t 检验（双侧 p）；按因子值分组的平均收益；最高组减最低组的累计净值与最大回撤 |
+| 样本警告 | `SURVIVORSHIP`、`FEW_CROSS_SECTIONS`（<8）、`SMALL_GROUPS`（每组<5家）、`SMALL_UNIVERSE`（<20家）、`OVERLAPPING_HORIZON`（>60日） |
+
+Agent 侧：规划器识别场景 D 问题后只生成一个任务（不做公司子图、辩论和风险矩阵），统计量落成 `MetricRecord`（`factor_rank_ic_mean` 等），论断引用它们，Tier-1 核验器照常核对数字。题集 `benchmarks/tasks/quant_v1.jsonl` 共 10 题，答案由 `evaluation_platform/quant_oracle.py` 独立重算（与算子在 9 组参数上的相对误差小于 1e-15）。

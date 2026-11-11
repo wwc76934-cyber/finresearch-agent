@@ -59,12 +59,13 @@ class ResearchRequest(BaseModel):
 class Ask(BaseModel):
     """A structured requirement parsed from the question."""
     ask_id: str
-    kind: Literal["metric", "anomalies", "valuation", "events", "peer_compare", "unanswerable"]
+    kind: Literal["metric", "anomalies", "valuation", "events", "peer_compare", "factor_test", "unanswerable"]
     metric: Optional[str] = None
     period: Optional[str] = None
     scope: str = "consolidated"
     unit: Optional[str] = None
     topic: str = ""
+    params: dict = Field(default_factory=dict)   # factor_test: factor, universe, horizon, lookback, quantiles, ...
 
 
 class SubTask(BaseModel):
@@ -112,7 +113,7 @@ class SubTaskSummary(BaseModel):
 
 class Claim(BaseModel):
     claim_id: str
-    section: Literal["overview", "financials", "valuation", "bull", "bear", "events", "risk", "answer", "falsification"]
+    section: Literal["overview", "financials", "valuation", "bull", "bear", "events", "risk", "answer", "falsification", "quant"]
     claim_type: Literal["disclosed_fact", "derived_metric", "model_inference"]
     text: str
     evidence_ids: list[str] = Field(default_factory=list)

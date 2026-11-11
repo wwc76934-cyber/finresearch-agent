@@ -249,6 +249,17 @@ def refusal(task: dict, rep: dict) -> Optional[dict]:
             "answer_claims": len(answered)}
 
 
+@evaluator("factor_caveats")
+def factor_caveats(task: dict, rep: dict) -> Optional[dict]:
+    """Scenario D: a test on too few cross-sections / companies must say so instead of sounding conclusive."""
+    exp = task["expected"].get("warnings")
+    if not exp:
+        return None
+    said = " ".join(q["topic"] for q in rep.get("open_questions", []))
+    found = {code: f"[{code}]" in said for code in exp}
+    return {"score": sum(found.values()) / len(found), "found": found}
+
+
 @evaluator("conflict_handling")
 def conflict_handling(task: dict, rep: dict) -> Optional[dict]:
     if not task["expected"].get("conflict"):
@@ -330,7 +341,8 @@ def evaluate(task: dict, rep: dict) -> dict:
 
 def task_passed(scores: dict, task: Optional[dict] = None) -> bool:
     checks = []
-    keys = ["numerical_accuracy", "anomaly_recall", "attribution", "refusal", "conflict_handling", "recovery"]
+    keys = ["numerical_accuracy", "anomaly_recall", "attribution", "refusal", "conflict_handling", "recovery",
+            "factor_caveats"]
     if task and task["expected"].get("expect_downgrade"):
         keys.remove("numerical_accuracy")  # the right outcome is an uncertainty statement, not a number
     for k in keys:

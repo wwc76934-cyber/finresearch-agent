@@ -171,3 +171,13 @@ def trace_data_lineage(ctx: RunContext, entity_id: str) -> dict:
 
 def period_from_label(label: str) -> date:
     return label_to_end(label)
+
+
+# ---------------------------------------------------------------- scenario D: factor validation
+def evaluate_factor(ctx: RunContext, params: dict):
+    """Cross-sectional IC / RankIC test on the PIT factor panel. The research time is the as_of_date, so only
+    cross-sections whose forward window ended by then are used. PITViolationError is NOT retried."""
+    from data_platform.factors import evaluate_factor_hypothesis
+
+    args = {**params, "as_of_date": ctx.as_of.date().isoformat()}
+    return call_with_recovery(ctx, "evaluate_factor_hypothesis", args, lambda: evaluate_factor_hypothesis(**args))

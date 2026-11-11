@@ -65,6 +65,8 @@ def _amount(rec, unit: Optional[str] = None) -> str:
 # ======================= Fundamental =======================
 def f_fetch(s: SubState) -> dict:
     ctx = _ctx(s)
+    if ctx.factor_only:
+        return {}
     pe = _period(ctx, s)
     try:
         st = tools.get_financial_statements(ctx, pe)
@@ -78,6 +80,8 @@ def f_fetch(s: SubState) -> dict:
 
 def f_compute(s: SubState) -> dict:
     ctx = _ctx(s)
+    if ctx.factor_only:
+        return {}
     pe = _period(ctx, s)
     r = tools.calculate_financial_ratios(ctx, pe)
     g = tools.calculate_growth_metrics(ctx, pe)
@@ -178,13 +182,96 @@ def answer_asks(ctx: RunContext, asks: list[Ask], agent: str, kinds: tuple[str, 
     return ids
 
 
+GROUP_CN = ["", "", "二", "三", "四", "五", "六", "七", "八", "九", "十"]
+
+
+def _group_names(q: int) -> list[str]:
+    if q == 3:
+        return ["最低组", "中间组", "最高组"]
+    return ["最低组"] + [f"第{GROUP_CN[i]}组" for i in range(2, q)] + ["最高组"]
+
+
+def answer_factor_asks(ctx: RunContext, asks: list[Ask], agent: str) -> list[str]:
+    """Scenario D: run the factor test and turn its statistics into MetricRecords the claims can cite."""
+    from types import SimpleNamespace
+
+    from data_platform.factors import FACTOR_CN, PanelCoverageError, PITViolationError
+
+    ids: list[str] = []
+    for a in asks:
+        if a.kind != "factor_test":
+            continue
+        try:
+            rep = tools.evaluate_factor(ctx, a.params)
+        except (PITViolationError, PanelCoverageError, ValueError) as exc:
+            pit = isinstance(exc, PITViolationError)
+            ctx.tracer.tool("evaluate_factor_hypothesis", a.params, error=f"{type(exc).__name__}: {exc}")
+            ctx.answers[a.ask_id] = {"ask": a.model_dump(), "metric_id": None, "value": None,
+                                     "status": "PIT_VIOLATION" if pit else "INVALID_REQUEST", "error": str(exc)}
+            ctx.open_questions.append({"ask_id": a.ask_id, "topic": f"因子检验被拒绝（{type(exc).__name__}）：{exc}",
+                                       "reason": "请求会读取截面日之后才公开的数据，已按时点规则拒绝" if pit else "请求参数无效"})
+            continue
+        ref = SimpleNamespace(fact_id=f"factor_panel:{rep.factor}:{rep.universe}:h{rep.forward_horizon_days}:q{rep.quantiles}",
+                              available_at=ctx.as_of)
+        suffix = f"_{rep.factor}_{rep.universe}"
+        extra = {"factor": rep.factor, "universe": rep.universe, "horizon_days": rep.forward_horizon_days}
+
+        def rec(name, value, unit, sfx="", **more):
+            return ctx.calc._record(ctx.ticker, name, rep.as_of_date, value, unit, [ref], extra={"cn": cn_name(name), **extra, **more},
+                                    status="OK" if value is not None else "INSUFFICIENT_DATA", suffix=suffix + sfx)
+
+        n_cs, n_st = rec("factor_n_cs", rep.n_cross_sections, "count"), rec("factor_n_stocks", rep.n_stocks_median, "count")
+        hz, qn = rec("factor_horizon_days", rep.forward_horizon_days, "count"), rec("factor_quantiles", rep.quantiles, "count")
+        name = FACTOR_CN[rep.factor]
+        uni = {"all": "全部", "new_energy": "新能源", "consumer": "大消费"}[rep.universe]
+        way = "越高越好" if rep.higher_is_better else "越低越好"
+        for w in rep.warnings:
+            ctx.open_questions.append({"ask_id": a.ask_id, "topic": f"样本局限[{w['code']}]：{w['message']}", "reason": "因子检验方法局限"})
+        ctx.factor_reports.append(rep.model_dump())
+        if rep.rank_ic_mean is None:
+            cl = _claim(ctx, "answer", "derived_metric", [n_cs], lambda: f"{name}的横截面检验只有{fmt(n_cs)}个可用截面，不足以计算显著性。", agent)
+            ids.append(cl.claim_id)
+            ctx.answers[a.ask_id] = {"ask": a.model_dump(), "metric_id": n_cs.metric_id, "value": n_cs.value, "status": "INSUFFICIENT_DATA",
+                                     "claim_id": cl.claim_id}
+            continue
+        ric, ic, ir = rec("factor_rank_ic_mean", rep.rank_ic_mean, "ic"), rec("factor_ic_mean", rep.ic_mean, "ic"), \
+            rec("factor_rank_ic_ir", rep.rank_ic_ir, "ic")
+        tt, pv = rec("factor_rank_ic_t", rep.rank_ic_t_stat, "stat"), rec("factor_rank_ic_p", rep.rank_ic_p_value, "stat")
+        lsm, lsc, mdd = rec("factor_ls_mean", rep.long_short_mean_return, "ratio"), rec("factor_ls_cum", rep.long_short_cum_return, "ratio"), \
+            rec("factor_ls_mdd", rep.long_short_max_drawdown, "ratio")
+        names = _group_names(rep.quantiles)
+        groups = [rec("factor_group_return", g, "ratio", sfx=f"_g{i + 1}", group=names[i])
+                  for i, g in enumerate(rep.group_mean_returns)]
+        c1 = _claim(ctx, "answer", "derived_metric", [n_cs, n_st, hz, ric, ic, ir],
+                    lambda: (f"{name}（{way}）在{uni}样本池的横截面检验：{fmt(n_cs)}个季度截面，每个截面约{fmt(n_st)}家公司，"
+                             f"持有{fmt(hz)}个交易日；RankIC均值{fmt(ric)}，IC均值{fmt(ic)}，RankIC_IR为{fmt(ir)}。"), agent)
+        c2 = _claim(ctx, "answer", "derived_metric", [tt, pv],
+                    lambda: f"RankIC序列的t统计量为{fmt(tt)}，双侧p值为{fmt(pv)}。", agent)
+        c3 = _claim(ctx, "answer", "derived_metric", [qn, *groups, lsm, lsc, mdd],
+                    lambda: ("分" + fmt(qn) + "组（因子值从低到高）平均后续收益：" + "，".join(f"{names[i]}{fmt(g)}" for i, g in enumerate(groups))
+                             + f"；最高组减最低组每期{fmt(lsm)}，累计{fmt(lsc)}，最大回撤{fmt(mdd)}。"), agent)
+        if rep.significant_5pct:
+            concl = lambda: (f"推断：RankIC的p值为{fmt(pv)}，达到常规显著性水平；在该样本池和样本期内，因子值与后续收益存在统计上可辨认的"
+                             f"{'正' if rep.rank_ic_mean > 0 else '负'}向关系，但样本很小，不能当作稳定规律。")
+        else:
+            concl = lambda: (f"推断：RankIC的p值为{fmt(pv)}，未达到常规显著性水平；在该样本池和样本期内，没有足够证据说明该因子能预测后续收益，"
+                             f"RankIC均值{fmt(ric)}可能只是随机波动。")
+        c4 = _claim(ctx, "quant", "model_inference", [ric, pv, n_cs], concl, agent)
+        ids += [c1.claim_id, c2.claim_id, c3.claim_id, c4.claim_id]
+        ctx.answers[a.ask_id] = {"ask": a.model_dump(), "metric_id": ric.metric_id, "value": ric.value, "status": "OK",
+                                 "unit": "ic", "display": fmt(ric), "claim_id": c1.claim_id}
+    return ids
+
+
 def f_asks(s: SubState) -> dict:
     ctx = _ctx(s)
-    return {"claim_ids": answer_asks(ctx, ctx.plan.asks, "fundamental", ())}
+    return {"claim_ids": answer_asks(ctx, ctx.plan.asks, "fundamental", ()) + answer_factor_asks(ctx, ctx.plan.asks, "fundamental")}
 
 
 def f_anomalies(s: SubState) -> dict:
     ctx = _ctx(s)
+    if ctx.factor_only:
+        return {}
     pe = _period(ctx, s)
     flags = tools.detect_financial_anomalies(ctx, pe)
     out, ids = [], []
@@ -217,6 +304,8 @@ CHECKBOX = re.compile(r"^.*适用[\s□√]*不适用\s*")   # form heading "…
 
 def f_explain(s: SubState) -> dict:
     ctx = _ctx(s)
+    if ctx.factor_only:
+        return {}
     pe = _period(ctx, s)
     q = "营业收入 净利润 毛利率 经营活动现金流量净额 变动 原因 管理层讨论"
     hits = tools.retrieve_latest_first(ctx, q, ["MDA"], top_k=3)
@@ -239,6 +328,8 @@ def f_explain(s: SubState) -> dict:
 def f_summarize(s: SubState) -> dict:
     ctx = _ctx(s)
     claims = [ctx.claims[c] for c in s.get("claim_ids", [])]
+    if ctx.factor_only:   # statistics are already final; nothing for a model to summarise
+        return {"summary": "；".join(c.text for c in claims[:2])[:200]}
     scratch = "\n".join(s.get("scratch", []))
     sys_p = "你是基本面分析Agent。用不超过120字总结要点，只能引用给定 claims，不得新增数字。输出JSON {\"summary\":\"...\"}"
     user = scratch + "\n" + "\n".join(f"{c.claim_id}: {c.text}" for c in claims)

@@ -1,0 +1,13 @@
+{
+ "built_at": "2026-11-11T16:26:19",
+ "n_securities": 24,
+ "n_facts": 11940,
+ "n_prices": 28680,
+ "periods": 648,
+ "restated_revisions": 29,
+ "universe_counts": {
+  "new_energy": 12,
+  "consumer": 12
+ },
+ "survivorship_note": "All 24 companies are listed today. Companies delisted or removed from these industries during 2023-2025 are not in the panel, so factor results are optimistic for quality-type factors. This is a small illustrative sample, not a research-grade universe."
+}

@@ -34,6 +34,10 @@ def fmt(rec: MetricRecord) -> str:
         return f"{v:.1f}天"
     if rec.unit == "x":
         return f"{v:.2f}倍"
+    if rec.unit in ("ic", "stat"):      # fixed decimals: .4g would switch to exponent notation for tiny p-values
+        return f"{v:.4f}"
+    if rec.unit == "count":
+        return f"{v:.0f}"
     return f"{v:.4g}"
 
 
@@ -66,8 +70,14 @@ class RunContext:
         self.charts: dict = {}
         self.judge_notes: dict = {}        # claim_id -> Tier-2 LLM judge label + reason
         self.timeline: list[dict] = []
+        self.factor_reports: list[dict] = []   # scenario D: FactorValidationReport dumps, for the UI charts
         self.plan = None
         _CONTEXTS[run_id] = self
+
+    @property
+    def factor_only(self) -> bool:
+        """Scenario D question: a universe-level factor test, nothing company-specific to research or debate."""
+        return bool(self.plan and self.plan.asks and all(a.kind == "factor_test" for a in self.plan.asks))
 
     @property
     def ticker(self) -> str:

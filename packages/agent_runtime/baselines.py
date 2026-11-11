@@ -16,7 +16,7 @@ from rag_engine.index import get_retriever
 
 from . import tools
 from .agents import faults, planner, report as report_mod
-from .agents.collectors import answer_asks
+from .agents.collectors import answer_asks, answer_factor_asks
 from .context import RunContext, drop_context, fmt
 from .graph import finalize, prepare
 from .llm import LLMResult, call_json, estimate_tokens
@@ -111,7 +111,8 @@ def b2_react(ctx: RunContext) -> dict:
         ctx.plan = planner.plan(ctx)
         steps = [("statements", lambda: collectors.f_fetch({"run_id": ctx.run_id, "task": {"agent": "react"}})),
                  ("metrics", lambda: collectors.f_compute({"run_id": ctx.run_id, "task": {"agent": "react"}})),
-                 ("asks", lambda: {"claim_ids": answer_asks(ctx, ctx.plan.asks, "fundamental", ())}),
+                 ("asks", lambda: {"claim_ids": answer_asks(ctx, ctx.plan.asks, "fundamental", ())
+                                   + answer_factor_asks(ctx, ctx.plan.asks, "react")}),   # B2 holds every tool
                  ("market", lambda: collectors.m_valuation({"run_id": ctx.run_id, "task": {"agent": "react"}})),
                  ("anomalies", lambda: collectors.f_anomalies({"run_id": ctx.run_id, "task": {"agent": "react"}})),
                  ("events", lambda: collectors.n_events({"run_id": ctx.run_id, "task": {"agent": "react"}}))]

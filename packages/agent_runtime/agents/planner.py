@@ -45,6 +45,49 @@ UNANSWERABLE = [
     (r"会不会|会否|是否会|走势|批价|涨到|跌破|股价.{0,6}(涨|跌)", "未来价格或走势判断（快照无法证实）"),
     (r"哪几家|是哪些公司|具体是哪|名单", "未披露的交易对手具体名称"),
 ]
+# ---- scenario D: "does factor X predict next-quarter return?" -----------------------------------------
+FACTOR_PATTERNS: list[tuple[str, str]] = [
+    (r"经营现金流.{0,6}净利润|OCF\s*/\s*净利润|盈利现金保障", "ocf_to_net_profit"),
+    (r"ROE|净资产收益率", "roe_ttm"),
+    (r"毛利率.{0,3}(同比)?(变动|变化|改善)|毛利率同比", "gross_margin_yoy_delta"),
+    (r"应计项目|应计占比", "accruals_to_assets"),
+    (r"应收账款周转率", "receivable_turnover_yoy"),
+    (r"盈利收益率|市盈率倒数|EP因子|1/PE", "pe_ttm_inverse"),
+]
+SCENE_D_RE = re.compile(r"因子|RankIC|\bIC\b|横截面|分组|多空组合|超额收益|回测|下一季度.{0,6}收益|持续(高于|低于)")
+DATE_RE = re.compile(r"(20\d{2})[-年/](\d{1,2})[-月/](\d{1,2})日?")
+CN_NUM = {"二": 2, "三": 3, "四": 4, "五": 5}
+
+
+def factor_ask(question: str) -> Optional[Ask]:
+    """Rule parse of a scenario-D question; None when the question is not a factor test."""
+    if not SCENE_D_RE.search(question):
+        return None
+    factor = next((f for pat, f in FACTOR_PATTERNS if re.search(pat, question)), None)
+    if factor is None:
+        return None
+    p: dict = {"factor_name": factor}
+    ne, cons = bool(re.search(r"新能源|电池|光伏|锂", question)), bool(re.search(r"消费|白酒|家电|食品|饮料", question))
+    p["universe"] = "new_energy" if ne and not cons else ("consumer" if cons and not ne else "all")
+    # "31日" in "3月31日" is a calendar date, not a horizon: require 交易日 or a return word after the number
+    m = re.search(r"(?<![月\d])(\d{1,3})\s*个?\s*交易日|(?<![月\d])(\d{1,3})\s*日(?:收益|超额|后续|持有)", question)
+    p["forward_horizon_days"] = int(m.group(1) or m.group(2)) if m else (20 if re.search(r"下一月|一个月", question) else 60)
+    m = re.search(r"过去\s*(\d+)\s*年", question)
+    m2 = re.search(r"过去\s*(\d+)\s*个?季度", question)
+    p["lookback_quarters"] = int(m.group(1)) * 4 if m else (int(m2.group(1)) if m2 else 8)
+    m = re.search(r"([二三四五\d])\s*分组", question)
+    if m:
+        p["quantiles"] = CN_NUM.get(m.group(1)) or int(m.group(1))
+    # PIT trap: "at 2024-03-31 use the 2024 Q1 report's factor"
+    d = DATE_RE.search(question)
+    rp = re.search(r"(20\d{2})\s*年?\s*(一季报|第一季度|Q1|半年报|中报|三季报|第三季度|Q3|年报)", question)
+    if d and rp:
+        q = {"一季报": 1, "第一季度": 1, "Q1": 1, "半年报": 2, "中报": 2, "三季报": 3, "第三季度": 3, "Q3": 3, "年报": 4}[rp.group(2)]
+        p["report_period"] = f"{rp.group(1)}Q{q}"
+        p["cross_section_dates_override"] = [f"{int(d.group(1)):04d}-{int(d.group(2)):02d}-{int(d.group(3)):02d}"]
+    return Ask(ask_id="A1", kind="factor_test", topic=question[:80], params=p)
+
+
 PERIOD_RE = re.compile(r"(20\d{2})\s*(?:年)?\s*(?:Q([1-4])|第?([一二三四])季度|(半年度|中报|上半年)|(年报|年度|全年))")
 CN_Q = {"一": 1, "二": 2, "三": 3, "四": 4}
 
@@ -103,6 +146,15 @@ def rule_asks(question: str, default_period: Optional[str]) -> list[Ask]:
 
 def plan(ctx: RunContext) -> ResearchPlan:
     req = ctx.request
+    fa = factor_ask(req.question)
+    if fa is not None:
+        # Scenario D is a universe-level statistical test. It has one deterministic tool, so no LLM parsing,
+        # no company-level subgraphs, no debate: the plan is a single fundamental/quant task.
+        st = [SubTask(task_id="T1", agent="fundamental", objective="横截面因子检验（IC/RankIC/分组/多空）", tool_budget=2,
+                      acceptance="所有统计量由 evaluate_factor_hypothesis 算子计算并入证据库")]
+        ctx.tracer.tool("register_research_plan", {"subtasks": ["fundamental"], "asks": 1, "scenario": "factor_test"})
+        return ResearchPlan(plan_id=f"{ctx.run_id}-plan", subtasks=st, asks=[fa], budget_tokens=req.token_budget,
+                            rationale="scenario D: factor test (rule parse)")
     cov = tools.check_data_coverage(ctx)
     default_period = cov["latest_period"]
     asks = rule_asks(req.question, default_period)

@@ -15,7 +15,7 @@ from evaluation_platform.runner import run_experiment  # noqa: E402
 
 if __name__ == "__main__":
     archs = sys.argv[1].split(",") if len(sys.argv) > 1 else ["B4"]
-    ds = tuple(sys.argv[2].split(",")) if len(sys.argv) > 2 else ("golden", "blind", "chaos", "lab")
+    ds = tuple(sys.argv[2].split(",")) if len(sys.argv) > 2 else ("golden", "blind", "chaos", "lab", "quant")
     p = run_experiment(archs, datasets=ds, workers=2, persist_archs=(), name="quick_offline", write_latest=False)
     for a in archs:
         rows = [r for r in p["results"] if r["architecture"] == a]

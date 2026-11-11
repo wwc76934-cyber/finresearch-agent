@@ -32,6 +32,19 @@ derived:
   interest_debt_ratio: {cn: 有息负债率, formula: "interest_bearing_debt / total_assets", unit: ratio, version: v1}
   receivable_days: {cn: 应收账款周转天数, formula: "accounts_receivable / revenue_ttm * 365", unit: days, version: v1}
   inventory_days: {cn: 存货周转天数, formula: "inventory / cost_ttm * 365", unit: days, version: v1}
+  factor_rank_ic_mean: {cn: "因子RankIC均值", formula: "mean over quarterly cross-sections of spearman(factor, forward_return)", unit: ic, version: v1}
+  factor_ic_mean: {cn: "因子IC均值", formula: "mean over quarterly cross-sections of pearson(factor, forward_return)", unit: ic, version: v1}
+  factor_rank_ic_ir: {cn: "RankIC_IR", formula: "mean(RankIC) / std(RankIC)", unit: ic, version: v1}
+  factor_rank_ic_t: {cn: "RankIC的t统计量", formula: "one-sample t-test of RankIC series against 0", unit: stat, version: v1}
+  factor_rank_ic_p: {cn: "RankIC的p值", formula: "two-sided p-value of that t-test", unit: stat, version: v1}
+  factor_ls_mean: {cn: "最高组减最低组每期收益", formula: "mean(top group return - bottom group return)", unit: ratio, version: v1}
+  factor_ls_cum: {cn: "多空组合累计收益", formula: "prod(1 + long_short_k) - 1", unit: ratio, version: v1}
+  factor_ls_mdd: {cn: "多空组合最大回撤", formula: "min(nav / running_peak - 1)", unit: ratio, version: v1}
+  factor_n_stocks: {cn: "每截面公司数(中位数)", formula: "median number of companies with a valid factor and forward return", unit: count, version: v1}
+  factor_horizon_days: {cn: "持有交易日数", formula: "forward_horizon_days parameter", unit: count, version: v1}
+  factor_quantiles: {cn: "分组数", formula: "quantiles parameter", unit: count, version: v1}
+  factor_n_cs: {cn: "截面个数", formula: "number of usable quarterly cross-sections", unit: count, version: v1}
+  factor_group_return: {cn: "分组平均后续收益", formula: "mean forward return of the group, averaged over cross-sections", unit: ratio, version: v1}
   revenue_yoy: {cn: 营收同比, formula: "cum_t / cum_{t-1y} - 1", unit: ratio, version: v1}
   net_profit_yoy: {cn: 净利润同比, formula: "cum_t / cum_{t-1y} - 1 (NA if base <= 0)", unit: ratio, version: v1}
   ocf_yoy: {cn: 经营现金流同比, formula: "cum_t / cum_{t-1y} - 1 (NA if base <= 0)", unit: ratio, version: v1}
