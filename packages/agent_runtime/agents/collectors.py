@@ -297,6 +297,81 @@ def f_anomalies(s: SubState) -> dict:
     return {"anomalies": out, "claim_ids": ids}
 
 
+# Accounting topics a question can name -> where the annual report explains them (PRD v1.2 1.1: multi-source tasks).
+# Used by the Fundamental subgraph so that "analyse receivables with the annual-report notes" actually reads the notes.
+NOTE_TOPICS = [
+    (r"应收账款|应收款|回款|账龄", "应收账款 账龄 按欠款方归集 前五名 坏账准备"),
+    (r"存货|跌价", "存货 跌价准备 账面余额 原材料 库存商品"),
+    (r"借款|融资|负债|债券|偿债", "短期借款 长期借款 应付债券 一年内到期的非流动负债"),
+    (r"商誉", "商誉 减值测试 资产组"),
+    (r"减值", "资产减值损失 信用减值损失 计提"),
+    (r"研发", "研发费用 研发投入 资本化"),
+    (r"分红|股利|回购", "利润分配 现金分红 股份回购"),
+]
+
+
+def _named_report_hits(ctx: RunContext, question: str, query: str):
+    """When the question names a report ("2025年年报", "2025年半年报", "2025年三季报"), read THAT report's notes."""
+    m = re.search(r"(20\d{2})\s*年\s*(年报|年度报告|半年报|中报|三季报|一季报)", question)
+    if not m:
+        return []
+    q = {"年报": 4, "年度报告": 4, "半年报": 2, "中报": 2, "三季报": 3, "一季报": 1}[m.group(2)]
+    ids = [d.document_id for d in ctx.svc.documents(ctx.ticker) if d.doc_type != "announcement" and d.period_end
+           and d.period_end.year == int(m.group(1)) and (d.period_end.month - 1) // 3 + 1 == q and "_v" not in d.document_id]
+    return tools.retrieve_document_evidence(ctx, query, ["NOTES"], top_k=2, doc_ids=ids) if ids else []
+
+
+def f_topic_notes(s: SubState) -> dict:
+    """Read the NOTES for the accounting topic the question names, whether or not an anomaly fired."""
+    ctx = _ctx(s)
+    if ctx.factor_only or not ctx.config.subgraph_crosscheck:
+        return {}
+    q = ctx.request.question
+    ids = []
+    for pat, query in NOTE_TOPICS:
+        if not re.search(pat, q):
+            continue
+        hit_ids = _named_report_hits(ctx, q, query) or tools.retrieve_latest_first(ctx, query, ["NOTES"], top_k=2)
+        for h in hit_ids[:1]:
+            c = h.parent or h.chunk
+            body = c.text.splitlines()
+            rows = [r for r in body if r.startswith("|") and "---" not in r][1:4]
+            if not rows:
+                continue
+            finding = "；".join(" ".join(x.strip() for x in r.strip("|").split("|") if x.strip()) for r in rows) + "（单位见原表）。"
+            ev = ctx.evidence_from_hit(h, "fundamental", focus=rows[0])
+            cl = ctx.add_claim("financials", "disclosed_fact", f"年报附注[{c.section_path.split(' > ')[-1]}]：{finding}", [ev], "fundamental")
+            ids.append(cl.claim_id)
+        if ids:
+            break          # one topic per question keeps the subgraph inside its tool budget
+    return {"claim_ids": ids}
+
+
+# Accounting identities the Fundamental subgraph checks on its own (PRD v1.2 1.1). A break in either one sends the
+# subgraph straight to the notes that carry the line items, before anything is returned to the main graph.
+# code -> (query, section). Management explains a profit/cash-flow break in MD&A; the receivables ageing and customer
+# concentration that explain a receivables build-up are in the NOTES.
+CROSSCHECK = {"PROFIT_OCF_DIVERGENCE": ("经营活动现金流量净额 下降 主要系 回款 原因", "MDA"),
+              "AR_OUTPACE_REVENUE": ("应收账款 账龄 按欠款方归集 前五名 坏账准备", "NOTES")}
+
+
+def f_crosscheck(s: SubState) -> dict:
+    """Revenue vs receivables vs profit vs operating cash flow. When they disagree, retrieve the NOTES line items
+    inside this subgraph and return them as one compact evidence-backed claim per divergence."""
+    ctx = _ctx(s)
+    if ctx.factor_only or not ctx.config.subgraph_crosscheck:
+        return {}
+    ids = []
+    for code, (query, section) in CROSSCHECK.items():
+        an = ctx.anomalies.get(code)
+        if not an or an.get("crosschecked"):
+            continue
+        found = explain_anomaly(ctx, code, query, [section], an.get("evidence_ids", []), "fundamental", prefix="交叉核验")
+        an["crosschecked"] = bool(found)
+        ids += found
+    return {"claim_ids": ids}
+
+
 def f_probe(s: SubState) -> dict:
     """Semantic anomaly probe: qualitative red flags from notes and announcements (online only)."""
     from . import semantic_probe
@@ -515,7 +590,7 @@ def _compile(steps: list[tuple[str, Callable]]):
 
 SUBGRAPHS = {
     "fundamental": _compile([("fetch", f_fetch), ("compute", f_compute), ("asks", f_asks), ("anomalies", f_anomalies),
-                             ("probe", f_probe), ("explain", f_explain), ("summarize", f_summarize)]),
+                             ("crosscheck", f_crosscheck), ("topic", f_topic_notes), ("probe", f_probe), ("explain", f_explain), ("summarize", f_summarize)]),
     "market": _compile([("valuation", m_valuation), ("summarize", f_summarize)]),
     "news": _compile([("events", n_events), ("summarize", f_summarize)]),
     "investigate": _compile([("investigate", i_investigate)]),

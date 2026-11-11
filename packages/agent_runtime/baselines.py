@@ -154,6 +154,15 @@ def b2_react(ctx: RunContext) -> dict:
     budget = 6
     with ctx.tracer.node("react_agent") as span:
         ctx.plan = planner.plan(ctx)
+        if ctx.llm.online and not ctx.factor_only:
+            from .react_agent import react
+
+            from data_platform.serving import period_label
+
+            latest = ctx.svc.latest_period(ctx.ticker)
+            if react(ctx, planner.rule_asks(ctx.request.question, period_label(latest) if latest else None)):
+                span["summary"] = f"online ReAct loop, {len(ctx.claims)} claims, {len(ctx.answers)} answers"
+                return {}
         steps = [("statements", lambda: collectors.f_fetch({"run_id": ctx.run_id, "task": {"agent": "react"}})),
                  ("metrics", lambda: collectors.f_compute({"run_id": ctx.run_id, "task": {"agent": "react"}})),
                  ("asks", lambda: {"claim_ids": answer_asks(ctx, ctx.plan.asks, "fundamental", ())

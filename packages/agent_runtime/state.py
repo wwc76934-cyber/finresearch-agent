@@ -24,6 +24,7 @@ class ArchConfig(BaseModel):
     # LLM-written bull/bear arguments (online only). On: an independent pairwise judge preferred these reports
     # 8/10 vs 0/10 (EVALUATION.md section 11). Costs about 2x per report. Offline always uses templates.
     llm_debate: bool = True
+    subgraph_crosscheck: bool = True     # Fundamental subgraph checks revenue/receivables/profit/cash-flow and reads NOTES itself
     semantic_probe: bool = True          # LLM scan of notes / announcements for qualitative red flags (online only)
     anomaly_mode: str = "statistical"    # "statistical" (z-scores vs own history and peers) | "rules" (fixed cut-offs)
     max_replan_depth: int = 2
@@ -39,6 +40,7 @@ ARCHITECTURES: dict[str, ArchConfig] = {
     "B4-no_anchor_prefilter": ArchConfig(name="B4-no_anchor_prefilter", rag_anchors_prefilter=False),
     "B4-no_hybrid_rerank": ArchConfig(name="B4-no_hybrid_rerank", hybrid_rerank=False),
     "B4-no_context_isolation": ArchConfig(name="B4-no_context_isolation", context_isolation=False),
+    "B4-no_crosscheck": ArchConfig(name="B4-no_crosscheck", subgraph_crosscheck=False),
     "B4-no_semantic_probe": ArchConfig(name="B4-no_semantic_probe", semantic_probe=False),
     "B4-rule_anomalies": ArchConfig(name="B4-rule_anomalies", anomaly_mode="rules"),
     "B4-no_replanning": ArchConfig(name="B4-no_replanning", replanning=False),

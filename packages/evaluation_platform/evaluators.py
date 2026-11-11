@@ -257,6 +257,26 @@ def refusal(task: dict, rep: dict) -> Optional[dict]:
             "answer_claims": len(answered)}
 
 
+@evaluator("multidoc_coverage")
+def multidoc_coverage(task: dict, rep: dict) -> Optional[dict]:
+    """A multi-source answer must be grounded in the annual-report notes AND at least two announcements.
+    Counts distinct source documents that the kept claims actually cite; metric evidence does not count."""
+    md = task["expected"].get("multidoc")
+    if not md:
+        return None
+    cited = set()
+    for c in kept_claims(rep):
+        for e in c["evidence_ids"]:
+            ev = rep["evidence"].get(e, {})
+            if ev.get("kind") == "document" and ev.get("document_id"):
+                cited.add(ev["document_id"])
+    annual = md["annual"] in cited
+    ann = len(cited & set(md["announcement_pool"]))
+    need = md["min_announcements"]
+    score = (int(annual) + min(ann, need)) / (1 + need)
+    return {"score": score, "annual_cited": annual, "announcements_cited": ann, "needed": need, "documents": sorted(cited)[:8]}
+
+
 @evaluator("factor_caveats")
 def factor_caveats(task: dict, rep: dict) -> Optional[dict]:
     """Scenario D: a test on too few cross-sections / companies must say so instead of sounding conclusive."""
@@ -350,7 +370,7 @@ def evaluate(task: dict, rep: dict) -> dict:
 def task_passed(scores: dict, task: Optional[dict] = None) -> bool:
     checks = []
     keys = ["numerical_accuracy", "anomaly_recall", "attribution", "refusal", "conflict_handling", "recovery",
-            "factor_caveats"]
+            "factor_caveats", "multidoc_coverage"]
     if task and task["expected"].get("expect_downgrade"):
         keys.remove("numerical_accuracy")  # the right outcome is an uncertainty statement, not a number
     for k in keys:

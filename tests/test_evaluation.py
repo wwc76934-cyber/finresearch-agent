@@ -3,6 +3,7 @@ from datetime import datetime
 from pathlib import Path
 
 from agent_runtime import ResearchRequest, run_research
+from agent_runtime.state import ArchConfig
 from evaluation_platform.datasets import load_tasks
 from evaluation_platform.evaluators import attribution, task_passed
 
@@ -14,10 +15,21 @@ def _task(tid):
 
 
 def test_attribution_needs_replanning():
-    t = next(x for x in load_tasks(("lab",)) if x["task_id"] == "L011")  # 990001: profit/cash-flow divergence + receivables
+    # L013 (990003): impairment and inventory anomalies. The Fundamental subgraph's own cross-check only covers
+    # profit/cash-flow and receivables, so these still need the main graph's re-planning to be explained.
+    t = next(x for x in load_tasks(("lab",)) if x["task_id"] == "L013")
     req = ResearchRequest(ticker=t["ticker"], as_of=datetime.fromisoformat(t["as_of"]), question=t["question"])
     assert attribution(t, run_research(req, "B4", persist=False))["score"] == 1.0
     assert attribution(t, run_research(req, "B4-no_replanning", persist=False))["score"] == 0.0
+
+
+def test_subgraph_crosscheck_explains_accounting_identity_breaks_without_replanning():
+    # L011 (990001): profit vs cash flow, receivables vs revenue. PRD v1.2 1.1: the subgraph reads MD&A / NOTES itself.
+    t = next(x for x in load_tasks(("lab",)) if x["task_id"] == "L011")
+    req = ResearchRequest(ticker=t["ticker"], as_of=datetime.fromisoformat(t["as_of"]), question=t["question"])
+    assert attribution(t, run_research(req, "B3", persist=False))["score"] == 1.0          # no re-planning in B3
+    off = ArchConfig(name="B4-no_crosscheck_no_replanning", replanning=False, subgraph_crosscheck=False)
+    assert attribution(t, run_research(req, off, persist=False))["score"] == 0.0           # both off: nothing explains it
 
 
 def test_llm_rubric_does_not_gate_pass():
@@ -63,3 +75,40 @@ def test_announcement_boilerplate_is_stripped():
 def test_metric_name_windows_are_not_numbers():
     from agent_runtime.agents.verifier import extract_numbers
     assert [n[1] for n in extract_numbers("2026-05-06 PE 3年分位71.43%；最大回撤(1年)为-19.04%")] == [71.43, -19.04]
+
+
+def test_multidoc_task_set_shape_and_answer_key():
+    tasks = load_tasks(("multidoc",))
+    assert len(tasks) == 15
+    for t in tasks:
+        md = t["expected"]["multidoc"]
+        assert md["annual"].endswith("2025Q4") and md["min_announcements"] == 2 and len(md["announcement_pool"]) >= 3
+        assert t["expected"]["numbers"][0]["value"] is not None
+        assert t["as_of"] > "2026-03"          # after the 2025 annual report was public
+
+
+def test_multidoc_needs_annual_report_notes_and_two_announcements():
+    from evaluation_platform.evaluators import multidoc_coverage
+
+    t = load_tasks(("multidoc",))[0]
+    req = ResearchRequest(ticker=t["ticker"], as_of=datetime.fromisoformat(t["as_of"]), question=t["question"])
+    rep = run_research(req, "B4", persist=False)
+    m = multidoc_coverage(t, rep)
+    assert m["annual_cited"] and m["announcements_cited"] >= 2 and m["score"] == 1.0
+
+
+def test_react_transcript_drops_oldest_observations_first():
+    from agent_runtime.react_agent import CONTEXT_BUDGET, Observation, _transcript
+    from agent_runtime.llm import estimate_tokens
+
+    import agent_runtime.react_agent as ra
+
+    saved, ra.OBS_CHARS = ra.OBS_CHARS, 5000   # force pressure: realistic observations (200-700 tokens) never reach 8k
+    obs = {f"O{i}": Observation(f"O{i}", "search_documents", "营业收入应收账款存货" * 500, []) for i in range(1, 9)}
+    steps = [{"n": i, "oid": f"O{i}", "action": "search_documents", "args": {}, "thought": "t"} for i in range(1, 9)]
+    text = _transcript(steps, obs)
+    assert estimate_tokens(text) <= CONTEXT_BUDGET
+    dropped = [o for o in obs if obs[o].dropped]
+    assert dropped and dropped == [f"O{i}" for i in range(1, len(dropped) + 1)]      # a prefix: the oldest go first
+    assert not obs["O8"].dropped
+    ra.OBS_CHARS = saved

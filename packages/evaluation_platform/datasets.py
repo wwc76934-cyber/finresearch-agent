@@ -368,6 +368,63 @@ def build_real_golden(o: Oracle) -> list[dict]:
     return rows
 
 
+def build_multidoc_tasks(n: int = 15) -> list[dict]:
+    """PRD v1.2 1.1: questions that need the annual-report notes, a later quarter's numbers and at least two
+    announcements at once. The answer key is mechanical: Oracle numbers, plus the set of source documents a
+    complete answer has to cite (the annual report and >=2 announcements public at as_of)."""
+    o = Oracle()
+    rows = []
+    topics = [
+        ("receivable", "应收账款周转天数", "应收账款的回收情况、账龄与客户集中度", "receivable_days"),
+        ("inventory", "存货周转天数", "存货规模、跌价准备以及对毛利率和现金流的影响", "inventory_days"),
+        ("debt", "有息负债率", "借款与融资安排、偿债压力", "interest_debt_ratio"),
+    ]
+    secs = real_securities()
+    tickers = [t for t in secs if t[:2] != "99"]
+    seen = set()
+    for i in range(n * 6):
+        if len(rows) >= n:
+            break
+        t = tickers[i % len(tickers)]
+        key, topic, ask, metric = topics[(i // len(tickers) + i) % len(topics)]
+        anns = o.docs[(o.docs.ticker == t) & (o.docs.doc_type == "announcement")].sort_values("available_at")
+        annual = o.docs[(o.docs.ticker == t) & (o.docs.doc_type == "annual_report") & (~o.docs.document_id.str.contains("_v"))]
+        annual = annual[annual.document_id.str.endswith("2025Q4")]
+        if len(anns) < 3 or annual.empty:
+            continue
+        # as_of: the day after the 4th-latest announcement, so >=3 announcements are visible and the annual report is older
+        k = min(len(anns) - 1, 2 + (i // len(tickers)) * 2)
+        as_of = (anns.iloc[k].available_at + pd.Timedelta(days=1)).replace(hour=15, minute=0, second=0)
+        if as_of < annual.iloc[0].available_at or (t, as_of.date(), key) in seen:
+            continue
+        seen.add((t, as_of.date(), key))
+        pe = o.latest(t, as_of.to_pydatetime())
+        if metric == "receivable_days":
+            a, r = o.val(t, "accounts_receivable", pe, as_of), o.ttm(t, "operating_revenue", pe, as_of)
+            cur = a / r * 365 if a is not None and r else None
+        elif metric == "inventory_days":
+            a, r = o.val(t, "inventory", pe, as_of), o.ttm(t, "operating_cost", pe, as_of)
+            cur = a / r * 365 if a is not None and r else None
+        else:
+            a, r = o.val(t, "interest_bearing_debt", pe, as_of), o.val(t, "total_assets", pe, as_of)
+            cur = a / r if a is not None and r else None
+        if cur is None:
+            continue
+        visible = anns[anns.available_at <= as_of]
+        name = secs[t]
+        q = (f"结合{name}2025年年报附注、最新一期（{label(pe)}）的财务数据和近期公告，综合分析{ask}。"
+             f"请给出最新的{topic}，并引用年报附注和至少两份近期公告作为依据。")
+        rows.append({"task_id": f"M{len(rows) + 1:03d}", "dataset": "multidoc", "category": "multidoc_synthesis",
+                     "trap_type": f"multi_source_{key}", "ticker": t, "as_of": as_of.isoformat(), "question": q, "mode": "deep",
+                     "fault_injection": {},
+                     "expected": {"numbers": [num("level", metric, pe, cur)],
+                                  "forbidden": _forbidden(o, t, as_of.to_pydatetime()),
+                                  "multidoc": {"annual": annual.iloc[0].document_id, "min_announcements": 2,
+                                               "announcement_pool": visible.document_id.tolist()},
+                                  "topic": key}})
+    return rows
+
+
 def build_quant_tasks() -> list[dict]:
     """Scenario D (PRD 2.4): 10 factor-validation tasks. Truth comes from quant_oracle (independent of the tool)."""
     from .quant_oracle import factor_stats
@@ -418,18 +475,19 @@ def write_tasks() -> dict:
     lab, chaos = build_tasks()
     golden = build_real_golden(Oracle())
     quant = build_quant_tasks()
+    multidoc = build_multidoc_tasks()
     TASK_DIR.mkdir(parents=True, exist_ok=True)
     for name, rows in (("lab_v1.jsonl", lab), ("golden_v1.jsonl", golden), ("chaos_v1.jsonl", chaos),
-                       ("quant_v1.jsonl", quant)):
+                       ("quant_v1.jsonl", quant), ("multidoc_v1.jsonl", multidoc)):
         with open(TASK_DIR / name, "w", encoding="utf-8") as f:
             for r in rows:
                 f.write(json.dumps(r, ensure_ascii=False, default=str) + "\n")
     with get_session_factory()() as s:
-        for r in lab + golden + chaos + quant:
+        for r in lab + golden + chaos + quant + multidoc:
             s.merge(BenchmarkTaskRow(task_id=r["task_id"], dataset=r["dataset"], version=VERSION, snapshot_id=None,
                                      trap_type=r["category"], payload=json.loads(json.dumps(r, default=str))))
         s.commit()
-    return {"golden_real": len(golden), "chaos": len(chaos), "lab": len(lab), "quant": len(quant)}
+    return {"golden_real": len(golden), "chaos": len(chaos), "lab": len(lab), "quant": len(quant), "multidoc": len(multidoc)}
 
 
 def load_tasks(datasets=("golden", "chaos"), path: Path = TASK_DIR) -> list[dict]:
