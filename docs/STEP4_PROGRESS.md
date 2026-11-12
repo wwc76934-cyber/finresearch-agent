@@ -17,7 +17,7 @@ All numbers come from `reports/eval/online_s4_summary.json` (`python scripts/s4_
 | Table fallback | `collectors.explain_anomaly` | The quoted table rows are data rows, not header rows. |
 | Config | `ArchConfig.complexity_router`, arch `B4-no_router` | Ablation switch. |
 
-Not done from the PRD list: Fact Lock in `debate.py`, and an fast/reasoning model split. Subgraph recaps moved to the light
+Not done from the PRD list: Fact Lock in `debate.py`, and a fast/reasoning model split. Subgraph recaps moved to the light
 model first, then were removed. The verifier and debate still use the strong model.
 
 ## Route mix on the 75 tasks (rules only, offline)
