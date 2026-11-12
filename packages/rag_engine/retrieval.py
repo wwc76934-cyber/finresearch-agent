@@ -89,6 +89,92 @@ class HashingDenseEncoder:
         return m / np.where(n == 0, 1, n)
 
 
+class ApiDenseEncoder:
+    """Real embedding model over an OpenAI-compatible /embeddings endpoint (default BAAI/bge-m3, 1024-d).
+
+    Vectors are cached on disk by text hash, so a corpus is embedded once and offline runs reuse it.
+    Selected with EMBEDDING_BACKEND=api; the default stays the offline hashing encoder."""
+
+    def __init__(self, model: Optional[str] = None, dim: int = 1024, batch: int = 32):
+        import os
+        import sqlite3
+        from pathlib import Path
+
+        self.model = model or os.environ.get("EMBEDDING_MODEL", "BAAI/bge-m3")
+        self.dim, self.batch = dim, batch
+        root = Path(os.environ.get("EMBEDDING_CACHE_DIR", Path(__file__).resolve().parents[2] / ".cache"))
+        root.mkdir(parents=True, exist_ok=True)
+        self._db = sqlite3.connect(str(root / f"emb_{self.model.replace('/', '_')}.sqlite"), check_same_thread=False)
+        self._db.execute("CREATE TABLE IF NOT EXISTS e (h TEXT PRIMARY KEY, v BLOB)")
+        self._lock = __import__("threading").Lock()
+
+    def fit(self, texts: list[str]) -> None:  # nothing to fit
+        return None
+
+    @staticmethod
+    def _key(t: str) -> str:
+        import hashlib
+        return hashlib.sha1(t.encode("utf-8")).hexdigest()
+
+    def _fetch(self, texts: list[str]) -> list[np.ndarray]:
+        import os
+        import time
+
+        import httpx
+
+        from agent_runtime.llm import load_dotenv
+        load_dotenv()
+        url, key = os.environ["LLM_BASE_URL"].rstrip("/") + "/embeddings", os.environ["LLM_API_KEY"]
+        for attempt in range(5):
+            try:
+                r = httpx.post(url, headers={"Authorization": f"Bearer {key}"}, timeout=60,
+                               json={"model": self.model, "input": [t[:6000] for t in texts]})
+                if r.status_code == 402:
+                    raise RuntimeError("embedding API: insufficient balance (HTTP 402)")
+                r.raise_for_status()
+                data = sorted(r.json()["data"], key=lambda d: d["index"])
+                return [np.asarray(d["embedding"], dtype=np.float32) for d in data]
+            except RuntimeError:
+                raise
+            except Exception:  # noqa: BLE001 - transient network / rate limit: back off and retry
+                if attempt == 4:
+                    raise
+                time.sleep(2 ** attempt)
+        raise AssertionError
+
+    def encode(self, texts: list[str]) -> np.ndarray:
+        from concurrent.futures import ThreadPoolExecutor
+
+        keys = [self._key(t) for t in texts]
+        with self._lock:
+            have = {h: np.frombuffer(v, dtype=np.float32) for h, v in
+                    self._db.execute(f"SELECT h, v FROM e WHERE h IN ({','.join('?' * len(keys))})", keys)} if keys and len(keys) < 900 else \
+                {h: np.frombuffer(v, dtype=np.float32) for h, v in self._db.execute("SELECT h, v FROM e")}
+        todo = list(dict.fromkeys(i for i, k in enumerate(keys) if k not in have))
+        todo_first = {keys[i]: i for i in reversed(todo)}
+        miss = [texts[i] for i in sorted(todo_first.values())]
+        mk = [keys[i] for i in sorted(todo_first.values())]
+        batches = [(mk[i:i + self.batch], miss[i:i + self.batch]) for i in range(0, len(miss), self.batch)]
+        if batches:
+            with ThreadPoolExecutor(max_workers=4) as ex:
+                results = list(ex.map(lambda b: self._fetch(b[1]), batches))
+            with self._lock:
+                for (ks, _), vs in zip(batches, results):
+                    for k, v in zip(ks, vs):
+                        v = v / (np.linalg.norm(v) or 1.0)
+                        have[k] = v.astype(np.float32)
+                        self._db.execute("INSERT OR REPLACE INTO e VALUES (?, ?)", (k, have[k].tobytes()))
+                self._db.commit()
+        return np.vstack([have[k] for k in keys]) if keys else np.zeros((0, self.dim), dtype=np.float32)
+
+
+def default_encoder() -> "DenseEncoder":
+    import os
+    if os.environ.get("EMBEDDING_BACKEND", "hashing") == "api":
+        return ApiDenseEncoder()
+    return HashingDenseEncoder()
+
+
 class Reranker(Protocol):
     def score(self, query: str, chunks: list[Chunk]) -> list[float]: ...
 
@@ -123,7 +209,7 @@ class Retriever:
         self.parents = {c.chunk_id: c for c in chunks if c.level == "parent"}
         self.tokens = [tokenize(c.text) for c in self.children]
         self.bm25 = BM25(self.tokens)
-        self.encoder = encoder or HashingDenseEncoder()
+        self.encoder = encoder or default_encoder()
         self.encoder.fit([c.text for c in self.children])
         self.vector_store = vector_store          # PgVectorStore: dense search runs in the database
         self._pos = {c.chunk_id: i for i, c in enumerate(self.children)}

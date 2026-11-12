@@ -14,3 +14,5 @@ apps/web_react/dist/
 reports/demo/*.webm
 reports/demo/frames/
 reports/real/
+
+.cache/
