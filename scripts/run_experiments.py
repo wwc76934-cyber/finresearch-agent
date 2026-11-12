@@ -19,10 +19,13 @@ from evaluation_platform.runner import run_experiment  # noqa: E402
 
 BASE = ["B0", "B1", "B2", "B3", "B4"]
 ABL = ["B4-no_anchor_prefilter", "B4-no_hybrid_rerank", "B4-no_context_isolation", "B4-no_replanning",
-       "B4-no_debate", "B4-no_tier1", "B4-no_tier2"]
+       "B4-no_debate", "B4-no_tier1", "B4-no_tier2", "B4-no_crosscheck", "B4-no_semantic_probe", "B4-rule_anomalies",
+       "B4-no_router"]
 LABEL = {"B4-no_anchor_prefilter": "-口径预过滤与表格锚点", "B4-no_hybrid_rerank": "-Hybrid RRF & Reranker",
          "B4-no_context_isolation": "-子图上下文隔离", "B4-no_replanning": "-Anomaly 动态重规划",
-         "B4-no_debate": "-Bull/Bear 多空辩论", "B4-no_tier1": "-Tier-1 确定性校验器", "B4-no_tier2": "-Tier-2 语义 Verifier"}
+         "B4-no_debate": "-Bull/Bear 多空辩论", "B4-no_tier1": "-Tier-1 确定性校验器", "B4-no_tier2": "-Tier-2 语义 Verifier",
+         "B4-no_crosscheck": "-子图交叉核对/附注直读", "B4-no_semantic_probe": "-语义异常探针",
+         "B4-rule_anomalies": "异常检测改回固定阈值", "B4-no_router": "-ComplexityRouter"}
 
 
 def pct(v):
@@ -83,11 +86,31 @@ def write_markdown(cmp: dict, rag: dict, exp_id: str) -> str:
     return "\n".join(L) + "\n"
 
 
+def repeat_table(results: list[dict], archs: list[str], repeats: int) -> str:
+    """Pass rate per repeat and Mean ± Std. Offline runs are deterministic, so Std is expected to be 0; the real
+    run-to-run spread is in the online n=3 summaries (reports/eval/online_n3_summary.json, online_s4_summary.json)."""
+    import statistics as st
+
+    if repeats < 2:
+        return ""
+    L = [f"## 0b. 重复 n={repeats}：通过率 Mean ± Std", "",
+         "离线模式是确定性的，Std 为 0 属预期；真实模型的波动见在线 n=3 汇总。", "",
+         "| 架构 | " + " | ".join(f"r{k + 1}" for k in range(repeats)) + " | Mean ± Std |", "|---|" + "---|" * (repeats + 1)]
+    for a in archs:
+        rs = [r for r in results if r["architecture"] == a]
+        per = [rs[k::repeats] for k in range(repeats)]   # jobs are laid out task-major: t1,t1,t1,t2,...
+        rates = [sum(r["passed"] for r in x) / max(len(x), 1) for x in per]
+        L.append(f"| {a} | " + " | ".join(f"{v * 100:.1f}%" for v in rates) +
+                 f" | {st.mean(rates) * 100:.1f}% ± {st.pstdev(rates) * 100:.1f}% |")
+    return "\n".join(L) + "\n\n"
+
+
 def by_dataset(results: list[dict], archs: list[str]) -> str:
-    sets = ["golden", "blind", "chaos", "lab", "quant"]
+    sets = ["golden", "blind", "chaos", "lab", "quant", "multidoc", "semantic"]
     L = ["## 0. 按数据集通过率", "", "golden = 8 家真实 A 股（Tier-A 30 题）；blind = 独立出题人在真实数据上出的 30 题；"
          "chaos = 虚构实验室公司上的故障注入 50 题；lab = 虚构实验室公司上的旧版 30 题；"
-         "quant = 场景 D 因子检验 10 题（24 家真实 A 股面板，答案来自独立 Oracle）。", "",
+         "quant = 场景 D 因子检验 10 题（24 家真实 A 股面板，答案来自独立 Oracle）；multidoc = 年报附注 + 多份公告综合 15 题；"
+         "semantic = 语义陷阱 10 题（数字全对、意思被改错；增益来自这 10 题的构造）。", "",
          "| 架构 | " + " | ".join(sets) + " | 合计 |", "|---|" + "---|" * (len(sets) + 1)]
     for a in archs:
         rs = [r for r in results if r["architecture"] == a]
@@ -105,14 +128,14 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--quick", action="store_true")
     ap.add_argument("--repeats", type=int, default=1)
-    ap.add_argument("--datasets", default="golden,blind,chaos,lab,quant")
+    ap.add_argument("--datasets", default="golden,blind,chaos,lab,quant,multidoc,semantic")
     a = ap.parse_args()
     os.environ["LLM_OFFLINE"] = "1"   # this script is the offline matrix; online runs use run_online_eval.py
     print(write_tasks())
     archs = ["B3", "B4"] if a.quick else BASE + ABL
     exp_id = f"exp_{datetime.now():%Y%m%d_%H%M%S}"
     payload = run_experiment(archs, datasets=tuple(a.datasets.split(",")), repeats=a.repeats,
-                             persist_archs=("B3", "B4"), name=exp_id)
+                             persist_archs=("B3", "B4") if a.repeats == 1 else (), name=exp_id, workers=2)
     cmp = compare(payload["results"])
     rag = rag_eval.run()
     out = ROOT / "reports" / "eval"
@@ -123,6 +146,6 @@ if __name__ == "__main__":
     if not a.quick:
         md = write_markdown(cmp, rag, exp_id)
         head, _, rest = md.partition("## 1.")
-        md = head + by_dataset(payload["results"], archs) + "## 1." + rest
+        md = head + by_dataset(payload["results"], archs) + repeat_table(payload["results"], archs, a.repeats) + "## 1." + rest
         (out / "EVALUATION_generated.md").write_text(md, encoding="utf-8")
         print(md)
