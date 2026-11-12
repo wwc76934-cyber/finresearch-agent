@@ -4,7 +4,7 @@
 
 ```text
 apps/api_server        FastAPI + SSE：研究任务、血缘、评测、数据质量 API
-apps/web_workspace     三栏工作台 + /evaluation + /data-health（原生 JS + ECharts）
+apps/web_react         投研工作台(+Trace 时间线) / 评测中台 / 数据质量 / 因子回测（React + ECharts）
 packages/agent_runtime LangGraph 主图、4 个子图、辩论、风险、双层 Verifier、基线 B0–B2
 packages/rag_engine    结构感知切片、BM25/Dense/RRF/Rerank、路由、Self-RAG
 packages/data_platform 8 个子模块：registry ingestion schema quality catalog lineage versioning serving(+calculators)
@@ -81,7 +81,7 @@ Checkpointer：`MemorySaver`，`thread_id = run_id`。持久化 checkpointer（`
 
 | PRD 要求 | 当前实现 | 原因 |
 |---|---|---|
-| React 18 + TS + Tailwind | 已实现：`apps/web_react`（React 19 + TypeScript 严格模式 + Tailwind 4 + ECharts 6，Vite 构建）。FastAPI 在 `dist/` 存在时于 `/` 提供它；原生 JS 版保留在 `/legacy` 作为免构建备用 | — |
+| React 18 + TS + Tailwind | 已实现：`apps/web_react`（React 19 + TypeScript 严格模式 + Tailwind 4 + ECharts 6，Vite 构建）。FastAPI 在 `dist/` 存在时于 `/` 提供它（v1.2 已删除原生 JS 备用版） | — |
 | Demo 录屏 | 已实现：`scripts/record_demo.mjs`（Playwright 驱动本机 Chrome/Edge，真实 API、离线模型）→ `reports/demo/demo.mp4`、`demo.gif` | 录屏用离线模式，所以研报是模板文字；接真实模型重录需约 2 分钟/份 |
 | PostgreSQL 16 | SQLite 默认，docker-compose 提供 PG16 | 零依赖本地运行；SQLAlchemy 模型两者通用 |
 | PGVector/Chroma + bge | 内存索引 + Hashing 稠密向量 | 离线无模型下载；`DenseEncoder`/`Reranker` 协议是替换点 |

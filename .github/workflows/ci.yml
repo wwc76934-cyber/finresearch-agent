@@ -1,0 +1,78 @@
+name: ci
+
+on:
+  push:
+    branches: [init, main]
+  pull_request:
+
+env:
+  LLM_OFFLINE: "1"          # no model key in CI: deterministic template agents
+  CHECKPOINTER: memory
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -e ".[dev]"
+      - name: Unit and integration tests (sqlite + in-memory vectors)
+        run: pytest -q
+      - name: Offline benchmark, B4 on all datasets (fails below 160/175)
+        run: python scripts/quick_offline.py B4 golden,blind,chaos,lab,quant,multidoc,semantic | tee quick.txt
+      - name: Pass-rate gate
+        run: |
+          n=$(grep -oE '[0-9]+/175' quick.txt | tail -1 | cut -d/ -f1)
+          echo "B4 offline pass: $n/175"
+          test "$n" -ge 160
+
+  postgres:
+    runs-on: ubuntu-latest
+    services:
+      db:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_PASSWORD: ci
+          POSTGRES_DB: finresearch
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U postgres" --health-interval 5s --health-timeout 5s --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -e ".[dev]"
+      - name: Load the corpus into PostgreSQL (+ pgvector embeddings)
+        env:
+          STORAGE_BACKEND: postgres
+          VECTOR_BACKEND: pgvector
+          DATABASE_URL: postgresql+psycopg://postgres:ci@localhost:5432/finresearch
+        run: python scripts/bootstrap.py
+      - name: PostgreSQL + pgvector tests
+        env:
+          STORAGE_BACKEND: postgres
+          VECTOR_BACKEND: pgvector
+          DATABASE_URL: postgresql+psycopg://postgres:ci@localhost:5432/finresearch
+          FINRESEARCH_TEST_PG_URL: postgresql+psycopg://postgres:ci@localhost:5432/finresearch
+        run: pytest -q tests/test_infra.py
+
+  web:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/web_react
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: apps/web_react/package-lock.json
+      - run: npm ci --omit=optional || npm install --omit=optional
+      - name: Typecheck and build
+        run: npm run build

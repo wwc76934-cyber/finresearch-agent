@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { api, type Report } from "./api";
 import { Chart } from "./Chart";
+import Timeline from "./Timeline";
 
 const TAG = { disclosed_fact: "事实", derived_metric: "算子", model_inference: "推断" } as const;
 
@@ -49,6 +50,7 @@ export default function ReportView({ rep }: { rep: Report }) {
       <h3 className="h3 mt-3">数据局限与不确定性声明</h3>
       {limits.length ? limits.map((x, i) => <div key={i} className="my-1">{x}</div>) : <p className="text-slate-500">无</p>}
       {drawer && <EvidenceDrawer rep={rep} eid={drawer} onClose={() => setDrawer(null)} />}
+      <Timeline runId={rep.run_id} trace={rep.trace ?? []} />
     </div>
   );
 }

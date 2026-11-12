@@ -1,0 +1,47 @@
+{
+ "aggregate": {
+  "n": 75,
+  "pass_rate": 0.84,
+  "numerical_accuracy": 1.0,
+  "numerical_accuracy_n": 57,
+  "citation_validity": 1.0,
+  "citation_validity_n": 75,
+  "support_rate": 1.0,
+  "support_rate_n": 75,
+  "pit_violation": 0.0,
+  "pit_violation_n": 75,
+  "anomaly_recall": 0.7604166666666666,
+  "anomaly_recall_n": 16,
+  "refusal": 1.0,
+  "refusal_n": 7,
+  "conflict_handling": null,
+  "conflict_handling_n": 0,
+  "recovery": null,
+  "recovery_n": 0,
+  "rubric": 0.7066666666666667,
+  "rubric_n": 15,
+  "redundant_tool_rate": 0.018414797801967756,
+  "first_pass_plan_valid": 1.0,
+  "latency_p50_ms": 35973.853799994686,
+  "latency_p95_ms": 60963.643240001686,
+  "tokens_mean": 9172.066666666668,
+  "cost_cny_mean": 0.02112544,
+  "errors": {
+   "DATA_MISSING": 0,
+   "RETRIEVAL_MISS": 5,
+   "SCOPE_CONFUSION": 0,
+   "TOOL_ERROR": 0,
+   "HALLUCINATION": 7,
+   "PIT_VIOLATION": 0
+  },
+  "pass_by_category": {
+   "deep_research": 1,
+   "anomaly_attribution": 0.4375,
+   "events_peers": 1,
+   "blind_metric": 1,
+   "refusal_trap": 1,
+   "multidoc_synthesis": 0.8
+  }
+ },
+ "total_cost_cny": 1.584408
+}

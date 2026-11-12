@@ -17,7 +17,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "packages"))
 
 from fastapi import FastAPI, HTTPException  # noqa: E402
-from fastapi.responses import FileResponse, PlainTextResponse, StreamingResponse  # noqa: E402
+from fastapi.responses import FileResponse, HTMLResponse, PlainTextResponse, StreamingResponse  # noqa: E402
 from fastapi.staticfiles import StaticFiles  # noqa: E402
 from pydantic import BaseModel, Field  # noqa: E402
 from sqlalchemy import Integer, cast, func, select  # noqa: E402
@@ -31,7 +31,6 @@ from data_platform.lineage import LineageRecorder  # noqa: E402
 from data_platform.versioning import list_snapshots  # noqa: E402
 
 app = FastAPI(title="FinResearch Agent", version="0.1.0")
-WEB = ROOT / "apps" / "web_workspace"
 EVAL = ROOT / "reports" / "eval"
 Session = get_session_factory()
 JOBS: dict[str, dict] = {}
@@ -239,22 +238,70 @@ def data_health():
             "snapshots": list_snapshots()[:20]}
 
 
+# ------------------------------------------------------------------ scenario D: factor validation
+class FactorIn(BaseModel):
+    factor: str
+    universe: str = Field("all", pattern="^(all|new_energy|consumer)$")
+    as_of_date: str = Field("2025-12-31", pattern=r"^\d{4}-\d{2}-\d{2}$")
+    lookback_quarters: int = Field(8, ge=1, le=12)
+    forward_horizon_days: int = Field(60, ge=5, le=250)
+    quantiles: int = Field(3, ge=2, le=5)
+    report_period: Optional[str] = Field(None, pattern=r"^\d{4}Q[1-4]$")
+
+
+@app.get("/api/factors")
+def factor_list():
+    from data_platform.factors import FACTOR_CN, FACTORS, get_panel
+
+    panel = get_panel()
+    return {"factors": [{"id": f, "name": FACTOR_CN[f]} for f in FACTORS], "universes": ["all", "new_energy", "consumer"],
+            "panel_last_date": panel.dates[-1], "panel_companies": len(panel.tickers("all"))}
+
+
+@app.post("/api/factors/test")
+def factor_test(body: FactorIn):
+    """Runs the same tool the agent uses. A request that reads data not yet public at the cross-section is refused (422)."""
+    from data_platform.factors import PanelCoverageError, PITViolationError, evaluate_factor_hypothesis
+
+    try:
+        rep = evaluate_factor_hypothesis(body.factor, body.universe, body.as_of_date, body.lookback_quarters,
+                                         body.forward_horizon_days, body.quantiles, report_period=body.report_period)
+    except PITViolationError as exc:
+        raise HTTPException(422, {"error": "PIT_VIOLATION", "message": str(exc)})
+    except (PanelCoverageError, ValueError) as exc:
+        raise HTTPException(422, {"error": type(exc).__name__, "message": str(exc)})
+    return rep.model_dump()
+
+
+@app.get("/api/otel/spans")
+def otel_spans(run_id: Optional[str] = None):
+    """OpenTelemetry spans kept in memory (TRACING_BACKEND=otel without an OTLP endpoint). Empty otherwise."""
+    from evaluation_platform.tracing import finished_otel_spans, tracing_backend
+
+    if tracing_backend() != "otel":
+        return {"enabled": False, "spans": []}
+    out = []
+    for sp in finished_otel_spans():
+        a = dict(sp.attributes or {})
+        if run_id and a.get("run_id") not in (None, run_id):
+            continue
+        out.append({"name": sp.name, "start_ns": sp.start_time, "end_ns": sp.end_time, "attributes": a,
+                    "parent": sp.parent.span_id if sp.parent else None, "span_id": sp.context.span_id})
+    return {"enabled": True, "spans": out}
+
+
 REACT = ROOT / "apps" / "web_react" / "dist"
 
 
 @app.get("/")
 def index():
-    """React build when present (apps/web_react: npm run build); otherwise the no-build fallback page."""
+    """The React build (apps/web_react: npm run build). Without a build, say how to make one."""
     if (REACT / "index.html").exists():
         return FileResponse(REACT / "index.html")
-    return FileResponse(WEB / "index.html")
+    return HTMLResponse("<h3>FinResearch Agent API is running.</h3><p>The web UI is not built: "
+                        "<code>cd apps/web_react &amp;&amp; npm install &amp;&amp; npm run build</code>, then reload. "
+                        "API docs: <a href='/docs'>/docs</a>.</p>")
 
 
-@app.get("/legacy")
-def legacy():
-    return FileResponse(WEB / "index.html")
-
-
-app.mount("/static", StaticFiles(directory=WEB), name="static")
 if (REACT / "assets").exists():
     app.mount("/assets", StaticFiles(directory=REACT / "assets"), name="assets")

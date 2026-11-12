@@ -1,0 +1,47 @@
+{
+ "aggregate": {
+  "n": 75,
+  "pass_rate": 0.17333333333333334,
+  "numerical_accuracy": 0.22807017543859648,
+  "numerical_accuracy_n": 57,
+  "citation_validity": 0.9446078431372549,
+  "citation_validity_n": 68,
+  "support_rate": 0.6337535014005602,
+  "support_rate_n": 68,
+  "pit_violation": 0.0,
+  "pit_violation_n": 75,
+  "anomaly_recall": 0.375,
+  "anomaly_recall_n": 16,
+  "refusal": 0.42857142857142855,
+  "refusal_n": 7,
+  "conflict_handling": null,
+  "conflict_handling_n": 0,
+  "recovery": null,
+  "recovery_n": 0,
+  "rubric": 0.6426666666666666,
+  "rubric_n": 15,
+  "redundant_tool_rate": 0.055328282828282824,
+  "first_pass_plan_valid": 0.72,
+  "latency_p50_ms": 23350.8434999967,
+  "latency_p95_ms": 53117.449070006835,
+  "tokens_mean": 3839.68,
+  "cost_cny_mean": 0.01104448,
+  "errors": {
+   "DATA_MISSING": 16,
+   "RETRIEVAL_MISS": 16,
+   "SCOPE_CONFUSION": 1,
+   "TOOL_ERROR": 0,
+   "HALLUCINATION": 29,
+   "PIT_VIOLATION": 0
+  },
+  "pass_by_category": {
+   "deep_research": 0.3333333333333333,
+   "anomaly_attribution": 0,
+   "events_peers": 0.1,
+   "blind_metric": 0.3333333333333333,
+   "refusal_trap": 0.42857142857142855,
+   "multidoc_synthesis": 0
+  }
+ },
+ "total_cost_cny": 0.828336
+}

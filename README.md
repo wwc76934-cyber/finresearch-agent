@@ -31,7 +31,7 @@ cd apps/web_react && npm install && npm run build   # 生成 dist/，由 FastAPI
 npm run dev                                          # 开发模式 http://127.0.0.1:5173，API 代理到 8000
 ```
 
-未构建时 `/` 自动退回免构建的原生 JS 版（也可访问 `/legacy`）。
+未构建时 `/` 只显示构建提示（原生 JS 版 `web_workspace` 已在 v1.2 删除）；API 文档在 `/docs`。前端含：投研工作台（含 Trace 时间线）、评测中台、数据质量、因子回测。
 
 ### Demo 录屏
 
@@ -76,7 +76,7 @@ python scripts/check_pg_parity.py                # pgvector 与内存检索对�
 | `packages/agent_runtime` | LangGraph 主图与子图、Planner、Fundamental/Market/News/Investigate、Debate、Risk、Verifier、Report、B0–B2 |
 | `packages/evaluation_platform` | 140 题基准（golden/blind/chaos/lab）+ 独立 Oracle、Runner、Evaluators、Tracer、Comparison、Error Analysis、Regression、RAG eval |
 | `apps/api_server` | FastAPI + SSE |
-| `apps/web_workspace` | 投研工作台 / 评测看板 / 数据质量 |
+| `apps/web_react` | 投研工作台 + Trace 时间线 / 评测中台 / 数据质量 / 因子回测（React 19 + TS + Tailwind + ECharts） |
 | `benchmarks/` | Golden Snapshot、`tasks/golden_v1.jsonl`(30)、`tasks/chaos_v1.jsonl`(50)、`regression/` |
 | `reports/cases/` | 3 份 B4 案例研报（Markdown + 完整 JSON 含 trace） |
 

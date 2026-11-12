@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import DataHealth from "./DataHealth";
 import Evaluation from "./Evaluation";
+import Factor from "./Factor";
 import Research from "./Research";
 
 const VIEWS = [
   { id: "research", label: "投研工作台" },
   { id: "evaluation", label: "评测中台" },
   { id: "data-health", label: "数据质量" },
+  { id: "factor", label: "因子回测" },
 ] as const;
 type View = (typeof VIEWS)[number]["id"];
 
@@ -33,11 +35,12 @@ export default function App() {
             </a>
           ))}
         </nav>
-        <span className="ml-auto text-xs text-amber-700 dark:text-amber-400">演示数据：6 家虚构公司（离线 Golden Snapshot）</span>
+        <span className="ml-auto text-xs text-amber-700 dark:text-amber-400">数据：8 家真实 A 股（巨潮/东方财富披露）+ 6 家演示公司；因子面板 24 家</span>
       </header>
       {view === "research" && <Research openRun={openRun} />}
       {view === "evaluation" && <Evaluation onReplay={(r) => { setOpenRun(r); go("research"); }} />}
       {view === "data-health" && <DataHealth />}
+      {view === "factor" && <Factor />}
     </div>
   );
 }
