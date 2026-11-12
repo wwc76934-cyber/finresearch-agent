@@ -553,7 +553,8 @@ def explain_anomaly(ctx: RunContext, code: str, query: str, section_types, anoma
         if m:
             finding = focus = m.group(0)[-260:]
         elif c.is_table:
-            rows = [r for r in c.text.splitlines() if r.startswith("|") and "---" not in r][1:4]
+            # data rows only: multi-line table headers ("账面余额 | 跌价准备 | 账面价值") state nothing and the judge rightly rejects them
+            rows = [r for r in c.text.splitlines() if r.startswith("|") and "---" not in r and re.search(r"\d", r)][:3]
             if not rows:
                 continue
             finding = "；".join(" ".join(x.strip() for x in r.strip("|").split("|") if x.strip()) for r in rows) + "（单位见原表）。"
