@@ -1,0 +1,129 @@
+{
+ "after": {
+  "runs": [
+   "online_v12s4_B4_r1"
+  ],
+  "n_runs": 1,
+  "pass_mean": 0.8933,
+  "pass_std": 0.0,
+  "p50_s": 42.8,
+  "p90_s": 102.5,
+  "cost_per_run_cny": 2.88,
+  "p50_s_golden_blind_60": 62.0,
+  "cost_per_run_golden_blind_60_cny": 2.33,
+  "by_category": {
+   "blind/anomaly_attribution": {
+    "n": 6,
+    "pass": 0.167,
+    "p50_s": 100.5,
+    "cost_per_run": 0.388
+   },
+   "blind/blind_metric": {
+    "n": 12,
+    "pass": 1.0,
+    "p50_s": 0.2,
+    "cost_per_run": 0.0
+   },
+   "blind/deep_research": {
+    "n": 5,
+    "pass": 1.0,
+    "p50_s": 132.7,
+    "cost_per_run": 0.352
+   },
+   "blind/refusal_trap": {
+    "n": 7,
+    "pass": 1.0,
+    "p50_s": 0.1,
+    "cost_per_run": 0.064
+   },
+   "golden/anomaly_attribution": {
+    "n": 10,
+    "pass": 0.7,
+    "p50_s": 27.9,
+    "cost_per_run": 0.214
+   },
+   "golden/deep_research": {
+    "n": 10,
+    "pass": 1.0,
+    "p50_s": 92.6,
+    "cost_per_run": 0.693
+   },
+   "golden/events_peers": {
+    "n": 10,
+    "pass": 1.0,
+    "p50_s": 80.9,
+    "cost_per_run": 0.619
+   },
+   "multidoc/multidoc_synthesis": {
+    "n": 15,
+    "pass": 1.0,
+    "p50_s": 37.4,
+    "cost_per_run": 0.545
+   }
+  }
+ },
+ "before": {
+  "runs": [
+   "online_v12_B4_r2",
+   "online_v12_B4_r3"
+  ],
+  "n_runs": 2,
+  "pass_mean": 0.88,
+  "pass_std": 0.0,
+  "p50_s": 114.5,
+  "p90_s": 135.7,
+  "cost_per_run_cny": 5.31,
+  "p50_s_golden_blind_60": 113.3,
+  "cost_per_run_golden_blind_60_cny": 4.06,
+  "by_category": {
+   "blind/anomaly_attribution": {
+    "n": 6,
+    "pass": 0.167,
+    "p50_s": 113.8,
+    "cost_per_run": 0.5
+   },
+   "blind/blind_metric": {
+    "n": 12,
+    "pass": 1.0,
+    "p50_s": 96.6,
+    "cost_per_run": 0.718
+   },
+   "blind/deep_research": {
+    "n": 5,
+    "pass": 1.0,
+    "p50_s": 118.3,
+    "cost_per_run": 0.369
+   },
+   "blind/refusal_trap": {
+    "n": 7,
+    "pass": 1.0,
+    "p50_s": 109.9,
+    "cost_per_run": 0.413
+   },
+   "golden/anomaly_attribution": {
+    "n": 10,
+    "pass": 0.8,
+    "p50_s": 127.3,
+    "cost_per_run": 0.694
+   },
+   "golden/deep_research": {
+    "n": 10,
+    "pass": 1.0,
+    "p50_s": 126.5,
+    "cost_per_run": 0.71
+   },
+   "golden/events_peers": {
+    "n": 10,
+    "pass": 1.0,
+    "p50_s": 104.3,
+    "cost_per_run": 0.66
+   },
+   "multidoc/multidoc_synthesis": {
+    "n": 15,
+    "pass": 0.867,
+    "p50_s": 117.8,
+    "cost_per_run": 1.248
+   }
+  }
+ }
+}
