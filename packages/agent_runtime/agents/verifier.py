@@ -12,6 +12,7 @@ from typing import Optional
 
 from ..context import RunContext
 from ..llm import call_json
+from . import semantic_check
 from ..state import Claim, UncertaintyStatement, VerificationFailure
 
 STRIP = [r"\d{4}-\d{2}-\d{2}", r"\d{4}Q[1-4]", r"\d{4}年(\d{1,2}月(\d{1,2}日)?)?", r"\d{1,2}月\d{1,2}日",
@@ -112,7 +113,13 @@ def tier2_batch(ctx: RunContext, claims: list[Claim]) -> dict[str, str]:
         sys_p = ("你是独立的金融事实核验裁判。对每条论断，判断其所引证据是否在语义上支持它。"
                  "推断类论断只要方向与证据一致、未夸大即可判 SUPPORTED；超出证据的部分判 PARTIALLY_SUPPORTED；"
                  "与证据相反判 CONTRADICTED；证据无关判 UNSUPPORTED。"
-                 "只输出JSON {\"results\":[{\"claim_id\":\"C001\",\"label\":\"SUPPORTED|PARTIALLY_SUPPORTED|CONTRADICTED|UNSUPPORTED\",\"reason\":\"...\"}]}")
+                 "数字都对时，仍要逐条检查四类语义谬误，命中任意一类就判 CONTRADICTED 并在 fallacy 里写出类别："
+                 "CAUSAL_INVERSION=原文只是并列提到A和B，论断却断言A导致了B（因果倒置或强行归因）；"
+                 "TREND_REVERSAL=原文是增速放缓，论断写成同比下降（趋势方向反转）；"
+                 "CONDITION_OMISSION=原文是管理层的计划/预计/拟，论断当成已实现的业绩（条件或假设遗漏）；"
+                 "SCOPE_SWITCH=用单季或累计数据论证全年趋势，或用母公司数据代表合并口径（口径偷换）。"
+                 "只输出JSON {\"results\":[{\"claim_id\":\"C001\",\"label\":\"SUPPORTED|PARTIALLY_SUPPORTED|CONTRADICTED|UNSUPPORTED\","
+                 "\"fallacy\":\"CAUSAL_INVERSION|TREND_REVERSAL|CONDITION_OMISSION|SCOPE_SWITCH|null\",\"reason\":\"...\"}]}")
         items = [{"claim_id": c.claim_id, "type": c.claim_type, "claim": c.text,
                   "evidence": [{"id": e, "summary": ctx.evidence[e].summary, "excerpt": ctx.evidence[e].excerpt[:500]}
                                for e in c.evidence_ids if e in ctx.evidence]} for c in claims]
@@ -121,7 +128,8 @@ def tier2_batch(ctx: RunContext, claims: list[Claim]) -> dict[str, str]:
         for r in (d or {}).get("results", []):
             if isinstance(r, dict) and r.get("label") in LABELS:
                 labels[str(r.get("claim_id"))] = r["label"]
-                ctx.judge_notes[str(r.get("claim_id"))] = {"label": r["label"], "reason": str(r.get("reason", ""))[:300]}
+                ctx.judge_notes[str(r.get("claim_id"))] = {"label": r["label"], "reason": str(r.get("reason", ""))[:300],
+                                                           "fallacy": r.get("fallacy")}
     for c in claims:  # claims the judge skipped (or offline) fall back to the heuristic
         labels.setdefault(c.claim_id, tier2(ctx, c))
     return labels
@@ -156,15 +164,25 @@ def verify(ctx: RunContext) -> list[VerificationFailure]:
     pending: list[VerificationFailure] = []
     drafts = [c for c in ctx.claims.values() if c.status == "DRAFT"]
     t1 = {c.claim_id: (tier1(ctx, c) if cfg.tier1_verifier else []) for c in drafts}
-    t2 = tier2_batch(ctx, [c for c in drafts if not t1[c.claim_id] and needs_tier2(ctx, c)]) if cfg.tier2_verifier else {}
+    # semantic fallacies (numbers right, meaning wrong): deterministic, so they run on every claim Tier-1 let through
+    fall = {c.claim_id: (semantic_check.fallacies(ctx, c) if cfg.tier2_verifier and not t1[c.claim_id] else []) for c in drafts}
+    t2 = tier2_batch(ctx, [c for c in drafts if not t1[c.claim_id] and not fall[c.claim_id] and needs_tier2(ctx, c)]) \
+        if cfg.tier2_verifier else {}
     for c in drafts:
         fails = t1[c.claim_id]
         label = "SUPPORTED"
-        if not fails and c.claim_id in t2:
+        if not fails and fall[c.claim_id]:
+            name, why = fall[c.claim_id][0]
+            label = "CONTRADICTED"
+            ctx.judge_notes[c.claim_id] = {"label": label, "reason": why, "fallacy": name}
+            fails = [VerificationFailure(claim_id=c.claim_id, tier=2, error_type=name, target_agent=c.produced_by,
+                                         fix_instruction=f"semantic fallacy {name}: {why}")]
+        elif not fails and c.claim_id in t2:
             label = t2[c.claim_id]
+            fb = (ctx.judge_notes.get(c.claim_id) or {}).get("fallacy")
             if label in ("CONTRADICTED", "UNSUPPORTED"):
-                fails = [VerificationFailure(claim_id=c.claim_id, tier=2, error_type=label, target_agent=c.produced_by,
-                                             fix_instruction="weaken or remove the inference")]
+                fails = [VerificationFailure(claim_id=c.claim_id, tier=2, error_type=fb if fb in semantic_check.FALLACIES else label,
+                                             target_agent=c.produced_by, fix_instruction="weaken or remove the inference")]
         ctx.tracer.span_event("verifier.check", {
             "claim_id": c.claim_id, "claim_type": c.claim_type, "passed": not fails, "tier2_label": label,
             "errors": [f.error_type for f in fails], "attempt": c.attempts,
@@ -175,7 +193,9 @@ def verify(ctx: RunContext) -> list[VerificationFailure]:
             c.status = "PARTIALLY_SUPPORTED" if label == "PARTIALLY_SUPPORTED" else "VERIFIED"
             ctx.verification_log.append({"claim_id": c.claim_id, "tier": 2 if cfg.tier2_verifier else 1, "passed": True,
                                          "error_type": None, "attempt": c.attempts, "circuit_broken": False})
-        elif c.attempts >= cfg.max_claim_retries:
+        elif c.attempts >= cfg.max_claim_retries or any(f.error_type in semantic_check.FALLACIES and f.tier == 2 and
+                                                       "semantic fallacy" in f.fix_instruction for f in fails):
+            # a deterministic semantic fallacy cannot be repaired by re-rendering numbers: downgrade at once
             c.status = "DOWNGRADED"
             reason = "; ".join(f"{f.error_type}: {f.fix_instruction}" for f in fails)
             ctx.uncertainties.append(UncertaintyStatement(

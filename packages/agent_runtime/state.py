@@ -133,7 +133,8 @@ class VerificationFailure(BaseModel):
     claim_id: str
     tier: int
     error_type: Literal["NUMBER_MISMATCH", "WILD_NUMBER", "PIT_VIOLATION", "MISSING_CITATION", "UNKNOWN_EVIDENCE",
-                        "SCOPE_MIX", "UNSUPPORTED", "CONTRADICTED"]
+                        "SCOPE_MIX", "UNSUPPORTED", "CONTRADICTED",
+                        "TREND_REVERSAL", "SCOPE_SWITCH", "CONDITION_OMISSION", "CAUSAL_INVERSION"]   # Tier-2 semantic fallacies
     target_agent: str
     fix_instruction: str
 
