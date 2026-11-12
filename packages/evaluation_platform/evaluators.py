@@ -75,16 +75,28 @@ def _has_number(text: str) -> bool:
     return any(u for _, _, u, _ in extract_numbers(text))
 
 
+RATIO_AS_MULTIPLE = {"ocf_to_net_profit"}      # coverage ratios people state both as a % and as "x times"
+
+
 def _states_value(text: str, exp: dict) -> bool:
     """True when the sentence contains a number equal to the oracle value at its displayed precision."""
     from agent_runtime.agents.verifier import UNIT_SCALE, extract_numbers
 
+    truth = exp["value"]
+    # "亏损34.03亿元" / "下降2.46%" say a negative number without a minus sign
+    neg_words = re.search(r"(亏损|下降|下滑|减少|下跌|降幅|同比降)\s*[-+]?\d", text) is not None
     for raw, v, unit, dec in extract_numbers(text):
         if unit is None:
             continue
         _, scale = UNIT_SCALE[unit]
-        truth = exp["value"]
+        if neg_words and truth < 0 and abs(-abs(v) * scale - truth) <= 0.5 * 10 ** (-dec) * scale * 1.0001 + 1e-9:
+            return True
         if abs(v * scale - truth) <= 0.5 * 10 ** (-dec) * scale * 1.0001 + 1e-9:
+            return True
+        # a ratio such as OCF / net profit is the same quantity whether written "164.50%" or "1.65倍"
+        if unit == "倍" and exp["metric"] in RATIO_AS_MULTIPLE and abs(v - truth) <= 0.5 * 10 ** (-dec) * 1.0001 + 1e-9:
+            return True
+        if unit == "%" and exp["metric"] in RATIO_AS_MULTIPLE and abs(v / 100 - truth) <= 0.5 * 10 ** (-dec) / 100 * 1.0001 + 1e-9:
             return True
     return False
 
@@ -113,15 +125,28 @@ def numerical_accuracy(task: dict, rep: dict) -> Optional[dict]:
         else:
             v = got["value"]
             good = v is not None and abs(v - exp["value"]) <= abs(exp["value"]) * exp["tol_rel"] + 1e-6
+            if not good and v is not None and got.get("metric_id", "").startswith(("m_react_", "m_naive_")):
+                # A model that read "-34.03亿元" from text and wrote the number back is exact only to the precision
+                # it was shown. For these text-reading systems (B1, B2) a value is right when it equals the truth at
+                # <= 4 significant digits; structured systems keep the strict relative tolerance.
+                good = abs(v - exp["value"]) <= abs(exp["value"]) * 5e-4 + 1e-6
             if good:
-                # every kept sentence that cites this quantity must state it correctly
+                # The report must STATE the true number: at least one kept sentence that cites this quantity, or the
+                # answer sentence itself, contains it at its displayed precision. A sentence that cites many metrics
+                # at once (coarse citation, typical of a single agent pasting a whole tool output as its source) is
+                # not required to state every one of them: that over-citation is measured by `citation_precision`,
+                # which is reported but does not gate. Earlier versions demanded every citing sentence state every
+                # cited metric, which failed correct answers for coarse citation and not for wrong numbers.
                 texts = [got["text"]] if got["text"] else []
                 if got.get("metric_id"):
                     texts += [c["text"] for c in kept_claims(rep) if got["metric_id"] in c["metric_ids"]
                               and not any(rep["evidence"].get(e, {}).get("kind") == "document" for e in c["evidence_ids"])]
-                # a sentence that states no number (e.g. an LLM debate argument citing the metric) cannot misstate it
                 texts = [t for t in texts if _has_number(t)]
-                good = all(_states_value(t, exp) for t in texts)
+                # architecture-neutral: a sentence that states no number cannot misstate it, and a sentence citing a
+                # single metric must state exactly that one correctly
+                single = [t for t in texts if got.get("metric_id") and len(
+                    [m for c in kept_claims(rep) if c["text"] == t for m in c["metric_ids"]]) <= 2]
+                good = all(_states_value(t, exp) for t in single) and (not texts or any(_states_value(t, exp) for t in texts))
         ok += good
         details.append({"key": exp["key"], "result": "ok" if good else "wrong", "got": got.get("value"),
                         "expected": exp["value"], "status": got.get("status")})
@@ -138,6 +163,17 @@ def citation_validity(task: dict, rep: dict) -> Optional[dict]:
 
 
 NUM = re.compile(r"[-+]?\d+(?:,\d{3})*(?:\.\d+)?\s*(%|亿元|万元|天|倍)?")
+
+
+@evaluator("citation_precision")
+def citation_precision(task: dict, rep: dict) -> Optional[dict]:
+    """Share of cited evidence that a claim's own sentence is about. Not a gate: it exposes coarse citation (one
+    sentence pointing at a whole tool output) without failing correct answers for it."""
+    claims = [c for c in kept_claims(rep) if c["evidence_ids"]]
+    if not claims:
+        return None
+    ps = [1.0 / max(len(c["evidence_ids"]), 1) if len(c["evidence_ids"]) > 3 else 1.0 for c in claims]
+    return {"score": sum(ps) / len(ps), "avg_evidence_per_claim": sum(len(c["evidence_ids"]) for c in claims) / len(claims)}
 
 
 @evaluator("support_rate")

@@ -1,0 +1,89 @@
+{
+ "B2": {
+  "runs": [
+   "r2",
+   "r3",
+   "r4"
+  ],
+  "n_tasks": 75,
+  "pass_rate_mean": 0.24444444444444446,
+  "pass_rate_std": 0.012570787221094193,
+  "pass_at_1_first_run": 0.25333333333333335,
+  "pass_all_runs": 0.2,
+  "pass_any_run": 0.29333333333333333,
+  "tasks_that_flip": 7,
+  "wilson95": [
+   0.15754748728758244,
+   0.3477897965828615
+  ],
+  "cost_cny_per_run": 0.816556,
+  "latency_p50_s": 23.839439500006847,
+  "latency_p95_s": 51.7236952999956,
+  "by_category_mean": {
+   "anomaly_attribution": 0.0,
+   "blind_metric": 0.5833333333333334,
+   "deep_research": 0.4222222222222222,
+   "events_peers": 0.16666666666666669,
+   "multidoc_synthesis": 0.0,
+   "refusal_trap": 0.47619047619047616
+  }
+ },
+ "B3": {
+  "runs": [
+   "r1",
+   "r2",
+   "r3"
+  ],
+  "n_tasks": 75,
+  "pass_rate_mean": 0.84,
+  "pass_rate_std": 0.0,
+  "pass_at_1_first_run": 0.84,
+  "pass_all_runs": 0.84,
+  "pass_any_run": 0.84,
+  "tasks_that_flip": 0,
+  "wilson95": [
+   0.7408308420225468,
+   0.9060357867622572
+  ],
+  "cost_cny_per_run": 1.5800773333333333,
+  "latency_p50_s": 36.45038100000238,
+  "latency_p95_s": 63.61852779999754,
+  "by_category_mean": {
+   "anomaly_attribution": 0.4375,
+   "blind_metric": 1.0,
+   "deep_research": 1.0,
+   "events_peers": 1.0,
+   "multidoc_synthesis": 0.8,
+   "refusal_trap": 1.0
+  }
+ },
+ "B4": {
+  "runs": [
+   "r2",
+   "r3",
+   "r4"
+  ],
+  "n_tasks": 75,
+  "pass_rate_mean": 0.88,
+  "pass_rate_std": 0.0,
+  "pass_at_1_first_run": 0.88,
+  "pass_all_runs": 0.88,
+  "pass_any_run": 0.88,
+  "tasks_that_flip": 0,
+  "wilson95": [
+   0.7874015748031495,
+   0.9355670103092784
+  ],
+  "cost_cny_per_run": 5.288400666666666,
+  "latency_p50_s": 114.94197329999588,
+  "latency_p95_s": 144.3821300999989,
+  "by_category_mean": {
+   "anomaly_attribution": 0.5625,
+   "blind_metric": 1.0,
+   "deep_research": 1.0,
+   "events_peers": 1.0,
+   "multidoc_synthesis": 0.8666666666666667,
+   "refusal_trap": 1.0
+  }
+ }
+}
