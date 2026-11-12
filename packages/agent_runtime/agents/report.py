@@ -75,7 +75,7 @@ def build_report(ctx: RunContext, debate: dict, risk: dict, architecture: str) -
     used_ev = sorted({e for c in claims for e in c.evidence_ids})
     used_metrics = sorted({m for e in used_ev for m in ctx.evidence[e].metric_ids if e in ctx.evidence})
     sys_p = "你是研报撰写Agent。根据已核验论断写不超过150字的执行摘要，不得出现任何数字，不得引入新事实。输出JSON {\"summary\":\"...\"}"
-    data = call_json(ctx.llm, ctx.tracer, "report", sys_p, json.dumps([c.text for c in claims[:30]], ensure_ascii=False),
+    data = None if ctx.route.fast else call_json(ctx.llm, ctx.tracer, "report", sys_p, json.dumps([c.text for c in claims[:30]], ensure_ascii=False),
                      "strong", validate=lambda d: isinstance(d.get("summary"), str) and not any(ch.isdigit() for ch in d["summary"]))
     exec_summary = data["summary"] if data else debate.get("manager_summary", "") if debate else ""
     rep = {

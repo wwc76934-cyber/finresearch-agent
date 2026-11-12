@@ -20,6 +20,7 @@ class ArchConfig(BaseModel):
     context_isolation: bool = True
     rag_anchors_prefilter: bool = True
     hybrid_rerank: bool = True
+    complexity_router: bool = True       # ComplexityRouter: lookups skip debate/risk/probe/LLM judge; topic analyses skip debate/risk
     self_rag: bool = True
     # LLM-written bull/bear arguments (online only). On: an independent pairwise judge preferred these reports
     # 8/10 vs 0/10 (EVALUATION.md section 11). Costs about 2x per report. Offline always uses templates.
@@ -38,6 +39,7 @@ ARCHITECTURES: dict[str, ArchConfig] = {
     "B4": ArchConfig(name="B4"),
     "B4-template_debate": ArchConfig(name="B4-template_debate", llm_debate=False),
     "B4-no_anchor_prefilter": ArchConfig(name="B4-no_anchor_prefilter", rag_anchors_prefilter=False),
+    "B4-no_router": ArchConfig(name="B4-no_router", complexity_router=False),
     "B4-no_hybrid_rerank": ArchConfig(name="B4-no_hybrid_rerank", hybrid_rerank=False),
     "B4-no_context_isolation": ArchConfig(name="B4-no_context_isolation", context_isolation=False),
     "B4-no_crosscheck": ArchConfig(name="B4-no_crosscheck", subgraph_crosscheck=False),

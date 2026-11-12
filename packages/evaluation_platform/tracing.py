@@ -201,11 +201,12 @@ class Tracer:
     def llm(self, node: str, res, tier: str) -> None:
         span = self._cur()
         if span is not None:
-            span["input_tokens"] += res.input_tokens
-            span["output_tokens"] += res.output_tokens
-            span["llm_calls"].append({"model": res.model, "tier": tier, "in": res.input_tokens,
-                                      "out": res.output_tokens, "latency_ms": res.latency_ms,
-                                      "online": res.text is not None})
+            with self._lock:  # LLM calls may run in parallel threads
+                span["input_tokens"] += res.input_tokens
+                span["output_tokens"] += res.output_tokens
+                span["llm_calls"].append({"model": res.model, "tier": tier, "in": res.input_tokens,
+                                          "out": res.output_tokens, "latency_ms": res.latency_ms,
+                                          "online": res.text is not None})
         if res.model != "context":
             self._instant_span(f"llm.completion.{res.model}",
                                {"gen_ai.request.model": res.model, "tier": tier, "node": node,

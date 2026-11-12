@@ -146,6 +146,35 @@ def run_cost_cny(spans: list[dict]) -> float:
                if c.get("online") and c.get("model") != "context")
 
 
+def run_parallel(fns: list) -> list:
+    """Run independent callables (LLM calls) concurrently, results in input order. Each runs in a copy of the
+    caller's context so trace spans still attach to the right node. Exceptions are returned, not raised."""
+    import contextvars
+    from concurrent.futures import ThreadPoolExecutor
+
+    if len(fns) <= 1:
+        out = []
+        for f in fns:
+            try:
+                out.append(f())
+            except Exception as exc:  # noqa: BLE001
+                out.append(exc)
+        return out
+
+    def wrap(f):
+        ctx = contextvars.copy_context()
+
+        def go():
+            try:
+                return ctx.run(f)
+            except Exception as exc:  # noqa: BLE001
+                return exc
+        return go
+
+    with ThreadPoolExecutor(max_workers=min(len(fns), 6)) as ex:
+        return list(ex.map(lambda g: g(), [wrap(f) for f in fns]))
+
+
 def call_json(llm: BaseLLM, tracer, node: str, system: str, user: str, tier: str,
               validate: Callable[[dict], bool] = lambda d: True) -> Optional[dict]:
     """Ask for JSON; return None when offline, on failure, or when validation fails."""

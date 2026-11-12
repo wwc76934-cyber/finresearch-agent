@@ -158,10 +158,14 @@ def plan(ctx: RunContext) -> ResearchPlan:
     cov = tools.check_data_coverage(ctx)
     default_period = cov["latest_period"]
     asks = rule_asks(req.question, default_period)
+    from . import router
+    ctx.route = router.classify(req.question, req.mode, asks, ctx.config.complexity_router)
+    ctx.tracer.tool("complexity_router", {"route": ctx.route.name, "reasons": ctx.route.reasons})
     user = json.dumps({"question": req.question, "as_of": req.as_of.isoformat(), "coverage": cov,
                        "allowed_metrics": [m for _, m in METRIC_PATTERNS]}, ensure_ascii=False)
-    data = call_json(ctx.llm, ctx.tracer, "planner", SYSTEM, user, "strong",
-                     validate=lambda d: isinstance(d.get("asks"), list))
+    # lean routes use the rule-parsed asks: the planner LLM call (15 s for a deep question) adds nothing for a lookup
+    data = None if ctx.route.lean else call_json(ctx.llm, ctx.tracer, "planner", SYSTEM, user, "strong",
+                                                 validate=lambda d: isinstance(d.get("asks"), list))
     rationale = "rule-based parse (offline)"
     if data:
         try:

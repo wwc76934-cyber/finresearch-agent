@@ -7,11 +7,12 @@ heuristic (direction consistency for inferences, lexical support for quotes).
 from __future__ import annotations
 
 import json
+import os
 import re
 from typing import Optional
 
 from ..context import RunContext
-from ..llm import call_json
+from ..llm import call_json, run_parallel
 from . import semantic_check
 from ..state import Claim, UncertaintyStatement, VerificationFailure
 
@@ -119,13 +120,18 @@ def tier2_batch(ctx: RunContext, claims: list[Claim]) -> dict[str, str]:
                  "CONDITION_OMISSION=原文是管理层的计划/预计/拟，论断当成已实现的业绩（条件或假设遗漏）；"
                  "SCOPE_SWITCH=用单季或累计数据论证全年趋势，或用母公司数据代表合并口径（口径偷换）。"
                  "只输出JSON {\"results\":[{\"claim_id\":\"C001\",\"label\":\"SUPPORTED|PARTIALLY_SUPPORTED|CONTRADICTED|UNSUPPORTED\","
-                 "\"fallacy\":\"CAUSAL_INVERSION|TREND_REVERSAL|CONDITION_OMISSION|SCOPE_SWITCH|null\",\"reason\":\"...\"}]}")
+                 "\"fallacy\":\"CAUSAL_INVERSION|TREND_REVERSAL|CONDITION_OMISSION|SCOPE_SWITCH|null\",\"reason\":\"<=20 chars\"}]}")
         items = [{"claim_id": c.claim_id, "type": c.claim_type, "claim": c.text,
                   "evidence": [{"id": e, "summary": ctx.evidence[e].summary, "excerpt": ctx.evidence[e].excerpt[:500]}
                                for e in c.evidence_ids if e in ctx.evidence]} for c in claims]
-        d = call_json(ctx.llm, ctx.tracer, "verifier", sys_p, json.dumps(items, ensure_ascii=False), "strong",
-                      validate=lambda d: isinstance(d.get("results"), list))
-        for r in (d or {}).get("results", []):
+        # independent claims: judge them in parallel batches instead of one long serial generation
+        size = max(1, int(os.environ.get("VERIFIER_BATCH", "6")))
+        groups = [items[i:i + size] for i in range(0, len(items), size)]
+        outs = run_parallel([lambda g=g: call_json(ctx.llm, ctx.tracer, "verifier", sys_p, json.dumps(g, ensure_ascii=False),
+                                                   "strong", validate=lambda d: isinstance(d.get("results"), list))
+                             for g in groups])
+        results = [r for d in outs if isinstance(d, dict) for r in d.get("results", [])]
+        for r in results:
             if isinstance(r, dict) and r.get("label") in LABELS:
                 labels[str(r.get("claim_id"))] = r["label"]
                 ctx.judge_notes[str(r.get("claim_id"))] = {"label": r["label"], "reason": str(r.get("reason", ""))[:300],
@@ -166,8 +172,13 @@ def verify(ctx: RunContext) -> list[VerificationFailure]:
     t1 = {c.claim_id: (tier1(ctx, c) if cfg.tier1_verifier else []) for c in drafts}
     # semantic fallacies (numbers right, meaning wrong): deterministic, so they run on every claim Tier-1 let through
     fall = {c.claim_id: (semantic_check.fallacies(ctx, c) if cfg.tier2_verifier and not t1[c.claim_id] else []) for c in drafts}
-    t2 = tier2_batch(ctx, [c for c in drafts if not t1[c.claim_id] and not fall[c.claim_id] and needs_tier2(ctx, c)]) \
-        if cfg.tier2_verifier else {}
+    judged = [c for c in drafts if not t1[c.claim_id] and not fall[c.claim_id] and needs_tier2(ctx, c)]
+    if not cfg.tier2_verifier:
+        t2 = {}
+    elif ctx.route.fast:   # lookup route: the offline heuristic judge instead of an LLM call
+        t2 = {c.claim_id: tier2(ctx, c) for c in judged}
+    else:
+        t2 = tier2_batch(ctx, judged)
     for c in drafts:
         fails = t1[c.claim_id]
         label = "SUPPORTED"

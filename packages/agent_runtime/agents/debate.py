@@ -16,7 +16,7 @@ import re
 
 from .. import tools
 from ..context import RunContext, fmt
-from ..llm import call_json
+from ..llm import call_json, run_parallel
 
 DETAIL = re.compile(r"[^。\n|]*(合计|风险|集中|主要系|所致)[^。\n|]*。")
 DIGIT = re.compile(r"[0-9０-９]|百分之")
@@ -149,18 +149,20 @@ def _llm_rounds(ctx: RunContext, log: dict, bull_ids: list, bear_ids: list) -> t
     sec = ctx.svc.resolve_security(ctx.ticker)
     head = {"company": f"{sec.name}（{sec.ticker}）", "as_of": ctx.as_of.isoformat(), "question": ctx.request.question}
     # ---- round 1: Bull builds the strongest long case
-    d = call_json(ctx.llm, ctx.tracer, "bull", "你是看多研究员，基于证据构建最强的看多逻辑，并写出每条逻辑依赖的隐含假设。" + RULES +
+    _bull_call = lambda: call_json(ctx.llm, ctx.tracer, "bull", "你是看多研究员，基于证据构建最强的看多逻辑，并写出每条逻辑依赖的隐含假设。" + RULES +
                   '输出JSON {"arguments":[{"thesis":"...","assumption":"...","evidence_ids":["E001"]}]}',
                   json.dumps({**head, "evidence": _catalog(ctx), "existing_bull_points": _claims_view(ctx, bull_ids)},
                              ensure_ascii=False), "strong", validate=lambda x: isinstance(x.get("arguments"), list))
-    new_bull = _accept_args(ctx, (d or {}).get("arguments"), "bull", "看多：", log)
-    bull_ids += new_bull
     # ---- round 1: Bear attacks the bull case and asks for targeted counter-evidence (<= 2 queries)
-    d = call_json(ctx.llm, ctx.tracer, "bear", "你是看空研究员。逐条审阅看多论点，找出其隐含假设的漏洞，并提出最多2个定向检索请求以寻找反例"
+    _bear_q_call = lambda: call_json(ctx.llm, ctx.tracer, "bear", "你是看空研究员。逐条审阅看多论点，找出其隐含假设的漏洞，并提出最多2个定向检索请求以寻找反例"
                   "（例如客户集中度、应收账款账龄、减值计提、关联交易、债务融资）。只输出检索请求，不写论点。"
                   '输出JSON {"queries":[{"query":"中文关键词","section":"NOTES|MDA|RISK_FACTORS|ANNOUNCEMENT","target":"被质疑的看多 claim_id"}]}',
                   json.dumps({**head, "bull_points": _claims_view(ctx, bull_ids)}, ensure_ascii=False), "strong",
                   validate=lambda x: isinstance(x.get("queries"), list))
+    # Bull's first round and Bear's search queries only need the points that already exist, so they run together
+    d_bull, d = [x if isinstance(x, dict) else None for x in run_parallel([_bull_call, _bear_q_call])]
+    new_bull = _accept_args(ctx, (d_bull or {}).get("arguments"), "bull", "看多：", log)
+    bull_ids += new_bull
     new_ev = []
     for q in ((d or {}).get("queries") or [])[:2]:
         if not isinstance(q, dict) or not str(q.get("query", "")).strip():

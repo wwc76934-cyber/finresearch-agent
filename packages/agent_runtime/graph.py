@@ -80,6 +80,8 @@ def route_after_collection(state: GraphState) -> str:
     handled = set(state.get("handled_anomalies", []))
     high = [a for a in ctx.anomalies.values() if a["severity"] == "HIGH" and a["code"] not in handled]
     used = _used_tokens(ctx)
+    if ctx.route.fast:
+        return "debate"      # a lookup does not investigate anomalies it was not asked about
     if not (cfg.replanning and high and state.get("replan_depth", 0) < cfg.max_replan_depth):
         return "debate"
     over_budget = used >= ctx.request.token_budget
@@ -145,7 +147,7 @@ def fan_out_replan(state: GraphState):
 
 def node_debate(state: GraphState) -> dict:
     ctx = get_context(state["run_id"])
-    if not ctx.config.debate or ctx.factor_only:
+    if not ctx.config.debate or ctx.factor_only or ctx.route.lean:
         return {"debate": {}}
     with ctx.tracer.node("debate") as span:
         _account(ctx, "debate", state)
@@ -156,7 +158,7 @@ def node_debate(state: GraphState) -> dict:
 
 def node_risk(state: GraphState) -> dict:
     ctx = get_context(state["run_id"])
-    if not ctx.config.risk_agent or ctx.factor_only:
+    if not ctx.config.risk_agent or ctx.factor_only or ctx.route.lean:
         return {"risk": {}}
     with ctx.tracer.node("risk") as span:
         _account(ctx, "risk", state)

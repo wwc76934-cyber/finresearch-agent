@@ -324,7 +324,7 @@ def _named_report_hits(ctx: RunContext, question: str, query: str):
 def f_topic_notes(s: SubState) -> dict:
     """Read the NOTES for the accounting topic the question names, whether or not an anomaly fired."""
     ctx = _ctx(s)
-    if ctx.factor_only or not ctx.config.subgraph_crosscheck:
+    if ctx.factor_only or not ctx.config.subgraph_crosscheck or ctx.route.fast:
         return {}
     q = ctx.request.question
     ids = []
@@ -359,7 +359,7 @@ def f_crosscheck(s: SubState) -> dict:
     """Revenue vs receivables vs profit vs operating cash flow. When they disagree, retrieve the NOTES line items
     inside this subgraph and return them as one compact evidence-backed claim per divergence."""
     ctx = _ctx(s)
-    if ctx.factor_only or not ctx.config.subgraph_crosscheck:
+    if ctx.factor_only or not ctx.config.subgraph_crosscheck or ctx.route.fast:
         return {}
     ids = []
     for code, (query, section) in CROSSCHECK.items():
@@ -377,7 +377,7 @@ def f_probe(s: SubState) -> dict:
     from . import semantic_probe
 
     ctx = _ctx(s)
-    if ctx.factor_only or not ctx.config.semantic_probe:
+    if ctx.factor_only or not ctx.config.semantic_probe or ctx.route.fast:
         return {}
     ids, out = [], []
     for fl in semantic_probe.probe(ctx):
@@ -435,7 +435,7 @@ def f_summarize(s: SubState) -> dict:
     scratch = "\n".join(s.get("scratch", []))
     sys_p = "你是基本面分析Agent。用不超过120字总结要点，只能引用给定 claims，不得新增数字。输出JSON {\"summary\":\"...\"}"
     user = scratch + "\n" + "\n".join(f"{c.claim_id}: {c.text}" for c in claims)
-    tier = "light" if s["task"]["agent"] in ("market", "news") else "strong"  # PRD 3.2 model tiering
+    tier = "light"   # a 120-char recap that only feeds downstream pointers: no reason to pay for the strong model (PRD 3.2 model tiering)
     data = call_json(ctx.llm, ctx.tracer, s["task"]["agent"], sys_p, user, tier,
                      validate=lambda d: isinstance(d.get("summary"), str))
     summary = data["summary"] if data else "；".join(c.text for c in claims[:3])[:200]

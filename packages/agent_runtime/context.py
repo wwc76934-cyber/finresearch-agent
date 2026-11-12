@@ -47,6 +47,8 @@ class RunContext:
         self.run_id = run_id
         self.request = request
         self.config = config
+        from .agents.router import Route
+        self.route = Route()          # set by the planner; 'full' until then
         self.db_url = db_url
         self.snapshot_id = snapshot_id
         self.svc = PITDataService(request.as_of, snapshot_id, db_url)
