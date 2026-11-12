@@ -1,4 +1,4 @@
-﻿"""Time per graph node and LLM calls for one task (online).  python scripts/profile_task.py TASK_ID [ARCH]"""
+"""Time per graph node and LLM calls for one task (online).  python scripts/profile_task.py TASK_ID [ARCH]"""
 import json, sys, time
 from datetime import datetime
 from pathlib import Path
@@ -15,3 +15,8 @@ t0 = time.perf_counter(); rep = run_research(req, arch, persist=False)
 print(tid, t["category"], t["question"][:60], "total", round(time.perf_counter() - t0, 1), "s", rep["totals"])
 for s in rep.get("trace", []):
     print({k: (round(v, 2) if isinstance(v, float) else v) for k, v in s.items() if k in ("node", "ms", "duration_ms", "latency_ms", "summary", "started", "calls")})
+
+for s in rep.get('trace', []):
+    for c in s.get('llm_calls', []):
+        if c.get('online'):
+            print('  LLM', s['node'], c['tier'], 'in', c['in'], 'out', c['out'], round(c['latency_ms'] / 1000, 1), 's')

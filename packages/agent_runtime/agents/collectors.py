@@ -7,6 +7,7 @@ SubTaskSummary (ids + short text) is returned to the parent graph.
 from __future__ import annotations
 
 import operator
+import os
 import re
 from datetime import date
 from typing import Annotated, Callable, Optional, TypedDict
@@ -436,8 +437,11 @@ def f_summarize(s: SubState) -> dict:
     sys_p = "你是基本面分析Agent。用不超过120字总结要点，只能引用给定 claims，不得新增数字。输出JSON {\"summary\":\"...\"}"
     user = scratch + "\n" + "\n".join(f"{c.claim_id}: {c.text}" for c in claims)
     tier = "light"   # a 120-char recap that only feeds downstream pointers: no reason to pay for the strong model (PRD 3.2 model tiering)
-    data = call_json(ctx.llm, ctx.tracer, s["task"]["agent"], sys_p, user, tier,
-                     validate=lambda d: isinstance(d.get("summary"), str))
+    # The recap is only read as a pointer by downstream accounting; no claim depends on it. Joining the first
+    # claims costs nothing, a model call cost 3-5 s on the critical path of every subgraph (profiled online).
+    data = (call_json(ctx.llm, ctx.tracer, s["task"]["agent"], sys_p, user, tier,
+                      validate=lambda d: isinstance(d.get("summary"), str))
+            if os.environ.get("LLM_SUBGRAPH_SUMMARY") == "1" else None)
     summary = data["summary"] if data else "；".join(c.text for c in claims[:3])[:200]
     return {"summary": summary}
 
