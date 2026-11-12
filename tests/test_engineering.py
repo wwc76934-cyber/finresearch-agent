@@ -10,7 +10,7 @@ A = datetime(2025, 12, 31, 15)
 
 
 def _paused(ticker="990001.SZ", **kw):
-    r = run_research(ResearchRequest(ticker=ticker, as_of=A, hitl=True, token_budget=1000, **kw), "B4", persist=False)
+    r = run_research(ResearchRequest(ticker=ticker, as_of=A, hitl=True, token_budget=100, **kw), "B4", persist=False)
     return r
 
 
@@ -38,7 +38,7 @@ def test_modify_uses_human_query():
 
 
 def test_without_hitl_over_budget_skips_silently():
-    rep = run_research(ResearchRequest(ticker="990001.SZ", as_of=A, token_budget=1000), "B4", persist=False)
+    rep = run_research(ResearchRequest(ticker="990001.SZ", as_of=A, token_budget=100), "B4", persist=False)
     assert rep["status"] == "done" and "replan" not in [s["node"] for s in rep["trace"]]
 
 
