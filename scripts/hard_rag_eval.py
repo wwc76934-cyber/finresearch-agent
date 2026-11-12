@@ -37,4 +37,4 @@ if __name__ == "__main__":
         out[name] = {"recall@5": round(rec / len(rows), 3), "mrr": round(mrr / len(rows), 3), "n": len(rows),
                      "recall_by_section": {k: f"{a}/{b}" for k, (a, b) in by_type.items()}}
         print(name, out[name], flush=True)
-    (ROOT / f"reports/eval/rag_hard_{os.environ.get('EMBEDDING_BACKEND', 'hashing')}.json").write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
+    (ROOT / f"reports/eval/rag_hard_{os.environ.get('EMBEDDING_BACKEND', 'hashing')}{'_bgerr' if os.environ.get('RERANKER_BACKEND') == 'api' else ''}.json").write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")

@@ -1,0 +1,47 @@
+{
+ "bm25": {
+  "recall@5": 0.83,
+  "mrr": 0.674,
+  "n": 100,
+  "recall_by_section": {
+   "MDA": "66/80",
+   "NOTES": "17/20"
+  }
+ },
+ "dense": {
+  "recall@5": 0.64,
+  "mrr": 0.542,
+  "n": 100,
+  "recall_by_section": {
+   "MDA": "55/80",
+   "NOTES": "9/20"
+  }
+ },
+ "hybrid_rrf": {
+  "recall@5": 0.83,
+  "mrr": 0.686,
+  "n": 100,
+  "recall_by_section": {
+   "MDA": "69/80",
+   "NOTES": "14/20"
+  }
+ },
+ "hybrid_rrf_rerank": {
+  "recall@5": 0.86,
+  "mrr": 0.767,
+  "n": 100,
+  "recall_by_section": {
+   "MDA": "71/80",
+   "NOTES": "15/20"
+  }
+ },
+ "hybrid_rerank_no_anchor": {
+  "recall@5": 0.66,
+  "mrr": 0.544,
+  "n": 100,
+  "recall_by_section": {
+   "MDA": "54/80",
+   "NOTES": "12/20"
+  }
+ }
+}

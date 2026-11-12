@@ -179,6 +179,69 @@ class Reranker(Protocol):
     def score(self, query: str, chunks: list[Chunk]) -> list[float]: ...
 
 
+class ApiReranker:
+    """Cross-encoder over a /rerank endpoint (default BAAI/bge-reranker-v2-m3). Scores are cached per (query, chunk text).
+    Selected with RERANKER_BACKEND=api; the default stays the offline lexical reranker."""
+
+    def __init__(self, model: Optional[str] = None):
+        import os
+        import sqlite3
+        import threading
+        from pathlib import Path
+
+        self.model = model or os.environ.get("RERANKER_MODEL", "BAAI/bge-reranker-v2-m3")
+        root = Path(os.environ.get("EMBEDDING_CACHE_DIR", Path(__file__).resolve().parents[2] / ".cache"))
+        root.mkdir(parents=True, exist_ok=True)
+        self._db = sqlite3.connect(str(root / f"rr_{self.model.replace('/', '_')}.sqlite"), check_same_thread=False)
+        self._db.execute("CREATE TABLE IF NOT EXISTS s (h TEXT PRIMARY KEY, v REAL)")
+        self._lock = threading.Lock()
+
+    def _key(self, q: str, t: str) -> str:
+        import hashlib
+        return hashlib.sha1((q + "\x00" + t).encode("utf-8")).hexdigest()
+
+    def score(self, query: str, chunks: list[Chunk]) -> list[float]:
+        import os
+        import time
+
+        import httpx
+
+        keys = [self._key(query, c.text) for c in chunks]
+        with self._lock:
+            have = {h: v for k in keys for h, v in self._db.execute("SELECT h, v FROM s WHERE h = ?", (k,))}
+        miss = [i for i, k in enumerate(keys) if k not in have]
+        if miss:
+            from agent_runtime.llm import load_dotenv
+            load_dotenv()
+            url, key = os.environ["LLM_BASE_URL"].rstrip("/") + "/rerank", os.environ["LLM_API_KEY"]
+            body = {"model": self.model, "query": query[:500], "documents": [chunks[i].text[:3000] for i in miss]}
+            for attempt in range(5):
+                try:
+                    r = httpx.post(url, headers={"Authorization": f"Bearer {key}"}, json=body, timeout=60)
+                    if r.status_code == 402:
+                        raise RuntimeError("rerank API: insufficient balance (HTTP 402)")
+                    r.raise_for_status()
+                    break
+                except RuntimeError:
+                    raise
+                except Exception:  # noqa: BLE001 - transient: back off and retry
+                    if attempt == 4:
+                        raise
+                    time.sleep(2 ** attempt)
+            with self._lock:
+                for d in r.json()["results"]:
+                    k = keys[miss[d["index"]]]
+                    have[k] = float(d["relevance_score"])
+                    self._db.execute("INSERT OR REPLACE INTO s VALUES (?, ?)", (k, have[k]))
+                self._db.commit()
+        return [have[k] for k in keys]
+
+
+def default_reranker() -> "Reranker":
+    import os
+    return ApiReranker() if os.environ.get("RERANKER_BACKEND", "lexical") == "api" else LexicalCrossReranker()
+
+
 class LexicalCrossReranker:
     """Offline stand-in for a cross-encoder: query-term coverage on the full chunk text,
     with a bonus when query words appear in the section path/table name."""
@@ -216,7 +279,7 @@ class Retriever:
         # with a vector store the matrix is not needed in memory
         self.emb = (np.zeros((0, 1)) if vector_store is not None or not self.children
                     else self.encoder.encode([c.text for c in self.children]))
-        self.reranker = reranker or LexicalCrossReranker()
+        self.reranker = reranker or default_reranker()
 
     def embeddings(self) -> np.ndarray:
         """The in-memory matrix (also used to fill the vector store)."""
