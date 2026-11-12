@@ -86,6 +86,7 @@ def build_report(ctx: RunContext, debate: dict, risk: dict, architecture: str) -
         "evidence": {e: json.loads(ctx.evidence[e].model_dump_json()) for e in used_ev if e in ctx.evidence},
         "metrics": {m: json.loads(ctx.calc.store[m].model_dump_json()) for m in used_metrics if m in ctx.calc.store},
         "answers": ctx.answers, "open_questions": ctx.open_questions,
+        "semantic_fault": ctx.fault_state.get("semantic"),
         "uncertainties": [u.model_dump() for u in ctx.uncertainties], "anomalies": list(ctx.anomalies.values()),
         "conflicts": ctx.svc.conflicts, "debate": debate or {}, "risk": risk or {}, "timeline": ctx.timeline,
         "charts": charts(ctx, risk or {}), "verification_log": ctx.verification_log, "judge_notes": ctx.judge_notes,

@@ -485,23 +485,45 @@ def build_quant_tasks() -> list[dict]:
     return rows
 
 
+def build_semantic_tasks(golden: list[dict]) -> list[dict]:
+    """Tier-2 trap set (10): a real claim from a full B4 run is rewritten so every number stays right and only the
+    meaning is wrong. Tier-1 (numbers, PIT, evidence ids) passes it by construction; only the semantic checks can stop it.
+    The pairs below are the ones where the offline probe found a claim of the right shape (CONDITION_OMISSION: 1 of 8
+    companies; real filings rarely put a 'planned' sentence in a cited excerpt). Gain over B4-no_tier2 is therefore
+    constructed: it shows the detector works on these traps, not how often such errors occur in the wild."""
+    base = {t["ticker"]: t for t in golden if t["category"] == "deep_research"}
+    plan = [("TREND_REVERSAL", "300750.SZ"), ("TREND_REVERSAL", "300014.SZ"), ("TREND_REVERSAL", "002594.SZ"),
+            ("SCOPE_SWITCH", "600519.SH"), ("SCOPE_SWITCH", "000333.SZ"), ("SCOPE_SWITCH", "000651.SZ"),
+            ("CAUSAL_INVERSION", "000858.SZ"), ("CAUSAL_INVERSION", "601012.SH"), ("CAUSAL_INVERSION", "002594.SZ"),
+            ("CONDITION_OMISSION", "000858.SZ")]
+    rows = []
+    for i, (ty, tk) in enumerate(plan, 1):
+        g = base[tk]
+        rows.append({"task_id": f"S{i:03d}", "dataset": "semantic", "category": "semantic_trap", "trap_type": ty,
+                     "ticker": tk, "as_of": g["as_of"], "question": g["question"], "mode": "deep",
+                     "fault_injection": {"semantic": {"type": ty}},
+                     "expected": {"forbidden": g["expected"].get("forbidden", {}), "semantic": ty}})
+    return rows
+
 def write_tasks() -> dict:
     lab, chaos = build_tasks()
     golden = build_real_golden(Oracle())
     quant = build_quant_tasks()
     multidoc = build_multidoc_tasks()
+    semantic = build_semantic_tasks(golden)
     TASK_DIR.mkdir(parents=True, exist_ok=True)
     for name, rows in (("lab_v1.jsonl", lab), ("golden_v1.jsonl", golden), ("chaos_v1.jsonl", chaos),
-                       ("quant_v1.jsonl", quant), ("multidoc_v1.jsonl", multidoc)):
+                       ("quant_v1.jsonl", quant), ("multidoc_v1.jsonl", multidoc),
+                       ("semantic_v1.jsonl", semantic)):
         with open(TASK_DIR / name, "w", encoding="utf-8") as f:
             for r in rows:
                 f.write(json.dumps(r, ensure_ascii=False, default=str) + "\n")
     with get_session_factory()() as s:
-        for r in lab + golden + chaos + quant + multidoc:
+        for r in lab + golden + chaos + quant + multidoc + semantic:
             s.merge(BenchmarkTaskRow(task_id=r["task_id"], dataset=r["dataset"], version=VERSION, snapshot_id=None,
                                      trap_type=r["category"], payload=json.loads(json.dumps(r, default=str))))
         s.commit()
-    return {"golden_real": len(golden), "chaos": len(chaos), "lab": len(lab), "quant": len(quant), "multidoc": len(multidoc)}
+    return {"golden_real": len(golden), "chaos": len(chaos), "lab": len(lab), "quant": len(quant), "multidoc": len(multidoc), "semantic": len(semantic)}
 
 
 def load_tasks(datasets=("golden", "chaos"), path: Path = TASK_DIR) -> list[dict]:

@@ -324,6 +324,23 @@ def factor_caveats(task: dict, rep: dict) -> Optional[dict]:
     return {"score": sum(found.values()) / len(found), "found": found}
 
 
+@evaluator("semantic_trap")
+def semantic_trap(task: dict, rep: dict) -> Optional[dict]:
+    """A claim was rewritten so its numbers stay right but its meaning is wrong (and Tier-1 still passes it).
+    Pass = the wrong sentence is not among the kept claims. 'no_target' means the run had no claim of that shape."""
+    want = task["expected"].get("semantic")
+    if not want:
+        return None
+    sf = rep.get("semantic_fault") or {}
+    if sf.get("applied") in (None, "none"):
+        return {"score": 0.0, "status": "no_target", "type": want}
+    bad = sf["injected_text"]
+    kept = [c["text"] for c in kept_claims(rep)]
+    survived = any(bad == t for t in kept)
+    return {"score": 0.0 if survived else 1.0, "status": "KEPT" if survived else "stopped", "type": want,
+            "claim_id": sf["applied"]}
+
+
 @evaluator("conflict_handling")
 def conflict_handling(task: dict, rep: dict) -> Optional[dict]:
     if not task["expected"].get("conflict"):
@@ -406,7 +423,7 @@ def evaluate(task: dict, rep: dict) -> dict:
 def task_passed(scores: dict, task: Optional[dict] = None) -> bool:
     checks = []
     keys = ["numerical_accuracy", "anomaly_recall", "attribution", "refusal", "conflict_handling", "recovery",
-            "factor_caveats", "multidoc_coverage"]
+            "factor_caveats", "multidoc_coverage", "semantic_trap"]
     if task and task["expected"].get("expect_downgrade"):
         keys.remove("numerical_accuracy")  # the right outcome is an uncertainty statement, not a number
     for k in keys:

@@ -1,4 +1,4 @@
-"""Chaos / fault injection used by the evaluation platform.
+﻿"""Chaos / fault injection used by the evaluation platform.
 
 fault_injection keys on ResearchRequest:
   fake_number:     {"sticky": n}  corrupt one numeric claim; re-corrupt on the first n rewrites
@@ -30,12 +30,12 @@ def _corrupt(text: str) -> str:
     return text[: m.start()] + f"{bad:.2f}%" + text[m.end():]
 
 
-def _semantic_target(ctx: RunContext, kind: str):
+def _semantic_target(ctx: RunContext, kind: str, skip=()):
     """A real claim of the right shape, and the rewritten text. None when this run has no suitable claim."""
     from . import semantic_check as S
 
     for c in sorted(ctx.claims.values(), key=lambda c: c.claim_id):
-        if c.status != "DRAFT":
+        if c.status != "DRAFT" or c.claim_id in skip:
             continue
         if kind == "TREND_REVERSAL":
             for start, end, word, num, raw in S.growth_phrases(c.text):
@@ -54,9 +54,10 @@ def _semantic_target(ctx: RunContext, kind: str):
                 return c, "全年" + c.text
         if kind == "CONDITION_OMISSION" and c.claim_type == "disclosed_fact":
             doc = " ".join(ctx.evidence[e].excerpt for e in c.evidence_ids if e in ctx.evidence and ctx.evidence[e].kind == "document")
-            m = re.search(r"(拟|计划|预计)([^，。；\s]{0,4})(回购|实施|发放|支付|落地|签订)", doc)
-            if m and "回购" in c.text + doc[:0] or (m and m.group(3) in c.text):
-                return c, c.text.rstrip("。") + f"；公司已{m.group(3)}。"
+            for verb in S.DONE_VERBS:
+                planned = any(re.search(re.escape(w) + r"[^，。；\s]{0,4}" + re.escape(verb), doc) for w in S.PLAN_WORDS)
+                if planned and ('已' + verb) not in doc and ('已' + verb) not in c.text:
+                    return c, c.text.rstrip('。') + f'；公司已{verb}。'
         if kind == "CAUSAL_INVERSION" and c.claim_type == "disclosed_fact" and c.section in ("events", "bear", "bull", "financials"):
             doc = " ".join(ctx.evidence[e].excerpt for e in c.evidence_ids if e in ctx.evidence and ctx.evidence[e].kind == "document")
             if doc and not any(re.search(p, doc) for p in S.ANY_CAUSE):
@@ -68,7 +69,19 @@ def inject(ctx: RunContext) -> list[str]:
     done = []
     sem = ctx.fault_state.get("semantic")
     if sem is not None and not sem.get("applied"):
-        target, new_text = _semantic_target(ctx, sem["type"])
+        from .verifier import tier1
+        skip = set()
+        while True:  # keep only a claim Tier-1 still passes after the rewrite: the fault must be Tier-2-only
+            target, new_text = _semantic_target(ctx, sem["type"], skip)
+            if target is None:
+                break
+            orig = target.text
+            target.text = new_text
+            ok = not tier1(ctx, target)
+            target.text = orig
+            if ok:
+                break
+            skip.add(target.claim_id)
         if target is not None:
             sem["original"] = target.text
             target.text = new_text
