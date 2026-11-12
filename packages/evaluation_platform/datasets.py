@@ -368,6 +368,16 @@ def build_real_golden(o: Oracle) -> list[dict]:
     return rows
 
 
+def _annual_has_note(path: str, word: str) -> bool:
+    """True when the stored markdown has a note-table heading for `word` under the financial-statement notes."""
+    p = ROOT / "benchmarks" / path
+    if not p.exists():
+        return False
+    md = p.read_text(encoding="utf-8")
+    i = md.find("## 财务报表附注")
+    return i >= 0 and any(l.startswith("###") and word in l for l in md[i:].splitlines())
+
+
 def build_multidoc_tasks(n: int = 15) -> list[dict]:
     """PRD v1.2 1.1: questions that need the annual-report notes, a later quarter's numbers and at least two
     announcements at once. The answer key is mechanical: Oracle numbers, plus the set of source documents a
@@ -381,6 +391,7 @@ def build_multidoc_tasks(n: int = 15) -> list[dict]:
     ]
     secs = real_securities()
     tickers = [t for t in secs if t[:2] != "99"]
+    topic_word = {"receivable": "应收账款", "inventory": "存货", "debt": "借款"}
     seen = set()
     for i in range(n * 6):
         if len(rows) >= n:
@@ -396,6 +407,9 @@ def build_multidoc_tasks(n: int = 15) -> list[dict]:
         k = min(len(anns) - 1, 2 + (i // len(tickers)) * 2)
         as_of = (anns.iloc[k].available_at + pd.Timedelta(days=1)).replace(hour=15, minute=0, second=0)
         if as_of < annual.iloc[0].available_at or (t, as_of.date(), key) in seen:
+            continue
+        # an answer key must be satisfiable: the annual report has to contain a note table for this topic
+        if not _annual_has_note(annual.iloc[0].path, topic_word[key]):
             continue
         seen.add((t, as_of.date(), key))
         pe = o.latest(t, as_of.to_pydatetime())

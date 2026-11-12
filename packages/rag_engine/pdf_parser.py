@@ -21,7 +21,13 @@ FIN_SKIP_RE = re.compile(r"^[一二三四五六七八九十]{1,3}、\s*(公司�
 NOTES_START_RE = re.compile(r"^[一二三四五六七八九十]{1,3}、\s*(合并)?财务报表(主要)?项目(注释|附注)$")
 PARENT_NOTES_RE = re.compile(r"^[一二三四五六七八九十]{1,3}、\s*母公司财务报表(主要)?项目(注释|附注)$")
 NOTE_HEAD_RE = re.compile(r"^(\d{1,2})[、.．]\s*(\S.{1,40})$")
-UNIT_RE = re.compile(r"单位(?:为)?[：:]\s*(?:人民币)?(元|千元|万元|亿元)")
+# Second layout seen in the filings (e.g. 美的集团): the company name leads every title line, the consolidated and parent
+# statements share one table ("合并及公司资产负债表"), and notes are numbered "(4)  应收账款". These patterns only
+# fire on lines the strict patterns above reject, so reports already parsed correctly are not affected.
+COMBINED_STATEMENT_RE = re.compile(r"^(?:\S{2,20}(?:股份)?有限公司)?(?:\d{4}\s*年(?:上半年度|半年度|度|第[一三]季度)?)?合并及公司(资产负债表|利润表|现金流量表)")
+NOTES_TITLE_RE = re.compile(r"^(?:\S{2,20}(?:股份)?有限公司)?\s*\d{4}\s*年(?:上半年度|半年度|度|第[一三]季度)?财务报表附注")
+NOTE_HEAD_PAREN_RE = re.compile(r"^\((\d{1,2})\)\s+(\S.{1,40})$")
+UNIT_RE = re.compile(r"单位(?:为)?\s*[：:]?\s*(?:人民币)?(元|千元|万元|亿元)")      # "单位：万元", "单位为：千元" and "金额单位为人民币千元"; a strict superset of the original pattern
 KEEP_SECTIONS = ("重要提示", "公司简介和主要财务指标", "主要财务指标", "管理层讨论与分析", "财务报告", "财务报表")
 KEEP_NOTES = ("应收账款", "存货", "商誉", "短期借款", "长期借款", "应付债券", "一年内到期", "资产减值", "信用减值", "营业收入",
               "研发费用")
@@ -143,8 +149,29 @@ def parse_pdf(data: bytes, title: str, max_pages: int = 400) -> tuple[str, dict]
                     st.update(in_notes=True, note_keep=False, fin_skip=False)
                     page_out.append(f"## 财务报表附注 {l}")
                     continue
+                if NOTES_TITLE_RE.match(l):
+                    # this header repeats on every notes page glued to the page's first sentence: switch into notes
+                    # mode once, emit the heading once, and keep the rest of the line only if it is real content
+                    if not st["in_notes"]:
+                        st.update(in_notes=True, note_keep=False, fin_skip=False)
+                        page_out.append("## 财务报表附注 " + l[:30])
+                    continue
                 if not st["in_notes"] and (FIN_SKIP_RE.match(l) or EQUITY_STMT_RE.match(l)):
                     st["fin_skip"] = True
+                    continue
+                if (cm := COMBINED_STATEMENT_RE.match(l)) and not STATEMENT_RE.match(l) and not st["in_notes"] and len(l) <= 90:
+                    st["fin_skip"] = False
+                    # the unit is printed in the statement's own title line ("金额单位为人民币千元") or on the next lines of
+                    # the page; the running unit from elsewhere in the report must NOT be inherited (a stray
+                    # "单位：万元" in the MD&A would mislabel a 千元 statement by 10x)
+                    k = texts.index(l) if l in texts else -1
+                    um = UNIT_RE.search(" ".join([l] + texts[k + 1:k + 4])) if k >= 0 else UNIT_RE.search(l)
+                    unit = um.group(1) if um else None
+                    if unit is None:
+                        page_out.append(f"### 合并{cm.group(1)}")      # unit unknown: say so instead of guessing
+                        continue
+                    st["unit"] = unit
+                    page_out.append(f"### 合并{cm.group(1)}（单位：{unit}）")
                     continue
                 if (sm := STATEMENT_RE.match(l)) and not st["in_notes"]:
                     st["fin_skip"] = False
@@ -153,7 +180,10 @@ def parse_pdf(data: bytes, title: str, max_pages: int = 400) -> tuple[str, dict]
                     st["unit"] = um.group(1) if um else st["unit"]
                     page_out.append(f"### {sm.group(1)}{sm.group(2)}（单位：{st['unit'] or '元'}）")
                     continue
-                if st["in_notes"] and (m := NOTE_HEAD_RE.match(l)):
+                # "(N) name" is a note heading only when the name is a note we keep; elsewhere "(1) (2) (3)" number
+                # sub-items (e.g. 茅台's "(3).本期计提…") and must stay ordinary text
+                if st["in_notes"] and (m := NOTE_HEAD_RE.match(l) or
+                                       ((pm := NOTE_HEAD_PAREN_RE.match(l)) and any(k in pm.group(2) for k in KEEP_NOTES) and pm)):
                     st["note_keep"] = any(k in m.group(2) for k in KEEP_NOTES) and len(m.group(2)) <= 20
                     if st["note_keep"]:
                         page_out.append(f"### {m.group(2)}（单位：{st['unit'] or '元'}）")
