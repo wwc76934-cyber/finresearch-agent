@@ -17,7 +17,11 @@ All numbers come from `reports/eval/online_s4_summary.json` (`python scripts/s4_
 | Table fallback | `collectors.explain_anomaly` | The quoted table rows are data rows, not header rows. |
 | Config | `ArchConfig.complexity_router`, arch `B4-no_router` | Ablation switch. |
 
-Not done from the PRD list: Fact Lock in `debate.py`, and a fast/reasoning model split. Subgraph recaps moved to the light
+Fact Lock: already enforced in `debate._accept_args` (arguments with digits or without a valid PIT-safe evidence id are
+rejected; numbers are attached by code from the cited MetricRecords). `tests/test_fact_lock.py` now pins this with a scripted
+model that tries to write a number and cite a made-up evidence id.
+
+Not done from the PRD list: a fast/reasoning model split. Subgraph recaps moved to the light
 model first, then were removed. The verifier and debate still use the strong model.
 
 ## Route mix on the 75 tasks (rules only, offline)
