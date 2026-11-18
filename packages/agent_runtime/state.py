@@ -22,6 +22,7 @@ class ArchConfig(BaseModel):
     context_isolation: bool = True
     rag_anchors_prefilter: bool = True
     hybrid_rerank: bool = True
+    thesis_memory: bool = True           # review earlier theses and save this one (v2.0 Epic 4)
     react_lite_steps: int = 2            # sub-graph self-directed evidence search per hypothesis (v2.0); 0 = off
     complexity_router: bool = True       # ComplexityRouter: lookups skip debate/risk/probe/LLM judge; topic analyses skip debate/risk
     self_rag: bool = True
@@ -42,6 +43,7 @@ ARCHITECTURES: dict[str, ArchConfig] = {
     "B4": ArchConfig(name="B4"),
     "B4-template_debate": ArchConfig(name="B4-template_debate", llm_debate=False),
     "B4-no_anchor_prefilter": ArchConfig(name="B4-no_anchor_prefilter", rag_anchors_prefilter=False),
+    "B4-no_memory": ArchConfig(name="B4-no_memory", thesis_memory=False),
     "B4-no_react_lite": ArchConfig(name="B4-no_react_lite", react_lite_steps=0),
     "B4-no_router": ArchConfig(name="B4-no_router", complexity_router=False),
     "B4-no_hybrid_rerank": ArchConfig(name="B4-no_hybrid_rerank", hybrid_rerank=False),
@@ -58,6 +60,7 @@ ARCHITECTURES: dict[str, ArchConfig] = {
 
 class ResearchRequest(BaseModel):
     ticker: str
+    use_memory: Optional[bool] = None    # thesis memory read/write; None = on, except in offline_golden mode
     tickers: list[str] = Field(default_factory=list)   # 2-4 companies: comparison run; `ticker` stays the primary
     as_of: datetime
     data_mode: DataMode = Field(default_factory=default_data_mode)   # offline_golden | hybrid_live | online_force_refresh
@@ -139,7 +142,7 @@ class SubTaskSummary(BaseModel):
 
 class Claim(BaseModel):
     claim_id: str
-    section: Literal["overview", "financials", "valuation", "bull", "bear", "events", "risk", "answer", "falsification", "quant", "comparison"]
+    section: Literal["overview", "financials", "valuation", "bull", "bear", "events", "risk", "answer", "falsification", "quant", "comparison", "review"]
     claim_type: Literal["disclosed_fact", "derived_metric", "model_inference"]
     text: str
     evidence_ids: list[str] = Field(default_factory=list)

@@ -97,6 +97,20 @@ class IngestionWatermarkRow(Base):
     details: Mapped[dict] = mapped_column(JSON, default=dict)
 
 
+class ResearchThesisRow(Base):
+    """Episodic thesis memory: the conclusion of one deep run and the conditions that would prove it wrong."""
+    __tablename__ = "research_theses"
+    thesis_id: Mapped[str] = mapped_column(String(64), primary_key=True)
+    ticker: Mapped[str] = mapped_column(String(12), index=True)
+    as_of_date: Mapped[str] = mapped_column(String(10))
+    run_id: Mapped[str] = mapped_column(String(64))
+    stance: Mapped[str] = mapped_column(String(10))                 # bullish | neutral | bearish
+    core_thesis_summary: Mapped[str] = mapped_column(Text)
+    falsification_criteria: Mapped[list] = mapped_column(JSON)      # [{metric, comparator, threshold, baseline, label, ...}]
+    locked_metrics_snapshot: Mapped[dict] = mapped_column(JSON)     # metric values at the time, plus the report period
+    created_at: Mapped[str] = mapped_column(String(19))
+
+
 class DataSnapshotRow(Base):
     __tablename__ = "data_snapshots"
     snapshot_id: Mapped[str] = mapped_column(String(80), primary_key=True)

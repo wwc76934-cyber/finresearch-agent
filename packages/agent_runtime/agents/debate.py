@@ -15,6 +15,8 @@ import json
 import re
 
 from .. import tools
+from data_platform.catalog import cn_name
+
 from ..context import RunContext, fmt
 from ..llm import call_json, run_parallel
 
@@ -147,7 +149,11 @@ RULES = ("规则：每条论点必须引用至少一个证据 id（只能用给�
 
 def _llm_rounds(ctx: RunContext, log: dict, bull_ids: list, bear_ids: list) -> tuple[list, list]:
     sec = ctx.svc.resolve_security(ctx.ticker)
+    from ..memory import review_summary
+
     head = {"company": f"{sec.name}（{sec.ticker}）", "as_of": ctx.as_of.isoformat(), "question": ctx.request.question}
+    if ctx.thesis_review and ctx.thesis_review.get("items"):   # earlier falsification conditions and how they stand now
+        head["earlier_theses"] = review_summary(ctx.thesis_review)
     # ---- round 1: Bull builds the strongest long case
     _bull_call = lambda: call_json(ctx.llm, ctx.tracer, "bull", "你是看多研究员，基于证据构建最强的看多逻辑，并写出每条逻辑依赖的隐含假设。" + RULES +
                   '输出JSON {"arguments":[{"thesis":"...","assumption":"...","evidence_ids":["E001"]}]}',
@@ -235,6 +241,10 @@ def _falsification(ctx: RunContext, log: dict) -> None:
         cl = ctx.add_claim("falsification", "model_inference", render(), [ev_c, ev_t], "manager")
         ctx.renderers[cl.claim_id] = render
         log["falsification"].append(cl.claim_id)
+        # the same condition in machine-readable form: thesis memory re-tests it when a later report comes out
+        log.setdefault("falsification_specs", []).append({
+            "claim_id": cl.claim_id, "metric": metric, "comparator": "gt" if metric in ("receivable_days", "interest_debt_ratio") else "lt",
+            "threshold": tv, "baseline": cur.value, "period": label, "label": cn_name(metric), "text": cl.text})
 
 
 def run_debate(ctx: RunContext) -> dict:

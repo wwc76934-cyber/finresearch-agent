@@ -43,5 +43,6 @@ if rep.get("comparison"):
         print("  ", r["dimension"], r["metric"], r["values"])
 for u in rep["uncertainties"]:
     print("  DOWNGRADED", u["claim_id"], rep["claims"][u["claim_id"]]["text"][:90], "|", u["reason"][:80])
+print("thesis saved:", rep.get("thesis_id"), "| review:", [(i["as_of_date"], i["label"], i["status"]) for i in (rep.get("thesis_review") or {}).get("items", [])])
 print("downgraded:", len(rep["uncertainties"]), " status:", {s: sum(1 for c in rep["claims"].values() if c["status"] == s) for s in {c["status"] for c in rep["claims"].values()}})
 print("live ingest events:", [e.get("message") for e in events if e.get("type") == "live_ingestion_status"][:6])

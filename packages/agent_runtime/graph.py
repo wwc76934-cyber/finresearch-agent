@@ -78,6 +78,13 @@ def node_gather(state: GraphState) -> dict:
         with ctx.tracer.node("comparator") as span:
             ctx.comparison = comparator.build(ctx, ctx.tickers)
             span["summary"] = f"{len(ctx.tickers)} companies, period {ctx.comparison.get('period')}, {len(ctx.comparison['rows'])} rows"
+    if ctx.config.thesis_memory and ctx.thesis_review is None and ctx.route.name == "full" and not ctx.factor_only:
+        from .memory import ThesisMemoryStore, memory_enabled, review
+
+        if memory_enabled(ctx.request):
+            with ctx.tracer.node("thesis_review") as span:
+                ctx.thesis_review = review(ctx, ThesisMemoryStore(ctx.db_url))
+                span["summary"] = f"{len(ctx.thesis_review['items'])} conditions from {len(ctx.thesis_review.get('theses', []))} earlier thesis(es)"
     with ctx.tracer.node("gather") as span:
         span["summary"] = f"{len(state.get('summaries', []))} subtask summaries; anomalies={list(ctx.anomalies)}"
     return {}
@@ -219,6 +226,11 @@ def node_report(state: GraphState) -> dict:
         _account(ctx, "report", state)
         rep = report_mod.build_report(ctx, state.get("debate", {}), state.get("risk", {}), ctx.config.name)
         span["summary"] = f"{sum(len(s['claim_ids']) for s in rep['sections'])} claims in report"
+    if ctx.config.thesis_memory and ctx.route.name == "full" and not ctx.factor_only:
+        from .memory import ThesisMemoryStore, memory_enabled
+
+        if memory_enabled(ctx.request):
+            rep["thesis_id"] = ThesisMemoryStore(ctx.db_url).save(ctx, rep)
     return {"report": rep}
 
 

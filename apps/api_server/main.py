@@ -273,6 +273,14 @@ def factor_test(body: FactorIn):
     return rep.model_dump()
 
 
+@app.get("/api/theses")
+def theses(ticker: Optional[str] = None, limit: int = 30):
+    """Saved investment theses and their falsification conditions (v2.0 thesis memory)."""
+    from agent_runtime.memory import ThesisMemoryStore
+
+    return ThesisMemoryStore().listing(ticker, limit)
+
+
 @app.get("/api/otel/spans")
 def otel_spans(run_id: Optional[str] = None):
     """OpenTelemetry spans kept in memory (TRACING_BACKEND=otel without an OTLP endpoint). Empty otherwise."""

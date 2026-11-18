@@ -118,6 +118,13 @@ def _rewrite(ctx: RunContext, h: SubHypothesis, failed: list[str]) -> Optional[s
     return q if 2 <= len(q) <= 30 and not re.search(r"\d", q) and q not in failed else None
 
 
+def _metric_covered(ctx: RunContext, h: SubHypothesis) -> bool:
+    """A hypothesis such as 'leverage is under control' or 'valuation is low' is answered by metrics the pipeline already
+    computed and cited, not by a sentence in a filing: no document hit is not a gap then."""
+    have = {m.metric for m in ctx.calc.store.values() if m.ticker == ctx.ticker}
+    return bool(h.required_metrics) and all(any(r in m for m in have) for r in h.required_metrics)
+
+
 def explore(ctx: RunContext, h: SubHypothesis, agent: str) -> list[str]:
     steps = ctx.config.react_lite_steps
     if steps <= 0:
@@ -145,7 +152,9 @@ def explore(ctx: RunContext, h: SubHypothesis, agent: str) -> list[str]:
             ctx.tracer.tool("explore_hypothesis", {"sub_id": h.sub_id, "step": 2, "query": q2}, result=cid or "no matching sentence")
             if cid:
                 ids.append(cid)
-    if not ids:
+    if not ids and _metric_covered(ctx, h):
+        ctx.tracer.tool("explore_hypothesis", {"sub_id": h.sub_id, "step": 3}, result="answered by computed metrics")
+    elif not ids:
         ctx.open_questions.append({"topic": f"假设[{h.sub_id}]{h.hypothesis_statement}：未找到披露证据",
                                    "reason": f"需要：{h.verification_criterion or '相关披露原文'}"})
     return ids
