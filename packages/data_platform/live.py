@@ -54,7 +54,7 @@ DEADLINE = {3: (4, 30), 6: (8, 31), 9: (10, 31), 12: (4, 30)}   # statutory disc
 PERIODIC_CATEGORY = {3: "category_yjdbg_szsh;", 6: "category_bndbg_szsh;", 9: "category_sjdbg_szsh;", 12: "category_ndbg_szsh;"}
 PERIODIC_DOC = {3: "q1_report", 6: "semi_annual_report", 9: "q3_report", 12: "annual_report"}
 SKIP_TITLE = ("摘要", "英文", "取消", "提示性")
-CONSUMER_L1 = {"食品饮料", "家用电器", "商贸零售", "社会服务", "美容护理", "纺织服饰", "农林牧渔", "轻工制造"}
+CONSUMER_L1 = {"食品饮料", "家电", "商贸零售", "社会服务", "美容护理", "纺织服饰", "农林牧渔", "轻工制造", "休闲服务"}
 BEIJING = timedelta(hours=8)
 
 
@@ -225,11 +225,14 @@ def statutory_deadline(period_end: date) -> datetime:
     return datetime(period_end.year + (1 if period_end.month == 12 else 0), m, d)
 
 
-def template_of(l1: str, l2: str) -> str:
-    if l1 == "银行":
+def template_of(l1: str, l2: str, l3: str = "") -> str:
+    """Eastmoney's EM2016 industry path, e.g. 金融-银行-国有银行, 金融-非银行金融-证券, 食品饮料-饮料-白酒."""
+    if l1 == "金融" and l2 == "银行":
         return "bank"
-    if l1 == "非银金融":
-        return "insurance" if "保险" in l2 else "broker"
+    if l1 == "金融" and "保险" in (l2 + l3):
+        return "insurance"
+    if l1 == "金融" and "证券" in (l2 + l3):
+        return "broker"
     return "consumer" if l1 in CONSUMER_L1 else "manufacturing"
 
 
@@ -382,7 +385,7 @@ class ReadThroughIngestor:
             f_an = None if lite else ex.submit(self.provider.announcements, entry, end - timedelta(days=548), end)
             org = result(f_org, "org_info", {})
             parts = [x for x in str(org.get("EM2016") or "").split("-") if x]
-            template = template_of(*(parts + ["未知", "未知"])[:2]) if parts else "manufacturing"
+            template = template_of(*(parts + ["", "", ""])[:3]) if parts else "manufacturing"
             prefix = {"bank": "B", "insurance": "I", "broker": "S"}.get(template, "G")
             stmts = result(ex.submit(self.provider.statements, t, 24, prefix), "statements", {})
             bars = result(f_px, "prices", []) if sym else []
@@ -515,10 +518,10 @@ class ReadThroughIngestor:
     def _store_security(self, entry: CatalogEntry, org: dict) -> SecurityRow:
         em = str(org.get("EM2016") or "")
         parts = [p for p in em.split("-") if p]
-        l1, l2 = (parts + ["未知", "未知"])[:2] if parts else ("未知", "未知")
+        l1, l2, l3 = (parts + ["未知", "未知", ""])[:3] if parts else ("未知", "未知", "")
         listed = parse_date(org.get("LISTING_DATE")) or date(2000, 1, 1)
         row = SecurityRow(ticker=entry.ticker, name=entry.name, list_date=listed, delisted=False, industry_sw_l1=l1,
-                          industry_sw_l2=l2, template=template_of(l1, l2), is_demo=False)
+                          industry_sw_l2=l2, template=template_of(l1, l2, l3), is_demo=False)
         with self.Session() as s:
             s.merge(row)
             s.commit()

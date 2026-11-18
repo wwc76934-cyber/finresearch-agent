@@ -55,7 +55,7 @@ class FakeProvider(LiveMarketProvider):
 
     def org_info(self, secucode):
         self._boom("org_info")
-        return {"EM2016": "通信-通信设备-通信网络设备及器件", "LISTING_DATE": "2012-04-10 00:00:00"}
+        return {"EM2016": "信息技术-通信设备-通信传输设备", "LISTING_DATE": "2012-04-10 00:00:00"}
 
     def prices(self, symbol, start, end):
         self._boom("prices")
@@ -115,7 +115,7 @@ def test_new_company_is_stored_with_real_disclosure_dates(env):
     ing = ingestor(env)
     rep = ing.ensure("300308.SZ", datetime(2025, 12, 31, 15), "hybrid_live")
     assert rep.status in ("fetched", "partial") and rep.counts["facts"] > 0 and rep.counts["prices"] > 0
-    assert rep.counts["documents"] == 1 and rep.counts["industry"] == "通信/通信设备"
+    assert rep.counts["documents"] == 1 and rep.counts["industry"] == "信息技术/通信设备"
     with get_session_factory(env[0])() as s:
         facts = list(s.scalars(select(FinancialFactRow).where(FinancialFactRow.ticker == "300308.SZ")))
         sec = s.get(SecurityRow, "300308.SZ")
@@ -190,7 +190,7 @@ def test_one_source_down_gives_partial_not_a_crash(env):
 def test_financial_sector_company_is_marked_and_warned(env):
     class Bank(FakeProvider):
         def org_info(self, secucode):
-            return {"EM2016": "银行-国有大型银行Ⅱ-国有大型银行Ⅲ", "LISTING_DATE": "1991-04-03 00:00:00"}
+            return {"EM2016": "金融-银行-国有银行", "LISTING_DATE": "1991-04-03 00:00:00"}
     rep = ingestor(env, Bank()).ensure("000001.SZ", datetime(2025, 12, 31, 15), "hybrid_live")
     with get_session_factory(env[0])() as s:
         assert s.get(SecurityRow, "000001.SZ").template == "bank"
@@ -232,7 +232,7 @@ def test_real_endpoints_for_companies_outside_the_snapshot(env, ticker):
 def test_bank_uses_the_bank_statement_family(env):
     class Bank(FakeProvider):
         def org_info(self, secucode):
-            return {"EM2016": "银行-国有大型银行Ⅱ-国有大型银行Ⅲ", "LISTING_DATE": "1991-04-03 00:00:00"}
+            return {"EM2016": "金融-银行-国有银行", "LISTING_DATE": "1991-04-03 00:00:00"}
     p = Bank()
     ingestor(env, p).ensure("000001.SZ", datetime(2025, 12, 31, 15), "hybrid_live")
     assert p.prefixes == ["B"]
