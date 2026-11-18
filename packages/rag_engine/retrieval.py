@@ -267,13 +267,17 @@ class Hit:
 
 class Retriever:
     def __init__(self, chunks: list[Chunk], encoder: Optional[DenseEncoder] = None,
-                 reranker: Optional[Reranker] = None, vector_store=None):
+                 reranker: Optional[Reranker] = None, vector_store=None, frozen_idf: Optional[np.ndarray] = None):
         self.children = [c for c in chunks if c.level == "child"]
         self.parents = {c.chunk_id: c for c in chunks if c.level == "parent"}
         self.tokens = [tokenize(c.text) for c in self.children]
         self.bm25 = BM25(self.tokens)
         self.encoder = encoder or default_encoder()
-        self.encoder.fit([c.text for c in self.children])
+        if frozen_idf is not None and hasattr(self.encoder, "idf"):
+            # the stored vectors were built with this IDF; refitting on a grown corpus would make queries drift from them
+            self.encoder.idf = frozen_idf
+        else:
+            self.encoder.fit([c.text for c in self.children])
         self.vector_store = vector_store          # PgVectorStore: dense search runs in the database
         self._pos = {c.chunk_id: i for i, c in enumerate(self.children)}
         # with a vector store the matrix is not needed in memory

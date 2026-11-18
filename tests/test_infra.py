@@ -31,11 +31,44 @@ def test_postgres_backend_switch(monkeypatch):
     assert dbmod.storage_backend() == "sqlite"
 
 
-def test_pgvector_requires_postgres(monkeypatch):
+def test_pgvector_requires_postgres(monkeypatch, tmp_path):
     from rag_engine.vector_store import pg_store_if_enabled
 
     monkeypatch.setenv("VECTOR_BACKEND", "pgvector")
-    assert pg_store_if_enabled(None, 2048) is None      # sqlite database: falls back to the in-memory index
+    url = f"sqlite:///{tmp_path / 'x.db'}"              # explicit: the CI postgres job exports DATABASE_URL
+    assert pg_store_if_enabled(url, 2048) is None       # sqlite database: falls back to the in-memory index
+
+
+def test_incremental_upsert_embeds_only_new_chunks_with_frozen_idf():
+    """A filing pulled online after the bootstrap gets embedded with the bootstrap IDF; stored vectors stay valid."""
+    import numpy as np
+
+    from rag_engine.chunking import Chunk
+    from rag_engine.index import sync_pgvector
+    from rag_engine.retrieval import HashingDenseEncoder, Retriever
+
+    def mk(i, text):
+        return Chunk(chunk_id=f"c{i}", document_id="d", ticker="000001.SZ", parent_id=None, level="child", section_path="",
+                     section_type="mdna", is_table=False, table_name=None, statement_scope=None, unit=None, page_start=1,
+                     page_end=1, text=text, available_at=A)
+
+    base = [mk(0, "营业收入同比增长百分之十二"), mk(1, "存货跌价准备计提充足")]
+    enc = HashingDenseEncoder(); enc.fit([c.text for c in base])
+    frozen = enc.idf.copy()
+
+    class Fake:
+        def __init__(self): self.rows = {}
+        def load_idf(self): return frozen
+        def missing_ids(self): return [c for c in ("c0", "c1", "c2") if c not in self.rows]
+        def upsert(self, ids, m): self.rows.update(zip(ids, m)); return len(ids)
+
+    s = Fake(); s.rows = {"c0": enc.encode([base[0].text])[0], "c1": enc.encode([base[1].text])[0]}
+    new = mk(2, "在建工程转固进度滞后")
+    assert sync_pgvector(s, base + [new]) == 1
+    assert np.allclose(s.rows["c2"], enc.encode([new.text])[0])           # same IDF as the stored rows
+    r = Retriever(base + [new], frozen_idf=frozen)
+    assert np.array_equal(r.encoder.idf, frozen)                         # the corpus grew, the query side did not drift
+    assert sync_pgvector(s, base + [new]) == 0                           # nothing missing: no work
 
 
 def test_core_tables_and_pit_index_exist():
@@ -109,6 +142,30 @@ def test_pgvector_index_is_complete_and_hnsw():
     assert n_child > 10000 and n_emb == n_child
     assert {"ix_chunks_embedding_hnsw", "idx_facts_ticker_pit"} <= idx
     assert ext
+
+
+@needs_pg
+def test_pgvector_incremental_upsert_after_online_ingest():
+    from data_platform.db import DocumentChunkRow, get_session_factory
+    from rag_engine.index import get_retriever
+
+    os.environ["VECTOR_BACKEND"] = "pgvector"
+    get_retriever.cache_clear()
+    cid = "ci_new_child"
+    try:
+        with get_session_factory(PG_URL)() as s:
+            ref = s.query(DocumentChunkRow).filter(DocumentChunkRow.level == "child").first()
+            row = {k: v for k, v in ref.__dict__.items() if not k.startswith("_")}
+            row.update(chunk_id=cid, text="在线拉取的新公告：在建工程转固进度滞后")
+            s.add(DocumentChunkRow(**row)); s.commit()
+        r = get_retriever(PG_URL, anchors=True)
+        assert r.vector_store is not None, "the new chunk must be embedded incrementally, not force the in-memory fallback"
+        assert r.vector_store.missing_ids() == []
+    finally:
+        with get_session_factory(PG_URL)() as s:
+            s.query(DocumentChunkRow).filter(DocumentChunkRow.chunk_id == cid).delete(); s.commit()
+        get_retriever.cache_clear()
+        os.environ.pop("VECTOR_BACKEND", None)
 
 
 @needs_pg

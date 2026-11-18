@@ -11,7 +11,7 @@ from data_platform.db import ROOT, DocumentChunkRow, SourceDocumentRow, get_sess
 from data_platform.serving import period_label
 
 from .chunking import Chunk, chunk_document, naive_chunks
-from .retrieval import HashingDenseEncoder, Retriever
+from .retrieval import HashingDenseEncoder, Retriever, default_encoder
 from .vector_store import pg_store_if_enabled
 
 GOLDEN = ROOT / "benchmarks" / "golden_snapshot"
@@ -55,6 +55,7 @@ def persist_chunks(db_url: Optional[str] = None) -> int:
     if store is not None:
         r = Retriever(chunks)           # in-memory: fits the encoder on this exact corpus
         store.upsert([c.chunk_id for c in r.children], r.embeddings())
+        store.save_idf(getattr(r.encoder, "idf"))   # frozen: later chunks are embedded with it (incremental upsert)
         get_retriever.cache_clear()
     return len(chunks)
 
@@ -69,9 +70,30 @@ def get_retriever(db_url: Optional[str] = None, anchors: bool = True, naive: boo
         store = pg_store_if_enabled(db_url, DENSE_DIM)
         n_children = sum(1 for c in chunks if c.level == "child")
         if store is not None and store.embedded_count() != n_children:
+            sync_pgvector(store, chunks)
+        if store is not None and store.embedded_count() != n_children:
             warnings.warn("pgvector index is stale or empty; run scripts/bootstrap.py. Using the in-memory index.")
             store = None
-    return Retriever(chunks, vector_store=store)
+    frozen = store.load_idf() if store is not None else None
+    if store is not None and frozen is None:
+        warnings.warn("pgvector index has no frozen IDF; run scripts/bootstrap.py. Using the in-memory index.")
+        store = None
+    return Retriever(chunks, vector_store=store, frozen_idf=frozen)
+
+
+def sync_pgvector(store, chunks: list[Chunk]) -> int:
+    """Incremental upsert: embed only the child chunks that have no vector yet (online-ingested filings), using the IDF
+    frozen at bootstrap, so the vectors already stored stay valid. Returns the number written."""
+    idf = store.load_idf()
+    ids = set(store.missing_ids())
+    if idf is None or not ids:
+        return 0
+    todo = [c for c in chunks if c.level == "child" and c.chunk_id in ids]
+    enc = default_encoder()
+    if not hasattr(enc, "idf"):
+        return 0                         # a learned embedding model: no corpus-dependent weights to freeze
+    enc.idf = idf
+    return store.upsert([c.chunk_id for c in todo], enc.encode([c.text for c in todo])) if todo else 0
 
 
 def chunk_text(db_url: Optional[str], chunk_id: str) -> Optional[DocumentChunkRow]:

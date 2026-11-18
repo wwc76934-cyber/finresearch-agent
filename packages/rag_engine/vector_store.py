@@ -10,6 +10,7 @@ hashed encoder uses 2048.
 """
 from __future__ import annotations
 
+import json
 import os
 from datetime import datetime
 from typing import Optional
@@ -59,6 +60,29 @@ class PgVectorStore:
                 c.execute(sql, rows)
             n += len(rows)
         return n
+
+    def save_idf(self, idf: np.ndarray) -> None:
+        """Freeze the IDF the stored vectors were built with, so chunks added later can be embedded consistently."""
+        with self.engine.begin() as c:
+            c.execute(text("CREATE TABLE IF NOT EXISTS vector_meta (key TEXT PRIMARY KEY, value TEXT NOT NULL)"))
+            c.execute(text("INSERT INTO vector_meta (key, value) VALUES ('hashing_idf', :v) "
+                           "ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value"), {"v": json.dumps([float(x) for x in idf])})
+
+    def load_idf(self) -> Optional[np.ndarray]:
+        with self.engine.connect() as c:
+            try:
+                v = c.execute(text("SELECT value FROM vector_meta WHERE key = 'hashing_idf'")).scalar()
+            except Exception:  # noqa: BLE001 - table missing: nothing was ever bootstrapped
+                return None
+        return np.asarray(json.loads(v), dtype=np.float32) if v else None
+
+    def missing_ids(self) -> list[str]:
+        """Child chunks without an embedding (e.g. announcements pulled online after the bootstrap)."""
+        with self.engine.connect() as c:
+            try:
+                return [r[0] for r in c.execute(text("SELECT chunk_id FROM document_chunks WHERE level='child' AND embedding IS NULL"))]
+            except Exception:  # noqa: BLE001
+                return []
 
     def embedded_count(self) -> int:
         with self.engine.connect() as c:

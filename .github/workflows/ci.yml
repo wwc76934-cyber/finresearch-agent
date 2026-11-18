@@ -75,6 +75,6 @@ jobs:
           node-version: "22"
           cache: npm
           cache-dependency-path: apps/web_react/package-lock.json
-      - run: npm ci --omit=optional || npm install --omit=optional
+      - run: npm ci
       - name: Typecheck and build
         run: npm run build
