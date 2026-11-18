@@ -30,7 +30,7 @@
 | 步 | 内容 | 验证 | 状态 |
 |---|---|---|---|
 | 1 | 全 A 股名单、`ReadThroughIngestor`、`ingestion_watermarks`、`data_mode`、mypy 配置与 CI | `tests/test_live_read_through.py`；真实接口 `RUN_LIVE_TESTS=1`（300308.SZ、601899.SH） | ✅ 本次完成 |
-| 2 | `SubHypothesis` 规划器、ReAct-Lite 子图、`tickers` 多股与 comparator | `tests/test_complex_and_multiticker.py` | 未开始 |
+| 2 | `SubHypothesis` 规划器、ReAct-Lite 子图、`tickers` 多股与 comparator | `tests/test_complex_and_multiticker.py`（15 个） | ✅ 离线部分完成；模型改写一步只能在线验证 |
 | 3 | `research_theses` 表、`ThesisMemoryStore`、跨期复盘章节 | `tests/test_thesis_memory.py` | 未开始 |
 | 4 | `POST /api/research/stream`（8 类事件）、前端全 A 股搜索、多股选择、同步进度条、复盘卡片 | TTFT 实测；前端构建 | 未开始 |
 | 5 | 20 题复杂开放与多股对比集（评测 195 题）、文档 | 离线回归 + 说明在线部分 | 未开始 |
@@ -49,3 +49,39 @@
 * 公告只入库带关键词的非定期报告，最多 6 篇、只读前 4 页。整本定期报告（Tier-B）按需解析还没做，对应异常追查会落到 `open_questions`。
 * pgvector 后端下，在线新增的片段没有增量写入向量表；该后端会退回内存索引并给出警告。
 * 北交所公司没有行情源（Yahoo 不支持），只入库财报和公告。
+
+## 6. Step 1 缺口的处理（第二轮）
+
+| 缺口 | 处理 | 还需要你做的 |
+|---|---|---|
+| 同业前 5 名没有数据源 | 同行 = 巨潮名单 + 东财行业板块成员（按总市值取前 5），用轻量模式拉取（不拉公告） | 运行 `python scripts/akshare_collect.py industry`（见下） |
+| 北交所无行情 | 行情读 `data/akshare_cache/prices_<code>.json`；缺则给出警告并写明要运行的命令 | `python scripts/akshare_collect.py prices --tickers 430047.BJ ...` |
+| 金融业模板只告警 | 银行/保险/券商改用东财的 B/I/S 报表族，真实验证：工行 601398、中国平安 601318、中信证券 600030 的营收、归母净利润、总资产、归母权益、经营现金流都能取到。毛利率、存货类指标不适用，对比矩阵里标"不适用" | 无 |
+| 整本定期报告（Tier-B）没做 | `ensure_periodic_report`：下载 → 解析 → 入库 → 切片，只在子图要查附注（异常追查、交叉核对、题目点名附注）时触发，每次运行最多一次；失败写入"待解答" | 无 |
+| 新公司数据未经 PDF 核对 | Tier-B 解析后用财报合并利润表核对营收和归母净利润；差异 >0.3% 标 `restatement_suspect`，写入水位线详情和报告的"待解答" | 无 |
+| pgvector 下新增片段不入向量表 | **未做**。该后端检测到向量数与片段数不一致，退回内存索引并警告。哈希编码的 IDF 依赖整个语料，不能增量；真实嵌入（bge-m3）可以，但向量维度与现有表（2048）不同，需要重建表 | 暂不需要 |
+| PRD 的"同申万二级" | 实际用东财 EM2016 行业路径（名称与申万相近但不相同）。已写入 `industry_sw_l1/l2` 字段，注释说明 | 无 |
+
+### 需要你运行的 AKShare 汇总
+
+在能访问 AKShare 的网络里：
+
+```powershell
+pip install akshare
+python scripts/akshare_collect.py industry                        # 所有行业板块的成员与总市值，约 2–4 分钟
+python scripts/akshare_collect.py prices --tickers 430047.BJ      # 北交所公司的日线（按需列出代码）
+```
+
+AKShare 接口共三个：`stock_board_industry_name_em`、`stock_board_industry_cons_em`、`stock_zh_a_hist`。输出在 `data/akshare_cache/`，复制到本项目同名目录即可。没有这些文件时系统照常运行：同行只用本地已有的同业公司，报告里会写明。
+
+## 7. Step 2 做了什么
+
+| 部分 | 实现 |
+|---|---|
+| 子假设规划 | `agents/hypotheses.py`：规则表（海外与关税、资本开支转化、客户集中、返利、存货减值、研发、原材料、现金流、政策、回购分红）+ 在线时规划模型的建议（校验后合并，最多 4 条）。快速路由不生成 |
+| 受控 ReAct-Lite | `agents/explorer.py`：对没有被已收集证据覆盖的检索短语，先搜最新定期报告再搜全库，取最匹配的一句作为带引用的结论；全无结果时再用一次轻量模型改写（在线）；仍无结果记入"待解答"并写明需要什么证据。每个假设最多 2 个短语 + 1 次改写。`B4-no_react_lite` 是消融开关 |
+| 多公司对比 | `ResearchRequest.tickers`；问题里点名的公司（离线只看本地库，在线用全市场名单）自动成为对比；最多 4 家。`agents/comparator.py` 在 gather 阶段用确定性指标建矩阵：成长性、盈利能力、盈利质量、财务结构、估值。统一取各公司共同的最新报告期。口径不同（银行对制造业）时毛利率标"不适用"并写入局限 |
+| 与 PRD 的差别 | 没有做笛卡尔积扇出：同一次运行里的证据和血缘按单个标的编号，所以对比公司只算确定性指标，完整子图只对主标的运行 |
+| 验证 | 15 个新测试 + 1 个在线 live 测试；全量 139 通过；离线 B4 仍 168/175；`mypy` 通过 |
+
+Step 2 的限制：规划模型的假设建议、改写一步只能在线验证（余额为空，未验证）；对比矩阵不含"同行优劣势"的模型总结，辩论环节仍只围绕主标的。
