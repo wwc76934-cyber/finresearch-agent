@@ -375,6 +375,21 @@ def f_crosscheck(s: SubState) -> dict:
     return {"claim_ids": ids}
 
 
+def f_explore(s: SubState) -> dict:
+    """Bounded ReAct-Lite: look for the evidence the planner's sub-hypotheses need (v2.0)."""
+    from . import explorer
+
+    ctx = _ctx(s)
+    agent = s["task"]["agent"]
+    if ctx.factor_only or ctx.route.fast or ctx.plan is None or ctx.config.react_lite_steps <= 0:
+        return {}
+    ids: list[str] = []
+    for h in ctx.plan.hypotheses:
+        if h.assigned_agent == agent and h.target_ticker == ctx.ticker:
+            ids += explorer.explore(ctx, h, agent)
+    return {"claim_ids": ids}
+
+
 def f_probe(s: SubState) -> dict:
     """Semantic anomaly probe: qualitative red flags from notes and announcements (online only)."""
     from . import semantic_probe
@@ -598,9 +613,9 @@ def _compile(steps: list[tuple[str, Callable]]):
 
 SUBGRAPHS = {
     "fundamental": _compile([("fetch", f_fetch), ("compute", f_compute), ("asks", f_asks), ("anomalies", f_anomalies),
-                             ("crosscheck", f_crosscheck), ("topic", f_topic_notes), ("probe", f_probe), ("explain", f_explain), ("summarize", f_summarize)]),
-    "market": _compile([("valuation", m_valuation), ("summarize", f_summarize)]),
-    "news": _compile([("events", n_events), ("summarize", f_summarize)]),
+                             ("crosscheck", f_crosscheck), ("topic", f_topic_notes), ("explore", f_explore), ("probe", f_probe), ("explain", f_explain), ("summarize", f_summarize)]),
+    "market": _compile([("valuation", m_valuation), ("explore", f_explore), ("summarize", f_summarize)]),
+    "news": _compile([("events", n_events), ("explore", f_explore), ("summarize", f_summarize)]),
     "investigate": _compile([("investigate", i_investigate)]),
 }
 

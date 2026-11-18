@@ -6,7 +6,7 @@ import json
 from ..context import RunContext
 from ..llm import call_json
 
-SECTIONS = [("overview", "公司与行业概况"), ("answer", "问题直接回答"), ("quant", "因子检验结论"), ("financials", "财务与经营质量"),
+SECTIONS = [("overview", "公司与行业概况"), ("answer", "问题直接回答"), ("comparison", "同业对比"), ("quant", "因子检验结论"), ("financials", "财务与经营质量"),
             ("valuation", "估值与市场表现"), ("events", "近期公告与事件"), ("bull", "核心看多论点"),
             ("bear", "核心看空论点"), ("falsification", "关键争议与证伪条件"), ("risk", "六维风险矩阵")]
 
@@ -87,7 +87,7 @@ def build_report(ctx: RunContext, debate: dict, risk: dict, architecture: str) -
         "metrics": {m: json.loads(ctx.calc.store[m].model_dump_json()) for m in used_metrics if m in ctx.calc.store},
         "answers": ctx.answers, "open_questions": ctx.open_questions,
         "semantic_fault": ctx.fault_state.get("semantic"),
-        "data_mode": ctx.request.data_mode, "live_ingestion": getattr(ctx, "live_ingestion", None),
+        "comparison": ctx.comparison, "data_mode": ctx.request.data_mode, "live_ingestion": getattr(ctx, "live_ingestion", None),
         "uncertainties": [u.model_dump() for u in ctx.uncertainties], "anomalies": list(ctx.anomalies.values()),
         "conflicts": ctx.svc.conflicts, "debate": debate or {}, "risk": risk or {}, "timeline": ctx.timeline,
         "charts": charts(ctx, risk or {}), "verification_log": ctx.verification_log, "judge_notes": ctx.judge_notes,
@@ -112,6 +112,14 @@ def to_markdown(rep: dict) -> str:
         if s["key"] == "overview":
             continue
         lines.append(f"## {s['title']}")
+        if s["key"] == "comparison" and rep.get("comparison") and rep["comparison"].get("rows"):
+            cmp_ = rep["comparison"]
+            names = [t["name"] for t in cmp_["tickers"]]
+            lines += [f"报告期：{cmp_['period']}（各公司取共同的最新已披露期）", "", "| 维度 | 指标 | " + " | ".join(names) + " |",
+                      "| --- | --- | " + " | ".join("---" for _ in names) + " |"]
+            tk = [t["ticker"] for t in cmp_["tickers"]]
+            lines += [f"| {r['dimension']} | {r['metric']} | " + " | ".join(str(r['values'].get(t, '')) for t in tk) + " |" for r in cmp_["rows"]]
+            lines.append("")
         for cid in s["claim_ids"]:
             c = rep["claims"][cid]
             refs = " ".join(f"[Evidence #{e}]" for e in c["evidence_ids"])

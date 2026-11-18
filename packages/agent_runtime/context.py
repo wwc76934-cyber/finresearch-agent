@@ -49,6 +49,8 @@ class RunContext:
         self.config = config
         from .agents.router import Route
         self.route = Route()          # set by the planner; 'full' until then
+        self.tickers: list[str] = [request.ticker]   # comparison run: primary first (resolved in graph.prepare)
+        self.comparison: Optional[dict] = None       # peer matrix built by the comparator node
         self.db_url = db_url
         self.snapshot_id = snapshot_id
         self.svc = PITDataService(request.as_of, snapshot_id, db_url)

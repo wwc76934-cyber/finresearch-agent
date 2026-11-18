@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import sqlite3
 import time
 import uuid
@@ -16,6 +17,7 @@ from langgraph.types import Command, Send, interrupt
 
 from data_platform.db import (ROOT, EvidenceRecordRow, ResearchClaimRow, ResearchRunRow, VerificationResultRow,
                               get_session_factory)
+from data_platform.ashare_catalog import get_catalog
 from data_platform.live import prepare_live
 from data_platform.serving import PITDataService
 from data_platform.versioning import create_snapshot
@@ -70,6 +72,12 @@ def node_collect(payload: dict) -> dict:
 
 def node_gather(state: GraphState) -> dict:
     ctx = get_context(state["run_id"])
+    if len(ctx.tickers) > 1 and ctx.comparison is None:     # scenario C: the cross-company matrix, once
+        from .agents import comparator
+
+        with ctx.tracer.node("comparator") as span:
+            ctx.comparison = comparator.build(ctx, ctx.tickers)
+            span["summary"] = f"{len(ctx.tickers)} companies, period {ctx.comparison.get('period')}, {len(ctx.comparison['rows'])} rows"
     with ctx.tracer.node("gather") as span:
         span["summary"] = f"{len(state.get('summaries', []))} subtask summaries; anomalies={list(ctx.anomalies)}"
     return {}
@@ -269,9 +277,46 @@ def checkpoint_history(run_id: str) -> list[dict]:
     return out
 
 
+def _with_tickers(request: ResearchRequest, db_url: Optional[str] = None) -> ResearchRequest:
+    """Companies named in the question (catalog names / codes) become a comparison run; the first one is the primary."""
+    if len(request.tickers) > 1:
+        return request
+    first, found = request.ticker, _named_in_question(request, db_url)
+    if not found:
+        return request
+    names = [first] + [t for t in found if t[:6] not in first]
+    return request.model_copy(update={"tickers": names[:4]}) if len(names) > 1 else request
+
+
+def _named_in_question(request: ResearchRequest, db_url: Optional[str] = None) -> list[str]:
+    """Tickers of the companies the question names. Offline benchmark mode looks only at locally stored companies (no
+    network, no catalog); live modes use the whole-market catalog."""
+    q = request.question
+    if request.data_mode != "offline_golden":
+        cat = get_catalog()
+        return [e.ticker for e in cat.extract(q, limit=4)] if cat else []
+    secs = PITDataService(request.as_of, "probe", db_url).securities()
+    hits = sorted((q.find(s.name), s.ticker) for s in secs if len(s.name) >= 3 and s.name in q)
+    hits += sorted((m.start(), s.ticker) for s in secs for m in re.finditer(re.escape(s.ticker[:6]), q))
+    return [t for _, t in sorted(set(hits))]
+
+
+def _resolve_all(ctx: RunContext, request: ResearchRequest) -> list[str]:
+    out = [ctx.ticker]
+    for t in request.tickers[1:]:
+        sec = ctx.svc.resolve_security(t)
+        if sec is not None and sec.ticker not in out:
+            out.append(sec.ticker)
+        elif sec is None:
+            ctx.open_questions.append({"topic": f"对比对象 {t} 无数据", "reason": "不在本地库，也无法在线拉取"})
+    return out
+
+
 def prepare(request: ResearchRequest, config: ArchConfig, db_url: Optional[str] = None,
             llm: Optional[BaseLLM] = None, listener: Optional[Callable] = None) -> RunContext:
+    request = _with_tickers(request, db_url)
     live = prepare_live(request.ticker, request.as_of, request.data_mode, db_url, listener)   # Read-Through: fetch if missing
+    extra_live = [prepare_live(t, request.as_of, request.data_mode, db_url, listener) for t in request.tickers[1:]]
     probe = PITDataService(request.as_of, "probe", db_url)
     sec = probe.resolve_security(request.ticker)
     if sec is None:
@@ -282,6 +327,8 @@ def prepare(request: ResearchRequest, config: ArchConfig, db_url: Optional[str] 
     run_id = f"run_{datetime.now():%Y%m%d%H%M%S}_{uuid.uuid4().hex[:6]}"
     ctx = RunContext(run_id, request, config, snap.snapshot_id, db_url, llm, listener)
     ctx.live_ingestion = live.as_dict() if live else None
+    ctx.tickers = _resolve_all(ctx, request)
+    ctx.extra_live_ingestion = [r.as_dict() for r in extra_live if r]
     return ctx
 
 

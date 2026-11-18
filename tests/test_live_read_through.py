@@ -332,3 +332,26 @@ def test_a_question_that_needs_the_notes_pulls_the_report_once(env, monkeypatch)
     tools = [t["tool"] for s in rep["trace"] for t in (s.get("tool_calls") or []) if isinstance(t, dict)]
     assert tools.count("fetch_periodic_report") == 1
     assert any("数据商数值与财报原文不一致" in q["topic"] for q in rep["open_questions"])
+
+
+def test_bank_and_manufacturer_comparison_flags_the_mismatch_instead_of_comparing(env):
+    from agent_runtime import ResearchRequest, run_research
+
+    class Mixed(FakeProvider):
+        def org_info(self, secucode):
+            if secucode.startswith("000001"):
+                return {"EM2016": "金融-银行-股份制与城商行", "LISTING_DATE": "1991-04-03 00:00:00"}
+            return super().org_info(secucode)
+
+    set_provider_factory(lambda: Mixed())
+    req = ResearchRequest(ticker="中际旭创", as_of=datetime(2025, 12, 31, 15), data_mode="hybrid_live", mode="deep",
+                          question="对比中际旭创与平安银行的盈利能力和估值")
+    rep = run_research(req, "B4", db_url=env[0], persist=False)
+    cmp_ = rep["comparison"]
+    assert [t["ticker"] for t in cmp_["tickers"]] == ["300308.SZ", "000001.SZ"]
+    assert {t["template"] for t in cmp_["tickers"]} == {"manufacturing", "bank"}
+    assert any("报表口径不同" in w for w in cmp_["warnings"])
+    gm = next(r for r in cmp_["rows"] if r["metric"] == "毛利率")
+    assert gm["values"]["000001.SZ"] == "不适用"
+    assert any(q["topic"] == "同业对比口径提示" for q in rep["open_questions"])
+    assert rep["live_ingestion"]["ticker"] == "300308.SZ"

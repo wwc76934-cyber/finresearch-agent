@@ -99,6 +99,12 @@ SYSTEM = ("你是投研规划Agent。把研究问题解析为结构化需求 ask
           "数字由确定性算子计算，你不得给出任何数值。")
 
 
+# Full route only (the planner model is not called for lean routes): the same call may also propose sub-hypotheses.
+SYSTEM += ("另外可在 JSON 里加 hypotheses 数组（最多4条）：把问题里超出标准财务指标的部分拆成待验证子假设，每条 "
+           '{"assigned_agent":"fundamental|market|news","hypothesis_statement":"...","custom_rag_queries":["2到4个词的检索短语",...最多3个],'
+           '"required_metrics":[来自 allowed_metrics],"verification_criterion":"什么证据能证实或证伪"}。没有就给空数组。')
+
+
 def parse_period(q: str) -> Optional[str]:
     m = PERIOD_RE.search(q)
     if not m:
@@ -222,7 +228,12 @@ def plan(ctx: RunContext) -> ResearchPlan:
         if a.kind == "unanswerable":
             ctx.open_questions.append({"ask_id": a.ask_id, "topic": a.topic,
                                        "reason": "当前 PIT 快照中无此数据，拒绝编造"})
+    from . import hypotheses
+
+    hyps = hypotheses.build(req.question, ctx.ticker, ctx.route.name, (data or {}).get("hypotheses"),
+                            {m for _, m in METRIC_PATTERNS})
     p = ResearchPlan(plan_id=f"{ctx.run_id}-plan", subtasks=subtasks, asks=asks, budget_tokens=req.token_budget,
-                     rationale=rationale)
-    ctx.tracer.tool("register_research_plan", {"subtasks": [s.agent for s in subtasks], "asks": len(asks)})
+                     rationale=rationale, hypotheses=hyps)
+    ctx.tracer.tool("register_research_plan", {"subtasks": [s.agent for s in subtasks], "asks": len(asks),
+                                              "hypotheses": [h.sub_id for h in hyps]})
     return p

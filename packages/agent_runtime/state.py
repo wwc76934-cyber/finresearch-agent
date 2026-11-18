@@ -22,6 +22,7 @@ class ArchConfig(BaseModel):
     context_isolation: bool = True
     rag_anchors_prefilter: bool = True
     hybrid_rerank: bool = True
+    react_lite_steps: int = 2            # sub-graph self-directed evidence search per hypothesis (v2.0); 0 = off
     complexity_router: bool = True       # ComplexityRouter: lookups skip debate/risk/probe/LLM judge; topic analyses skip debate/risk
     self_rag: bool = True
     # LLM-written bull/bear arguments (online only). On: an independent pairwise judge preferred these reports
@@ -41,6 +42,7 @@ ARCHITECTURES: dict[str, ArchConfig] = {
     "B4": ArchConfig(name="B4"),
     "B4-template_debate": ArchConfig(name="B4-template_debate", llm_debate=False),
     "B4-no_anchor_prefilter": ArchConfig(name="B4-no_anchor_prefilter", rag_anchors_prefilter=False),
+    "B4-no_react_lite": ArchConfig(name="B4-no_react_lite", react_lite_steps=0),
     "B4-no_router": ArchConfig(name="B4-no_router", complexity_router=False),
     "B4-no_hybrid_rerank": ArchConfig(name="B4-no_hybrid_rerank", hybrid_rerank=False),
     "B4-no_context_isolation": ArchConfig(name="B4-no_context_isolation", context_isolation=False),
@@ -56,6 +58,7 @@ ARCHITECTURES: dict[str, ArchConfig] = {
 
 class ResearchRequest(BaseModel):
     ticker: str
+    tickers: list[str] = Field(default_factory=list)   # 2-4 companies: comparison run; `ticker` stays the primary
     as_of: datetime
     data_mode: DataMode = Field(default_factory=default_data_mode)   # offline_golden | hybrid_live | online_force_refresh
     question: str = "全面研究公司基本面、估值与风险"
@@ -91,12 +94,24 @@ class SubTask(BaseModel):
     anomaly_code: Optional[str] = None
 
 
+class SubHypothesis(BaseModel):
+    """One research sub-question the planner wants evidence for (v2.0 hypothesis-driven planning)."""
+    sub_id: str
+    target_ticker: str
+    assigned_agent: Literal["fundamental", "market", "news"]
+    hypothesis_statement: str          # what is to be verified
+    custom_rag_queries: list[str] = Field(default_factory=list)   # 2-3 fine-grained search phrases for this question
+    required_metrics: list[str] = Field(default_factory=list)     # deterministic metrics it depends on
+    verification_criterion: str = ""   # what evidence would confirm or refute it
+
+
 class ResearchPlan(BaseModel):
     plan_id: str
     subtasks: list[SubTask]
     asks: list[Ask]
     budget_tokens: int
     rationale: str = ""
+    hypotheses: list[SubHypothesis] = Field(default_factory=list)
 
 
 class EvidenceCard(BaseModel):
@@ -124,7 +139,7 @@ class SubTaskSummary(BaseModel):
 
 class Claim(BaseModel):
     claim_id: str
-    section: Literal["overview", "financials", "valuation", "bull", "bear", "events", "risk", "answer", "falsification", "quant"]
+    section: Literal["overview", "financials", "valuation", "bull", "bear", "events", "risk", "answer", "falsification", "quant", "comparison"]
     claim_type: Literal["disclosed_fact", "derived_metric", "model_inference"]
     text: str
     evidence_ids: list[str] = Field(default_factory=list)
