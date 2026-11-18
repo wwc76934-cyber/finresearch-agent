@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { api, type Report } from "./api";
 import { Chart } from "./Chart";
+import { ThesisCard } from "./LiveFeed";
 import Timeline from "./Timeline";
 
 const TAG = { disclosed_fact: "事实", derived_metric: "算子", model_inference: "推断" } as const;
@@ -23,6 +24,16 @@ export default function ReportView({ rep }: { rep: Report }) {
       </div>
       <p>{rep.overview}</p>
       <p className="text-xs text-slate-500">快照 {rep.snapshot_id} · 架构 {rep.architecture} · {rep.totals?.tool_calls} 次工具调用 · {rep.totals?.latency_ms?.toFixed(0)}ms</p>
+      {rep.thesis_review && rep.thesis_review.items.length > 0 && <div className="my-3"><ThesisCard review={rep.thesis_review} /></div>}
+      {rep.comparison && rep.comparison.rows.length > 0 && (
+        <div className="my-3 overflow-auto">
+          <h3 className="h3">同业对比（{rep.comparison.period}，取各公司共同的最新报告期）</h3>
+          <table className="tbl"><thead><tr><th>维度</th><th>指标</th>{rep.comparison.tickers.map((t) => <th key={t.ticker}>{t.name}</th>)}</tr></thead><tbody>
+            {rep.comparison.rows.map((r, i) => (<tr key={i}><td>{r.dimension}</td><td>{r.metric}</td>
+              {rep.comparison!.tickers.map((t) => <td key={t.ticker}>{r.values[t.ticker]}</td>)}</tr>))}
+          </tbody></table>
+          {rep.comparison.warnings.map((w, i) => <p key={i} className="text-xs text-amber-700 dark:text-amber-400">{w}</p>)}
+        </div>)}
       {rep.executive_summary && <><h3 className="h3 mt-3">执行摘要</h3><p>{rep.executive_summary}</p></>}
       {rep.charts.quarterly && <Chart option={rep.charts.quarterly} />}
       {rep.sections.filter((s) => s.key !== "overview").map((s) => (

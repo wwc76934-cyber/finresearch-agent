@@ -89,6 +89,10 @@ class Tracer:
     def _get_stack(self) -> tuple:
         return self._ctxvar.get()
 
+    def event(self, ev: dict) -> None:
+        """A protocol event from the runtime (plan_generated, anomaly_detected, ...); goes to the listener only."""
+        self._emit(ev)
+
     def _emit(self, ev: dict) -> None:
         if self.listener:
             try:

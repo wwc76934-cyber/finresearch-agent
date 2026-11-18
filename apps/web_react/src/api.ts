@@ -27,7 +27,10 @@ export interface Report {
   claims: Record<string, Claim>; evidence: Record<string, Evidence>; metrics: Record<string, any>;
   open_questions: { topic: string; reason: string }[]; uncertainties: { text: string }[];
   conflicts: { metric: string; period: string; chosen: string }[]; debate: any; risk: any; charts: Record<string, any>;
-  plan: { subtasks: { agent: string; objective: string }[] } | null; trace: Span[]; totals: any;
+  plan: { subtasks: { agent: string; objective: string }[]; hypotheses?: any[] } | null; trace: Span[]; totals: any;
+  comparison?: { tickers: { ticker: string; name: string; template: string }[]; period: string | null;
+    rows: { dimension: string; metric: string; values: Record<string, string> }[]; warnings: string[] } | null;
+  thesis_review?: { items: any[]; theses?: any[]; notes?: string[] } | null; live_ingestion?: any; data_mode?: string;
 }
 export interface Approval {
   reason: string; used_tokens: number; token_budget: number; proposed: { code: string; message: string; query: string }[];

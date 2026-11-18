@@ -98,6 +98,28 @@ class AShareCatalog:
                 taken.append((i, i + len(e.name)))
         return [e for _, e in sorted(hits.values(), key=lambda x: x[0])][:limit]
 
+    def search(self, q: str, limit: int = 8) -> list[CatalogEntry]:
+        """Type-ahead: code prefix, name containing the text, or pinyin-initials prefix. Exact matches first."""
+        q = q.strip()
+        if not q:
+            return []
+        ql = q.lower()
+        scored: list[tuple[int, CatalogEntry]] = []
+        for e in self.entries:
+            if e.code == q or e.name == q:
+                score = 0
+            elif e.code.startswith(q) or e.name.startswith(q):
+                score = 1
+            elif q in e.name:
+                score = 2
+            elif e.pinyin.lower().startswith(ql) and ql.isalpha():
+                score = 3
+            else:
+                continue
+            scored.append((score, e))
+        scored.sort(key=lambda x: (x[0], x[1].code))
+        return [e for _, e in scored[:limit]]
+
     # ------------------------------------------------------------ persistence
     @classmethod
     def from_stock_list(cls, stock_list: list[dict]) -> "AShareCatalog":
@@ -142,6 +164,18 @@ def get_catalog() -> Optional[AShareCatalog]:
         try:
             _CATALOG = AShareCatalog.load()
         except Exception:  # noqa: BLE001 - offline and never cached
+            return None
+    return _CATALOG
+
+
+def cached_catalog() -> Optional[AShareCatalog]:
+    """The catalog if it is already in memory or in the cache file; never touches the network (for the first byte of a
+    stream and for type-ahead search)."""
+    global _CATALOG
+    if _CATALOG is None and CATALOG_PATH.exists():
+        try:
+            _CATALOG = AShareCatalog.load(refresh=False)
+        except (ValueError, KeyError, OSError):
             return None
     return _CATALOG
 

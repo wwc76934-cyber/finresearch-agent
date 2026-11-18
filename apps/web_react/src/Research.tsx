@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { api, post, type Approval, type Report, type Span } from "./api";
+import CompanyPicker, { type Company } from "./CompanyPicker";
+import LiveFeed from "./LiveFeed";
 import ReportView from "./ReportView";
+import { streamResearch, type StreamEvent } from "./stream";
 
 const NODES = ["planner", "subgraph:fundamental", "subgraph:market", "subgraph:news", "gather", "approval", "replan",
   "subgraph:investigate", "debate", "risk", "fault_injection", "verifier", "rollback_rewrite", "report"];
@@ -8,7 +11,7 @@ const nodeKey = (n: string) => NODES.find((k) => n === k || n.startsWith(k + ":"
 type NodeState = Record<string, "running" | "done" | "error">;
 
 export default function Research({ openRun }: { openRun: string | null }) {
-  const [secs, setSecs] = useState<{ ticker: string; name: string; industry: string }[]>([]);
+  const [, setSecs] = useState<{ ticker: string; name: string; industry: string }[]>([]);
   const [archs, setArchs] = useState<string[]>([]);
   const [form, setForm] = useState({ ticker: "", as_of: "2025-12-31T15:00", mode: "deep", architecture: "B4",
     token_budget: 200000, question: "全面研究公司基本面、估值与风险，形成包含多空审议与证伪条件的研究报告", hitl_always: false });
@@ -20,10 +23,16 @@ export default function Research({ openRun }: { openRun: string | null }) {
   const [error, setError] = useState("");
   const [approval, setApproval] = useState<{ job: string; data: Approval } | null>(null);
   const [runs, setRuns] = useState<any[]>([]);
+  const [companies, setCompanies] = useState<Company[]>([]);
+  const [events, setEvents] = useState<StreamEvent[]>([]);
+  const [dataMode, setDataMode] = useState("hybrid_live");
+  const [useMemory, setUseMemory] = useState(true);
 
   const loadRuns = () => api("/api/runs?limit=15").then(setRuns);
   useEffect(() => {
-    api("/api/securities").then((s) => { setSecs(s); setForm((f) => ({ ...f, ticker: f.ticker || s[0]?.ticker })); });
+    api("/api/securities").then((s) => {
+      setSecs(s); setForm((f) => ({ ...f, ticker: f.ticker || s[0]?.ticker }));
+    });
     api("/api/architectures").then(setArchs);
     loadRuns();
   }, []);
@@ -40,22 +49,27 @@ export default function Research({ openRun }: { openRun: string | null }) {
   }
 
   async function start() {
-    setRunning(true); setReport(null); setSpans([]); setNodes({}); setError(""); setApproval(null);
+    setRunning(true); setReport(null); setSpans([]); setNodes({}); setError(""); setApproval(null); setEvents([]);
+    const body = {
+      ...form, ticker: companies[0].ticker, tickers: companies.length > 1 ? companies.map((c) => c.ticker) : [],
+      as_of: form.as_of + ":00", hitl: true, data_mode: dataMode, use_memory: useMemory ? null : false,
+    };
     try {
-      const { job_id } = await post("/api/research", { ...form, as_of: form.as_of + ":00", hitl: true });
-      const es = new EventSource(`/api/research/${job_id}/events`);
-      es.onmessage = async (m) => {
-        const ev = JSON.parse(m.data);
+      await streamResearch(body, async (ev) => {
         if (ev.type === "node_start") setNodes((s) => ({ ...s, [nodeKey(ev.node)]: "running" }));
-        if (ev.type === "node_end") {
+        else if (ev.type === "node_end") {
           setNodes((s) => ({ ...s, [nodeKey(ev.node)]: ev.status === "ok" ? "done" : "error" }));
-          setSpans((s) => [...s, ev]);
+          setSpans((s) => [...s, ev as unknown as Span]);
+        } else {
+          setEvents((s) => [...s, ev]);
+          if (ev.type === "approval_required") setApproval({ job: ev.job_id, data: ev as unknown as Approval });
+          if (ev.type === "report_completed") { setReport(ev.report as Report); setSpans((ev.report as Report).trace ?? []); setApproval(null); }
+          if (ev.type === "error") setError(ev.message);
+          if (ev.type === "done") { setRunning(false); loadRuns(); }
         }
-        if (ev.type === "approval_required") setApproval({ job: job_id, data: ev });
-        if (ev.type === "done") { es.close(); setRunning(false); setApproval(null); await open(ev.run_id); loadRuns(); }
-        if (ev.type === "error") { es.close(); setRunning(false); setError(ev.message); }
-      };
-    } catch (e: any) { setRunning(false); setError(e.message); }
+      });
+    } catch (e: any) { setError(e.message); }
+    setRunning(false);
   }
 
   const shown = focus ? spans.filter((s) => nodeKey(s.node) === focus) : spans;
@@ -67,10 +81,8 @@ export default function Research({ openRun }: { openRun: string | null }) {
     <main className="grid h-[calc(100vh-45px)] grid-cols-[280px_1fr_1.4fr] gap-3 p-3">
       <section className="card no-print overflow-auto">
         <h3 className="h3">研究配置</h3>
-        <label className="lbl">证券
-          <select className="field" value={form.ticker} onChange={set("ticker")}>
-            {secs.map((s) => <option key={s.ticker} value={s.ticker}>{s.ticker} {s.name} · {s.industry}</option>)}
-          </select></label>
+        <label className="lbl">证券（全 A 股，选多家即同业对比）</label>
+        <CompanyPicker value={companies} onChange={setCompanies} />
         <label className="lbl">研究时点 as_of<input className="field" type="datetime-local" value={form.as_of} onChange={set("as_of")} /></label>
         <div className={`mt-1 rounded px-2 py-1 text-xs ${future ? "bg-red-100 text-red-700 dark:bg-red-950 dark:text-red-300" : "bg-green-100 text-green-800 dark:bg-green-950 dark:text-green-300"}`}>
           {future ? "研究时点晚于当前时间：PIT 不可保证" : "PIT：仅使用 available_at ≤ as_of 的数据"}
@@ -79,8 +91,12 @@ export default function Research({ openRun }: { openRun: string | null }) {
         <label className="lbl">架构<select className="field" value={form.architecture} onChange={set("architecture")}>{archs.map((a) => <option key={a}>{a}</option>)}</select></label>
         <label className="lbl">Token 预算<input className="field" type="number" step={10000} value={form.token_budget} onChange={set("token_budget")} /></label>
         <label className="lbl flex items-center gap-2"><input type="checkbox" checked={form.hitl_always} onChange={set("hitl_always")} />每次追加调查前都请我审批</label>
+        <label className="lbl">数据模式<select className="field" value={dataMode} onChange={(e) => setDataMode(e.target.value)}>
+          <option value="hybrid_live">混合：本地优先，缺则在线拉取</option><option value="offline_golden">离线：只用冻结快照</option>
+          <option value="online_force_refresh">强制刷新在线数据</option></select></label>
+        <label className="lbl flex items-center gap-2"><input type="checkbox" checked={useMemory} onChange={(e) => setUseMemory(e.target.checked)} />复盘我之前对这家公司的研究观点</label>
         <label className="lbl">研究问题<textarea className="field" rows={5} value={form.question} onChange={set("question")} /></label>
-        <button className="btn mt-2 w-full" disabled={running || !form.ticker} onClick={start}>{running ? "运行中…" : "开始研究"}</button>
+        <button className="btn mt-2 w-full" disabled={running || !companies.length} onClick={start}>{running ? "运行中…" : "开始研究"}</button>
         <h3 className="h3 mt-4">Research Plan</h3>
         <ol className="list-decimal pl-5 text-xs">
           {report?.plan?.subtasks.map((t, i) => <li key={i}>{t.agent}：{t.objective}</li>)}
@@ -108,6 +124,7 @@ export default function Research({ openRun }: { openRun: string | null }) {
             </span>))}
         </div>
         {approval && <ApprovalCard job={approval.job} data={approval.data} onSent={() => setApproval(null)} />}
+        <LiveFeed events={events} running={running} />
         <h3 className="h3 mt-4">节点轨迹{focus && <span className="ml-2 text-xs font-normal text-slate-500">（仅 {focus}，再点一次取消）</span>}</h3>
         <div className="text-xs">{shown.map((s, i) => <SpanRow key={i} s={s} />)}</div>
       </section>

@@ -54,6 +54,9 @@ def node_plan(state: GraphState) -> dict:
         p = planner.plan(ctx)
         ctx.plan = p
         span["summary"] = f"{len(p.subtasks)} subtasks, {len(p.asks)} asks ({p.rationale})"
+    ctx.tracer.event({"type": "plan_generated", "route": ctx.route.name, "route_reasons": ctx.route.reasons,
+                      "tickers": ctx.tickers, "subtasks": [{"task_id": t.task_id, "agent": t.agent, "objective": t.objective} for t in p.subtasks],
+                      "asks": len(p.asks), "hypotheses": [h.model_dump() for h in p.hypotheses], "rationale": p.rationale})
     return {"plan": p.model_dump(), "replan_depth": 0}
 
 
@@ -85,6 +88,14 @@ def node_gather(state: GraphState) -> dict:
             with ctx.tracer.node("thesis_review") as span:
                 ctx.thesis_review = review(ctx, ThesisMemoryStore(ctx.db_url))
                 span["summary"] = f"{len(ctx.thesis_review['items'])} conditions from {len(ctx.thesis_review.get('theses', []))} earlier thesis(es)"
+            ctx.tracer.event({"type": "thesis_review", "items": ctx.thesis_review["items"], "theses": ctx.thesis_review.get("theses", []),
+                              "notes": ctx.thesis_review["notes"]})
+    seen = ctx.__dict__.setdefault("_announced_anomalies", set())
+    for code, a in ctx.anomalies.items():
+        if code not in seen:
+            seen.add(code)
+            ctx.tracer.event({"type": "anomaly_detected", "code": code, "severity": a["severity"], "message": a.get("message", ""),
+                              "category": a.get("category"), "action": "replan" if a["severity"] == "HIGH" and ctx.config.replanning else "note"})
     with ctx.tracer.node("gather") as span:
         span["summary"] = f"{len(state.get('summaries', []))} subtask summaries; anomalies={list(ctx.anomalies)}"
     return {}
@@ -169,6 +180,12 @@ def node_debate(state: GraphState) -> dict:
         _account(ctx, "debate", state)
         d = debate_mod.run_debate(ctx)
         span["summary"] = f"{len(d['rounds'])} round(s), {len(d['falsification'])} falsification criteria"
+    for r in d["rounds"]:
+        ctx.tracer.event({"type": "debate_round", "round": r["round"], "bull": [ctx.claims[c].text for c in r["bull"] if c in ctx.claims],
+                          "bear": [ctx.claims[c].text for c in r["bear"] if c in ctx.claims], "new_claims": r.get("new_claims", [])})
+    ctx.tracer.event({"type": "debate_round", "round": "summary", "falsification": [ctx.claims[c].text for c in d["falsification"] if c in ctx.claims],
+                      "fact_lock": {"rejected_arguments": len(d.get("filtered", [])), "rule": "numbers only from cited MetricRecords"},
+                      "manager_summary": d.get("manager_summary", "")})
     return {"debate": d}
 
 
@@ -204,6 +221,14 @@ def node_verify(state: GraphState) -> dict:
                         result=f"{len(ctx.pending_failures)} failure(s) in {(time.perf_counter() - t0) * 1000:.1f}ms")
         span["summary"] = (f"failures={[(f.claim_id, f.error_type) for f in ctx.pending_failures]} "
                            f"downgraded={len(ctx.uncertainties)}")
+    n_status = {s: sum(1 for c in ctx.claims.values() if c.status == s) for s in {c.status for c in ctx.claims.values()}}
+    by_type: dict[str, int] = {}
+    for f in ctx.pending_failures:
+        by_type[f.error_type] = by_type.get(f.error_type, 0) + 1
+    ctx.tracer.event({"type": "verifier_audit", "pass": state.get("verification_round", 0) + 1, "claims": len(ctx.claims),
+                      "status": n_status, "failures": [{"claim_id": f.claim_id, "tier": f.tier, "error_type": f.error_type} for f in ctx.pending_failures],
+                      "failures_by_type": by_type, "downgraded": len(ctx.uncertainties),
+                      "action": "partial_rewrite" if ctx.pending_failures else "pass"})
     return {"verification_round": state.get("verification_round", 0) + 1}
 
 
@@ -325,7 +350,7 @@ def _resolve_all(ctx: RunContext, request: ResearchRequest) -> list[str]:
 
 
 def prepare(request: ResearchRequest, config: ArchConfig, db_url: Optional[str] = None,
-            llm: Optional[BaseLLM] = None, listener: Optional[Callable] = None) -> RunContext:
+            llm: Optional[BaseLLM] = None, listener: Optional[Callable] = None, run_id: Optional[str] = None) -> RunContext:
     request = _with_tickers(request, db_url)
     live = prepare_live(request.ticker, request.as_of, request.data_mode, db_url, listener)   # Read-Through: fetch if missing
     extra_live = [prepare_live(t, request.as_of, request.data_mode, db_url, listener) for t in request.tickers[1:]]
@@ -336,7 +361,7 @@ def prepare(request: ResearchRequest, config: ArchConfig, db_url: Optional[str] 
     request = request.model_copy(update={"ticker": sec.ticker})
     tickers = [sec.ticker] + [p.ticker for p in probe.industry_peers(sec.ticker)]
     snap = create_snapshot(request.as_of, tickers, db_url)
-    run_id = f"run_{datetime.now():%Y%m%d%H%M%S}_{uuid.uuid4().hex[:6]}"
+    run_id = run_id or f"run_{datetime.now():%Y%m%d%H%M%S}_{uuid.uuid4().hex[:6]}"
     ctx = RunContext(run_id, request, config, snap.snapshot_id, db_url, llm, listener)
     ctx.live_ingestion = live.as_dict() if live else None
     ctx.tickers = _resolve_all(ctx, request)
@@ -388,14 +413,15 @@ def finalize(ctx: RunContext, rep: dict, started: datetime, latency_ms: float, p
 
 
 def run_research(request: ResearchRequest, architecture: str | ArchConfig = "B4", db_url: Optional[str] = None,
-                 llm: Optional[BaseLLM] = None, listener: Optional[Callable] = None, persist: bool = True) -> dict:
+                 llm: Optional[BaseLLM] = None, listener: Optional[Callable] = None, persist: bool = True,
+                 run_id: Optional[str] = None) -> dict:
     from .baselines import BASELINES
 
     name = architecture if isinstance(architecture, str) else architecture.name
     if isinstance(architecture, str) and architecture in BASELINES:
         return BASELINES[architecture](request, db_url=db_url, llm=llm, listener=listener, persist=persist)
     config = architecture if isinstance(architecture, ArchConfig) else ARCHITECTURES[architecture]
-    ctx = prepare(request, config, db_url, llm, listener)
+    ctx = prepare(request, config, db_url, llm, listener, run_id)
     ctx.started, ctx.t0, ctx.persist, ctx.arch_name = datetime.now(), time.perf_counter(), persist, name
     init = {"run_id": ctx.run_id, "request": json.loads(request.model_dump_json()), "snapshot_id": ctx.snapshot_id,
             "summaries": [], "handled_anomalies": [], "claim_ids": [], "shared_history": []}

@@ -26,7 +26,9 @@ from agent_runtime import ARCHITECTURES, ResearchRequest, run_research  # noqa: 
 from data_platform import quality  # noqa: E402
 from data_platform.db import (DocumentChunkRow, FinancialFactRow, ResearchRunRow, SecurityRow,  # noqa: E402
                               SourceDocumentRow, get_session_factory)
+from data_platform.data_mode import default_data_mode  # noqa: E402
 from data_platform.ingestion import GoldenFileProvider  # noqa: E402
+from data_platform.serving import PITDataService  # noqa: E402
 from data_platform.lineage import LineageRecorder  # noqa: E402
 from data_platform.versioning import list_snapshots  # noqa: E402
 
@@ -38,7 +40,10 @@ JOBS: dict[str, dict] = {}
 
 class ResearchIn(BaseModel):
     ticker: str
+    tickers: list[str] = Field(default_factory=list, max_length=4)   # comparison run: primary first
     as_of: datetime
+    data_mode: str = Field(default_factory=default_data_mode, pattern="^(offline_golden|hybrid_live|online_force_refresh)$")
+    use_memory: Optional[bool] = None
     question: str = "全面研究公司基本面、估值与风险，形成包含多空审议与证伪条件的研究报告"
     mode: str = "deep"
     architecture: str = "B4"
@@ -59,6 +64,82 @@ def architectures():
     return ["B0", "B1", "B2"] + list(ARCHITECTURES)
 
 
+def _request(body: "ResearchIn") -> ResearchRequest:
+    return ResearchRequest(ticker=body.ticker, tickers=body.tickers, as_of=body.as_of, question=body.question, mode=body.mode,  # type: ignore[arg-type]
+                           token_budget=body.token_budget, hitl=body.hitl, hitl_always=body.hitl_always,
+                           data_mode=body.data_mode, use_memory=body.use_memory)  # type: ignore[arg-type]
+
+
+@app.get("/api/catalog/search")
+def catalog_search(q: str, limit: int = 8):
+    """Type-ahead over the whole A-share market (code, name, pinyin initials). Companies already stored locally come first."""
+    from data_platform.ashare_catalog import cached_catalog
+
+    local = {s.ticker: s for s in PITDataService(datetime.now(), "search").securities()} if q.strip() else {}
+    out: list[dict] = []
+    cat = cached_catalog()
+    hits = cat.search(q, limit * 2) if cat else []
+    for e in hits:
+        out.append({"ticker": e.ticker, "name": e.name, "pinyin": e.pinyin, "local": e.ticker in local})
+    if not cat:                      # no catalog yet: search the stored companies
+        ql = q.strip().lower()
+        out = [{"ticker": t, "name": s.name, "pinyin": "", "local": True} for t, s in local.items()
+               if ql in s.name.lower() or ql in t.lower()]
+    out.sort(key=lambda r: not r["local"])
+    return {"catalog_size": len(cat) if cat else 0, "results": out[:limit]}
+
+
+@app.post("/api/research/stream")
+def research_stream(body: ResearchIn):
+    """Run a research job and stream its progress (protocol in apps/api_server/stream.py). The first event is sent before any
+    work starts. With hitl=true a run can pause: an approval_required event carries job_id for POST /api/research/{job}/approve,
+    and the same stream continues after the decision."""
+    from agent_runtime.state import ARCHITECTURES as ARCH
+    from .stream import report_event, sse, to_stream_events
+
+    if body.architecture not in architectures():
+        raise HTTPException(400, f"unknown architecture {body.architecture}")
+    job_id, run_id = uuid.uuid4().hex[:12], f"run_{datetime.now():%Y%m%d%H%M%S}_{uuid.uuid4().hex[:6]}"
+    q: queue.Queue = queue.Queue()
+    JOBS[job_id] = {"queue": q, "status": "running", "run_id": run_id, "stream": True}
+
+    def emit(raw: dict) -> None:
+        for ev in to_stream_events(raw):
+            if ev.get("type") == "approval_required":
+                ev = {**ev, "job_id": job_id}
+            q.put(ev)
+
+    def work() -> None:
+        try:
+            rep = run_research(_request(body), body.architecture, listener=emit, run_id=run_id)
+            _settle(job_id, rep)
+        except Exception as exc:  # noqa: BLE001 - surfaced to the client as an event
+            JOBS[job_id]["status"] = "error"
+            q.put({"type": "error", "message": f"{type(exc).__name__}: {exc}"})
+
+    from data_platform.ashare_catalog import cached_catalog
+
+    cat = cached_catalog()
+    named = [e.ticker for e in cat.extract(body.question, 4)] if cat else []
+    first = {"type": "run_started", "run_id": run_id, "job_id": job_id, "tickers": list(dict.fromkeys([body.ticker, *body.tickers, *named]))[:4],
+             "as_of": body.as_of.isoformat(), "data_mode": body.data_mode, "architecture": body.architecture,
+             "known_architecture": body.architecture in ARCH or body.architecture in ("B0", "B1", "B2")}
+    threading.Thread(target=work, daemon=True).start()
+
+    def gen():
+        yield sse(first)
+        while True:
+            try:
+                ev = q.get(timeout=15)
+            except queue.Empty:
+                yield ": keep-alive\n\n"
+                continue
+            yield sse(ev)
+            if ev.get("type") in ("done", "error"):
+                break
+    return StreamingResponse(gen(), media_type="text/event-stream", headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
+
+
 @app.post("/api/research")
 def start_research(body: ResearchIn):
     if body.architecture not in architectures():
@@ -69,8 +150,7 @@ def start_research(body: ResearchIn):
 
     def work():
         try:
-            req = ResearchRequest(ticker=body.ticker, as_of=body.as_of, question=body.question, mode=body.mode,
-                                  token_budget=body.token_budget, hitl=body.hitl, hitl_always=body.hitl_always)
+            req = _request(body)
             _settle(job_id, run_research(req, body.architecture, listener=q.put))
         except Exception as exc:  # noqa: BLE001 - surfaced to the client as an event
             JOBS[job_id]["status"] = "error"
@@ -86,6 +166,10 @@ def _settle(job_id: str, rep: dict) -> None:
         job.update(status="awaiting_approval", run_id=rep["run_id"], approval=rep["approval"])
         return  # the SSE stream stays open; the approval_required event was already emitted
     job.update(status="done", run_id=rep["run_id"])
+    if job.get("stream"):
+        from .stream import report_event
+
+        job["queue"].put(report_event(rep))
     job["queue"].put({"type": "done", "run_id": rep["run_id"]})
 
 
