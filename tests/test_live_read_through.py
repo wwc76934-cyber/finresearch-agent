@@ -1,6 +1,7 @@
 """Read-Through ingestion (v2.0 Epic 1): a company that is not stored locally is fetched on demand, written with PIT
 timestamps, and covered by a watermark. Network-free: a fake provider stands in for Eastmoney / cninfo / Yahoo.
 Set RUN_LIVE_TESTS=1 to also run the two tests that call the real endpoints."""
+import json
 import os
 from collections import Counter
 from datetime import date, datetime, timedelta, timezone
@@ -19,6 +20,7 @@ CATALOG = AShareCatalog.from_stock_list([
     {"code": "601899", "zwjc": "紫金矿业", "pinyin": "zjky", "orgId": "gssh0601899", "category": "A股"},
     {"code": "600519", "zwjc": "贵州茅台", "pinyin": "gzmt", "orgId": "gssh0600519", "category": "A股"},
     {"code": "000001", "zwjc": "平安银行", "pinyin": "payh", "orgId": "gssz0000001", "category": "A股"},
+    {"code": "430047", "zwjc": "诺思兰德", "pinyin": "nsld", "orgId": "gfbj0430047", "category": "A股"},
 ])
 # (REPORT_DATE, NOTICE_DATE): the notice is always later than the period end
 PERIODS = [("2024-12-31", "2025-03-18"), ("2025-03-31", "2025-04-24"), ("2025-06-30", "2025-08-20"), ("2025-09-30", "2025-10-28")]
@@ -28,14 +30,18 @@ class FakeProvider(LiveMarketProvider):
     def __init__(self, drop_notice=(), fail=()):
         self.calls = Counter()
         self.drop_notice, self.fail = set(drop_notice), set(fail)
+        self.prefixes: list[str] = []
+        self.statement_for: list[str] = []
 
     def _boom(self, name):
         self.calls[name] += 1
         if name in self.fail:
             raise RuntimeError(f"{name} is down")
 
-    def statements(self, secucode, periods=24):
+    def statements(self, secucode, periods=24, prefix="G"):
         self._boom("statements")
+        self.prefixes.append(prefix)
+        self.statement_for.append(secucode)
         inc, bal, cf = [], [], []
         for i, (rd, nd) in enumerate(PERIODS):
             notice = None if rd in self.drop_notice else nd + " 00:00:00"
@@ -65,6 +71,16 @@ class FakeProvider(LiveMarketProvider):
         ts = int((datetime(2025, 11, 5, 18, 30) - timedelta(hours=8)).replace(tzinfo=timezone.utc).timestamp() * 1000)  # 18:30 Beijing
         return [{"announcementId": "9001", "announcementTitle": "关于回购公司股份方案的公告", "announcementTime": ts,
                  "adjunctUrl": "finalpage/2025-11-05/9001.PDF"}]
+
+    def periodic_announcements(self, entry, start, end, category):
+        self._boom("periodic_announcements")
+        ts = int((datetime(2025, 10, 28, 8, 0) - timedelta(hours=8)).replace(tzinfo=timezone.utc).timestamp() * 1000)
+        return [{"announcementId": "7001", "announcementTitle": "2025年第三季度报告", "announcementTime": ts, "adjunctUrl": "f/7001.PDF"},
+                {"announcementId": "7002", "announcementTitle": "2025年第三季度报告（英文版）", "announcementTime": ts, "adjunctUrl": "f/7002.PDF"}]
+
+    def pdf_bytes(self, ann):
+        self._boom("pdf_bytes")
+        return b"%PDF-fake"
 
     def announcement_text(self, ann, pages=4, limit=3000):
         self._boom("announcement_text")
@@ -211,3 +227,108 @@ def test_real_endpoints_for_companies_outside_the_snapshot(env, ticker):
     svc = PITDataService(datetime(2025, 12, 31, 15), "live", env[0])
     assert svc.fact(ticker, "operating_revenue", date(2025, 9, 30)) is not None
     assert svc.fact(ticker, "operating_revenue", date(2025, 12, 31)) is None     # annual report not yet public
+
+
+def test_bank_uses_the_bank_statement_family(env):
+    class Bank(FakeProvider):
+        def org_info(self, secucode):
+            return {"EM2016": "银行-国有大型银行Ⅱ-国有大型银行Ⅲ", "LISTING_DATE": "1991-04-03 00:00:00"}
+    p = Bank()
+    ingestor(env, p).ensure("000001.SZ", datetime(2025, 12, 31, 15), "hybrid_live")
+    assert p.prefixes == ["B"]
+    p2 = FakeProvider()
+    ingestor(env, p2).ensure("300308.SZ", datetime(2025, 12, 31, 15), "hybrid_live")
+    assert p2.prefixes == ["G"]
+
+
+def _members(tmp_path):
+    from data_platform.live import AkshareCache
+
+    root = tmp_path / "ak"
+    root.mkdir()
+    (root / "industry_members.json").write_text(json.dumps({
+        "boards": {"通信设备": [{"code": "300308", "name": "中际旭创", "mktcap": 9e11}, {"code": "601899", "name": "紫金矿业", "mktcap": 5e11},
+                              {"code": "600519", "name": "贵州茅台", "mktcap": 2e12}, {"code": "000001", "name": "平安银行", "mktcap": None}]},
+        "by_code": {"300308": "通信设备", "601899": "通信设备", "600519": "通信设备", "000001": "通信设备"}}, ensure_ascii=False), encoding="utf-8")
+    (root / "prices_430047.json").write_text(json.dumps([
+        {"date": "2025-12-01", "open": 10, "high": 11, "low": 9, "close": 10.5, "volume": 1e5},
+        {"date": "2025-12-02", "open": 10.5, "high": 11, "low": 10, "close": 10.8, "volume": 1e5}]), encoding="utf-8")
+    return AkshareCache(root), root
+
+
+def test_peers_are_the_largest_industry_members_and_are_fetched_light(env):
+    cache, _ = _members(env[1])
+    p = FakeProvider()
+    ing = ReadThroughIngestor(env[0], provider=p, catalog=CATALOG, doc_dir=env[1] / "docs", clock=lambda: NOW, akshare=cache)
+    assert cache.peers("300308", n=2) == ["600519", "601899"]              # by market cap, never itself, None cap skipped
+    rep = ing.ensure("300308.SZ", datetime(2025, 12, 31, 15), "hybrid_live")
+    assert sorted(rep.counts["peers"]) == ["600519.SH", "601899.SH"]
+    assert sorted(set(p.statement_for)) == ["300308.SZ", "600519.SH", "601899.SH"]
+    assert p.calls["announcements"] == 1                                     # peers are fetched without announcements
+    svc = PITDataService(datetime(2025, 12, 31, 15), "x", env[0])
+    assert {s.ticker for s in svc.industry_peers("300308.SZ")} >= {"600519.SH", "601899.SH"}
+
+
+def test_without_a_member_list_the_gap_is_reported(env):
+    from data_platform.live import AkshareCache
+
+    ing = ReadThroughIngestor(env[0], provider=FakeProvider(), catalog=CATALOG, doc_dir=env[1] / "docs", clock=lambda: NOW,
+                              akshare=AkshareCache(env[1] / "none"))
+    rep = ing.ensure("300308.SZ", datetime(2025, 12, 31, 15), "hybrid_live")
+    assert any(w.startswith("peers:") and "akshare_collect.py industry" in w for w in rep.warnings)
+
+
+def test_beijing_listing_gets_prices_from_the_akshare_cache(env):
+    cache, _ = _members(env[1])
+    p = FakeProvider()
+    ing = ReadThroughIngestor(env[0], provider=p, catalog=CATALOG, doc_dir=env[1] / "docs", clock=lambda: NOW, akshare=cache)
+    rep = ing.ensure("430047.BJ", datetime(2025, 12, 31, 15), "hybrid_live", with_peers=False)
+    assert rep.counts["prices"] == 2 and p.calls["prices"] == 0
+    with get_session_factory(env[0])() as s:
+        assert s.scalars(select(MarketPriceRow).where(MarketPriceRow.ticker == "430047.BJ")).first().close == 10.5
+    nocache = ReadThroughIngestor(env[0], provider=FakeProvider(), catalog=CATALOG, doc_dir=env[1] / "docs", clock=lambda: NOW,
+                                  akshare=__import__("data_platform.live", fromlist=["AkshareCache"]).AkshareCache(env[1] / "none"))
+    rep2 = nocache.ensure("430047.BJ", datetime(2025, 12, 31, 15), "online_force_refresh", with_peers=False)
+    assert any("akshare_collect.py prices" in w for w in rep2.warnings)
+
+
+def _patch_parser(monkeypatch, revenue):
+    from rag_engine import pdf_parser
+
+    md = "# 2025年第三季度报告\n\n<!-- page 1 -->\n## 合并利润表\n| 项目 | 本期 |\n| --- | --- |\n| 营业收入 | 1 |\n" \
+         "\n<!-- page 2 -->\n## 应收账款\n| 账龄 | 金额 |\n| --- | --- |\n| 1年以内 | 100 |\n"
+    monkeypatch.setattr(pdf_parser, "parse_pdf", lambda data, title, **k: (md, {"pages": 2, "tables": 2}))
+    monkeypatch.setattr(pdf_parser, "statement_value",
+                        lambda m, stmt, pats: {"营业收入": revenue, "归属": 4e8}["营业收入" if "营业收入" in pats[0] else "归属"])
+
+
+def test_tier_b_parses_the_report_and_flags_a_vendor_value_that_disagrees(env, monkeypatch):
+    _patch_parser(monkeypatch, revenue=3.5e9)             # vendor says 4e9 for the 2025-09-30 revenue
+    ing = ingestor(env)
+    ing.ensure("300308.SZ", datetime(2025, 12, 31, 15), "hybrid_live", with_peers=False)
+    res = ing.ensure_periodic_report("300308.SZ", date(2025, 9, 30), datetime(2025, 12, 31, 15))
+    assert res["status"] == "parsed" and res["document_id"] == "doc_300308_2025Q3"
+    flags = {c["metric"]: c["restatement_suspect"] for c in res["restatement_checks"]}
+    assert flags == {"operating_revenue": True, "net_profit": False}
+    with get_session_factory(env[0])() as s:
+        from data_platform.db import DocumentChunkRow, SourceDocumentRow
+        d = s.get(SourceDocumentRow, "doc_300308_2025Q3")
+        n_chunks = len(list(s.scalars(select(DocumentChunkRow).where(DocumentChunkRow.document_id == "doc_300308_2025Q3"))))
+        wm = s.get(IngestionWatermarkRow, "300308.SZ")
+    assert d.doc_type == "q3_report" and d.published_at == datetime(2025, 10, 28, 8, 0) and d.available_at > d.published_at
+    assert n_chunks > 0 and wm.details["restatement_checks"]
+    assert ing.ensure_periodic_report("300308.SZ", date(2025, 9, 30), datetime(2025, 12, 31, 15))["status"] == "cached"
+    assert ing.ensure_periodic_report("300308.SZ", date(2025, 9, 30), datetime(2025, 10, 1))["status"] != "cached"   # not public yet
+
+
+def test_a_question_that_needs_the_notes_pulls_the_report_once(env, monkeypatch):
+    from agent_runtime import ResearchRequest, run_research
+
+    _patch_parser(monkeypatch, revenue=3.5e9)
+    set_provider_factory(lambda: FakeProvider())
+    req = ResearchRequest(ticker="300308.SZ", as_of=datetime(2025, 12, 31, 15), data_mode="hybrid_live", mode="deep",
+                          question="结合年报附注分析应收账款的账龄结构和回收风险")
+    rep = run_research(req, "B4", db_url=env[0], persist=False)
+    tools = [t["tool"] for s in rep["trace"] for t in (s.get("tool_calls") or []) if isinstance(t, dict)]
+    assert tools.count("fetch_periodic_report") == 1
+    assert any("数据商数值与财报原文不一致" in q["topic"] for q in rep["open_questions"])

@@ -51,6 +51,9 @@ KEY_WORDS = ("合同", "关联交易", "回购", "担保", "处罚", "立案", "
              "利润分配", "募集", "重大")
 PERIODIC = re.compile(r"(年度报告|半年度报告|第一季度报告|第三季度报告|年报|半年报|一季报|三季报)")
 DEADLINE = {3: (4, 30), 6: (8, 31), 9: (10, 31), 12: (4, 30)}   # statutory disclosure deadlines (annual: next year)
+PERIODIC_CATEGORY = {3: "category_yjdbg_szsh;", 6: "category_bndbg_szsh;", 9: "category_sjdbg_szsh;", 12: "category_ndbg_szsh;"}
+PERIODIC_DOC = {3: "q1_report", 6: "semi_annual_report", 9: "q3_report", 12: "annual_report"}
+SKIP_TITLE = ("摘要", "英文", "取消", "提示性")
 CONSUMER_L1 = {"食品饮料", "家用电器", "商贸零售", "社会服务", "美容护理", "纺织服饰", "农林牧渔", "轻工制造"}
 BEIJING = timedelta(hours=8)
 
@@ -74,9 +77,12 @@ class LiveMarketProvider:
                 _time.sleep(0.4 * (i + 1))
         raise RuntimeError(f"{url}: {last}")
 
-    def statements(self, secucode: str, periods: int = 24) -> dict[str, list[dict]]:
-        out = {}
+    def statements(self, secucode: str, periods: int = 24, prefix: str = "G") -> dict[str, list[dict]]:
+        """prefix: G general companies, B banks, I insurers, S securities firms (Eastmoney's own report families)."""
+        out: dict[str, list[dict]] = {}
         for kind, (rtype, sty) in EM_STATEMENTS.items():
+            if prefix != "G":
+                rtype, sty = rtype.replace("_G", f"_{prefix}"), "ALL"
             body = self._json("GET", EM_URL, params={"type": rtype, "sty": sty, "filter": f'(SECUCODE="{secucode}")',
                                                     "p": 1, "ps": periods, "sr": -1, "st": "REPORT_DATE",
                                                     "source": "HSF10", "client": "PC"})
@@ -117,6 +123,24 @@ class LiveMarketProvider:
                 break
         return out
 
+    def periodic_announcements(self, entry: CatalogEntry, start: date, end: date, category: str) -> list[dict]:
+        out: list[dict] = []
+        for page in (1, 2):
+            body = self._json("POST", CNINFO_QUERY, data={
+                "stock": f"{entry.code},{entry.org_id}", "tabName": "fulltext", "pageSize": 30, "pageNum": page,
+                "column": "sse" if entry.market == "SH" else "szse", "category": category, "plate": "", "searchkey": "",
+                "seDate": f"{start}~{end}", "isHLtitle": "true"})
+            anns = body.get("announcements") or []
+            out += anns
+            if not body.get("hasMore") or not anns:
+                break
+        return out
+
+    def pdf_bytes(self, ann: dict) -> bytes:
+        r = self.client.get(CNINFO_STATIC + ann["adjunctUrl"], timeout=40)
+        r.raise_for_status()
+        return r.content
+
     def announcement_text(self, ann: dict, pages: int = 4, limit: int = 3000) -> str:
         r = self.client.get(CNINFO_STATIC + ann["adjunctUrl"])
         r.raise_for_status()
@@ -128,6 +152,47 @@ class LiveMarketProvider:
         finally:
             doc.close()
         return "".join(l.strip() for l in text.splitlines() if l.strip())[:limit]
+
+
+# ----------------------------------------------------------------------------- AKShare cache
+AKSHARE_DIR = ROOT / "data" / "akshare_cache"
+
+
+class AkshareCache:
+    """Data that only AKShare can supply from the user's network (industry members with market cap, prices for markets
+    Yahoo does not cover). `scripts/akshare_collect.py` writes it; nothing here calls AKShare."""
+
+    def __init__(self, root: Path = AKSHARE_DIR):
+        self.root = root
+        self._members: Optional[dict] = None
+
+    def _load_members(self) -> dict:
+        if self._members is None:
+            f = self.root / "industry_members.json"
+            self._members = json.loads(f.read_text(encoding="utf-8")) if f.exists() else {}
+        return self._members
+
+    def has_industry(self) -> bool:
+        return bool(self._load_members().get("boards"))
+
+    def board_of(self, code: str) -> Optional[str]:
+        return (self._load_members().get("by_code") or {}).get(code)
+
+    def peers(self, code: str, n: int = 5) -> list[str]:
+        """Codes of the n largest (by market cap) other members of the company's industry board."""
+        m = self._load_members()
+        board = self.board_of(code)
+        if not board:
+            return []
+        rows = [r for r in m["boards"].get(board, []) if r["code"] != code and r.get("mktcap")]
+        rows.sort(key=lambda r: -float(r["mktcap"]))
+        return [r["code"] for r in rows[:n]]
+
+    def prices(self, code: str) -> list[dict]:
+        f = self.root / f"prices_{code}.json"
+        if not f.exists():
+            return []
+        return [{**r, "date": date.fromisoformat(r["date"])} for r in json.loads(f.read_text(encoding="utf-8"))]
 
 
 # ----------------------------------------------------------------------------- helpers
@@ -215,8 +280,12 @@ def prepare_live(query: str, as_of: datetime, mode: str, db_url: Optional[str] =
     entry = cat.resolve(query) if cat else None
     if entry is None:
         return None
+    return make_ingestor(db_url, cat).ensure(entry.ticker, as_of, mode, listener)
+
+
+def make_ingestor(db_url: Optional[str] = None, catalog: Optional[AShareCatalog] = None) -> "ReadThroughIngestor":
     provider = _PROVIDER_FACTORY() if _PROVIDER_FACTORY else None
-    return ReadThroughIngestor(db_url, provider=provider, catalog=cat).ensure(entry.ticker, as_of, mode, listener)
+    return ReadThroughIngestor(db_url, provider=provider, catalog=catalog or get_catalog())
 
 
 # ----------------------------------------------------------------------------- the ingestor
@@ -226,13 +295,14 @@ class ReadThroughIngestor:
 
     def __init__(self, db_url: Optional[str] = None, provider: Optional[LiveMarketProvider] = None,
                  catalog: Optional[AShareCatalog] = None, doc_dir: Path = LIVE_DOC_DIR,
-                 clock: Callable[[], datetime] = datetime.now):
+                 clock: Callable[[], datetime] = datetime.now, akshare: Optional[AkshareCache] = None):
         self.db_url = db_url
         self.Session = get_session_factory(db_url)
         self.provider = provider or LiveMarketProvider()
         self._catalog = catalog
         self.doc_dir = doc_dir
         self.clock = clock
+        self.akshare = akshare or AkshareCache()
 
     @property
     def catalog(self) -> Optional[AShareCatalog]:
@@ -270,7 +340,7 @@ class ReadThroughIngestor:
 
     # ------------------------------------------------------------ entry point
     def ensure(self, ticker: str, as_of: datetime, mode: str = "hybrid_live",
-               listener: Optional[Callable[[dict], None]] = None) -> IngestReport:
+               listener: Optional[Callable[[dict], None]] = None, with_peers: bool = True) -> IngestReport:
         if mode == "offline_golden":
             return IngestReport(ticker, "skipped_offline")
         entry = self.catalog.get(ticker) if self.catalog else None
@@ -281,57 +351,166 @@ class ReadThroughIngestor:
                 return IngestReport(ticker, "hit")
             if entry is None:
                 return IngestReport(ticker, "unknown_security", warnings=["not in the A-share catalog and not stored locally"])
-            return self._fetch(entry, as_of, listener or (lambda ev: None))
+            return self._fetch(entry, as_of, listener or (lambda ev: None), with_peers=with_peers)
 
     # ------------------------------------------------------------ fetch + store
-    def _fetch(self, entry: CatalogEntry, as_of: datetime, emit: Callable[[dict], None]) -> IngestReport:
+    def _fetch(self, entry: CatalogEntry, as_of: datetime, emit: Callable[[dict], None], lite: bool = False,
+               with_peers: bool = True) -> IngestReport:
+        """lite: statements, industry and prices only (used for peers; no announcements, no peers of peers)."""
         t0 = _time.perf_counter()
         t = entry.ticker
         rep = IngestReport(t, "fetched")
         emit({"type": "live_ingestion_status", "ticker": t,
               "message": f"正在从东方财富/巨潮资讯同步 {t} {entry.name} 的历史财报与 PIT 时间戳..."})
         end = min(as_of.date(), self.clock().date())
+
+        def result(fut, name, default):
+            if fut is None:
+                rep.degraded += 1
+                rep.warnings.append(f"{name}: no source for {entry.market}")
+                return default
+            try:
+                return fut.result()
+            except Exception as exc:  # noqa: BLE001 - one source down must not stop the run
+                rep.degraded += 1
+                rep.warnings.append(f"{name}: {type(exc).__name__}: {str(exc)[:120]}")
+                return default
         with ThreadPoolExecutor(max_workers=5) as ex:
-            f_st = ex.submit(self.provider.statements, t)
             f_org = ex.submit(self.provider.org_info, t)
             sym = yahoo_symbol(entry)
             f_px = ex.submit(self.provider.prices, sym, end - timedelta(days=3 * 365 + 10), end + timedelta(days=1)) if sym else None
-            f_an = ex.submit(self.provider.announcements, entry, end - timedelta(days=548), end)
-
-            def result(fut, name, default):
-                if fut is None:
-                    rep.degraded += 1
-                    rep.warnings.append(f"{name}: no source for {entry.market}")
-                    return default
-                try:
-                    return fut.result()
-                except Exception as exc:  # noqa: BLE001 - one source down must not stop the run
-                    rep.degraded += 1
-                    rep.warnings.append(f"{name}: {type(exc).__name__}: {str(exc)[:120]}")
-                    return default
-            stmts = result(f_st, "statements", {})
+            f_an = None if lite else ex.submit(self.provider.announcements, entry, end - timedelta(days=548), end)
             org = result(f_org, "org_info", {})
-            bars = result(f_px, "prices", [])
-            anns = result(f_an, "announcements", [])
+            parts = [x for x in str(org.get("EM2016") or "").split("-") if x]
+            template = template_of(*(parts + ["未知", "未知"])[:2]) if parts else "manufacturing"
+            prefix = {"bank": "B", "insurance": "I", "broker": "S"}.get(template, "G")
+            stmts = result(ex.submit(self.provider.statements, t, 24, prefix), "statements", {})
+            bars = result(f_px, "prices", []) if sym else []
+            anns = [] if lite else result(f_an, "announcements", [])
+        if not bars:       # Yahoo has no Beijing listings and can be down: fall back to the AKShare cache
+            bars = [b for b in self.akshare.prices(entry.code) if b["date"] <= end]
+            if bars:
+                rep.warnings.append("prices: from the AKShare cache")
+            elif entry.market == "BJ" or sym is None:
+                rep.warnings.append("prices: run `python scripts/akshare_collect.py prices --tickers %s` to add them" % t)
         cal = TradingCalendar([b["date"] for b in bars])
         sec = self._store_security(entry, org)
         rep.counts["facts"] = self._store_facts(t, stmts, cal, rep)
         rep.counts["prices"] = self._store_prices(t, bars, stmts)
-        emit({"type": "live_ingestion_status", "ticker": t, "message": f"{t}: 财报 {rep.counts['facts']} 条、行情 {rep.counts['prices']} 条已入库，正在处理公告..."})
-        rep.counts["documents"] = self._store_documents(entry, anns, cal, rep)
+        emit({"type": "live_ingestion_status", "ticker": t, "message": f"{t}: 财报 {rep.counts['facts']} 条、行情 {rep.counts['prices']} 条已入库"})
+        rep.counts["documents"] = 0 if lite else self._store_documents(entry, anns, cal, rep)
         rep.counts["industry"] = f"{sec.industry_sw_l1}/{sec.industry_sw_l2}"
-        if sec.template != "manufacturing" and sec.template != "consumer":
-            rep.warnings.append(f"template={sec.template}: financial-sector statements use other line items; "
-                                "ratios built for non-financial companies are not meaningful")
+        if sec.template in ("bank", "insurance", "broker"):
+            rep.warnings.append(f"template={sec.template}: statements come from the {prefix}-family reports; gross margin, "
+                                "inventory and receivable-days style ratios do not apply and stay empty")
         rep.warnings.append("statement values are the vendor's latest per period and were not cross-checked against the "
-                            "filing PDF; a later restatement may be visible to an earlier as_of")
+                            "filing PDF unless a periodic report was parsed (see details.restatement_checks)")
         got = rep.counts["facts"] or rep.counts["prices"] or rep.counts["documents"]
         rep.status = ("partial" if rep.degraded else "fetched") if got else "failed"
         self._set_watermark(t, as_of, end, bars, rep)
+        if with_peers and not lite:
+            rep.counts["peers"] = self._ensure_peers(entry, as_of, emit, rep)
         rep.elapsed_s = _time.perf_counter() - t0
         emit({"type": "live_ingestion_status", "ticker": t, "status": rep.status, "counts": rep.counts,
               "message": f"{t} 同步完成（{rep.elapsed_s:.1f}s，{rep.status}）"})
         return rep
+
+    def _ensure_peers(self, entry: CatalogEntry, as_of: datetime, emit: Callable[[dict], None], rep: IngestReport,
+                      n: int = 5) -> list[str]:
+        """The n largest companies of the same industry board, fetched in lite mode so peer valuation has data.
+        The member list needs AKShare (scripts/akshare_collect.py industry); without it only locally stored
+        companies of the same industry can be peers."""
+        if not self.akshare.has_industry():
+            rep.warnings.append("peers: no industry member list; run `python scripts/akshare_collect.py industry` "
+                                "(peers fall back to companies already stored locally)")
+            return []
+        cat = self.catalog
+        codes = self.akshare.peers(entry.code, n)
+        peers = [cat.by_code[c] for c in codes if cat and c in cat.by_code]
+        todo = [p for p in peers if self.needs_fetch(p.ticker, as_of, "hybrid_live")]
+        if todo:
+            emit({"type": "live_ingestion_status", "ticker": entry.ticker,
+                  "message": f"正在同步同业可比公司：{'、'.join(p.name for p in todo)}"})
+            with ThreadPoolExecutor(max_workers=min(len(todo), 5)) as ex:
+                list(ex.map(lambda p: self._fetch(p, as_of, lambda ev: None, lite=True, with_peers=False), todo))
+        return [p.ticker for p in peers]
+
+    # ------------------------------------------------------------ Tier-B: a whole periodic report, on demand
+    def _calendar(self, ticker: str) -> TradingCalendar:
+        with self.Session() as s:
+            days = list(s.execute(select(MarketPriceRow.trade_date).where(MarketPriceRow.ticker == ticker)).scalars())
+        return TradingCalendar(days)
+
+    def ensure_periodic_report(self, ticker: str, period_end: date, as_of: datetime,
+                               emit: Optional[Callable[[dict], None]] = None) -> dict:
+        """Download and parse the periodic report of one period (all notes become searchable), store it, and compare the
+        statement totals with the vendor figures already stored. Slow (tens of seconds): only called when a sub-graph
+        needs a note it cannot find."""
+        from rag_engine.chunking import chunk_document
+        from rag_engine.index import get_retriever
+        from rag_engine.pdf_parser import parse_pdf, statement_value
+
+        emit = emit or (lambda ev: None)
+        entry = self.catalog.get(ticker) if self.catalog else None
+        if entry is None:
+            return {"status": "unknown_security"}
+        did = f"doc_{entry.code}_{period_end.year}Q{(period_end.month - 1) // 3 + 1}"
+        with self.Session() as s:
+            have = s.get(SourceDocumentRow, did)
+            if have is not None and have.available_at <= as_of:
+                return {"status": "cached", "document_id": did}
+        emit({"type": "live_ingestion_status", "ticker": ticker, "message": f"正在下载并解析 {period_end} 定期报告全文（按需）..."})
+        try:
+            anns = self.provider.periodic_announcements(entry, period_end + timedelta(days=1),
+                                                        min(as_of.date(), self.clock().date()), PERIODIC_CATEGORY[period_end.month])
+            anns = [a for a in anns if str(period_end.year) in a["announcementTitle"]
+                    and not any(w in a["announcementTitle"] for w in SKIP_TITLE)]
+            if not anns:
+                return {"status": "not_found", "document_id": did}
+            ann = max(anns, key=lambda a: a["announcementTime"])
+            md, stats = parse_pdf(self.provider.pdf_bytes(ann), f"{entry.name}（{ticker}）{ann['announcementTitle']}")
+        except Exception as exc:  # noqa: BLE001 - network, download or parse failure: the caller records an open question
+            return {"status": "failed", "document_id": did, "error": f"{type(exc).__name__}: {str(exc)[:120]}"}
+        pub = datetime.fromtimestamp(ann["announcementTime"] / 1000, tz=timezone.utc).replace(tzinfo=None) + BEIJING
+        avail = self._calendar(ticker).open_at_or_after(pub)
+        self.doc_dir.mkdir(parents=True, exist_ok=True)
+        (self.doc_dir / f"{did}.md").write_text(md, encoding="utf-8")
+        checks = self._crosscheck(ticker, period_end, md, statement_value)
+        with self.Session() as s:
+            s.merge(SourceDocumentRow(
+                document_id=did, ticker=ticker, title=f"{entry.name}{ann['announcementTitle']}", doc_type=PERIODIC_DOC[period_end.month],
+                period_end=period_end, published_at=pub, available_at=avail, content_hash=hashlib.sha256(md.encode()).hexdigest(),
+                path=f"../data/live_docs/{did}.md", version=1))
+            s.execute(delete(DocumentChunkRow).where(DocumentChunkRow.document_id == did))
+            for c in chunk_document(did, ticker, f"{period_end.year}Q{(period_end.month - 1) // 3 + 1}",
+                                    PERIODIC_DOC[period_end.month], md, avail, anchors=True):
+                s.add(DocumentChunkRow(**c.__dict__))
+            wm = s.get(IngestionWatermarkRow, ticker)
+            if wm is not None:
+                details = dict(wm.details or {})
+                details["restatement_checks"] = [c for c in details.get("restatement_checks", []) if c["period"] != str(period_end)] + checks
+                wm.details = details
+            s.commit()
+        get_retriever.cache_clear()
+        return {"status": "parsed", "document_id": did, "pages": stats.get("pages"), "tables": stats.get("tables"),
+                "restatement_checks": checks}
+
+    def _crosscheck(self, ticker: str, period_end: date, md: str, statement_value: Callable[..., Optional[float]]) -> list[dict]:
+        rows = {"operating_revenue": ("合并利润表", (r"其中营业收入", r"营业收入")),
+                "net_profit": ("合并利润表", (r"归属于母公司(股东|所有者)的净利润",))}
+        out: list[dict] = []
+        with self.Session() as s:
+            for metric, (stmt, pats) in rows.items():
+                f = s.scalars(select(FinancialFactRow).where(FinancialFactRow.ticker == ticker, FinancialFactRow.metric == metric,
+                                                             FinancialFactRow.period_end == period_end,
+                                                             FinancialFactRow.source == LIVE_SOURCE)).first()
+                filing = statement_value(md, stmt, pats)
+                if f is None or filing is None:
+                    continue
+                diff = abs(filing - f.value) / max(abs(f.value), 1.0)
+                out.append({"period": str(period_end), "metric": metric, "vendor": f.value, "filing_pdf": filing,
+                            "rel_diff": round(diff, 5), "restatement_suspect": diff > 0.003})
+        return out
 
     def _store_security(self, entry: CatalogEntry, org: dict) -> SecurityRow:
         em = str(org.get("EM2016") or "")

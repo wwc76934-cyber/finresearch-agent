@@ -332,6 +332,7 @@ def f_topic_notes(s: SubState) -> dict:
     for pat, query in NOTE_TOPICS:
         if not re.search(pat, q):
             continue
+        tools.ensure_report_docs(ctx)      # live company: the notes need the full report (Tier-B), once per run
         hit_ids = _named_report_hits(ctx, q, query) or tools.retrieve_latest_first(ctx, query, ["NOTES"], top_k=2)
         for h in hit_ids[:1]:
             c = h.parent or h.chunk
@@ -367,6 +368,7 @@ def f_crosscheck(s: SubState) -> dict:
         an = ctx.anomalies.get(code)
         if not an or an.get("crosschecked"):
             continue
+        tools.ensure_report_docs(ctx)
         found = explain_anomaly(ctx, code, query, [section], an.get("evidence_ids", []), "fundamental", prefix="交叉核验")
         an["crosschecked"] = bool(found)
         ids += found
@@ -575,6 +577,7 @@ def i_investigate(s: SubState) -> dict:
     ctx = _ctx(s)
     t = s["task"]
     an = ctx.anomalies.get(t["anomaly_code"], {})
+    tools.ensure_report_docs(ctx)
     ids = explain_anomaly(ctx, t["anomaly_code"], t["query"], t.get("section_types"), an.get("evidence_ids", []),
                           "investigate")
     if not ids:

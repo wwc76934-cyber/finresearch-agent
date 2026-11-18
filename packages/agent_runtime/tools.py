@@ -137,6 +137,31 @@ def retrieve_document_evidence(ctx: RunContext, query: str, section_types: Optio
     return call_with_recovery(ctx, "retrieve_document_evidence", {"query": query, "sections": section_types}, run)
 
 
+def ensure_report_docs(ctx: RunContext) -> None:
+    """Tier-B (v2.0): a company fetched on demand has only its key announcements locally. When a sub-graph needs the notes
+    of the latest periodic report and it is not stored, download and parse it once, then refresh the retriever."""
+    if ctx.request.data_mode == "offline_golden" or getattr(ctx, "_tier_b_done", False):
+        return
+    ctx._tier_b_done = True        # type: ignore[attr-defined]  # at most one attempt per run
+    pe = latest_period(ctx)
+    if pe is None or latest_report_doc_ids(ctx):
+        return
+    from data_platform.live import make_ingestor
+
+    res = make_ingestor(ctx.db_url).ensure_periodic_report(ctx.ticker, pe, ctx.request.as_of)
+    ctx.tracer.tool("fetch_periodic_report", {"ticker": ctx.ticker, "period": str(pe)}, result=res.get("status"))
+    if res.get("status") == "parsed":
+        from rag_engine.index import get_retriever
+
+        ctx.retriever = get_retriever(ctx.db_url, anchors=ctx.config.rag_anchors_prefilter)
+        bad = [c for c in res.get("restatement_checks", []) if c.get("restatement_suspect")]
+        if bad:
+            ctx.open_questions.append({"topic": f"{pe} {', '.join(c['metric'] for c in bad)}: 数据商数值与财报原文不一致",
+                                       "reason": "疑似重述：数据商给出的是后来的修订值，早于更新日的 as_of 可能看到它"})
+    elif res.get("status") in ("failed", "not_found"):
+        ctx.open_questions.append({"topic": f"{pe} 定期报告全文未能获取", "reason": str(res.get("error") or res.get("status"))})
+
+
 def latest_report_doc_ids(ctx: RunContext) -> list[str]:
     pe = latest_period(ctx)
     return [d.document_id for d in ctx.svc.documents(ctx.ticker) if d.period_end == pe and d.doc_type != "announcement"]
