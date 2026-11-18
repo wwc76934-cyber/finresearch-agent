@@ -61,7 +61,12 @@ jobs:
           VECTOR_BACKEND: pgvector
           DATABASE_URL: postgresql+psycopg://postgres:ci@localhost:5432/finresearch
           FINRESEARCH_TEST_PG_URL: postgresql+psycopg://postgres:ci@localhost:5432/finresearch
-        run: pytest -q tests/test_infra.py
+        run: |
+          set +e
+          pytest -q -rfE --tb=short tests/test_infra.py 2>&1 | tee pg.txt
+          rc=${PIPESTATUS[0]}
+          grep -E '^(FAILED|ERROR|E  )' pg.txt | head -12 | while IFS= read -r l; do echo "::error::$l"; done
+          exit $rc
 
   web:
     runs-on: ubuntu-latest
