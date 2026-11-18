@@ -1,6 +1,6 @@
 # FinResearch Agent
 
-A 股多智能体投研系统，含金融数据中台（PIT + 血缘）与 Agent 评测中台（B0–B4 基线 + 7 项消融）。
+A 股多智能体投研系统，含金融数据中台（PIT + 血缘）与 Agent 评测中台（B0–B4 基线 + 消融）。v2.0 起支持全 A 股按需在线拉取、假设驱动的开放问题、多公司对比、跨期观点复盘和流式进度。
 
 > 数据：**8 家真实 A 股**（宁德时代、亿纬锂能、比亚迪、隆基绿能、贵州茅台、五粮液、美的集团、格力电器；东方财富三表 + 巨潮原始财报 PDF + Yahoo 日线），以及 6 家**虚构“实验室”公司**（99000x，用于故障注入）。仅供研究，不构成投资建议。
 
@@ -11,8 +11,9 @@ uv venv .venv && uv pip install -e ".[dev]"      # 或 pip install -e ".[dev]"
 python scripts/bootstrap.py                       # 入库两套快照 + 质量校验 + 切片索引（SQLite: data/finresearch.db）
 python scripts/run_research.py 300750.SZ 2025-12-31 --pdf   # 宁德时代 B4 研报（Markdown + JSON + PDF）→ reports/
 python -m uvicorn apps.api_server.main:app --host 127.0.0.1 --port 8000   # 打开 http://127.0.0.1:8000
-python scripts/run_experiments.py                 # 离线矩阵：12 架构 × 140 题 + 检索评测 → EVALUATION.md 表格
-python -m pytest -q                               # 56 个测试（含回归集、真实数据测试）
+python scripts/run_experiments.py                 # 离线矩阵：18 架构 × 195 题 + 检索评测 → reports/eval/EVALUATION_generated.md
+python -m pytest -q                               # 约 170 个测试（含回归集、真实数据、在线穿透、流式接口）
+mypy packages apps                                # 新模块严格；旧模块的类型债务见 pyproject.toml
 ```
 
 真实快照已提交在 `benchmarks/real_snapshot/`。要从头重建（需联网，约 200MB 原始缓存、解析约 1 小时）：
@@ -32,6 +33,19 @@ npm run dev                                          # 开发模式 http://127.0
 ```
 
 未构建时 `/` 只显示构建提示（原生 JS 版 `web_workspace` 已在 v1.2 删除）；API 文档在 `/docs`。前端含：投研工作台（含 Trace 时间线）、评测中台、数据质量、因子回测。
+
+### v2.0：全市场、开放问题、对比、记忆、流式
+
+| 能力 | 怎么用 | 细节 |
+|---|---|---|
+| 全 A 股在线穿透 | 工作台里搜任意 A 股；或 `ResearchRequest(data_mode="hybrid_live")` | 本地没有（或本地数据早于 as_of）就按需拉取并按披露日入库；`offline_golden` 只读冻结快照，所有基准和测试用它 |
+| 同业对比 | 问题里点名 2–4 家，或在选择器里选多家 | 共同的最新报告期，所有数字来自计算器；银行与制造业混比时毛利率标"不适用" |
+| 开放问题 | 直接问"海外业务、客户集中度、资本开支转化……" | 规划器拆成子假设，子图最多 2 个检索短语 + 1 次改写去找年报原文，找不到就写进"待解答" |
+| 观点记忆与复盘 | 对同一公司在更晚的时点再研究一次 | 上次的证伪条件会被重新检验：`CONFIRMED` / `WEAKENED` / `FALSIFIED` |
+| 流式进度 | `POST /api/research/stream` | 首个事件在任何计算开始之前发出；8 类事件见 `apps/api_server/stream.py` |
+| 同业与北交所行情 | `python scripts/akshare_collect.py industry`、`... prices --tickers 430047.BJ` | 在能访问 AKShare 的网络里运行，输出放进 `data/akshare_cache/` |
+
+数据模式环境变量：`FINRESEARCH_DATA_MODE=offline_golden|hybrid_live|online_force_refresh`（默认 hybrid_live）。设计、取舍和已知限制见 `docs/V2_REVIEW_AND_PLAN.md`。
 
 ### Demo 录屏
 

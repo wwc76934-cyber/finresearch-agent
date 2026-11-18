@@ -109,6 +109,7 @@ class ResearchThesisRow(Base):
     falsification_criteria: Mapped[list] = mapped_column(JSON)      # [{metric, comparator, threshold, baseline, label, ...}]
     locked_metrics_snapshot: Mapped[dict] = mapped_column(JSON)     # metric values at the time, plus the report period
     created_at: Mapped[str] = mapped_column(String(19))
+    scope: Mapped[str] = mapped_column(String(64), default="", index=True)   # "" = the user's memory; benchmarks use their own
 
 
 class DataSnapshotRow(Base):
@@ -301,7 +302,8 @@ def _add_missing_columns(engine) -> None:
         for col in table.columns:
             if col.name not in have:
                 ddl = col.type.compile(dialect=engine.dialect)
-                default = " DEFAULT 0" if isinstance(col.type, Boolean) else ""
+                default = " DEFAULT 0" if isinstance(col.type, Boolean) else (
+                    " DEFAULT ''" if col.default is not None and getattr(col.default, "arg", None) == "" else "")
                 with engine.begin() as conn:
                     conn.execute(text(f'ALTER TABLE {table.name} ADD COLUMN {col.name} {ddl}{default}'))
 

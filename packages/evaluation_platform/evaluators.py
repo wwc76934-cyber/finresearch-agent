@@ -341,6 +341,66 @@ def semantic_trap(task: dict, rep: dict) -> Optional[dict]:
             "claim_id": sf["applied"]}
 
 
+@evaluator("hypothesis_resolution")
+def hypothesis_resolution(task: dict, rep: dict) -> Optional[dict]:
+    """Open cross-dimension questions: the plan must turn the question into sub-hypotheses, every one must end as a cited
+    document claim or a named open question (never silently dropped), and each topic the filings are known to cover must
+    be found."""
+    exp = task["expected"].get("hypotheses")
+    if not exp:
+        return None
+    plan = (rep.get("plan") or {}).get("hypotheses") or []
+    kept = {c["claim_id"]: c for c in kept_claims(rep)}
+    cited: dict[str, dict] = {}                      # sub_id -> a kept claim quoting a PIT-safe document for it
+    for c in kept.values():
+        m = re.search(r"对应假设\[(H\d+)\]", c["text"])
+        if m and any(rep["evidence"].get(e, {}).get("kind") == "document" and rep["evidence"][e]["available_at"] <= rep["as_of"]
+                     for e in c["evidence_ids"]):
+            cited.setdefault(m.group(1), c)
+    for sub, cid in (rep.get("hypothesis_links") or {}).items():       # answered by a claim the run already had
+        linked = kept.get(cid)
+        if linked and any(rep["evidence"].get(e, {}).get("kind") == "document" for e in linked["evidence_ids"]):
+            cited.setdefault(sub, linked)
+    asked = {q["topic"].split("]")[0].lstrip("假设[") for q in rep.get("open_questions", []) if q["topic"].startswith("假设[")}
+    by_stmt = {h["hypothesis_statement"]: h["sub_id"] for h in plan}
+    checks = {"enough_hypotheses": len(plan) >= exp["min"],
+              "all_resolved": bool(plan) and all(h["sub_id"] in cited or h["sub_id"] in asked for h in plan),
+              **{f"found:{s}": by_stmt.get(s) in cited for s in exp["must_find"]}}
+    return {"score": sum(checks.values()) / len(checks), "checks": checks, "hypotheses": len(plan)}
+
+
+@evaluator("comparison_accuracy")
+def comparison_accuracy(task: dict, rep: dict) -> Optional[dict]:
+    """Multi-company comparison: companies, shared period and every matrix cell equal the independently computed ones; every
+    comparison sentence survived verification."""
+    exp = task["expected"].get("comparison")
+    if not exp:
+        return None
+    got = rep.get("comparison") or {}
+    cells = [(r["metric"], t, v) for r in exp["rows"] for t, v in r["values"].items()]
+    have = {(r["metric"], t): v for r in got.get("rows", []) for t, v in r["values"].items()}
+    ok = sum(1 for m, t, v in cells if have.get((m, t)) == v)
+    same_set = [t["ticker"] for t in got.get("tickers", [])] == exp["tickers"] and got.get("period") == exp["period"]
+    sentences = [c for c in kept_claims(rep) if c["section"] == "comparison"]
+    all_claims = [c for c in rep["claims"].values() if c["section"] == "comparison"]
+    clean = bool(all_claims) and len(sentences) == len(all_claims)
+    score = (ok / len(cells)) * (1.0 if same_set else 0.0) * (1.0 if clean else 0.0)
+    return {"score": score, "cells": f"{ok}/{len(cells)}", "same_companies_and_period": same_set, "all_sentences_verified": clean}
+
+
+@evaluator("thesis_review_accuracy")
+def thesis_review_accuracy(task: dict, rep: dict) -> Optional[dict]:
+    """Cross-period review: each earlier falsification condition is re-tested with the status the calculators imply."""
+    exp = task["expected"].get("review")
+    if exp is None:
+        return None
+    items = {i["metric"]: i for i in (rep.get("thesis_review") or {}).get("items", [])}
+    kept = {c["claim_id"] for c in kept_claims(rep)}
+    checks = {m: (m in items and items[m]["status"] == st and items[m]["claim_id"] in kept) for m, st in exp.items()}
+    return {"score": (sum(checks.values()) / len(checks)) if checks else 0.0, "checks": checks,
+            "got": {m: i["status"] for m, i in items.items()}, "expected": exp}
+
+
 @evaluator("conflict_handling")
 def conflict_handling(task: dict, rep: dict) -> Optional[dict]:
     if not task["expected"].get("conflict"):
@@ -423,7 +483,8 @@ def evaluate(task: dict, rep: dict) -> dict:
 def task_passed(scores: dict, task: Optional[dict] = None) -> bool:
     checks = []
     keys = ["numerical_accuracy", "anomaly_recall", "attribution", "refusal", "conflict_handling", "recovery",
-            "factor_caveats", "multidoc_coverage", "semantic_trap"]
+            "factor_caveats", "multidoc_coverage", "semantic_trap", "hypothesis_resolution", "comparison_accuracy",
+            "thesis_review_accuracy"]
     if task and task["expected"].get("expect_downgrade"):
         keys.remove("numerical_accuracy")  # the right outcome is an uncertainty statement, not a number
     for k in keys:

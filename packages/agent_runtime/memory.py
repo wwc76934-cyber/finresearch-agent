@@ -17,7 +17,7 @@ from typing import Any, Optional
 
 from data_platform.db import ResearchThesisRow, get_session_factory
 from data_platform.serving import label_to_end, period_label
-from sqlalchemy import select
+from sqlalchemy import delete, select
 
 from .context import RunContext, fmt
 from .state import ResearchRequest
@@ -87,14 +87,25 @@ class ThesisMemoryStore:
         with self.Session() as s:
             s.add(ResearchThesisRow(thesis_id=tid, ticker=ctx.ticker, as_of_date=ctx.as_of.date().isoformat(), run_id=ctx.run_id,
                                     stance=stance_of(ctx), core_thesis_summary=summary[:500], falsification_criteria=specs,
-                                    locked_metrics_snapshot=snap, created_at=datetime.now().isoformat(timespec="seconds")))
+                                    locked_metrics_snapshot=snap, created_at=datetime.now().isoformat(timespec="seconds"),
+                                    scope=ctx.request.memory_scope))
             s.commit()
         return tid
 
     # ------------------------------------------------------------ read
-    def prior(self, ticker: str, before: datetime, limit: int = 2) -> list[ResearchThesisRow]:
+    def purge(self, scope: str) -> int:
+        """Delete a benchmark scope's theses (never the user's own, whose scope is empty)."""
+        if not scope:
+            return 0
+        with self.Session() as s:
+            n = s.execute(delete(ResearchThesisRow).where(ResearchThesisRow.scope == scope)).rowcount
+            s.commit()
+        return int(n or 0)
+
+    def prior(self, ticker: str, before: datetime, limit: int = 2, scope: str = "") -> list[ResearchThesisRow]:
         with self.Session() as s:
             rows = list(s.scalars(select(ResearchThesisRow).where(ResearchThesisRow.ticker == ticker,
+                                                                  ResearchThesisRow.scope == scope,
                                                                   ResearchThesisRow.as_of_date < before.date().isoformat())
                                   .order_by(ResearchThesisRow.as_of_date.desc(), ResearchThesisRow.created_at.desc())))
         seen: set[str] = set()
@@ -107,7 +118,7 @@ class ThesisMemoryStore:
 
     def listing(self, ticker: Optional[str] = None, limit: int = 30) -> list[dict]:
         with self.Session() as s:
-            stmt = select(ResearchThesisRow).order_by(ResearchThesisRow.created_at.desc()).limit(limit)
+            stmt = select(ResearchThesisRow).where(ResearchThesisRow.scope == "").order_by(ResearchThesisRow.created_at.desc()).limit(limit)
             if ticker:
                 stmt = stmt.where(ResearchThesisRow.ticker == ticker)
             return [{"thesis_id": r.thesis_id, "ticker": r.ticker, "as_of_date": r.as_of_date, "stance": r.stance,
@@ -121,7 +132,7 @@ def review(ctx: RunContext, store: Optional[ThesisMemoryStore] = None) -> dict[s
     `review` section and returns a summary for the report and the debate."""
     store = store or ThesisMemoryStore(ctx.db_url)
     out: dict[str, Any] = {"items": [], "notes": []}
-    priors = store.prior(ctx.ticker, ctx.as_of)
+    priors = store.prior(ctx.ticker, ctx.as_of, scope=ctx.request.memory_scope)
     if not priors:
         return out
     pe_new = ctx.svc.latest_period(ctx.ticker)

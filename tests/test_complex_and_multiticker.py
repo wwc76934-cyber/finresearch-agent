@@ -65,8 +65,8 @@ def test_subgraph_searches_for_the_hypotheses_and_every_outcome_is_visible():
     for c in found:                                                         # a found claim quotes a filing and is PIT-safe
         assert c["evidence_ids"] and all(rep["evidence"][e]["kind"] == "document" for e in c["evidence_ids"])
         assert all(rep["evidence"][e]["available_at"] <= rep["as_of"] for e in c["evidence_ids"])
-    assert all(len([x for x in calls if x["args"].get("sub_id") == h["sub_id"] and x["args"].get("step") in (1, 2)]) <= 3
-               for h in rep["plan"]["hypotheses"])                          # bounded: two phrases + at most one rewrite
+    assert all(len([x for x in calls if x["args"].get("sub_id") == h["sub_id"] and x["args"].get("step") in (1, 2)]) <= 5
+               for h in rep["plan"]["hypotheses"])                          # bounded: two phrases, a topic-words retry each, one rewrite
 
 
 def test_react_lite_can_be_switched_off():
@@ -162,3 +162,39 @@ def test_the_judge_reads_the_part_of_the_evidence_that_the_claim_quotes():
     out = judge_excerpt("在建工程 5495242187.20", ex)
     assert "5495242187.20" in out and len(out) <= 520
     assert judge_excerpt("短", "很短的证据") == "很短的证据"
+
+# ------------------------------------------------------------------ the 20-task set (benchmarks/tasks/complex_v1.jsonl)
+def _complex_results(arch):
+    from evaluation_platform.runner import run_experiment
+
+    p = run_experiment([arch], datasets=("complex",), workers=1, persist_archs=(), write_latest=False, name=f"test_complex_{arch}")
+    return {r["task_id"]: r for r in p["results"]}
+
+
+def test_the_complex_set_has_the_promised_shape_and_independent_answers():
+    from evaluation_platform.datasets import load_tasks
+
+    tasks = load_tasks(("complex",))
+    cats = [t["category"] for t in tasks]
+    assert len(tasks) == 20 and cats.count("complex_open") == 10 and cats.count("multi_compare") == 6 and cats.count("thesis_review") == 4
+    for t in tasks:
+        if t["category"] == "complex_open":
+            assert t["expected"]["hypotheses"]["min"] >= 2 and set(t["expected"]["hypotheses"]["topics"]) <= {"customers", "overseas", "capex", "inventory", "rnd", "cash", "rebate"}
+        if t["category"] == "multi_compare":
+            assert 2 <= len(t["expected"]["comparison"]["tickers"]) <= 4 and len(t["expected"]["comparison"]["rows"]) == 10
+        if t["category"] == "thesis_review":
+            assert t["prior_run"] and t["expected"]["review"] and set(t["expected"]["review"].values()) <= {"CONFIRMED", "WEAKENED", "FALSIFIED"}
+
+
+def test_b4_passes_at_least_four_fifths_of_the_complex_set_and_the_mechanisms_matter():
+    b4 = _complex_results("B4")
+    assert sum(r["passed"] for r in b4.values()) >= 16, [k for k, r in b4.items() if not r["passed"]]
+    no_react = _complex_results("B4-no_react_lite")
+    assert sum(r["passed"] for r in no_react.values()) < sum(r["passed"] for r in b4.values())      # the open questions need the exploration
+    no_mem = _complex_results("B4-no_memory")
+    assert not any(no_mem[k]["passed"] for k in no_mem if k in ("K017", "K018", "K019", "K020"))     # reviews need the memory
+    with __import__("data_platform.db", fromlist=["x"]).get_session_factory()() as s:
+        from sqlalchemy import func, select
+        from data_platform.db import ResearchThesisRow
+
+        assert s.scalar(select(func.count()).select_from(ResearchThesisRow).where(ResearchThesisRow.scope.like("eval:%"))) == 0   # scopes were purged

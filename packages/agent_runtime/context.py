@@ -51,6 +51,7 @@ class RunContext:
         self.route = Route()          # set by the planner; 'full' until then
         self.tickers: list[str] = [request.ticker]   # comparison run: primary first (resolved in graph.prepare)
         self.comparison: Optional[dict] = None       # peer matrix built by the comparator node
+        self.hypothesis_links: dict[str, str] = {}   # sub-hypothesis id -> the claim that answers it
         self.thesis_review: Optional[dict] = None    # earlier theses checked against newer disclosures (memory.review)
         self.db_url = db_url
         self.snapshot_id = snapshot_id

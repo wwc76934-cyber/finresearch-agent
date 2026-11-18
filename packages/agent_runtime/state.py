@@ -60,6 +60,7 @@ ARCHITECTURES: dict[str, ArchConfig] = {
 
 class ResearchRequest(BaseModel):
     ticker: str
+    memory_scope: str = ""              # separate thesis memory (benchmarks run each task in its own scope)
     use_memory: Optional[bool] = None    # thesis memory read/write; None = on, except in offline_golden mode
     tickers: list[str] = Field(default_factory=list)   # 2-4 companies: comparison run; `ticker` stays the primary
     as_of: datetime

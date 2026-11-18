@@ -87,11 +87,24 @@ def best_row(text: str, terms: list[str]) -> Optional[tuple[str, str]]:
     return (f"年报表格披露：{best[1]}（单位见原表）", best[2]) if best else None
 
 
+def _covering_claim(ctx: RunContext, h: SubHypothesis) -> Optional[str]:
+    """The claim already in this run whose cited evidence covers one of the hypothesis' phrases."""
+    for q in h.custom_rag_queries:
+        terms = _terms(q)
+        need = max(1, round(len(terms) * 0.6))
+        ev_ids = {e.evidence_id for e in ctx.evidence.values() if e.kind in ("document", "event")
+                  and sum(1 for t in terms if t in (e.excerpt + e.summary)) >= need}
+        for c in ctx.claims.values():
+            if c.claim_type == "disclosed_fact" and ev_ids & set(c.evidence_ids):
+                return c.claim_id
+    return None
+
+
 def _search(ctx: RunContext, h: SubHypothesis, query: str, agent: str, used: set[str]) -> Optional[str]:
     section = ["ANNOUNCEMENT"] if agent == "news" else None
     terms = _terms(query)
-    latest = tools.retrieve_latest_first(ctx, query, section, top_k=3)
-    hits = latest + [x for x in tools.retrieve_document_evidence(ctx, query, section, top_k=4)
+    latest = tools.retrieve_latest_first(ctx, query, section, top_k=4)
+    hits = latest + [x for x in tools.retrieve_document_evidence(ctx, query, section, top_k=8)
                      if x.chunk.chunk_id not in {y.chunk.chunk_id for y in latest}]     # then every other visible document
     for hit in hits:
         chunk = hit.parent or hit.chunk
@@ -135,12 +148,20 @@ def explore(ctx: RunContext, h: SubHypothesis, agent: str) -> list[str]:
     used: set[str] = set()
     todo = [q for q in h.custom_rag_queries if not covered(ctx, q)]
     if not todo:
-        ctx.tracer.tool("explore_hypothesis", {"sub_id": h.sub_id, "step": 0}, result="already covered by collected evidence")
+        link = _covering_claim(ctx, h)
+        if link:
+            ctx.hypothesis_links[h.sub_id] = link
+        ctx.tracer.tool("explore_hypothesis", {"sub_id": h.sub_id, "step": 0}, result=f"already covered by {link or 'collected evidence'}")
         return []
     failed: list[str] = []
     for q in todo[:2]:
         cid = _search(ctx, h, q, agent, used)
         ctx.tracer.tool("explore_hypothesis", {"sub_id": h.sub_id, "step": 1, "query": q}, result=cid or "no matching sentence")
+        if not cid:
+            core = " ".join(t for t in _terms(q) if t not in GENERIC)       # the topic words alone, without the generic ones
+            if core and core != q:
+                cid = _search(ctx, h, core, agent, used)
+                ctx.tracer.tool("explore_hypothesis", {"sub_id": h.sub_id, "step": 1, "query": core}, result=cid or "no matching sentence")
         if cid:
             ids.append(cid)
         else:
@@ -152,6 +173,8 @@ def explore(ctx: RunContext, h: SubHypothesis, agent: str) -> list[str]:
             ctx.tracer.tool("explore_hypothesis", {"sub_id": h.sub_id, "step": 2, "query": q2}, result=cid or "no matching sentence")
             if cid:
                 ids.append(cid)
+    if ids:
+        ctx.hypothesis_links[h.sub_id] = ids[0]
     if not ids and _metric_covered(ctx, h):
         ctx.tracer.tool("explore_hypothesis", {"sub_id": h.sub_id, "step": 3}, result="answered by computed metrics")
     elif not ids:

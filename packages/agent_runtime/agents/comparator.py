@@ -28,6 +28,7 @@ DIMENSIONS: list[tuple[str, list[tuple[str, str, str, bool]]]] = [
 ]
 # margins and working-capital ratios assume an industrial income statement
 NON_COMPARABLE_FOR_FINANCIALS = {"gross_margin"}
+FINANCIAL = {"bank", "insurance", "broker"}     # manufacturing and consumer companies share the industrial income statement
 
 
 def common_period(ctx: RunContext, tickers: list[str]) -> Optional[date]:
@@ -67,7 +68,7 @@ def build(ctx: RunContext, tickers: list[str]) -> dict[str, Any]:
     recs = {t: _records(ctx, t, pe) for t in tickers}
     ctx.tracer.tool("build_peer_matrix", {"tickers": tickers, "period": label}, result=f"{len(DIMENSIONS)} dimensions")
 
-    mixed = len(set(templates.values())) > 1
+    mixed = len({tpl in FINANCIAL for tpl in templates.values()}) > 1
     if mixed:
         kinds = "、".join(f"{_name(ctx, t)}（{templates[t]}）" for t in tickers)
         msg = f"报表口径不同：{kinds}。毛利率、存货与应收类指标不可直接比较，对应项标注为不适用。"
@@ -86,7 +87,7 @@ def build(ctx: RunContext, tickers: list[str]) -> dict[str, Any]:
                 cells = []
                 for fam, key, lab, _ in metrics:
                     r = recs[t][fam].get(key)
-                    na = mixed and templates[t] != "manufacturing" and key in NON_COMPARABLE_FOR_FINANCIALS
+                    na = mixed and templates[t] in FINANCIAL and key in NON_COMPARABLE_FOR_FINANCIALS
                     cells.append(f"{lab} {'不适用（口径不同）' if na else (fmt(r) if r is not None else '数据不足')}")
                 return f"{_name(ctx, t)}：" + "，".join(cells)
             parts_fn.append(part)
@@ -102,12 +103,12 @@ def build(ctx: RunContext, tickers: list[str]) -> dict[str, Any]:
         for fam, key, lab, _ in metrics:
             vals = {t: recs[t][fam].get(key) for t in tickers}
             out["rows"].append({"dimension": dim, "metric": lab, "values": {
-                t: ("不适用" if (mixed and templates[t] != "manufacturing" and key in NON_COMPARABLE_FOR_FINANCIALS)
+                t: ("不适用" if (mixed and templates[t] in FINANCIAL and key in NON_COMPARABLE_FOR_FINANCIALS)
                     else (fmt(r) if r is not None else "数据不足")) for t, r in vals.items()}})
         # a lead sentence for the first metric of the dimension: names only, no number to mis-state
         fam, key, lab, high = metrics[0]
         ranked = [(t, r.value) for t in tickers if (r := recs[t][fam].get(key)) is not None and r.value is not None
-                  and not (mixed and templates[t] != "manufacturing" and key in NON_COMPARABLE_FOR_FINANCIALS)]
+                  and not (mixed and templates[t] in FINANCIAL and key in NON_COMPARABLE_FOR_FINANCIALS)]
         if len(ranked) >= 2:
             ranked.sort(key=lambda x: -x[1] if high else x[1])
             lead = ranked[0][0]

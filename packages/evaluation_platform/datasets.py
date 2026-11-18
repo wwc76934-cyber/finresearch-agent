@@ -511,19 +511,22 @@ def write_tasks() -> dict:
     quant = build_quant_tasks()
     multidoc = build_multidoc_tasks()
     semantic = build_semantic_tasks(golden)
+    from .complex_tasks import build_complex_tasks
+
+    complex_ = build_complex_tasks()
     TASK_DIR.mkdir(parents=True, exist_ok=True)
     for name, rows in (("lab_v1.jsonl", lab), ("golden_v1.jsonl", golden), ("chaos_v1.jsonl", chaos),
                        ("quant_v1.jsonl", quant), ("multidoc_v1.jsonl", multidoc),
-                       ("semantic_v1.jsonl", semantic)):
+                       ("semantic_v1.jsonl", semantic), ("complex_v1.jsonl", complex_)):
         with open(TASK_DIR / name, "w", encoding="utf-8") as f:
             for r in rows:
                 f.write(json.dumps(r, ensure_ascii=False, default=str) + "\n")
     with get_session_factory()() as s:
-        for r in lab + golden + chaos + quant + multidoc + semantic:
+        for r in lab + golden + chaos + quant + multidoc + semantic + complex_:
             s.merge(BenchmarkTaskRow(task_id=r["task_id"], dataset=r["dataset"], version=VERSION, snapshot_id=None,
                                      trap_type=r["category"], payload=json.loads(json.dumps(r, default=str))))
         s.commit()
-    return {"golden_real": len(golden), "chaos": len(chaos), "lab": len(lab), "quant": len(quant), "multidoc": len(multidoc), "semantic": len(semantic)}
+    return {"golden_real": len(golden), "chaos": len(chaos), "lab": len(lab), "quant": len(quant), "multidoc": len(multidoc), "semantic": len(semantic), "complex": len(complex_)}
 
 
 def load_tasks(datasets=("golden", "chaos"), path: Path = TASK_DIR) -> list[dict]:

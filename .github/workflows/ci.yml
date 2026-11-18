@@ -23,13 +23,13 @@ jobs:
         run: mypy packages apps
       - name: Unit and integration tests (sqlite + in-memory vectors)
         run: pytest -q
-      - name: Offline benchmark, B4 on all datasets (fails below 160/175)
-        run: python scripts/quick_offline.py B4 golden,blind,chaos,lab,quant,multidoc,semantic | tee quick.txt
+      - name: Offline benchmark, B4 on all datasets (fails below 185/195)
+        run: python scripts/quick_offline.py B4 golden,blind,chaos,lab,quant,multidoc,semantic,complex | tee quick.txt
       - name: Pass-rate gate
         run: |
-          n=$(grep -oE '[0-9]+/175' quick.txt | tail -1 | cut -d/ -f1)
-          echo "B4 offline pass: $n/175"
-          test "$n" -ge 160
+          n=$(grep -oE '[0-9]+/195' quick.txt | tail -1 | cut -d/ -f1)
+          echo "B4 offline pass: $n/195"
+          test "$n" -ge 185
 
   postgres:
     runs-on: ubuntu-latest

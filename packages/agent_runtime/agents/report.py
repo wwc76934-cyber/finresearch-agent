@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import re
 
 from ..context import RunContext
 from ..llm import call_json
@@ -57,11 +58,33 @@ def charts(ctx: RunContext, risk: dict) -> dict:
     return out
 
 
+def _close_hypotheses(ctx: RunContext, kept: list) -> None:
+    """Every sub-hypothesis must end as a claim that survived verification, or as a named open question. The explorer decides
+    before verification; a claim the verifier later downgraded or rejected would otherwise leave the hypothesis silently
+    unanswered in the delivered report."""
+    plan = ctx.plan
+    if not plan or not getattr(plan, "hypotheses", None):
+        return
+    kept_ids = {c.claim_id for c in kept}
+    answered = set()
+    for c in kept:
+        m = re.search(r"对应假设\[(H\d+)\]", c.text)
+        if m:
+            answered.add(m.group(1))
+    answered |= {sub for sub, cid in ctx.hypothesis_links.items() if cid in kept_ids}
+    asked = {q["topic"].split("]")[0].lstrip("假设[") for q in ctx.open_questions if str(q.get("topic", "")).startswith("假设[")}
+    for h in plan.hypotheses:
+        if h.sub_id not in answered and h.sub_id not in asked:
+            ctx.open_questions.append({"topic": f"假设[{h.sub_id}]{h.hypothesis_statement}：未得到可引用的已核验披露证据",
+                                       "reason": "候选证据未通过核验，或检索未命中，故不作结论"})
+
+
 def build_report(ctx: RunContext, debate: dict, risk: dict, architecture: str) -> dict:
     verifier_on = ctx.config.tier1_verifier or ctx.config.tier2_verifier
     keep = ("VERIFIED", "PARTIALLY_SUPPORTED") if verifier_on else ("DRAFT", "VERIFIED", "PARTIALLY_SUPPORTED")
     sec = ctx.svc.resolve_security(ctx.ticker)
     claims = [c for c in ctx.claims.values() if c.status in keep]
+    _close_hypotheses(ctx, claims)
     sections = []
     overview = (f"{sec.name}（{sec.ticker}），申万行业 {sec.industry_sw_l1}/{sec.industry_sw_l2}，研究时点 {ctx.as_of}。"
                 f"{'【演示公司：数据为虚构的离线 Golden Snapshot】' if sec.is_demo else ''}")
@@ -87,7 +110,7 @@ def build_report(ctx: RunContext, debate: dict, risk: dict, architecture: str) -
         "metrics": {m: json.loads(ctx.calc.store[m].model_dump_json()) for m in used_metrics if m in ctx.calc.store},
         "answers": ctx.answers, "open_questions": ctx.open_questions,
         "semantic_fault": ctx.fault_state.get("semantic"),
-        "comparison": ctx.comparison, "thesis_review": ctx.thesis_review, "data_mode": ctx.request.data_mode, "live_ingestion": getattr(ctx, "live_ingestion", None),
+        "comparison": ctx.comparison, "hypothesis_links": ctx.hypothesis_links, "thesis_review": ctx.thesis_review, "data_mode": ctx.request.data_mode, "live_ingestion": getattr(ctx, "live_ingestion", None),
         "uncertainties": [u.model_dump() for u in ctx.uncertainties], "anomalies": list(ctx.anomalies.values()),
         "conflicts": ctx.svc.conflicts, "debate": debate or {}, "risk": risk or {}, "timeline": ctx.timeline,
         "charts": charts(ctx, risk or {}), "verification_log": ctx.verification_log, "judge_notes": ctx.judge_notes,

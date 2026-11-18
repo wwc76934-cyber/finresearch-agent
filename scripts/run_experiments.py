@@ -20,12 +20,13 @@ from evaluation_platform.runner import run_experiment  # noqa: E402
 BASE = ["B0", "B1", "B2", "B3", "B4"]
 ABL = ["B4-no_anchor_prefilter", "B4-no_hybrid_rerank", "B4-no_context_isolation", "B4-no_replanning",
        "B4-no_debate", "B4-no_tier1", "B4-no_tier2", "B4-no_crosscheck", "B4-no_semantic_probe", "B4-rule_anomalies",
-       "B4-no_router"]
+       "B4-no_router", "B4-no_react_lite", "B4-no_memory"]
 LABEL = {"B4-no_anchor_prefilter": "-口径预过滤与表格锚点", "B4-no_hybrid_rerank": "-Hybrid RRF & Reranker",
          "B4-no_context_isolation": "-子图上下文隔离", "B4-no_replanning": "-Anomaly 动态重规划",
          "B4-no_debate": "-Bull/Bear 多空辩论", "B4-no_tier1": "-Tier-1 确定性校验器", "B4-no_tier2": "-Tier-2 语义 Verifier",
          "B4-no_crosscheck": "-子图交叉核对/附注直读", "B4-no_semantic_probe": "-语义异常探针",
-         "B4-rule_anomalies": "异常检测改回固定阈值", "B4-no_router": "-ComplexityRouter"}
+         "B4-rule_anomalies": "异常检测改回固定阈值", "B4-no_router": "-ComplexityRouter", "B4-no_react_lite": "-子图受控自主取证（ReAct-Lite）",
+         "B4-no_memory": "-跨期投研记忆与复盘"}
 
 
 def pct(v):
@@ -106,11 +107,12 @@ def repeat_table(results: list[dict], archs: list[str], repeats: int) -> str:
 
 
 def by_dataset(results: list[dict], archs: list[str]) -> str:
-    sets = ["golden", "blind", "chaos", "lab", "quant", "multidoc", "semantic"]
+    sets = ["golden", "blind", "chaos", "lab", "quant", "multidoc", "semantic", "complex"]
     L = ["## 0. 按数据集通过率", "", "golden = 8 家真实 A 股（Tier-A 30 题）；blind = 独立出题人在真实数据上出的 30 题；"
          "chaos = 虚构实验室公司上的故障注入 50 题；lab = 虚构实验室公司上的旧版 30 题；"
          "quant = 场景 D 因子检验 10 题（24 家真实 A 股面板，答案来自独立 Oracle）；multidoc = 年报附注 + 多份公告综合 15 题；"
-         "semantic = 语义陷阱 10 题（数字全对、意思被改错；增益来自这 10 题的构造）。", "",
+         "semantic = 语义陷阱 10 题（数字全对、意思被改错；增益来自这 10 题的构造）；"
+         "complex = v2.0 复杂开放与多股对比 20 题（10 非标跨维归因 + 6 多股对比 + 4 跨期观点复盘；答案来自对财报原文的独立检索和直接调用计算器）。", "",
          "| 架构 | " + " | ".join(sets) + " | 合计 |", "|---|" + "---|" * (len(sets) + 1)]
     for a in archs:
         rs = [r for r in results if r["architecture"] == a]
@@ -127,12 +129,13 @@ if __name__ == "__main__":
 
     ap = argparse.ArgumentParser()
     ap.add_argument("--quick", action="store_true")
+    ap.add_argument("--archs", default="", help="comma-separated architectures instead of the full list")
     ap.add_argument("--repeats", type=int, default=1)
-    ap.add_argument("--datasets", default="golden,blind,chaos,lab,quant,multidoc,semantic")
+    ap.add_argument("--datasets", default="golden,blind,chaos,lab,quant,multidoc,semantic,complex")
     a = ap.parse_args()
     os.environ["LLM_OFFLINE"] = "1"   # this script is the offline matrix; online runs use run_online_eval.py
     print(write_tasks())
-    archs = ["B3", "B4"] if a.quick else BASE + ABL
+    archs = ["B3", "B4"] if a.quick else (a.archs.split(",") if a.archs else BASE + ABL)
     exp_id = f"exp_{datetime.now():%Y%m%d_%H%M%S}"
     payload = run_experiment(archs, datasets=tuple(a.datasets.split(",")), repeats=a.repeats,
                              persist_archs=("B3", "B4") if a.repeats == 1 else (), name=exp_id, workers=2)

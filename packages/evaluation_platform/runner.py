@@ -23,9 +23,22 @@ OUT = ROOT / "reports" / "eval"
 
 
 def run_task(task: dict, arch: str, persist: bool) -> dict:
+    scope = ""
+    if task.get("prior_run"):          # cross-period review tasks: an earlier run leaves a thesis in this task's own memory scope
+        import uuid
+
+        from agent_runtime.memory import ThesisMemoryStore
+
+        scope = f"eval:{task['task_id']}:{uuid.uuid4().hex[:6]}"
+        try:
+            run_research(ResearchRequest(ticker=task["ticker"], as_of=datetime.fromisoformat(task["prior_run"]["as_of"]),
+                                         question=task["prior_run"]["question"], mode="deep", data_mode="offline_golden",
+                                         use_memory=True, memory_scope=scope), arch, persist=False)
+        except Exception:  # noqa: BLE001 - the main run below is scored; a failed prior run just leaves nothing to review
+            pass
     req = ResearchRequest(ticker=task["ticker"], as_of=datetime.fromisoformat(task["as_of"]), question=task["question"],
                           mode=task.get("mode", "deep"), fault_injection=task.get("fault_injection", {}),
-                          data_mode="offline_golden")   # benchmarks read only the frozen snapshots
+                          data_mode="offline_golden", use_memory=bool(scope), memory_scope=scope)   # frozen snapshots; memory only for review tasks
     t0 = time.perf_counter()
     try:
         rep = run_research(req, arch, persist=persist)
@@ -34,6 +47,10 @@ def run_task(task: dict, arch: str, persist: bool) -> dict:
                 "category": task["category"], "dataset": task["dataset"],
                 "error_category": "TOOL_ERROR", "scores": {"crash": {"error": repr(exc), "tb": traceback.format_exc()[-800:]}},
                 "latency_ms": (time.perf_counter() - t0) * 1000}
+    if scope:
+        from agent_runtime.memory import ThesisMemoryStore
+
+        ThesisMemoryStore().purge(scope)
     scores = evaluate(task, rep)
     return {"task_id": task["task_id"], "architecture": arch, "run_id": rep["run_id"], "category": task["category"],
             "dataset": task["dataset"], "passed": task_passed(scores, task), "error_category": classify(task, rep, scores),
