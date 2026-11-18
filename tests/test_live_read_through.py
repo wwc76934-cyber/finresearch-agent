@@ -53,6 +53,10 @@ class FakeProvider(LiveMarketProvider):
             cf.append({"REPORT_DATE": rd + " 00:00:00", "NOTICE_DATE": notice, "NETCASH_OPERATE": 9e7 * (i + 1)})
         return {"income": inc[::-1], "balance": bal[::-1], "cashflow": cf[::-1]}
 
+    def market_caps(self):
+        self._boom("market_caps")
+        return {"300308": 9e11, "601899": 5e11, "600519": 2e12}
+
     def org_info(self, secucode):
         self._boom("org_info")
         return {"EM2016": "信息技术-通信设备-通信传输设备", "LISTING_DATE": "2012-04-10 00:00:00"}
@@ -88,8 +92,9 @@ class FakeProvider(LiveMarketProvider):
 
 
 @pytest.fixture()
-def env(tmp_path):
+def env(tmp_path, monkeypatch):
     url = f"sqlite:///{(tmp_path / 'live.db').as_posix()}"
+    monkeypatch.setenv("AKSHARE_CACHE_DIR", str(tmp_path / "akshare_default"))   # never touch the real cache
     set_catalog(CATALOG)
     yield url, tmp_path
     set_catalog(None)
@@ -247,8 +252,8 @@ def _members(tmp_path):
     root = tmp_path / "ak"
     root.mkdir()
     (root / "industry_members.json").write_text(json.dumps({
-        "boards": {"通信设备": [{"code": "300308", "name": "中际旭创", "mktcap": 9e11}, {"code": "601899", "name": "紫金矿业", "mktcap": 5e11},
-                              {"code": "600519", "name": "贵州茅台", "mktcap": 2e12}, {"code": "000001", "name": "平安银行", "mktcap": None}]},
+        "boards": {"通信设备": [{"code": "300308", "name": "中际旭创", "mktcap": None}, {"code": "601899", "name": "紫金矿业", "mktcap": None},
+                              {"code": "600519", "name": "贵州茅台", "mktcap": None}, {"code": "000001", "name": "平安银行", "mktcap": None}]},
         "by_code": {"300308": "通信设备", "601899": "通信设备", "600519": "通信设备", "000001": "通信设备"}}, ensure_ascii=False), encoding="utf-8")
     (root / "prices_430047.json").write_text(json.dumps([
         {"date": "2025-12-01", "open": 10, "high": 11, "low": 9, "close": 10.5, "volume": 1e5},
@@ -260,12 +265,14 @@ def test_peers_are_the_largest_industry_members_and_are_fetched_light(env):
     cache, _ = _members(env[1])
     p = FakeProvider()
     ing = ReadThroughIngestor(env[0], provider=p, catalog=CATALOG, doc_dir=env[1] / "docs", clock=lambda: NOW, akshare=cache)
-    assert cache.peers("300308", n=2) == ["600519", "601899"]              # by market cap, never itself, None cap skipped
+    caps = {"300308": 9e11, "601899": 5e11, "600519": 2e12}
+    assert cache.peers("300308", n=2, caps=caps) == ["600519", "601899"]    # by market cap, never itself, no-cap members skipped
+    assert cache.peers("300308") == []                                     # the member file itself carries no market cap
     rep = ing.ensure("300308.SZ", datetime(2025, 12, 31, 15), "hybrid_live")
     assert sorted(rep.counts["peers"]) == ["600519.SH", "601899.SH"]
     assert sorted(set(p.statement_for)) == ["300308.SZ", "600519.SH", "601899.SH"]
     assert p.calls["announcements"] == 1                                     # peers are fetched without announcements
-    svc = PITDataService(datetime(2025, 12, 31, 15), "x", env[0])
+    svc = PITDataService(datetime(2025, 12, 31, 15), "x", env[0], data_mode="hybrid_live")
     assert {s.ticker for s in svc.industry_peers("300308.SZ")} >= {"600519.SH", "601899.SH"}
 
 
@@ -355,3 +362,19 @@ def test_bank_and_manufacturer_comparison_flags_the_mismatch_instead_of_comparin
     assert gm["values"]["000001.SZ"] == "不适用"
     assert any(q["topic"] == "同业对比口径提示" for q in rep["open_questions"])
     assert rep["live_ingestion"]["ticker"] == "300308.SZ"
+
+def test_market_caps_are_fetched_once_and_cached(env):
+    cache, root = _members(env[1])
+    p = FakeProvider()
+    ing = ReadThroughIngestor(env[0], provider=p, catalog=CATALOG, doc_dir=env[1] / "docs", clock=lambda: NOW, akshare=cache)
+    ing.ensure("300308.SZ", datetime(2025, 12, 31, 15), "hybrid_live")
+    ing.ensure("601899.SH", datetime(2025, 12, 31, 15), "online_force_refresh")
+    assert p.calls["market_caps"] == 1 and (root / "market_caps.json").exists()
+
+
+def test_offline_golden_cannot_see_companies_fetched_on_demand(env):
+    ingestor(env).ensure("300308.SZ", datetime(2025, 12, 31, 15), "hybrid_live", with_peers=False)
+    off = PITDataService(datetime(2025, 12, 31, 15), "x", env[0], data_mode="offline_golden")
+    live = PITDataService(datetime(2025, 12, 31, 15), "x", env[0], data_mode="hybrid_live")
+    assert off.resolve_security("300308.SZ") is None and live.resolve_security("300308.SZ") is not None
+    assert "300308.SZ" not in {x.ticker for x in off.securities()}

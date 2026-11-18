@@ -53,7 +53,7 @@ class RunContext:
         self.comparison: Optional[dict] = None       # peer matrix built by the comparator node
         self.db_url = db_url
         self.snapshot_id = snapshot_id
-        self.svc = PITDataService(request.as_of, snapshot_id, db_url)
+        self.svc = PITDataService(request.as_of, snapshot_id, db_url, data_mode=request.data_mode)
         self.lineage = LineageRecorder(db_url, run_id)
         self.calc = FinancialCalculator(self.svc, self.lineage)
         self.retriever = get_retriever(db_url, anchors=config.rag_anchors_prefilter)

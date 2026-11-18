@@ -137,14 +137,23 @@ def retrieve_document_evidence(ctx: RunContext, query: str, section_types: Optio
     return call_with_recovery(ctx, "retrieve_document_evidence", {"query": query, "sections": section_types}, run)
 
 
-def ensure_report_docs(ctx: RunContext) -> None:
+def ensure_report_docs(ctx: RunContext, annual: bool = False) -> None:
     """Tier-B (v2.0): a company fetched on demand has only its key announcements locally. When a sub-graph needs the notes
     of the latest periodic report and it is not stored, download and parse it once, then refresh the retriever."""
-    if ctx.request.data_mode == "offline_golden" or getattr(ctx, "_tier_b_done", False):
+    key = "_tier_b_annual" if annual else "_tier_b_done"
+    if ctx.request.data_mode == "offline_golden" or getattr(ctx, key, False):
         return
-    ctx._tier_b_done = True        # type: ignore[attr-defined]  # at most one attempt per run
+    setattr(ctx, key, True)        # at most one attempt of each kind per run
     pe = latest_period(ctx)
-    if pe is None or latest_report_doc_ids(ctx):
+    if pe is None:
+        return
+    if annual and pe.month != 12:
+        # notes (customers, capex, overseas, receivable ageing) live in the annual report: take the latest one disclosed
+        pe = date(pe.year - 1, 12, 31)
+        have = [d for d in ctx.svc.documents(ctx.ticker) if d.doc_type == "annual_report" and d.period_end == pe]
+        if have:
+            return
+    elif latest_report_doc_ids(ctx):
         return
     from data_platform.live import make_ingestor
 

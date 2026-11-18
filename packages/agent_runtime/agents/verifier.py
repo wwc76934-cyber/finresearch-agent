@@ -61,6 +61,21 @@ def _match_metric(val: float, unit: Optional[str], decimals: int, recs) -> bool:
     return False
 
 
+def judge_excerpt(claim: str, excerpt: str, size: int = 500) -> str:
+    """The part of the evidence the judge reads. An excerpt is centred on the quoted line but starts with a section anchor and
+    some leading text, so cutting its first `size` characters often drops the very line the claim quotes (the judge then
+    answers UNSUPPORTED). Centre the window on the first claim number or phrase that occurs in the excerpt."""
+    if len(excerpt) <= size:
+        return excerpt
+    keys = [m.group(0) for m in re.finditer(r"\d[\d,]*\.?\d*", claim) if len(m.group(0)) >= 5]
+    keys += [claim[i:i + 8] for i in range(0, max(0, len(claim) - 8), 8)]
+    for k in keys:
+        pos = excerpt.find(k)
+        if pos >= 0:
+            return excerpt[max(0, pos - size // 2):pos + size // 2]
+    return excerpt[:size]
+
+
 def tier1(ctx: RunContext, c: Claim) -> list[VerificationFailure]:
     fails = []
     mk = lambda et, msg: VerificationFailure(claim_id=c.claim_id, tier=1, error_type=et,  # noqa: E731
@@ -122,7 +137,7 @@ def tier2_batch(ctx: RunContext, claims: list[Claim]) -> dict[str, str]:
                  "只输出JSON {\"results\":[{\"claim_id\":\"C001\",\"label\":\"SUPPORTED|PARTIALLY_SUPPORTED|CONTRADICTED|UNSUPPORTED\","
                  "\"fallacy\":\"CAUSAL_INVERSION|TREND_REVERSAL|CONDITION_OMISSION|SCOPE_SWITCH|null\",\"reason\":\"<=20 chars\"}]}")
         items = [{"claim_id": c.claim_id, "type": c.claim_type, "claim": c.text,
-                  "evidence": [{"id": e, "summary": ctx.evidence[e].summary, "excerpt": ctx.evidence[e].excerpt[:500]}
+                  "evidence": [{"id": e, "summary": ctx.evidence[e].summary, "excerpt": judge_excerpt(c.text, ctx.evidence[e].excerpt)}
                                for e in c.evidence_ids if e in ctx.evidence]} for c in claims]
         # independent claims: judge them in parallel batches instead of one long serial generation
         size = max(1, int(os.environ.get("VERIFIER_BATCH", "6")))

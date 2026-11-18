@@ -8,7 +8,9 @@ from typing import Optional
 
 from sqlalchemy import select
 
-from .db import FinancialFactRow, MarketPriceRow, SecurityRow, SourceDocumentRow, get_session_factory
+from .data_mode import default_data_mode
+from .db import (FinancialFactRow, IngestionWatermarkRow, MarketPriceRow, SecurityRow, SourceDocumentRow,
+                 get_session_factory)
 from .registry import DataSourceRegistry
 
 
@@ -27,9 +29,11 @@ def label_to_end(label: str) -> date:
 
 class PITDataService:
     def __init__(self, as_of: datetime, snapshot_id: str, db_url: Optional[str] = None,
-                 registry: Optional[DataSourceRegistry] = None, allow_pit_unsafe: bool = False):
+                 registry: Optional[DataSourceRegistry] = None, allow_pit_unsafe: bool = False,
+                 data_mode: Optional[str] = None):
         self.as_of = as_of
         self.snapshot_id = snapshot_id
+        self.data_mode = data_mode or default_data_mode()
         self.Session = get_session_factory(db_url)
         self.registry = registry or DataSourceRegistry()
         self.allow_pit_unsafe = allow_pit_unsafe
@@ -45,8 +49,14 @@ class PITDataService:
 
     # ---------- securities ----------
     def securities(self) -> list[SecurityRow]:
+        """offline_golden sees only the frozen snapshot companies: anything fetched on demand later is invisible, so a
+        benchmark cannot change because someone researched another company."""
         with self.Session() as s:
-            return list(s.scalars(select(SecurityRow)))
+            secs = list(s.scalars(select(SecurityRow)))
+            if self.data_mode == "offline_golden":
+                live = set(s.scalars(select(IngestionWatermarkRow.ticker).where(IngestionWatermarkRow.source_status != "seeded")))
+                secs = [x for x in secs if x.ticker not in live]
+            return secs
 
     def resolve_security(self, query: str) -> Optional[SecurityRow]:
         q = query.strip().upper()

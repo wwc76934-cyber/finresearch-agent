@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import re
 import threading
 import time as _time
@@ -88,6 +89,27 @@ class LiveMarketProvider:
                                                     "source": "HSF10", "client": "PC"})
             out[kind] = (body.get("result") or {}).get("data") or []
         return out
+
+    def market_caps(self) -> dict[str, float]:
+        """Total market cap of every listed A share on the latest trade date (about 5,600 rows, 12 parallel pages)."""
+        url = "https://datacenter.eastmoney.com/api/data/v1/get"
+        base = {"reportName": "RPT_VALUEANALYSIS_DET", "columns": "SECURITY_CODE,TOTAL_MARKET_CAP,TRADE_DATE", "source": "WEB", "client": "WEB"}
+        head = self._json("GET", url, params={**base, "pageNumber": 1, "pageSize": 1, "sortColumns": "TRADE_DATE", "sortTypes": -1})
+        day = str(head["result"]["data"][0]["TRADE_DATE"])[:10]
+        flt = f"(TRADE_DATE='{day}')"
+
+        def page(n: int) -> list[dict]:
+            body = self._json("GET", url, params={**base, "pageNumber": n, "pageSize": 500, "sortColumns": "TOTAL_MARKET_CAP",
+                                                  "sortTypes": -1, "filter": flt})
+            return (body.get("result") or {}).get("data") or []
+        first = self._json("GET", url, params={**base, "pageNumber": 1, "pageSize": 500, "sortColumns": "TOTAL_MARKET_CAP",
+                                               "sortTypes": -1, "filter": flt})["result"]
+        rows = list(first["data"])
+        if first.get("pages", 1) > 1:
+            with ThreadPoolExecutor(max_workers=6) as ex:
+                for part in ex.map(page, range(2, int(first["pages"]) + 1)):
+                    rows += part
+        return {r["SECURITY_CODE"]: float(r["TOTAL_MARKET_CAP"]) for r in rows if r.get("TOTAL_MARKET_CAP")}
 
     def org_info(self, secucode: str) -> dict:
         body = self._json("GET", EM_URL, params={"type": "RPT_F10_BASIC_ORGINFO", "sty": "ALL",
@@ -162,8 +184,8 @@ class AkshareCache:
     """Data that only AKShare can supply from the user's network (industry members with market cap, prices for markets
     Yahoo does not cover). `scripts/akshare_collect.py` writes it; nothing here calls AKShare."""
 
-    def __init__(self, root: Path = AKSHARE_DIR):
-        self.root = root
+    def __init__(self, root: Optional[Path] = None):
+        self.root = root or Path(os.environ.get("AKSHARE_CACHE_DIR", AKSHARE_DIR))   # tests point this at a temp dir
         self._members: Optional[dict] = None
 
     def _load_members(self) -> dict:
@@ -178,13 +200,16 @@ class AkshareCache:
     def board_of(self, code: str) -> Optional[str]:
         return (self._load_members().get("by_code") or {}).get(code)
 
-    def peers(self, code: str, n: int = 5) -> list[str]:
-        """Codes of the n largest (by market cap) other members of the company's industry board."""
+    def peers(self, code: str, n: int = 5, caps: Optional[dict[str, float]] = None) -> list[str]:
+        """Codes of the n largest (by market cap) other members of the company's industry board. `caps` (code -> cap)
+        overrides the member file, whose collector has no market-cap column."""
         m = self._load_members()
         board = self.board_of(code)
         if not board:
             return []
-        rows = [r for r in m["boards"].get(board, []) if r["code"] != code and r.get("mktcap")]
+        caps = caps or {}
+        rows = [{**r, "mktcap": caps.get(r["code"]) or r.get("mktcap")} for r in m["boards"].get(board, []) if r["code"] != code]
+        rows = [r for r in rows if r["mktcap"]]
         rows.sort(key=lambda r: -float(r["mktcap"]))
         return [r["code"] for r in rows[:n]]
 
@@ -351,7 +376,11 @@ class ReadThroughIngestor:
             lock = self._locks.setdefault(ticker, threading.Lock())
         with lock:
             if not self.needs_fetch(ticker, as_of, mode):
-                return IngestReport(ticker, "hit")
+                rep = IngestReport(ticker, "hit")
+                wm = self.coverage(ticker)
+                if with_peers and entry is not None and wm is not None and not (wm.details or {}).get("peers"):
+                    rep.counts["peers"] = self._ensure_peers(entry, as_of, listener or (lambda ev: None), rep)   # stored earlier without peers
+                return rep
             if entry is None:
                 return IngestReport(ticker, "unknown_security", warnings=["not in the A-share catalog and not stored locally"])
             return self._fetch(entry, as_of, listener or (lambda ev: None), with_peers=with_peers)
@@ -428,7 +457,7 @@ class ReadThroughIngestor:
                                 "(peers fall back to companies already stored locally)")
             return []
         cat = self.catalog
-        codes = self.akshare.peers(entry.code, n)
+        codes = self.akshare.peers(entry.code, n, self._market_caps(rep))
         peers = [cat.by_code[c] for c in codes if cat and c in cat.by_code]
         todo = [p for p in peers if self.needs_fetch(p.ticker, as_of, "hybrid_live")]
         if todo:
@@ -436,7 +465,17 @@ class ReadThroughIngestor:
                   "message": f"正在同步同业可比公司：{'、'.join(p.name for p in todo)}"})
             with ThreadPoolExecutor(max_workers=min(len(todo), 5)) as ex:
                 list(ex.map(lambda p: self._fetch(p, as_of, lambda ev: None, lite=True, with_peers=False), todo))
-        return [p.ticker for p in peers]
+        done = [p.ticker for p in peers]
+        if done:
+            self._mark_peers(entry.ticker, done)
+        return done
+
+    def _mark_peers(self, ticker: str, peers: list[str]) -> None:
+        with self.Session() as s:
+            wm = s.get(IngestionWatermarkRow, ticker)
+            if wm is not None:
+                wm.details = {**(wm.details or {}), "peers": peers}
+                s.commit()
 
     # ------------------------------------------------------------ Tier-B: a whole periodic report, on demand
     def _calendar(self, ticker: str) -> TradingCalendar:
@@ -514,6 +553,22 @@ class ReadThroughIngestor:
                 out.append({"period": str(period_end), "metric": metric, "vendor": f.value, "filing_pdf": filing,
                             "rel_diff": round(diff, 5), "restatement_suspect": diff > 0.003})
         return out
+
+    def _market_caps(self, rep: IngestReport, max_age_h: float = 24.0) -> dict[str, float]:
+        f = self.akshare.root / "market_caps.json"
+        if f.exists():
+            raw = json.loads(f.read_text(encoding="utf-8"))
+            if _time.time() - raw.get("fetched_at", 0) < max_age_h * 3600:
+                return dict(raw["caps"])
+        try:
+            caps = self.provider.market_caps()
+        except Exception as exc:  # noqa: BLE001 - fall back to the stale file or nothing
+            rep.degraded += 1
+            rep.warnings.append(f"market caps: {type(exc).__name__}: {str(exc)[:100]}")
+            return dict(json.loads(f.read_text(encoding="utf-8"))["caps"]) if f.exists() else {}
+        f.parent.mkdir(parents=True, exist_ok=True)
+        f.write_text(json.dumps({"fetched_at": _time.time(), "caps": caps}), encoding="utf-8")
+        return caps
 
     def _store_security(self, entry: CatalogEntry, org: dict) -> SecurityRow:
         em = str(org.get("EM2016") or "")
@@ -637,7 +692,9 @@ class ReadThroughIngestor:
         lo = min([d.date() for d in lows] + [b["date"] for b in bars] + [as_of.date()])
         status = {"fetched": "ok", "partial": "partial", "failed": "failed"}.get(rep.status, "ok")
         with self.Session() as s:
+            prev = s.get(IngestionWatermarkRow, ticker)
             s.merge(IngestionWatermarkRow(ticker=ticker, covered_from=lo, max_as_of_date=max(end, self.clock().date()),
                                           updated_at=self.clock(), source_status=status,
-                                          details={"counts": rep.counts, "warnings": rep.warnings}))
+                                          details={"counts": rep.counts, "warnings": rep.warnings,
+                                                   **({"peers": prev.details["peers"]} if prev and (prev.details or {}).get("peers") else {})}))
             s.commit()

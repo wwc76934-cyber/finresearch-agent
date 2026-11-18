@@ -295,7 +295,7 @@ def _named_in_question(request: ResearchRequest, db_url: Optional[str] = None) -
     if request.data_mode != "offline_golden":
         cat = get_catalog()
         return [e.ticker for e in cat.extract(q, limit=4)] if cat else []
-    secs = PITDataService(request.as_of, "probe", db_url).securities()
+    secs = PITDataService(request.as_of, "probe", db_url, data_mode=request.data_mode).securities()
     hits = sorted((q.find(s.name), s.ticker) for s in secs if len(s.name) >= 3 and s.name in q)
     hits += sorted((m.start(), s.ticker) for s in secs for m in re.finditer(re.escape(s.ticker[:6]), q))
     return [t for _, t in sorted(set(hits))]
@@ -317,7 +317,7 @@ def prepare(request: ResearchRequest, config: ArchConfig, db_url: Optional[str] 
     request = _with_tickers(request, db_url)
     live = prepare_live(request.ticker, request.as_of, request.data_mode, db_url, listener)   # Read-Through: fetch if missing
     extra_live = [prepare_live(t, request.as_of, request.data_mode, db_url, listener) for t in request.tickers[1:]]
-    probe = PITDataService(request.as_of, "probe", db_url)
+    probe = PITDataService(request.as_of, "probe", db_url, data_mode=request.data_mode)
     sec = probe.resolve_security(request.ticker)
     if sec is None:
         raise ValueError(f"unknown security {request.ticker}")

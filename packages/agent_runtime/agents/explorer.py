@@ -37,28 +37,72 @@ def covered(ctx: RunContext, query: str) -> bool:
                if ev.kind in ("document", "event"))
 
 
+# words that appear in almost any paragraph of a report: they can add to a match but never make one
+GENERIC = {"收入", "占比", "变动", "原因", "投资", "金额", "影响", "情况", "公司", "变化", "增长", "下降", "比例", "政策", "风险",
+           "价格", "成本", "波动", "子公司", "协议", "方案", "安排", "周转", "现金", "支出", "计提", "关联方"}
+
+
 def best_sentence(text: str, terms: list[str]) -> Optional[str]:
+    """The sentence that carries the most of the phrase's terms, and at least one term that is specific to the topic
+    (an overseas / customer / capex word, not just 收入 or 变动), plus a second term when the phrase has one."""
+    anchors = [t for t in terms if t not in GENERIC]
     best: tuple[int, str] | None = None
     for m in SENT.finditer(text):
         sent = m.group(0).strip()
+        if anchors and not any(a in sent for a in anchors):
+            continue
         score = sum(1 for t in terms if t in sent)
         if score and (best is None or score > best[0]):
             best = (score, sent)
     return best[1] if best and best[0] >= max(1, min(2, len(terms))) else None
 
 
+def best_row(text: str, terms: list[str]) -> Optional[tuple[str, str]]:
+    """Much of what a filing says about customers, overseas revenue or capex is a table row, not a sentence. A row counts
+    when its label (first cell) holds a topic-specific term. The quote pairs each value with its column heading, so the
+    claim is readable and checkable against the table in the evidence. Returns (claim text, the table line itself): the
+    evidence excerpt is centred on that literal line so every number in the claim is visible in it."""
+    anchors = [t for t in terms if t not in GENERIC]
+    best: tuple[int, str, str] | None = None
+    header: list[str] = []
+    lines = text.splitlines()
+    for i, line in enumerate(lines):
+        if not line.startswith("|"):
+            continue
+        if set(line) <= set("|- :"):
+            continue
+        cells = [c.strip() for c in line.strip().strip("|").split("|")]
+        nxt = lines[i + 1] if i + 1 < len(lines) else ""
+        if nxt.startswith("|") and set(nxt) <= set("|- :"):
+            header = cells                    # the row above a separator line is the column heading
+            continue
+        label = cells[0] if cells else ""
+        if len(label) < 2 or not any(a in label for a in anchors) or not any(ch.isdigit() for ch in line):
+            continue
+        pairs = [f"{h} {v}" if h else v for h, v in zip(header[1:] + [""] * len(cells), cells[1:]) if v]
+        row = f"{label}：" + "，".join(pairs)
+        score = sum(1 for t in terms if t in label)
+        if best is None or score > best[0]:
+            best = (score, row[:200], line)
+    return (f"年报表格披露：{best[1]}（单位见原表）", best[2]) if best else None
+
+
 def _search(ctx: RunContext, h: SubHypothesis, query: str, agent: str, used: set[str]) -> Optional[str]:
     section = ["ANNOUNCEMENT"] if agent == "news" else None
-    hits = tools.retrieve_latest_first(ctx, query, section, top_k=3)
     terms = _terms(query)
+    latest = tools.retrieve_latest_first(ctx, query, section, top_k=3)
+    hits = latest + [x for x in tools.retrieve_document_evidence(ctx, query, section, top_k=4)
+                     if x.chunk.chunk_id not in {y.chunk.chunk_id for y in latest}]     # then every other visible document
     for hit in hits:
         chunk = hit.parent or hit.chunk
-        sent = best_sentence(chunk.text, terms)
-        if not sent or sent in used:
+        sentence = best_sentence(chunk.text, terms)
+        found = (sentence, sentence) if sentence else best_row(chunk.text, terms)
+        if not found or found[0] in used:
             continue
+        sent, focus = found
         used.add(sent)
-        ev = ctx.evidence_from_hit(hit, agent, focus=sent)
-        cl = ctx.add_claim(SECTION_OF[agent], "disclosed_fact", f"假设[{h.sub_id}]{h.hypothesis_statement}：{sent}", [ev], agent)
+        ev = ctx.evidence_from_hit(hit, agent, focus=focus)
+        cl = ctx.add_claim(SECTION_OF[agent], "disclosed_fact", f"年报/公告披露（对应假设[{h.sub_id}]）：{sent}", [ev], agent)
         return cl.claim_id
     return None
 
@@ -78,6 +122,8 @@ def explore(ctx: RunContext, h: SubHypothesis, agent: str) -> list[str]:
     steps = ctx.config.react_lite_steps
     if steps <= 0:
         return []
+    if agent == "fundamental":
+        tools.ensure_report_docs(ctx, annual=True)      # notes questions need the annual report, once per run
     ids: list[str] = []
     used: set[str] = set()
     todo = [q for q in h.custom_rag_queries if not covered(ctx, q)]

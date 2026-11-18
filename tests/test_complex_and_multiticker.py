@@ -59,7 +59,7 @@ def test_subgraph_searches_for_the_hypotheses_and_every_outcome_is_visible():
     assert rep["plan"]["hypotheses"], "the plan should carry the hypotheses"
     calls = _tool_calls(rep, "explore_hypothesis")
     assert calls, "the sub-graph should have searched"
-    found = [c for c in rep["claims"].values() if c["text"].startswith("假设[H")]
+    found = [c for c in rep["claims"].values() if "对应假设[H" in c["text"]]
     missing = [q for q in rep["open_questions"] if q["topic"].startswith("假设[H")]
     assert found or missing                                                 # each hypothesis ends as a cited claim or as an open question
     for c in found:                                                         # a found claim quotes a filing and is PIT-safe
@@ -74,7 +74,7 @@ def test_react_lite_can_be_switched_off():
                        "B4-no_react_lite", persist=False)
     assert ARCHITECTURES["B4-no_react_lite"].react_lite_steps == 0
     assert not _tool_calls(off, "explore_hypothesis")
-    assert not [c for c in off["claims"].values() if c["text"].startswith("假设[H")]
+    assert not [c for c in off["claims"].values() if "对应假设[H" in c["text"]]
 
 
 def test_a_plain_metric_question_runs_the_fixed_pipeline_unchanged():
@@ -134,3 +134,31 @@ def test_graph_variants_compare_and_scripted_baselines_do_not(arch, compares):
     rep = run_research(ResearchRequest(ticker="300750.SZ", as_of=A, question="对比宁德时代与比亚迪的盈利质量", data_mode="offline_golden"),
                        arch, persist=False)
     assert bool(rep.get("comparison")) is compares
+
+# ------------------------------------------------------------------ what counts as evidence
+def test_a_sentence_needs_a_topic_specific_word_not_just_generic_ones():
+    from agent_runtime.agents.explorer import best_sentence
+
+    terms = ["境外", "收入", "占比", "关税"]
+    assert best_sentence("报告期内，受益于终端客户需求，公司营业收入与净利润较上年同期大幅增长，占比持续提高。", terms) is None
+    got = best_sentence("公司境外收入占比为90.58%，美国关税政策存在不确定性。", terms)
+    assert got and "境外" in got
+
+
+def test_a_table_row_is_quoted_with_its_column_headings_and_the_literal_line_is_the_focus():
+    from agent_runtime.agents.explorer import best_row
+
+    table = ("| 项目 | 2025年 | 占比 |\n| --- | --- | --- |\n| 境外 | 34636523292.07 | 90.58% |\n| 境内 | 3000000000.00 | 9.42% |\n")
+    text, focus = best_row(table, ["境外", "收入", "占比", "关税"]) or ("", "")
+    assert "境外：2025年 34636523292.07，占比 90.58%" in text and "单位见原表" in text
+    assert focus == "| 境外 | 34636523292.07 | 90.58% |" and focus in table
+    assert best_row(table, ["前五名客户", "销售额"]) is None
+
+
+def test_the_judge_reads_the_part_of_the_evidence_that_the_claim_quotes():
+    from agent_runtime.agents.verifier import judge_excerpt
+
+    ex = "ANCHOR\n…" + "无关内容。" * 300 + "\n| 在建工程 | 5495242187.20 | 286.46% |\n" + "尾部。" * 300
+    out = judge_excerpt("在建工程 5495242187.20", ex)
+    assert "5495242187.20" in out and len(out) <= 520
+    assert judge_excerpt("短", "很短的证据") == "很短的证据"
