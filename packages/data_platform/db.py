@@ -79,9 +79,22 @@ class FinancialFactRow(Base):
     revision_id: Mapped[int] = mapped_column(Integer, default=1)
     is_restated: Mapped[bool] = mapped_column(Boolean, default=False)
     pit_unsafe: Mapped[bool] = mapped_column(Boolean, default=False)
+    # published_at was not read from the source but taken from the statutory disclosure deadline
+    pit_estimated: Mapped[bool] = mapped_column(Boolean, default=False)
     __table_args__ = (Index("ix_facts_pit", "ticker", "metric", "period_end", "available_at"),
                       # PRD v1.2 3.1: the point-in-time lookup "latest revision visible at t"
                       Index("idx_facts_ticker_pit", "ticker", "metric", "available_at", "revision_id"))
+
+
+class IngestionWatermarkRow(Base):
+    """What the local database already holds for one company, so a Read-Through query knows whether to fetch."""
+    __tablename__ = "ingestion_watermarks"
+    ticker: Mapped[str] = mapped_column(String(12), primary_key=True)
+    covered_from: Mapped[date] = mapped_column(Date)       # earliest as_of the local data can answer
+    max_as_of_date: Mapped[date] = mapped_column(Date)     # latest as_of the local data can answer
+    updated_at: Mapped[datetime] = mapped_column(DateTime)
+    source_status: Mapped[str] = mapped_column(String(16), default="ok")   # ok | partial | failed | seeded
+    details: Mapped[dict] = mapped_column(JSON, default=dict)
 
 
 class DataSnapshotRow(Base):
@@ -262,6 +275,23 @@ def database_url() -> str:
     return f"sqlite:///{path.as_posix()}"
 
 
+def _add_missing_columns(engine) -> None:
+    """create_all never alters an existing table: add columns introduced after a database file was first made."""
+    from sqlalchemy import inspect, text
+
+    insp = inspect(engine)
+    for table in Base.metadata.sorted_tables:
+        if not insp.has_table(table.name):
+            continue
+        have = {c["name"] for c in insp.get_columns(table.name)}
+        for col in table.columns:
+            if col.name not in have:
+                ddl = col.type.compile(dialect=engine.dialect)
+                default = " DEFAULT 0" if isinstance(col.type, Boolean) else ""
+                with engine.begin() as conn:
+                    conn.execute(text(f'ALTER TABLE {table.name} ADD COLUMN {col.name} {ddl}{default}'))
+
+
 @lru_cache(maxsize=4)
 def get_engine(url: Optional[str] = None):
     url = url or database_url()
@@ -272,6 +302,7 @@ def get_engine(url: Optional[str] = None):
         kwargs.update(pool_pre_ping=True, pool_size=8, max_overflow=8)
     engine = create_engine(url, **kwargs)
     Base.metadata.create_all(engine)
+    _add_missing_columns(engine)
     return engine
 
 

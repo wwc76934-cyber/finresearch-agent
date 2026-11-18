@@ -19,6 +19,8 @@ jobs:
           python-version: "3.12"
           cache: pip
       - run: pip install -e ".[dev]"
+      - name: Static types (new modules strict; legacy modules listed in pyproject.toml)
+        run: mypy packages apps
       - name: Unit and integration tests (sqlite + in-memory vectors)
         run: pytest -q
       - name: Offline benchmark, B4 on all datasets (fails below 160/175)

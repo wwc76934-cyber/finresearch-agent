@@ -24,7 +24,8 @@ OUT = ROOT / "reports" / "eval"
 
 def run_task(task: dict, arch: str, persist: bool) -> dict:
     req = ResearchRequest(ticker=task["ticker"], as_of=datetime.fromisoformat(task["as_of"]), question=task["question"],
-                          mode=task.get("mode", "deep"), fault_injection=task.get("fault_injection", {}))
+                          mode=task.get("mode", "deep"), fault_injection=task.get("fault_injection", {}),
+                          data_mode="offline_golden")   # benchmarks read only the frozen snapshots
     t0 = time.perf_counter()
     try:
         rep = run_research(req, arch, persist=persist)

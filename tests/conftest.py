@@ -7,6 +7,7 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "packages"))
 os.environ.setdefault("LLM_OFFLINE", "1")  # tests are deterministic
+os.environ.setdefault("FINRESEARCH_DATA_MODE", "offline_golden")   # and never reach for the network
 
 
 @pytest.fixture(scope="session", autouse=True)

@@ -16,6 +16,7 @@ from langgraph.types import Command, Send, interrupt
 
 from data_platform.db import (ROOT, EvidenceRecordRow, ResearchClaimRow, ResearchRunRow, VerificationResultRow,
                               get_session_factory)
+from data_platform.live import prepare_live
 from data_platform.serving import PITDataService
 from data_platform.versioning import create_snapshot
 
@@ -270,6 +271,7 @@ def checkpoint_history(run_id: str) -> list[dict]:
 
 def prepare(request: ResearchRequest, config: ArchConfig, db_url: Optional[str] = None,
             llm: Optional[BaseLLM] = None, listener: Optional[Callable] = None) -> RunContext:
+    live = prepare_live(request.ticker, request.as_of, request.data_mode, db_url, listener)   # Read-Through: fetch if missing
     probe = PITDataService(request.as_of, "probe", db_url)
     sec = probe.resolve_security(request.ticker)
     if sec is None:
@@ -278,7 +280,9 @@ def prepare(request: ResearchRequest, config: ArchConfig, db_url: Optional[str] 
     tickers = [sec.ticker] + [p.ticker for p in probe.industry_peers(sec.ticker)]
     snap = create_snapshot(request.as_of, tickers, db_url)
     run_id = f"run_{datetime.now():%Y%m%d%H%M%S}_{uuid.uuid4().hex[:6]}"
-    return RunContext(run_id, request, config, snap.snapshot_id, db_url, llm, listener)
+    ctx = RunContext(run_id, request, config, snap.snapshot_id, db_url, llm, listener)
+    ctx.live_ingestion = live.as_dict() if live else None
+    return ctx
 
 
 def finalize(ctx: RunContext, rep: dict, started: datetime, latency_ms: float, persist: bool = True) -> dict:

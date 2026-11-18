@@ -8,6 +8,8 @@ from typing import Annotated, Any, Literal, Optional, TypedDict
 
 from pydantic import BaseModel, Field
 
+from data_platform.data_mode import DataMode, default_data_mode
+
 
 class ArchConfig(BaseModel):
     name: str = "B4"
@@ -55,6 +57,7 @@ ARCHITECTURES: dict[str, ArchConfig] = {
 class ResearchRequest(BaseModel):
     ticker: str
     as_of: datetime
+    data_mode: DataMode = Field(default_factory=default_data_mode)   # offline_golden | hybrid_live | online_force_refresh
     question: str = "全面研究公司基本面、估值与风险"
     mode: Literal["fast", "deep"] = "deep"
     focus: list[str] = Field(default_factory=list)

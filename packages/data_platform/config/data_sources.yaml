@@ -18,6 +18,11 @@ sources:
     rate_limit_per_min: 60
     path: benchmarks/real_snapshot
     description: Real A-share consolidated statements (Eastmoney F10 datacenter), PIT by disclosure date
+  - source_id: eastmoney_f10_live
+    kind: live_http
+    priority: 3
+    rate_limit_per_min: 60
+    description: Eastmoney F10 statements fetched on demand (Read-Through); NOTICE_DATE is the disclosure date, values are the vendor's latest and are NOT cross-checked against the filing PDF
   - source_id: cninfo_pdf_parse
     kind: golden_csv
     priority: 6
