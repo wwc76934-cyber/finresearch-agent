@@ -145,25 +145,33 @@ def test_pgvector_index_is_complete_and_hnsw():
 
 
 @needs_pg
-def test_pgvector_incremental_upsert_after_online_ingest():
-    from data_platform.db import DocumentChunkRow, get_session_factory
+def test_pgvector_incremental_upsert_after_online_ingest(tmp_path):
+    """A filing ingested after the bootstrap (document + chunk rows, like the live path) is embedded on next use."""
+    from data_platform.db import DocumentChunkRow, SourceDocumentRow, get_session_factory
+    from rag_engine.chunking import chunk_document
     from rag_engine.index import get_retriever
 
     os.environ["VECTOR_BACKEND"] = "pgvector"
     get_retriever.cache_clear()
-    cid = "ci_new_child"
+    did = "ci_new_doc"
+    md = tmp_path / f"{did}.md"
+    md.write_text("# 在线公告\n\n<!-- page 1 -->\n## 公告正文\n在建工程转固进度滞后，影响新增产能释放。\n", encoding="utf-8")
+    avail = datetime(2025, 1, 2, 9, 30)
     try:
         with get_session_factory(PG_URL)() as s:
-            ref = s.query(DocumentChunkRow).filter(DocumentChunkRow.level == "child").first()
-            row = {k: v for k, v in ref.__dict__.items() if not k.startswith("_")}
-            row.update(chunk_id=cid, text="在线拉取的新公告：在建工程转固进度滞后")
-            s.add(DocumentChunkRow(**row)); s.commit()
+            s.add(SourceDocumentRow(document_id=did, ticker="600519.SH", title="在线公告", doc_type="announcement", period_end=None,
+                                    published_at=avail, available_at=avail, content_hash="x", path=str(md), version=1))
+            for c in chunk_document(did, "600519.SH", "2025-01-02", "announcement", md.read_text(encoding="utf-8"), avail, anchors=True):
+                s.add(DocumentChunkRow(**c.__dict__))
+            s.commit()
         r = get_retriever(PG_URL, anchors=True)
-        assert r.vector_store is not None, "the new chunk must be embedded incrementally, not force the in-memory fallback"
+        assert r.vector_store is not None, "the new chunks must be embedded incrementally, not force the in-memory fallback"
         assert r.vector_store.missing_ids() == []
     finally:
         with get_session_factory(PG_URL)() as s:
-            s.query(DocumentChunkRow).filter(DocumentChunkRow.chunk_id == cid).delete(); s.commit()
+            s.query(DocumentChunkRow).filter(DocumentChunkRow.document_id == did).delete()
+            s.query(SourceDocumentRow).filter(SourceDocumentRow.document_id == did).delete()
+            s.commit()
         get_retriever.cache_clear()
         os.environ.pop("VECTOR_BACKEND", None)
 
